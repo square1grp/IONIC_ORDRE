@@ -41,7 +41,7 @@
         </div>
         <div class="collection_item collection1" tappable [ngClass]="{'current': collection.collection_title==data.selectedCollection?.collection_title, '': collection.collection_title!=data.selectedCollection?.collection_title}" *ngFor="let collection of values.collections, let i = index" (click)="this.changeCollection(collection.collection_id, this.values.designer.seller_account_id, i)">
           <a class="name" [innerHTML]="collection.collection_title"></a>
-          <ng-container *ngIf="(collection.offline!='Downloading' && collection.offline!='Downloaded')"> 
+          <ng-container *ngIf="(collection.offline!='Downloading' && collection.offline!='Downloaded')">
               <img src="assets/images/mini_download_icon-black.png">
               <a href="#" class="download_collection"></a>
           </ng-container>

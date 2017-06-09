@@ -100,7 +100,7 @@ export class LoginPage {
     else
     {
       if(this.loggingin==true){return}
-      this.loggingin=true;     
+      this.loggingin=true;
       console.log('Form Post: Login');
 
       let logindata = this.loginForm.value;
@@ -113,7 +113,8 @@ export class LoginPage {
         this.values.user_profile.masquerade_id = 0;  //whenmasquarading, user id of masquerader
         this.values.user_profile.forcecache = 0;  //don't force update images when recaching
         
-
+        //this.logUserIn();
+        this.navCtrl.push(CollectionPage, { designer: this.values.designer, mode:'' });
         if(this.values.user_profile.status=='ok'){
           this.logUserIn();
         }
@@ -154,7 +155,7 @@ export class LoginPage {
               this.values.designer =  this.designers[i];
               abort = true; 
             }
-          }  
+          }
           this.data.getDesignerCurrency(this.values.user_profile.user_region_id,0);
 
           //  get first collection for designer / check collection is downloaded if offline

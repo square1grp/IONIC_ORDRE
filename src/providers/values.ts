@@ -19,7 +19,7 @@ export class Values {
   designer: any;
   debug: any;
 
-  designer_checkpoint = new Date('01/01/1980');  
+  designer_checkpoint = new Date('01/01/1980');
   collection_checkpoint = [];
 
   //cart: Array<[{sku: string, price: number, qty: number}]>;

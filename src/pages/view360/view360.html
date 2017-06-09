@@ -5,7 +5,7 @@
       <ng-container *ngFor="let variant of productVariants">
         <ng-container *ngFor="let image of variant.variant_images">
           <div class="product-details_images" *ngIf="image.variant_360">
-              <lazy-img src="{{values.APIRoot}}/app/get_image.php?image=/{{image.variant_360}}img01.jpg&w=480&h=670&zc=3&xtype=360" tappable (click)="change360(image.variant_360,1)"></lazy-img>
+              <lazy-img src="{{values.APIRoot}}/app/get_image.php?image=/{{image.variant_360}}img01.jpg&w=480&h=670&zc=3&xtype=360" tappable (click)="change360(image.variant_360)"></lazy-img>
           </div>
         </ng-container>
       </ng-container>

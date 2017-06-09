@@ -13,8 +13,8 @@ export class View360Page {
   productVariants: any;
   imageFrames: any;
   myImageFrames: any;
+  ThreeSixtyFrames: any;
   currentItem360: any;
-  ThreeSixtyFrames = [];
 
   @ViewChild('test3d') view3D: ElementRef;
 
@@ -22,36 +22,61 @@ export class View360Page {
 
   ngOnInit(){
     this.productVariants = this.navParams.get("productVariants");
+    //console.log(JSON.stringify(this.productVariants))
     this.currentItem360 = this.navParams.get("default360");
+    this.ThreeSixtyFrames = [];
     this.myImageFrames = this.values.imageFrames;    
+    //this.cd.markForCheck();
+    this.change360(this.currentItem360);
     console.log('Current:'+this.currentItem360);
   }
 
   ngAfterViewInit() {
     //  https://www.pincer.io/npm/libraries/circlr
-    this.change360(this.currentItem360,0);
-    this.init360(0);
+    //console.log('Init circlr')  
+    this.init360();
+
   }
 
-  init360(delay){
-    let delayMillis = delay;
-    setTimeout(() => {
-      circlr(this.view3D.nativeElement)
-        .scroll(true)
-        .interval(150)
-        .play(23)
-        .reverse(true)
+  init360(){
+    circlr(this.view3D.nativeElement)
+      .scroll(true)
+      .interval(150)
+      .play(23)
+      .reverse(true)
+      .on('show', n => {
+      });
+  }
+
+  change360(newitem360){
+    //circlr(this.view3D.nativeElement).unbind();
+    //this.ThreeSixtyFrames = [];
+    //this.cd.markForCheck();
+    console.log('360 Changed to:'+newitem360)  
+    //this.myImageFrames = [];
+    //this.cd.markForCheck();
+    this.currentItem360 = newitem360;
+
+    //this.cd.markForCheck();
+    let delayMillis = 1000;
+    this.build360(newitem360) 
+    setTimeout(() => {    
+        this.init360();
+      //this.cd.markForCheck();
     }, delayMillis);
+    
+    //this.cd.markForCheck();
+    //console.log('Make New')
   }
 
-  change360(currentItem360,mode){
-
-    this.values.imageFrames.forEach((frame,index) => {
-      this.ThreeSixtyFrames[index] = this.values.APIRoot + '/app/get_image.php?image=/' + currentItem360 + 'img' + frame + '.jpg&w=480&h=670&zc=3&xtype=360'
+  build360(currentItem360){
+    this.ThreeSixtyFrames = [];
+    this.values.imageFrames.forEach((frame) => {
+      this.ThreeSixtyFrames.push(this.values.APIRoot + '/app/get_image.php?image=/' + currentItem360 + 'img' + frame + '.jpg&w=480&h=670&zc=3&xtype=360')
+      //{{values.APIRoot}}/app/get_image.php?image=/{{currentItem360}}img{{image}}.jpg&w=480&h=670&zc=3&xtype=360
     });  
+    console.log(JSON.stringify(this.ThreeSixtyFrames))
     this.cd.markForCheck();
-    //if(mode){circlr(this.view3D.nativeElement).unbind();} //unbind doesn't do enough
-    //this.init360(1000) // re-init breaks it
   }
 
   close360(){

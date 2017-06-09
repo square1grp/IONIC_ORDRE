@@ -71,7 +71,7 @@
     <div class="collection_item_divider"></div>
     <div class="col-md-6 collection_item_slider right">
       <div class="my-slider">
-        <ion-slides [pager]="true" [direction]="horizontal">
+        <ion-slides [pager]="true" [direction]="horizontal"  >
           <ng-container *ngFor="let variant of product.variants">
             <ion-slide *ngFor="let imageslide of variant?.variant_images">
               <lazy-img src="{{values.APIRoot}}/app/get_image.php?image=/{{imageslide.variant_image}}&w=683&h=980&zc=2&xtype=prodimage"></lazy-img>
@@ -79,10 +79,8 @@
           </ng-container>
         </ion-slides>
       </div>
-    </div>    
+    </div>
   </section>
 </div>
 <img src="assets/images/arrow-up.png" tappable (tap)="scrollToTop()" class="go_to_top" ion-fixed>
 </ion-content>
-
-
