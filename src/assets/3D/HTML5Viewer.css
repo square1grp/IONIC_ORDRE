@@ -1,0 +1,271 @@
+/*
+//	===========================================================
+//	===		@PackageVersion: 1.4.100
+//	===		@Filename: HTML5Viewer.css	
+//	===		@FileVersion: 1.3.600
+//	===		@Author: Sam Wang
+//	===		@Copyright (c) 2010-2013 Ortery Technologies Inc.
+//	===		 All rights reserved.
+//	===========================================================
+*/
+
+.animateCreatorContainer {
+	position: relative;
+
+	text-align: left;
+
+	overflow: hidden;
+
+    user-select: none;
+    -khtml-user-select: none;
+    -o-user-select: none;
+    -ms-user-select: none;
+	-moz-user-select: none;
+	-webkit-user-select: none;
+
+	background-repeat: no-repeat;
+	background-position: center center;
+}
+
+.animateCreatorFramesList {
+	z-index: 3;
+	position: absolute;
+
+	overflow-y: hidden;
+	overflow-x: hidden;
+
+	background-color: rgba(128, 128, 128, 0.8);
+}
+
+.animateCreatorThumbnail {
+	position: relative;
+
+	width: 80%;
+	height: auto;
+
+	margin-left: 10%;
+	margin-top: 10%;
+
+	-moz-box-shadow: 3px 3px 3px #000000;
+	-webkit-box-shadow: 3px 3px 3px #000000;
+	box-shadow: 3px 3px 3px #000000;
+
+	-ms-interpolation-mode: bicubic;
+}
+
+.animateCreatorHomeBtn {
+	z-index: 5;
+	position: absolute;
+
+	right: 0px;
+	bottom: 0px;
+}
+
+.animateCreatorPhoto {
+	z-index: 1;
+	position: absolute;
+
+	margin: auto;
+}
+
+.animateCreatorViewer {
+	z-index: 1;
+	position: absolute;
+
+	visibility: hidden;
+	-ms-interpolation-mode: bicubic;
+}
+
+.animateCreatorSymbolDiv {
+	z-index: 2;
+	position: absolute;
+}
+
+.animateCreatorBtnDiv {
+	z-index: 4;
+	position: absolute;
+
+	bottom: 0px;
+
+	text-align: left;
+	overflow: visible;
+}
+
+.animateCreatorPosSpan {
+	position: absolute;
+	bottom: 0px;
+}
+
+.animateCreatorQRLightbox {
+	position:absolute;
+	z-index:599;
+	top:0px;
+	left:0px;
+	width:100%;
+	height:100%;
+	background-color:rgba(38,38,38, 0.8);
+}
+
+.animateCreatorQRLightbox img {
+	position:absolute;
+}
+
+.animateCreatorMagnifier {
+	z-index: 6;
+	position: absolute;
+
+	border-width: 1px;
+	border-color: grey;
+	border-style: groove;
+	background-color: white;
+	background-repeat: no-repeat;
+
+	box-shadow: 5px 5px 20px rgba(0,0,0,0.5);
+	-webkit-box-shadow: 5px 5px 20px rgba(0,0,0,0.5);
+	-moz-box-shadow: 5px 5px 20px rgba(0,0,0,0.5);
+	-o-box-shadow: 5px 5px 20px rgba(0,0,0,0.5);
+	-ms-box-shadow: 5px 5px 20px rgba(0,0,0,0.5);
+
+	-moz-border-radius: 50% 50%;
+	-webkit-border-radius: 50% 50%;
+	border-radius: 50% 50%;
+
+	cursor: move;
+}
+
+.animateCreatorMagnifierBtn, .animateCreatorQRBtn, .animateCreatorArrowBtn {
+	position: absolute;
+	top: 0px;
+
+	cursor: pointer;
+}
+/*
+
+.animateCreatorArrowBtn {
+	position: absolute;
+	top: 0px;
+
+	cursor: pointer;
+}
+*/
+
+.animateCreatorCursorHintN {
+	position: absolute;
+	top: 0px;
+	left: 0px;
+
+	width: 10%;
+	height: 10%;
+}
+.animateCreatorCursorHintS {
+	position: absolute;
+	bottom: 0px;
+	right: 0px;
+
+	width: 10%;
+	height: 10%;
+}
+
+/*
+* qTip2 - Pretty powerful tooltips
+* http://craigsworks.com/projects/qtip2/
+*
+* Version: nightly
+* Copyright 2009-2010 Craig Michael Thompson - http://craigsworks.com
+*
+* Dual licensed under MIT or GPLv2 licenses
+*   http://en.wikipedia.org/wiki/MIT_License
+*   http://en.wikipedia.org/wiki/GNU_General_Public_License
+*
+* Date: Thu Aug 18 12:11:24 PDT 2011
+*/
+
+/* Core qTip styles */
+.ui-tooltip, .qtip{
+	position: absolute;
+	left: -28000px;
+	top: -28000px;
+	display: none;
+
+	max-width: 280px;
+	min-width: 50px;
+
+	font-size: 10.5px;
+	line-height: 12px;
+
+	z-index: 15000;
+}
+
+.ui-tooltip-glass {
+	font-family: "Helvetica";
+	font-size: medium;
+
+	background-color: white;
+	-webkit-box-shadow: 3px 3px 4px 2px #333;
+	-moz-box-shadow: 3px 3px 4px 2px #333;
+	box-shadow: 3px 3px 4px 2px #333;
+}
+
+.ui-tooltip-content{
+	position: relative;
+	padding: 5px 9px;
+	overflow: hidden;
+
+	border-width: 1px;
+	border-style: solid;
+
+	text-align: left;
+	word-wrap: break-word;
+	overflow: hidden;
+}
+
+/* jQuery TOOLS Tooltip style */
+.ui-tooltip-jtools{
+	background: #232323;
+	background: rgba(0, 0, 0, 0.7);
+	background-image: -moz-linear-gradient(top, #717171, #232323);
+	background-image: -webkit-gradient(linear, left top, left bottom, from(#717171), to(#232323));
+	
+	border: 2px solid #ddd;
+	border: 2px solid rgba(241,241,241,1);
+
+	-moz-border-radius: 2px;
+	-webkit-border-radius: 2px;
+	border-radius: 2px;
+
+	-webkit-box-shadow: 0 0 12px #333;
+	-moz-box-shadow: 0 0 12px #333;
+	box-shadow: 0 0 12px #333;
+}
+
+/* IE Specific */
+.ui-tooltip-jtools .ui-tooltip-titlebar{
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#717171,endColorstr=#4A4A4A);
+	-ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#717171,endColorstr=#4A4A4A)";
+}
+.ui-tooltip-jtools .ui-tooltip-content{
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#4A4A4A,endColorstr=#232323);
+	-ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#4A4A4A,endColorstr=#232323)";
+}
+
+.ui-tooltip-jtools .ui-tooltip-titlebar,
+.ui-tooltip-jtools .ui-tooltip-content{
+	background: transparent;
+	color: white;
+	border: 0 dashed transparent;
+}
+
+.ui-tooltip-jtools .ui-tooltip-icon{
+	border-color: #555;
+}
+
+.ui-tooltip-jtools .ui-tooltip-titlebar .ui-state-hover{
+	border-color: #333;
+}
+
+/* IE9 fix - removes all filters */
+.ui-tooltip:not(.ie9haxors) div.ui-tooltip-content,
+.ui-tooltip:not(.ie9haxors) div.ui-tooltip-titlebar{
+	filter: none;
+	-ms-filter: none;
+}

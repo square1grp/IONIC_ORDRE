@@ -1,0 +1,56 @@
+<page-header></page-header>
+<ion-content>
+<div id="pbody" class="open_bar">
+  <div class="ordre_subheader">
+	<div class="col-md-3  settings_page settings_sidebar_header">
+		<a (click)="popView()" class="go_back col-md-2"></a>
+		<span class="title col-md-8"></span>
+		<span class="toogle_menu col-md-2">|||</span>
+	</div>
+	<div class="col-md-9 settings_page content_sorter">
+		<div class="settings_title designer_settings">Settings</div>
+	</div>
+</div>
+<section class="page_content" id="settings_section">
+	<div class="settings_sidebar  open">
+		<p class="divider"></p>
+		<div class="sidebar_title">  Manage Settings </div>
+		<div class="settings_list">
+			<div class="active order_buyer" block="order_buyer"><span>Order as Buyer</span></div>
+		</div>
+	</div>
+	<section id="settings_content">
+		<div class="settings_item order_buyer active">
+			<p class="order_buyer_title">Order as Buyer</p>
+			<p class="order_buyer_description col-md-9">To create an Order for Buyer, first choose a Retailer, and then a Buyer from the dropdowns below. When you have completed the Order, Log out (top right icon) to return to your own account.</p>
+			<div class="col-md-5">
+				<ion-spinner name="ios" *ngIf="this.retailersLoading==true"></ion-spinner>
+				<ion-list *ngIf="this.retailersLoading==false">
+					<ion-item>
+						<ion-label>Retailers</ion-label>	
+						<ion-select [(ngModel)]="retailer_id" (ionChange)="setBuyers(retailer_id)" mode="ios" placeholder="Choose Retailer" multiple="false" cancelText="Cancel" okText="Select" class="retailer_selection">
+							<ion-option *ngFor="let retailer of retailers" value="{{retailer.retailer_id}}" [innerHTML]="retailer.business_name"></ion-option>
+						</ion-select>
+					</ion-item>
+				</ion-list>
+			</div>
+			<div class="col-md-5">
+				<ion-list *ngIf="this.retailersLoading==false">
+					<ion-item>
+						<ion-label>Buyers</ion-label>	
+						<ion-select [(ngModel)]="thisBuyer" mode="ios" placeholder="Choose Buyer" multiple="false" cancelText="Cancel" okText="Select" class="buyer_selection">
+							<ion-option *ngFor="let buyer of buyers" value="{{buyer.buyer_id}}" [innerHTML]="buyer.first_name + ' ' + buyer.last_name"></ion-option>
+						</ion-select>
+					</ion-item>
+				</ion-list>
+			</div>			
+			<div class="col-md-10">
+				<button class="order_buyer_submit" (click)="startMasquerade(thisBuyer)">Order as Buyer</button>
+			</div>
+
+		</div>
+	</section>
+
+</section>
+</div>
+</ion-content>

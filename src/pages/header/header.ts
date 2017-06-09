@@ -1,0 +1,130 @@
+import { Component, ViewChild, NgZone   } from '@angular/core';
+import { AlertController, App } from 'ionic-angular';
+import { SettingsPage } from '../settings/settings';
+import { CartPage } from '../cart/cart';
+import { OrdersPage } from '../orders/orders';
+import { DesignersPage } from '../designers/designers';
+import { CollectionPage } from '../collection/collection';
+import { LoginPage } from '../login/login';
+import { CachePage } from '../cache/cache';
+import { Values } from '../../providers/values';
+import { CartProvider } from '../../providers/cart';
+import { Data } from '../../providers/data';
+
+//import { SyncPage } from '../sync/sync';
+import { Nav, NavController, MenuController } from 'ionic-angular'; 
+
+@Component({
+  selector: 'page-header',
+  templateUrl: 'header.html'
+})
+export class OrdreHeader {
+
+  @ViewChild(Nav) nav: Nav;
+
+  ordreHeader = OrdreHeader
+
+  settingsPage: any = SettingsPage;
+  cartPage: any = CartPage;
+  ordersPage: any = OrdersPage;
+  designersPage: any = DesignersPage; 
+  collectionPage: any = CollectionPage;
+  loginPage: any = LoginPage;
+  cachePage: any = CachePage;
+
+  constructor(private zone: NgZone, private app: App, public menu: MenuController, public navCtrl: NavController, public values: Values, public cartProvider: CartProvider, private alertCtrl: AlertController, public data: Data) {}
+
+  ionViewDidLoad() {
+    console.log('ionViewDidLoad ordreHeader');
+  }
+
+  openPage(page): void {
+    //this.navCtrl.setRoot(page);
+    this.navCtrl.push(page);
+  }
+
+  openHomePage(page): void {
+    //this.navCtrl.setRoot(page);
+    //this.navCtrl.push(page);
+    this.navCtrl.setRoot(page);
+  }
+  
+  openCachePage(page): void {
+    //this.navCtrl.setRoot(page);
+    this.navCtrl.setRoot(page);
+    //this.navCtrl.push(page);
+  }
+
+  goPage(page): void {
+    this.zone.run(() => {
+      this.navCtrl.setRoot(DesignersPage);
+    });  
+    //this.app.getRootNav().setRoot(DesignersPage);
+    //this.navCtrl.popToRoot().then(() => {
+      //this.navCtrl.remove(1);
+    //})
+  }
+
+
+  exitMasquarade(){
+    let alert = this.alertCtrl.create({
+      title: 'Are you sure?',
+      subTitle: 'Unsaved Orders will be lost.',
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          handler: () => {
+            console.log('Cancel clicked');
+          }
+        },
+        {
+          text: 'Logout',
+          handler: () => {    
+            this.values.user_profile.seller_account_id = this.values.user_profile.masquarade_id;
+            this.values.user_profile.business_display_name = this.values.user_profile.masqaurade_name;
+            this.values.user_profile.masquarade_id = 0;
+            this.values.user_profile.masqaurade_name = '';
+            // empty the cart
+            this.cartProvider.emptyOrder();
+            this.navCtrl.push(SettingsPage);  
+          }
+        }
+      ]
+    });
+    alert.present();             
+  }
+
+  logOut(){
+    let alert = this.alertCtrl.create({
+      title: 'Are you sure?',
+      subTitle: 'Unsaved Orders will be lost.',
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          handler: () => {
+            console.log('Cancel clicked');
+          }
+        },
+        {
+          text: 'Logout',
+          handler: () => {
+
+            this.cartProvider.emptyOrder();
+            this.values.user_profile = "";
+            this.data.removeUser('user_profile').then(data => {
+                this.navCtrl.push(LoginPage); 
+            });
+          }
+        }
+      ]
+    });
+    alert.present();  
+  }
+
+  openCollectionPage(page): void {
+    //this.navCtrl.setRoot(page);
+    this.navCtrl.push(page, { designer: this.values.designer });
+  }
+}

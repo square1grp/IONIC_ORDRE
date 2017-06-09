@@ -1,0 +1,4954 @@
+/*
+********************
+ORDRE APP STYLE, 2017-06-05 17:00
+********************
+*/
+
+@font-face {
+	font-family:'San Francisco Regular';
+	src:url(../assets/fonts/System_San_Francisco_Display_Regular.ttf);
+}
+
+@font-face {
+	font-family:'San Francisco Regular2';
+	src:url(../assets/fonts/System_San_Francisco_Display_Regular_2.ttf);
+}
+
+@font-face {
+	font-family:'San Francisco Thin';
+	src:url(../assets/fonts/System_San_Francisco_Display_Thin.ttf);
+}
+
+@font-face {
+	font-family:'Avenir Light';
+	src:url(../assets/fonts/AvenirLTStd_Light.otf);
+}
+
+@font-face {
+	font-family:'Avenir Medium';
+	src:url(../assets/fonts/AvenirLTStd_Medium.otf);
+}
+
+@font-face {
+	font-family:'Avenir Book';
+	src:url(../assets/fonts/AvenirLTStd_Book.otf);
+}
+
+@font-face {
+	font-family:'Avenir Heavy';
+	src:url(../assets/fonts/AvenirLTStd_Heavy.otf);
+}
+
+@font-face {
+	font-family:'Avenir Roman';
+	src:url(../assets/fonts/AvenirLTStd_Roman.otf);
+}
+
+@font-face {
+	font-family:'Avenir Black';
+	src:url(../assets/fonts/AvenirLTStd_Black.otf);
+}
+
+/*
+@font-face {
+	font-family:"Montserrat_source";
+	src:url("/fonts/montserrat-ultralight-webfont.eot");
+	src:url("/fonts/montserrat-ultralight-webfont.woff") format("woff");
+}
+*/
+
+@font-face {
+	font-family:'SanFrancisco Medium';
+	src:url(../assets/fonts/System_San_Francisco_Text_Medium.ttf);
+}
+
+a {
+	color:#23c1ea;
+	text-decoration:none;
+}
+
+a:active, a:hover {
+	text-decoration:none;
+}
+
+input[type="text"][disabled],
+input[type="tel"][disabled] {
+	color:#818181;
+}
+
+#pbody.logged_out.index_page {
+	background:url(../assets/images/ordre_bg_login.jpg) no-repeat center top;
+	background-size:cover;
+	display:block;
+	-webkit-transform-style:preserve-3d;
+	-moz-transform-style:preserve-3d;
+	transform-style:preserve-3d;
+	position:absolute;
+	top:0px;
+	bottom:0px;
+	left:0px;
+	right:0px;
+	height:100%;
+}
+
+.body_overlay {
+	position:absolute;
+	top:0px;
+	bottom:0px;
+	left:0px;
+	right:0px;
+	background-color:rgba(0, 0, 0, 0.7);
+}
+
+section.welcome_section {
+	position:relative;
+	top:50%;
+	-webkit-transform:translateY(-50%);
+	transform:translateY(-50%);
+}
+
+section.welcome_section .logo_wrapper {
+	margin-bottom:80px;
+}
+
+section.welcome_section .logo_wrapper img {
+	width:100%;
+}
+
+section.welcome_section .sitename_wrapper {
+	position:relative;
+}
+
+section.welcome_section .sitename_wrapper:after {
+	display:block;
+	content:'';
+	clear:both;
+}
+
+section.welcome_section .sitename_wrapper .sitename {
+	text-align:center;
+	color:#ffffff;
+	text-transform:uppercase;
+	font-size:50pt;
+	display:inline-block;
+	margin:auto;
+	width:28%;
+	float:left;
+	z-index:99;
+	letter-spacing:20px;
+}
+
+section.welcome_section .sitename_wrapper .site_subtitle {
+	text-align:center;
+}
+
+section.welcome_section .site_subtitle {
+	width:34%;
+	margin:auto;
+}
+
+section.welcome_section .site_subtitle p {
+	text-align:center;
+	color:#ffffff;
+	text-transform:uppercase;
+	font-size:36px;
+	margin-top:20px;
+	font-family:'Avenir Light';
+	line-height:1.2;
+	margin-bottom:20px;
+	letter-spacing:2px;
+}
+
+section.welcome_section .sitename_wrapper .line_divider {
+	margin:0px;
+	height:1px;
+	background-color:#5b5d5c;
+	position:relative;
+	width:36%;
+	top:25px;
+	z-index:9;
+	float:left;
+}
+
+#pbody.logged_out .welcome_footer {
+	position:absolute;
+	bottom:100px;
+	width:100%;
+	text-align:center;
+}
+
+#pbody.logged_out .welcome_footer p {
+	display:inline-block;
+	margin-bottom:0px;
+	color:#ffffff;
+	font-family:'Avenir Light';
+	font-size:16px;
+	border:1px solid #808080;
+	line-height:1.2;
+	letter-spacing:1px;
+	padding:16px;
+}
+
+#pbody.logged_out.login_page {
+	background:url(../assets/images/ordre_bg_login.jpg) no-repeat center top;
+	background-size:cover;
+	display:block;
+	-webkit-transform-style:preserve-3d;
+	-moz-transform-style:preserve-3d;
+	transform-style:preserve-3d;
+	position:absolute;
+	top:0px;
+	bottom:0px;
+	left:0px;
+	right:0px;
+	height:100%;
+}
+
+.body_overlay {
+	position:absolute;
+	top:0px;
+	bottom:0px;
+	left:0px;
+	right:0px;
+	background-color:rgba(0, 0, 0, 0.7);
+}
+
+section.login_section {
+	-webkit-transform-style:preserve-3d;
+	-moz-transform-style:preserve-3d;
+	transform-style:preserve-3d;
+	position:absolute;
+	top:0px;
+	bottom:0px;
+	left:0px;
+	right:0px;
+	height:100%;
+}
+
+section.login_section .login_form_wrapper {
+	position:relative;
+	top:50%;
+	-webkit-transform:translateY(-50%);
+	transform:translateY(-50%);
+}
+
+section.login_section .login_form_wrapper .sitename_wrapper {
+	margin-bottom:96px;
+}
+
+section.login_section .login_form_wrapper .sitename_wrapper img {
+	width:100%;
+}
+
+section.login_section .login_form_wrapper .sitename_wrapper:after {
+	display:block;
+	content:'';
+	clear:both;
+}
+
+section.login_section .login_form_wrapper .sitename_wrapper .sitename {
+	text-align:right;
+	color:#ffffff;
+	text-transform:uppercase;
+	font-size:40pt;
+	display:inline-block;
+	margin:auto;
+	width:30%;
+	float:left;
+	z-index:99;
+	letter-spacing:20px;
+}
+
+section.login_section .login_form_wrapper .sitename_wrapper .line_divider {
+	margin:0px;
+	height:1px;
+	background-color:#5b5d5c;
+	position:relative;
+	width:35%;
+	top:35px;
+	z-index:9;
+	float:left;
+}
+
+section.login_section .login_form_wrapper .login_form {
+	text-align:justify;
+	width:365px;
+	margin:auto;
+}
+
+section.login_section .login_form_wrapper .login_form input {
+	padding:10px 5px;
+	width:100%;
+	margin-bottom:35px;
+	outline:0px;
+	border:1px solid #cacaca;
+}
+
+.login_submit {
+	background:#000000;
+	color:#ffffff;
+	text-transform:uppercase;
+	border:none;
+	padding:10px 50px;
+	line-height:1;
+	margin-left:72px;
+	font-family:'Avenir Light';
+	font-size:16px;
+}
+
+.login_form div a:hover {
+	text-decoration:none;
+}
+
+.login_form div a:focus {
+	outline:none;
+}
+
+.login_form div span {
+	color:#ffffff;
+	position:relative;
+	font-family:'San Francisco Thin';
+	font-size:14px;
+}
+
+#pbody.logged_out .welcome_footer {
+	position:absolute;
+	bottom:100px;
+	width:100%;
+	text-align:center;
+}
+
+#pbody.logged_out .welcome_footer p {
+	display:inline-block;
+	margin-bottom:0px;
+	color:#ffffff;
+	font-family:'Avenir Light';
+	font-size:16px;
+	border:1px solid #808080;
+	line-height:1.2;
+	padding:10px;
+}
+
+section.login_section .login_form_wrapper .login_form input section.login_section .login_form_wrapper .login_form input::-webkit-input-placeholder {
+	font-family:'San Francisco Thin';
+	font-size:16px;
+}
+
+section.page_content {
+	position:relative;
+	top:112px;
+}
+
+section.page_content:after {
+	position:relative;
+	display:block;
+	content:'';
+	clear:both;
+}
+
+.ordre_header {
+	background-color:#000000;
+	position:fixed;
+	z-index:9991;
+	width:100%;
+	top:0px;
+}
+
+.ordre_header .header_left .homepage_link:before {
+	display:block;
+	content:'';
+	background:url(../assets/images/svg/home-icon.svg);
+	width:40px;
+	height:40px;
+}
+
+.ordre_header .header_left .homepage_link {
+	width:60px;
+	height:40px;
+	padding-top:4px;
+	display:block;
+}
+
+.ordre_header .header_right {
+	position:relative;
+	top:5px;
+	text-align:right;
+}
+
+.ordre_header .header_right a,
+.ordre_header .header_right span {
+	margin-right:10px;
+	cursor:pointer;
+}
+
+.ordre_header .header_right .headers_setting_item:before {
+	display:inline-block;
+	content:'';
+	background:url(../assets/images/svg/settings-icon.svg);
+	width:45px;
+	height:45px;
+}
+
+.ordre_header .header_right .headers_logout:before {
+	display:inline-block;
+	content:'';
+	background:url(../assets/images/svg/logout-icon.svg);
+	width:42px;
+	height:42px;
+}
+
+#settings_content .order_buyer {
+	width:96%;
+	margin:auto;
+}
+
+.order_buyer select {
+	width:100%;
+	border:1px solid #cccccc;
+	text-transform:uppercase;
+	padding:5px 0 5px 5px;
+	-webkit-appearance:none;
+	background:url(../assets/images/svg/arrow-down.svg) 98% center no-repeat;
+	background-size:24px 24px;
+	font-size:14px;
+	font-family:'Avenir Medium';
+}
+
+.order_buyer_title {
+	font-size:22px;
+	font-family:'Avenir Book';
+	margin:auto;
+	border-bottom:1px solid #b6b6b6;
+	color:#000000;
+	padding-top:20px;
+	margin-bottom:20px;
+}
+
+.order_buyer div.col-md-10 {
+	text-align:right;
+	padding-top:20px;
+}
+
+.order_buyer div.col-md-5 {
+	padding-left:0px;
+}
+
+.order_buyer_description {
+	font-family:'Avenir Medium';
+	margin-bottom:30px;
+	font-size:16px;
+	padding-left:0px !important;
+}
+
+.order_buyer .order_buyer_submit {
+	background:#000000;
+	color:#ffffff;
+	border:1px solid #000000;
+	outline:none;
+	padding:10px 10px;
+	text-transform:uppercase;
+	font-family:'Avenir Medium';
+	font-size:16px;
+}
+
+.ordre_header .header_right .headers_sync:before {
+	display:inline-block;
+	content:'';
+	background:url(../assets/images/svg/refresh-icon.svg);
+	width:45px;
+	height:45px;
+}
+
+.ordre_header .header_right .header_drafts_link:before {
+	display:inline-block;
+	content:'';
+	background:url(../assets/images/svg/orders-icon.svg);
+	width:45px;
+	height:45px;
+}
+
+.ordre_header .header_right .header_mini_cart_link:after {
+	display:inline-block;
+	content:'';
+	background:url(../assets/images/svg/cart-icon.svg);
+	width:45px;
+	height:45px;
+}
+
+.ordre_header .header_right .header_mini_cart_link span {
+	display:inline-block;
+	font-size:20px;
+	margin-right:0px !important;
+	position:relative;
+	top:-12px;
+	right:3px;
+	color:#23c1ea;
+}
+
+.ordre_header .header_right .header_mini_cart_link.active span {
+	color:#23c1ea;
+}
+
+.ordre_header .header_right .header_mini_cart_link.active:after {
+	background:url(../assets/images/svg/cart-icon-blue.svg);
+}
+
+.ordre_header .header_left {
+	position:relative;
+	top:5px;
+}
+
+.ordre_header:after {
+	content:'';
+	display:block;
+	clear:both;
+}
+
+.ordre_header .header_sitename {
+	color:#ffffff;
+	text-align:center;
+	font-weight:300;
+	letter-spacing:10px;
+	line-height:1;
+	padding:16px 0;
+}
+
+.ordre_subheader {
+	position:fixed;
+	width:100%;
+	z-index:9991;
+	top:55px;
+	background:#ffffff;
+	border-bottom:1px solid #cccccc;
+}
+
+.ordre_subheader .open_bar {
+	width:75%;
+	margin-left:25% !important;
+}
+
+.ordre_subheader:after {
+	content:'';
+	display:block;
+	clear:both;
+}
+
+.ordre_subheader .page_title {
+	text-transform:uppercase;
+	font-size:24px;
+	text-align:center;
+	padding:15px 0 2px;
+	font-family:'Avenir Book';
+}
+
+.ordre_subheader .page_title.collections_page {
+	text-align:left;
+	padding-left:20px;
+}
+
+/* .open_bar .collections_page.collections_sidebar_header { */
+.collections_page.collections_sidebar_header {
+	text-transform:uppercase;
+	font-size:15pt;
+	padding-top:10px;
+	padding-bottom:10px;
+	padding-right:0px !important;
+	padding-left:0px !important;
+	font-family:'Avenir Book';
+	border-right:none;
+	height:56px;
+}
+
+/* .closed_bar .collections_page.collections_sidebar_header { */
+.collections_page.collections_sidebar_header {
+	text-transform:uppercase;
+	font-size:15pt;
+	padding:0;
+	font-family:'Avenir Book';
+}
+
+/* .open_bar .collections_page.collections_sidebar_header .go_back { */
+.collections_page.collections_sidebar_header .go_back {
+	position:relative;
+}
+
+.collections_page.collections_sidebar_header .go_back {
+	color:#333333;
+}
+
+/* .open_bar .collections_page.collections_sidebar_header .go_back { */
+.collections_page.collections_sidebar_header .go_back {
+	text-align:center;
+	display:inline-block;
+	top:50%;
+	-webkit-transform:translateY(-50%);
+	transform:translateY(-50%);
+}
+
+/* .open_bar .collections_page.collections_sidebar_header .go_back:before { */
+.collections_page.collections_sidebar_header .go_back:before {
+	content:'';
+	display:block;
+	margin:auto;
+	width:28px;
+	height:28px;
+	background:url(../assets/images/svg/arrow-left.svg);
+}
+
+/* .closed_bar .collections_page.collections_sidebar_header .go_back:before { */
+.collections_page.collections_sidebar_header.col-md-1 .go_back:before {
+	content:'';
+	display:block;
+	margin:auto;
+	width:28px;
+	height:28px;
+	background:url(../assets/images/svg/arrow-left.svg);
+	position:relative;
+	left:1px;
+}
+
+/* .open_bar .collections_page.collections_sidebar_header .toogle_menu { */
+.collections_page.collections_sidebar_header .toogle_menu {
+	width:15%;
+	text-align:center;
+	display:inline-block;
+	top:22%;
+	/*	-webkit-transform:translateY(-50%);
+	
+		transform:translateY(-50%);
+	*/
+}
+
+/* .open_bar .collections_page.collections_sidebar_header .title { */
+.collections_page.collections_sidebar_header .title {
+	width:65%;
+	text-align:center;
+	display:inline-block;
+	font-size:16px;
+	font-family:'Avenir Medium';
+	top:50%;
+	-webkit-transform:translateY(-50%);
+	transform:translateY(-50%);
+}
+
+/* .closed_bar .collections_page.collections_sidebar_header .go_back { */
+.collections_page.collections_sidebar_header.col-md-1 .go_back {
+	width:50%;
+	text-align:center;
+	display:inline-block;
+	float:left;
+	padding:14px 0;
+	border-right:1px solid #cccccc;
+}
+
+.collections_page.collections_sidebar_header.col-md-1 .toogle_menu {
+	width:50%;
+	text-align:center;
+	display:inline-block;
+	float:left;
+	padding:14px 0;
+	/* margin-top: 25px; */
+}
+
+.collections_page.collections_sidebar_header.col-md-1 .title {
+	display:none;
+}
+
+.ordre_header .header_right span.business_name_designer {
+	color:#ffffff !important;
+	display:inline-block;
+	font-size:16px;
+	margin-right:0px !important;
+	position:relative;
+	top:-6px;
+	right:3px;
+	max-width:75%;
+	line-height:1;
+	transform:translateY(-50%);
+}
+
+.ordre_header .header_right .header_mini_cart_link span.business_name_buyer {
+	color:#ffffff !important;
+	display:inline-block;
+	font-size:16px;
+	margin-right:0px !important;
+	position:relative;
+	top:-6px;
+	right:3px;
+	max-width:75%;
+	line-height:1;
+	transform:translateY(-50%);
+}
+
+.ordre_header .header_right .header_mini_cart_link span.business_name_masquerade {
+	color:#23c1ea;
+	display:inline-block;
+	font-size:16px;
+	margin-right:0px !important;
+	position:relative;
+	top:-6px;
+	right:3px;
+	max-width:75%;
+	line-height:1;
+	transform:translateY(-50%);
+}
+
+.content_sorter .collection_title {
+	display:inline-block;
+	float:left;
+	text-transform:uppercase;
+	font-size:18px;
+	font-family:'Avenir Book';
+	line-height:1;
+	position:relative;
+	top:50%;
+	-webkit-transform:translateY(-50%);
+	transform:translateY(-50%);
+	overflow-x:hidden;
+	max-width:75%;
+}
+
+.ordre_subheader .content_sorter {
+	text-align:right;
+	border-right:0px solid #cccccc;
+	border-left:1px solid #b6b6b6;
+	padding:10px 15px;
+	height:56px;
+}
+
+page-linesheet .ordre_subheader .content_sorter {
+	border-left:none;
+	padding-left:20px;
+}
+
+.ordre_subheader .content_sorter .sorter_item {
+	display:inline-block;
+	position:relative;
+	border:1px solid #b1a8a8;
+	padding:2px 10px;
+}
+
+.ordre_subheader .content_sorter .sorter_item.line_sheet_link {
+	padding:2px 10px;
+}
+
+.ordre_subheader .content_sorter .sorter_item:nth-child(1) {
+	margin-right:20px;
+}
+
+.ordre_subheader .content_sorter .sorter_item:nth-child(2) {
+	margin-right:15px;
+}
+
+.ordre_subheader .content_sorter .sorter_item span {
+	border:none !important;
+}
+
+.ordre_subheader .content_sorter .sorter_item span.btn-default:active {
+	background:transparent !important;
+	outline:none !important;
+}
+
+.ordre_subheader .content_sorter .sorter_item span.btn-default:hover {
+	background:transparent !important;
+	outline:none !important;
+}
+
+.ordre_subheader .content_sorter .sorter_item span.btn-default:focus {
+	background:transparent !important;
+	outline:none !important;
+}
+
+.ordre_subheader .content_sorter .sorter_item .dropdown_menu_container {
+	width:328px;
+	position:absolute;
+	top:0px;
+	top:40px;
+	right:0px;
+	display:none;
+	background:#ffffff;
+	-webkit-transition:height .1s ease;
+	-webkit-transition-delay:.1s;
+	z-index:99;
+}
+
+.ordre_subheader .content_sorter .sorter_item .dropdown_menu_container:after {
+	display:block;
+	content:'';
+	clear:both;
+}
+
+.ordre_subheader .content_sorter .sorter_item .dropdown_menu_container ul {
+	list-style-type:none;
+	padding:0px;
+	overflow:hidden;
+	margin-bottom:0px;
+	background-color:#ffffff;
+}
+
+.ordre_subheader .content_sorter .sorter_item .dropdown_menu_container ul:after {
+	content:'';
+	display:block;
+	clear:both;
+}
+
+.ordre_subheader .content_sorter .sorter_item .dropdown_menu_container ul li {
+	border-bottom:1px solid #c1c1c1;
+	line-height:1;
+	padding:15px;
+}
+
+.ordre_subheader .content_sorter .sorter_item .dropdown_menu_container ul li label {
+	text-align:left;
+	font-size:16px;
+	text-transform:uppercase;
+	font-family:'Avenir Medium';
+	display:block;
+	margin-bottom:0px !important;
+}
+
+.ordre_subheader .content_sorter .sorter_item .dropdown_menu_container ul li label input {
+	float:right;
+}
+
+.ordre_subheader .content_sorter .sorter_item .dropdown_menu_container .dropdown_menu_clear {
+	text-align:left;
+	background:#ffffff;
+	padding-top:20px;
+	padding-bottom:20px;
+}
+
+.ordre_subheader .content_sorter .sorter_item .dropdown_menu_container .dropdown_menu_clear span {
+	display:inline-block;
+	background-color:#909090;
+	color:#ffffff;
+	text-transform:uppercase;
+	padding:5px;
+	font-size:16px;
+	font-family:'San Francisco Regular';
+}
+
+.ordre_subheader .content_sorter .sorter_item .dropdown_menu_container .dropdown_menu_sort {
+	background:#ffffff;
+	padding-top:20px;
+	padding-bottom:20px;
+}
+
+.ordre_subheader .content_sorter .sorter_item .dropdown_menu_container input {
+	display:none;
+}
+
+.ordre_subheader .content_sorter .sorter_item .dropdown_menu_container input:checked + label {
+	background:url(../assets/images/check_menu_icon.png) no-repeat right;
+}
+
+.ordre_subheader .content_sorter .sorter_item .dropdown_menu_container .dropdown_menu_sort span {
+	text-transform:uppercase;
+	padding:4px 20px;
+	border-radius:0px;
+	color:#b1a8a8;
+	border-color:#b1a8a8;
+	border:1px solid !important;
+	margin-right:10px;
+	font-size:16px;
+	font-family:'San Francisco Regular';
+	display:inline-block;
+}
+
+.content_sorter .sorter_item:active .dropdown_menu_container {
+	height:100% !important;
+	overflow:visible !important;
+}
+
+.content_sorter .sorter_item .dropdown_menu_container:hover {
+	height:100%;
+	overflow:visible;
+}
+
+.ordre_subheader .page_serch_wrapper {
+	padding:0px;
+}
+
+.ordre_subheader .page_serch_wrapper input {
+	width:100%;
+	border:none;
+	height:50px;
+	padding:28px 10px;
+	background:url(../assets/images/search_icon.png) no-repeat right;
+	background-position-x:95%;
+	font-size:16px;
+	font-family:'San Francisco Regular';
+	text-transform:uppercase;
+}
+
+.ordre_subheader .content_sorter .sort {
+	text-transform:uppercase;
+	padding:3px 10px;
+	border-radius:0px;
+	color:#b1a8a8;
+	border-color:#b1a8a8;
+	font-size:16px;
+	font-family:'San Francisco Regular';
+}
+
+.ordre_subheader .content_sorter .filter {
+	text-transform:uppercase;
+	padding:3px 10px;
+	border-radius:0px;
+	color:#b1a8a8;
+	border-color:#b1a8a8;
+	font-size:16px;
+	font-family:'San Francisco Regular';
+}
+
+.designer_list {
+	padding:0px !important;
+}
+
+.designer_list .designer_item .designer_item_image_wrapper img {
+	position:relative;
+	width:100%;
+}
+
+.designer_list .designer_item {
+	padding:0px;
+}
+
+.designer_list .designer_item .designer_item_image_wrapper {
+	position:relative;
+}
+
+.designer_list .designer_item .designer_item_image_wrapper .designer_item_meta {
+	position:absolute;
+	bottom:0px;
+	color:#ffffff;
+	text-transform:uppercase;
+	text-align:center;
+	margin-bottom:0px;
+	padding:3px 0;
+	width:100%;
+	background-color:#000000;
+	font-size:10px;
+	font-family:'Avenir Light';
+	letter-spacing:2px;
+}
+
+.designer_list .designer_item .designer_item_name {
+	margin-bottom:0px;
+	text-align:center;
+	text-transform:uppercase;
+	line-height:1.3;
+	min-height:60px;
+	padding:10px 0;
+	font-size:16px;
+	font-family:'Avenir Light';
+}
+
+.page_content a.next_section {
+	position:fixed;
+	bottom:10px;
+	right:25px;
+	z-index:99;
+}
+
+.page_content a.next_section:before {
+	display:block;
+	content:'';
+	width:40px;
+	height:40px;
+	background:url(../assets/images/scroll_icon.png) no-repeat center center;
+	background-size:cover;
+}
+
+/*DELETE*/
+.tabordion {
+	color:#333333;
+	display:block;
+	font-family:arial, sans-serif;
+	margin:auto;
+	position:relative;
+	width:100%;
+}
+
+#collection_section .single_collection_description {
+	border-bottom:1px solid #cccccc;
+	width:25%;
+	padding:20px 20px 10px 20px;
+	clear:both;
+}
+
+#collection_section .single_collection_description p {
+	font-family:'Avenir Roman';
+	margin-bottom:0px;
+}
+
+#collection_section .single_collection_description strong {
+	font-family:'Avenir Heavy';
+	margin-bottom:5px;
+	display:block;
+}
+
+#collection_section .single_collection_description strong span {
+	display:inline-block;
+	text-transform:uppercase;
+	margin-right:5px;
+}
+
+#collection_section .single_collection_description p.open-to-ordre-title {
+	font-family:'Avenir Medium';
+	font-size:14px;
+	text-transform:uppercase;
+	margin-bottom:0px;
+	margin-top:50px;
+}
+
+#collection_section .tab_title {
+	width:25%;
+	text-align:center;
+	font-size:32px;
+	font-weight:bold;
+	height:150px;
+	vertical-align:middle;
+	position:relative;
+	border-bottom:1px solid #cccccc;
+	border-right:1px solid #cccccc;
+	float:left;
+}
+
+#collection_section .tab_title p {
+	position:relative;
+	top:50%;
+	-webkit-transform:translateY(-50%);
+	transform:translateY(-50%);
+}
+
+.tabordion input[name="sections"] {
+	left:-9999px;
+	position:absolute;
+	top:-9999px;
+}
+
+.tabordion section {
+	display:block;
+}
+
+.tabordion section label {
+	cursor:pointer;
+	display:block;
+	font-weight:bold;
+	padding:15px 20px 0 20px;
+	position:relative;
+	width:25%;
+	margin-bottom:0px !important;
+	font-size:16px;
+	font-family:'Avenir Heavy';
+}
+
+.tabordion section a.download_collection {
+	width:25%;
+	display:block;
+	font-size:12px;
+	text-transform:uppercase;
+	font-family:'Avenir Roman';
+	color:#7c7c7c;
+	border-bottom:1px solid #cccccc;
+	padding:0 0 20px 20px;
+}
+
+.tabordion section a.download_collection:hover {
+	text-decoration:none;
+}
+
+.offline_collections article a.download_collection:hover {
+	text-decoration:none;
+}
+
+.tabordion section label img {
+	position:absolute;
+	right:10px;
+	top:20px;
+}
+
+.tabordion section article {
+	display:none;
+	left:25%;
+	min-width:300px;
+	padding:0 0 0 21px;
+	position:absolute;
+	top:60px;
+	right:0px;
+	padding:0px !important;
+	border-left:1px solid #cccccc;
+	/* min-width: 100%; */
+}
+
+.tabordion section article:after {
+	background-color:#cccccc;
+	bottom:0;
+	content:"";
+	display:block;
+	left:-229px;
+	position:absolute;
+	top:0;
+	width:auto;
+	z-index:1;
+}
+
+.tabordion input[name="sections"]:checked + label {
+	color:#333333;
+	margin-bottom:0px !important;
+}
+
+.tabordion input[name="sections"]:checked ~ article {
+	display:block;
+}
+
+.tabordion .collection_item_title {
+	width:75%;
+	float:left;
+}
+
+.tabordion .collection_item_title:after {
+	content:'';
+	display:block;
+	clear:both;
+}
+
+.tabordion .collection_item_title p {
+	width:50%;
+	float:left;
+	font-size:12px;
+	font-family:'Avenir Medium';
+	text-transform:uppercase;
+	background:#cccccc;
+	padding:10px 15px;
+	margin-bottom:0px;
+	line-height:10px;
+	color:#333333;
+}
+
+.tabordion .collection_item_title p:nth-child(2) {
+	text-align:right;
+	color:#7c7c7c;
+}
+
+.offline_collections {
+	width:25%;
+}
+
+.offline_collections article {
+	padding-bottom:20px;
+	padding-left:15px;
+	border-bottom:1px solid #cccccc;
+}
+
+.offline_collections article label {
+	display:block;
+	width:100%;
+	margin-bottom:0px;
+	position:relative;
+	padding-top:20px;
+}
+
+.offline_collections article label img {
+	position:absolute;
+	right:10px;
+	width:24px;
+}
+
+.offline_collections article a.download_collection {
+	display:block;
+	display:block;
+	font-size:12px;
+	text-transform:uppercase;
+	font-family:'Avenir Roman';
+	color:#2eb2da;
+}
+
+@media (max-width:533px) {
+	h1 {
+		width:100%;
+	}
+
+	.tabordion {
+		width:100%;
+	}
+
+	.tabordion section label {
+		font-size:1em;
+		width:160px;
+	}
+
+	.tabordion section article {
+		left:200px;
+		min-width:270px;
+	}
+
+	.tabordion section article:after {
+		background-color:#cccccc;
+		bottom:0;
+		content:"";
+		display:block;
+		left:-199px;
+		position:absolute;
+		top:0;
+		width:200px;
+	}
+}
+
+.col_tab_item {
+	padding:0px !important;
+}
+
+.col_tab_item img {
+	width:100%;
+}
+
+.col_tab_item .single_collection_meta {
+	position:absolute;
+	bottom:0px;
+	right:0px;
+	left:0px;
+	background:rgba(255, 255, 255, 0.8);
+	padding:10px 15px;
+}
+
+.single_collection_meta .add_to_cart_item {
+	position:absolute;
+	right:15px;
+}
+
+.col_tab_item .single_collection_meta .collection_code {
+	color:#7c7c7c;
+	text-transform:uppercase;
+	margin-bottom:5px;
+	line-height:1;
+	font-size:12px;
+	font-family:'Avenir Book';
+}
+
+.col_tab_item .single_collection_meta .single_collection_item_title {
+	text-transform:uppercase;
+	color:#000000;
+	font-weight:600;
+	font-size:20px;
+	line-height:1;
+	font-family:'Avenir Heavy';
+}
+
+.col_tab_item .single_collection_meta .single_collection_item_wsp {
+	text-transform:uppercase;
+	color:#a7a4a4;
+	font-weight:600;
+	margin-bottom:0px;
+	font-size:16px;
+	font-family:'Avenir Medium';
+}
+
+.col_tab_item .single_collection_meta .single_collection_item_wsp span {
+	display:inline-block;
+	color:#000000;
+	font-weight:500;
+	margin-left:30px;
+}
+
+.col_tab_item .single_collection_meta .single_collection_item_sizing {
+	text-transform:uppercase;
+	color:#a7a4a4;
+	font-weight:600;
+	font-size:16px;
+	font-family:'Avenir Medium';
+}
+
+.col_tab_item .single_collection_meta .single_collection_item_sizing span {
+	display:inline-block;
+	color:#000000;
+	font-weight:500;
+	margin-left:10px;
+}
+
+.col_tab_item .single_collection_meta .single_collection_colors {
+	margin-bottom:0px;
+	margin-top:15px;
+}
+
+.col_tab_item .single_collection_meta .single_collection_colors span {
+	margin-right:8px;
+	display:inline-block;
+	width:25px;
+	height:25px;
+}
+
+.col_tab_item .single_collection_meta .single_collection_colors span img {
+	width:25px;
+	height:25px;
+}
+
+.tabordion section.current_collection label {
+	background:#f7f7f7;
+}
+
+.tabordion section.current_collection a.download_collection {
+	background:#f7f7f7;
+}
+
+.hidden {
+	display:none;
+}
+
+/*DELETE*/
+
+.open_bar .page_content .collection_content {
+	width:75%;
+	float:left;
+}
+
+#collection_section .collection_sidebar.open {
+	display:block;
+	width:25%;
+	float:left;
+}
+
+#collection_section .collection_sidebar.closed {
+	display:none;
+}
+
+#collection_section .collection_sidebar .divider {
+	margin:0px !important;
+	position:absolute;
+	width:1px;
+	height:100%;
+	min-height:1000px;
+	left:25%;
+	background:#adadad;
+	z-index:999;
+}
+
+#collection_section .collection_sidebar .sidebar_title {
+	text-align:center;
+	height:150px;
+	vertical-align:middle;
+	position:relative;
+	border-bottom:0px solid #ffffff;
+	background:#ffffff;
+	padding-top:80px;
+}
+
+#collection_section .collection_sidebar .sidebar_title img {
+	width:100%;
+	position:relative;
+	top:50%;
+	-webkit-transform:translateY(-50%);
+	transform:translateY(-50%);
+	padding:10px;
+}
+
+#collection_section .collection_sidebar .collection_description {
+	border-bottom:1px solid #adadad;
+	padding:20px 20px 10px 20px;
+	clear:both;
+}
+
+#collection_section .collection_sidebar .collection_description strong {
+	font-family:'Avenir Heavy';
+	margin-bottom:5px;
+	display:block;
+}
+
+#collection_section .collection_sidebar .collection_description strong span {
+	text-transform:uppercase;
+}
+
+#collection_section .collection_sidebar .collection_description p {
+	font-family:'Avenir Roman';
+	margin-bottom:0px;
+}
+
+#collection_section .collection_sidebar p.open-to-ordre-title {
+	font-family:'Avenir Medium';
+	font-size:14px;
+	text-transform:uppercase;
+	margin-bottom:0px;
+	margin-top:50px;
+}
+
+#collection_section .collection_sidebar .collection_item {
+	padding:25px 21px 10px 20px;
+	position:relative;
+	border-bottom:1px solid #adadad;
+	min-height:85px;
+}
+
+#collection_section .collection_sidebar .collection_item.current {
+	background:#f7f7f7;
+}
+
+#collection_section .collection_sidebar .collection_item .name {
+	cursor:pointer;
+	display:block;
+	font-weight:bold;
+	position:relative;
+	margin-bottom:3px;
+	font-size:16px;
+	font-family:'Avenir Heavy';
+	color:#333333;
+	width:70%;
+}
+
+#collection_section .collection_sidebar .collection_item .download_collection {
+	display:block;
+	font-size:12px;
+	text-transform:uppercase;
+	font-family:'Avenir Roman';
+	color:#23c1ea;
+}
+
+#collection_section .collection_sidebar .collection_item img {
+	position:absolute;
+	right:10px;
+	top:20px;
+}
+
+#collection_section .collection_sidebar .offline_collections {
+	width:100% !important;
+}
+
+#collection_section .collection_sidebar .offline_collections .collection_item img {
+	width:24px;
+}
+
+#collection_section .collection_sidebar .offline_collections .collection_item .download_collection {
+	display:block;
+	font-size:12px;
+	text-transform:uppercase;
+	font-family:'Avenir Roman';
+	color:#2eb2da;
+}
+
+#collection_section .collection_content:after {
+	display:block;
+	content:'';
+	clear:both;
+}
+
+.open_bar .page_content .collection_content .collection_item_part {
+	display:inline-block;
+	float:left;
+	width:33%;
+	position:relative;
+	min-height:497px;
+}
+
+.open_bar .page_content .collection_content .collection_item_part img {
+	max-width:100%;
+}
+
+.closed_bar .page_content .collection_content .collection_item_part {
+	display:inline-block;
+	float:left;
+	width:auto;
+	position:relative;
+	max-width:25%;
+	min-height:342px;
+}
+
+.closed_bar .page_content .collection_content .collection_item_part img {
+	width:100%;
+	max-height:507px;
+}
+
+#collection_section .collection_content .collection_item_part .single_collection_meta {
+	position:absolute;
+	bottom:0px;
+	right:0px;
+	left:0px;
+	background:rgba(255, 255, 255, 0.8);
+	padding:10px 15px;
+}
+
+#collection_section .collection_content .collection_item_part .single_collection_meta .collection_code {
+	color:#7c7c7c;
+	text-transform:uppercase;
+	margin-bottom:5px;
+	line-height:1;
+	font-size:12px;
+	font-family:'Avenir Book';
+}
+
+#collection_section .collection_content .collection_item_part .single_collection_meta .single_collection_item_title {
+	height:40px;
+	overflow:hidden;
+	text-transform:uppercase;
+	color:#000000;
+	font-weight:600;
+	font-size:20px;
+	line-height:1;
+	font-family:'Avenir Heavy';
+	width:87%;
+	word-wrap:break-word;
+}
+
+#collection_section .collection_content .collection_item_part .single_collection_meta .single_collection_item_wsp {
+	text-transform:uppercase;
+	color:#a7a4a4;
+	font-weight:600;
+	margin-bottom:0px;
+	font-size:16px;
+	font-family:'Avenir Medium';
+}
+
+#collection_section .collection_content .collection_item_part .single_collection_meta .single_collection_item_wsp span {
+	display:inline-block;
+	color:#000000;
+	font-weight:500;
+	margin-left:30px;
+}
+
+#collection_section .collection_content .collection_item_part .single_collection_meta .single_collection_item_sizing {
+	text-transform:uppercase;
+	color:#a7a4a4;
+	font-weight:600;
+	margin-bottom:0px;
+	font-size:16px;
+	font-family:'Avenir Medium';
+}
+
+#collection_section .collection_content .collection_item_part .single_collection_meta .single_collection_item_sizing span {
+	display:inline-block;
+	color:#000000;
+	font-weight:500;
+	margin-left:12px;
+}
+
+#collection_section .collection_content .collection_item_part .single_collection_meta .single_collection_colors {
+	margin-bottom:0px;
+	margin-top:15px;
+}
+
+#collection_section .collection_content .collection_item_part .single_collection_meta .single_collection_colors span {
+	margin-right:8px;
+	display:inline-block;
+	width:25px;
+	height:25px;
+	border:1px solid #d5d5d5;
+}
+
+#collection_section .collection_content .collection_item_part .single_collection_meta .single_collection_colors span img {
+	width:25px;
+	height:25px;
+}
+
+#collection_section .collection_content .collection_item_part .single_collection_meta .add_to_cart_item {
+	position:absolute;
+	right:15px;
+}
+
+#collection_section .collection_content .collection_item_part .single_collection_meta .add_to_cart_item img {
+	width:100%;
+}
+
+#collection_section .collection_content section .collection_delivery {
+	background:#cccccc;
+	width:100%;
+	min-height:40px;
+	padding:7px;
+}
+
+#line_sheet_section .collection_sidebar.open .collection_delivery {
+	width:75%;
+	margin-left:25%;
+}
+
+#collection_section .collection_content section .collection_delivery p:nth-child(1) {
+	float:left;
+	margin-bottom:0px;
+	font-size:12px;
+	font-family:'Avenir Medium';
+	text-transform:uppercase;
+	background:#cccccc;
+	padding-left:15px;
+	margin-bottom:0px;
+	line-height:10px;
+	color:#333333;
+}
+
+#collection_section .collection_content section .collection_delivery p:nth-child(2) {
+	float:right;
+	margin-bottom:0px;
+	font-size:12px;
+	font-family:'Avenir Medium';
+	text-transform:uppercase;
+	background:#cccccc;
+	padding-right:15px;
+	margin-bottom:0px;
+	line-height:10px;
+	color:#7c7c7c;
+}
+
+#line_sheet_section .collection_sidebar.open {
+	display:block;
+	width:25%;
+	float:left;
+}
+
+#line_sheet_section .collection_sidebar.closed {
+	display:none;
+}
+
+#line_sheet_section .collection_sidebar .divider {
+	margin:0px !important;
+	position:absolute;
+	width:1px;
+	height:100%;
+	left:25%;
+	background:#adadad;
+	z-index:999;
+}
+
+#line_sheet_section .collection_sidebar .sidebar_title {
+	text-align:center;
+	height:150px;
+	vertical-align:middle;
+	position:relative;
+	border-bottom:none;
+	background:#ffffff;
+	padding:40px 10px 10px 10px;
+	margin-top:85px;
+}
+
+#line_sheet_section .collection_sidebar .sidebar_title img {
+	width:100%;
+	position:relative;
+	top:50%;
+	-webkit-transform:translateY(-50%);
+	transform:translateY(-50%);
+	padding-top:10px;
+}
+
+#line_sheet_section .collection_sidebar .collection_description {
+	border-bottom:1px solid #adadad;
+	padding:20px 20px 10px 20px;
+	clear:both;
+}
+
+#line_sheet_section .collection_sidebar .collection_description strong {
+	font-family:'Avenir Heavy';
+	margin-bottom:5px;
+	display:block;
+}
+
+#line_sheet_section .collection_sidebar .collection_description strong span {
+	text-transform:uppercase;
+}
+
+#line_sheet_section .collection_sidebar .collection_description p {
+	font-family:'Avenir Roman';
+	margin-bottom:0px;
+}
+
+#line_sheet_section .collection_sidebar p.open-to-ordre-title {
+	font-family:'Avenir Medium';
+	font-size:14px;
+	text-transform:uppercase;
+	margin-bottom:0px;
+	margin-top:50px;
+}
+
+#line_sheet_section .collection_sidebar .collection_item {
+	padding:25px 20px 10px 20px;
+	position:relative;
+	border-bottom:1px solid #adadad;
+	min-height:85px;
+}
+
+#line_sheet_section .collection_sidebar .collection_item.current {
+	background:#f7f7f7;
+}
+
+#line_sheet_section .collection_sidebar .collection_item .name {
+	cursor:pointer;
+	display:block;
+	position:relative;
+	margin-bottom:3px;
+	font-size:16px;
+	line-height:19px;
+	font-family:'Avenir Heavy';
+	color:#333333;
+	width:70%;
+}
+
+#line_sheet_section .collection_sidebar .collection_item .download_collection {
+	display:block;
+	font-size:12px;
+	text-transform:uppercase;
+	font-family:'Avenir Roman';
+	color:#7c7c7c;
+}
+
+#line_sheet_section .collection_sidebar .collection_item img {
+	position:absolute;
+	right:10px;
+	top:20px;
+}
+
+#line_sheet_section .collection_sidebar .offline_collections {
+	width:100% !important;
+}
+
+#line_sheet_section .collection_sidebar .offline_collections .collection_item img {
+	width:24px;
+}
+
+#line_sheet_section .collection_sidebar .offline_collections .collection_item .download_collection {
+	display:block;
+	font-size:12px;
+	text-transform:uppercase;
+	font-family:'Avenir Roman';
+	color:#2eb2da;
+}
+
+#line_sheet_section #line_sheet_content {
+	padding-top:28px;
+}
+
+.open_bar #line_sheet_section #line_sheet_content {
+	width:75%;
+	float:left;
+	position:relative;
+}
+
+.closed_bar #line_sheet_section #line_sheet_content {
+	width:100%;
+	position:relative;
+}
+
+/* #line_sheet_section #line_sheet_content .collection_delivery { */
+.collection_delivery {
+	clear:left;
+	background:#cccccc;
+	width:100%;
+	min-height:40px;
+	padding:7px 0;
+	/* position:fixed; */
+	/* top:112px; */
+	z-index:88;
+}
+
+.collection_delivery p:nth-child(1) {
+	float:left;
+	margin-bottom:0px;
+	font-size:12px;
+	font-family:'Avenir Medium';
+	text-transform:uppercase;
+	background:#cccccc;
+	padding:9px 0;
+	padding-left:15px;
+	line-height:10px;
+	color:#333333;
+}
+
+.collection_delivery p:nth-child(2) {
+	float:right;
+	margin-bottom:0px;
+	font-size:12px;
+	font-family:'Avenir Medium';
+	text-transform:uppercase;
+	background:#cccccc;
+	padding-right:15px;
+	padding:9px 0;
+	line-height:10px;
+	color:#7c7c7c;
+	padding-right:15px;
+}
+
+#line_sheet_section #line_sheet_content .collection_delivery p:nth-child(1) {
+	float:left;
+	margin-bottom:0px;
+	font-size:12px;
+	font-family:'Avenir Medium';
+	text-transform:uppercase;
+	background:#cccccc;
+	padding:9px 0;
+	padding-left:15px;
+	line-height:10px;
+	color:#333333;
+}
+
+#line_sheet_section #line_sheet_content .collection_delivery p:nth-child(2) {
+	float:right;
+	margin-bottom:0px;
+	font-size:12px;
+	font-family:'Avenir Medium';
+	text-transform:uppercase;
+	background:#cccccc;
+	padding-right:15px;
+	padding:9px 0;
+	line-height:10px;
+	color:#7c7c7c;
+	padding-right:15px;
+}
+
+#line_sheet_section #line_sheet_content .line_sheet_item .item_image {
+	width:10%;
+	float:left;
+}
+
+#line_sheet_section #line_sheet_content .line_sheet_item .item_image img {
+	width:100%;
+	border:1px solid #cccccc;
+}
+
+#line_sheet_section #line_sheet_content .line_sheet_item .item_image .item_detail {
+	display:inline-block;
+	text-transform:uppercase;
+	font-size:12px;
+	font-family:'Avenir Heavy';
+	border-bottom:1px solid #000000;
+	margin-bottom:0px;
+	margin-top:5px;
+	line-height:1;
+}
+
+.open_bar #line_sheet_section #line_sheet_content .line_sheet_item {
+	width:96%;
+	margin:auto;
+	padding:30px 0;
+	position:relative;
+	border-bottom:1px solid #cccccc;
+}
+
+.closed_bar #line_sheet_section #line_sheet_content .line_sheet_item {
+	width:80%; /* 100% */
+	margin:auto;
+	padding:20px 0;
+	position:relative;
+	border-bottom:1px solid #cccccc;
+}
+
+#line_sheet_section #line_sheet_content .line_sheet_item.last {
+	border-bottom:none !important;
+}
+
+#line_sheet_section #line_sheet_content .line_sheet_item:after {
+	display:block;
+	content:'';
+	clear:both;
+}
+
+#line_sheet_section #line_sheet_content .line_sheet_item .item_meta {
+	width:70%;
+	float:left;
+	min-height:220px;
+	padding-left:15px;
+}
+
+#line_sheet_section #line_sheet_content .line_sheet_item .item_meta .name {
+	text-transform:uppercase;
+	color:#000000;
+	font-weight:600;
+	margin-bottom:0px;
+	font-size:20px;
+	line-height:24px;
+	font-family:'Avenir Heavy';
+}
+
+#line_sheet_section #line_sheet_content .line_sheet_item .item_meta .wsp {
+	font-family:'Avenir Medium';
+	font-size:20px;
+	color:#000000;
+}
+
+#line_sheet_section #line_sheet_content .line_sheet_item .item_meta .wsp span {
+	color:#a7a4a4;
+	font-weight:600;
+}
+
+#line_sheet_section #line_sheet_content .line_sheet_item .item_meta .color-material_info {
+	margin-bottom:25px;
+	margin-top:25px;
+}
+
+#line_sheet_section #line_sheet_content .line_sheet_item .item_meta .color-material_info:after {
+	display:block;
+	content:'';
+	clear:both;
+}
+
+#line_sheet_section #line_sheet_content .line_sheet_item .item_meta .color-material_info .color {
+	width:25%;
+	float:left;
+	position:relative;
+}
+
+#line_sheet_section #line_sheet_content .line_sheet_item .item_meta .color-material_info .color p {
+	padding-left:25px;
+	text-transform:uppercase;
+	color:#000000;
+	margin-bottom:0px;
+	line-height:1.2;
+	font-family:'Avenir Medium';
+}
+
+#line_sheet_section #line_sheet_content .line_sheet_item .item_meta .color-material_info .color span {
+	display:block;
+	position:absolute;
+	top:0;
+	left:0;
+}
+
+#line_sheet_section #line_sheet_content .line_sheet_item .item_meta .color-material_info .color span img {
+	background:#ffffff;
+	border:1px solid #d5d5d5;
+}
+
+#line_sheet_section #line_sheet_content .line_sheet_item .item_meta .color-material_info .color p:first-child {
+	font-family:'Avenir Heavy';
+}
+
+#line_sheet_section #line_sheet_content .line_sheet_item .item_meta .color-material_info .material {
+	width:75%;
+	float:left;
+}
+
+#line_sheet_section #line_sheet_content .line_sheet_item .item_meta .color-material_info .material p {
+	color:#000000;
+	margin-bottom:0px;
+	text-transform:uppercase;
+	line-height:1.2;
+	font-family:'Avenir Medium';
+}
+
+#line_sheet_section #line_sheet_content .line_sheet_item .item_meta .color-material_info .material p:first-child {
+	font-family:'Avenir Heavy';
+}
+
+#line_sheet_section #line_sheet_content .line_sheet_item .item_meta .product_sizes {
+	margin-bottom:15px;
+}
+
+#line_sheet_section #line_sheet_content .line_sheet_item .item_meta .product_sizes label {
+	width:55px;
+	margin-right:8px;
+	font-family:'Avenir Medium';
+}
+
+#line_sheet_section #line_sheet_content .line_sheet_item .item_meta .product_sizes input {
+	width:100%;
+	display:block;
+	text-align:left;
+	background:#eaeaea;
+	border:1px solid #eaeaea;
+	outline:none;
+	font-family:'Avenir Roman';
+	font-size:18px;
+	color:#818181;
+	padding:0px 4px;
+}
+
+#line_sheet_section #line_sheet_content .line_sheet_item .item_meta .product_sizes input:focus {
+	border:1px solid #23c1ea;
+}
+
+#line_sheet_section #line_sheet_content .line_sheet_item .item_meta .product_quantity input {
+	display:block;
+	background:#eaeaea;
+	border:1px solid #eaeaea;
+	outline:none;
+	font-family:'Avenir Roman';
+	width:58%;
+	padding:2px 10px;
+}
+
+#line_sheet_section #line_sheet_content .line_sheet_item .item_meta .product_quantity input::-webkit-input-placeholder {
+	font-family:'Avenir Medium';
+	font-size:12px;
+}
+
+#line_sheet_section #line_sheet_content .line_sheet_item .item_price {
+	width:20%;
+	float:left;
+	height:220px;
+	text-align:right;
+}
+
+#line_sheet_section #line_sheet_content .line_sheet_item .item_price div {
+	position:relative;
+	top:50%;
+	-webkit-transform:translateY(-50%);
+	transform:translateY(-50%);
+}
+
+#line_sheet_section #line_sheet_content .line_sheet_item .item_price .total_title {
+	font-family:'Avenir Medium';
+	margin-bottom:0px;
+}
+
+#line_sheet_section #line_sheet_content .line_sheet_item .item_price .product_total {
+	text-transform:uppercase;
+	font-size:24px;
+	font-family:'Avenir Black';
+	font-weight:bold;
+}
+
+#line_sheet_section #line_sheet_content .line_sheet_item .item_price .product_total.active {
+	color:#23c1ea;
+}
+
+#line_sheet_section #line_sheet_content .line_sheet_item .item_price .clear_item {
+	font-family:'Avenir Light';
+	margin-bottom:0px;
+	text-transform:uppercase;
+	font-size:12px;
+	color:#adadad;
+	position:relative;
+	top:25px;
+}
+
+.open_bar #line_sheet_section #line_sheet_content .actions_wrapper {
+	width:96%;
+	margin:auto;
+	border-bottom:1px solid #adadad;
+	padding:30px 0 5px;
+	font-family:'Avenir Heavy';
+	text-transform:uppercase;
+	font-size:12px;
+	font-weight:600;
+}
+
+.closed_bar #line_sheet_section #line_sheet_content .actions_wrapper {
+	width:80%;
+	margin:auto;
+	border-bottom:1px solid #adadad;
+	padding:30px 0 5px;
+	font-family:'Avenir Medium';
+	text-transform:uppercase;
+	font-size:12px;
+	font-weight:600;
+}
+
+#line_sheet_content .actions_wrapper {
+	padding:30px 0 5px;
+	/* attempt FIXED */
+	/*
+	position: fixed;
+	left: 10%;
+	z-index: 999;
+	background-color:#ffffff;
+	*/
+}
+
+#line_sheet_section #line_sheet_content .actions_wrapper:after {
+	display:block;
+	content:'';
+	clear:both;
+}
+
+#line_sheet_section #line_sheet_content .actions_wrapper .clear_line_sheet {
+	float:right;
+	display:inline-block;
+}
+
+.open_bar #line_sheet_section #line_sheet_content .linesheet_footer {
+	width:96%;
+	margin:auto;
+	padding:15px 0;
+	border-top:1px solid #000000;
+}
+
+.closed_bar #line_sheet_section #line_sheet_content .linesheet_footer {
+	width:80%;
+	margin:auto;
+	padding:15px 0;
+	border-top:1px solid #000000;
+}
+
+#line_sheet_section #line_sheet_content .linesheet_footer p {
+	text-align:right;
+}
+
+#line_sheet_section #line_sheet_content .linesheet_footer .linesheet_total {
+	text-transform:uppercase;
+	font-size:24px;
+	font-family:'Avenir Black';
+	font-weight:600;
+	margin-bottom:0px;
+	line-height:1;
+	margin-top:10px;
+	color:#23c1ea;
+}
+
+#line_sheet_section #line_sheet_content .linesheet_footer .terms {
+	font-family:'Avenir Medium';
+	colot:#000000;
+}
+
+#line_sheet_section #line_sheet_content .linesheet_footer .excludes_taxes {
+	font-family:'Avenir Light';
+	font-size:12px;
+	margin-top:15px;
+	color:#a7a4a4;
+}
+
+#line_sheet_section #line_sheet_content .linesheet_footer .add_to_final_edit_block {
+	border-top:1px solid #cccccc;
+	border-bottom:1px solid #000000;
+	padding:20px 0;
+}
+
+#line_sheet_section #line_sheet_content .linesheet_footer .add_to_final_edit_block button {
+	text-transform:uppercase;
+	color:#ffffff;
+	background:#000000;
+	font-family:'Avenir Heavy';
+	font-size:12px;
+	padding:10px 20px;
+	line-height:1;
+	border:none;
+	outline:none;
+}
+
+#line_sheet_section #line_sheet_content .linesheet_footer .clear_all span {
+	text-transform:uppercase;
+	font-size:12px;
+	font-family:'Avenir Light';
+	margin-top:15px;
+	color:#000000;
+}
+
+#line_sheet_section #line_sheet_content .linesheet_footer .linesheet_total span {
+	font-weight:normal;
+}
+
+/* #line_sheet_section #line_sheet_content .current_total { */
+.current_total {
+	display:none;
+}
+
+/* #line_sheet_section #line_sheet_content .current_total.visible { */
+.current_total.visible {
+	position:fixed;
+	right:0px;
+	z-index:99;
+	background:rgba(255, 255, 255, 0.9);
+	top:97px;
+	width:33.4%;
+	display:block;
+	border-left:1px solid #23c1ea;
+	border-bottom:1px solid #23c1ea;
+	padding:1px 15px;
+}
+
+/* #line_sheet_section #line_sheet_content .current_total .current_total_body.opened { */
+.current_total .current_total_body.opened {
+	height:0px;
+	overflow:hidden;
+}
+
+/* #line_sheet_section #line_sheet_content .current_total .current_total_body.closed { */
+.current_total .current_total_body.closed {
+	height:0px;
+	overflow:hidden;
+}
+
+/*#line_sheet_section #line_sheet_content .current_total .curret_title,
+#line_sheet_section #line_sheet_content .current_total .current_title { */
+.current_total .curret_title,
+.current_total .current_title {
+	text-transform:uppercase;
+	font-size:16px;
+	font-family:'Avenir Medium';
+	font-weight:600;
+	color:#23c1ea;
+	margin-bottom:0px;
+	padding:8px 0px;
+}
+
+/*#line_sheet_section #line_sheet_content .current_total .current_total_body p:after { */
+.current_total .current_total_body p:after {
+	display:block;
+	content:'';
+	clear:both;
+}
+
+/*#line_sheet_section #line_sheet_content .current_total .current_total_body p span:nth-child(1) { */
+.current_total .current_total_body p span:nth-child(1) {
+	float:left;
+	display:block;
+	width:50%;
+}
+
+/* #line_sheet_section #line_sheet_content .current_total .current_total_body p span:nth-child(2) { */
+.current_total .current_total_body p span:nth-child(2) {
+	float:left;
+	display:block;
+	width:35%;
+	text-align:right;
+}
+
+/*#line_sheet_section #line_sheet_content .current_total .current_total_body p { */
+.current_total .current_total_body p {
+	color:#000000;
+	font-size:16px;
+	font-family:'Avenir Medium';
+	margin-bottom:2px;
+}
+
+/*#line_sheet_section #line_sheet_content .current_total .current_total_body p:last-child { */
+.current_total .current_total_body p:last-child {
+	font-weight:700;
+	font-family:'Avenir Heavy';
+	margin-bottom:15px;
+}
+
+.line_sheet_item .item_overview_block {
+	display:none;
+}
+
+.open_bar #line_sheet_section #line_sheet_content .line_sheet_item .item_overview_block {
+	position:absolute;
+	width:80%;
+	height:100%;
+	top:0px;
+	z-index:99;
+	padding:8px 0;
+	background:#ffffff;
+	border-right:1px solid #cccccc;
+}
+
+.closed_bar #line_sheet_section #line_sheet_content .line_sheet_item .item_overview_block {
+	position:absolute;
+	width:80%;
+	height:100%;
+	top:0px;
+	z-index:99;
+	padding:5px 0;
+	background:#ffffff;
+	border-right:1px solid #cccccc;
+	border-top:1px solid #cccccc;
+	display:none;
+}
+
+.open_bar #line_sheet_section #line_sheet_content .line_sheet_item .item_overview_block .item_overview_image {
+	width:21%;
+	float:left;
+	height:100%;
+}
+
+.closed_bar #line_sheet_section #line_sheet_content .line_sheet_item .item_overview_block .item_overview_image {
+	width:16%;
+	float:left;
+}
+
+#line_sheet_section #line_sheet_content .line_sheet_item .item_overview_block .item_overview_image img {
+	width:100%;
+	border:1px solid #cccccc;
+	height:100%;
+}
+
+#line_sheet_section #line_sheet_content .line_sheet_item .item_overview_block .item_overview_info {
+	width:79%;
+	float:left;
+	padding:10px 0 20px 15px;
+}
+
+#line_sheet_section #line_sheet_content .line_sheet_item .item_overview_block .item_overview_info .name {
+	text-transform:uppercase;
+	color:#000000;
+	font-weight:600;
+	margin-bottom:0px;
+	font-size:20px;
+	font-family:'Avenir Heavy';
+}
+
+#line_sheet_section #line_sheet_content .line_sheet_item .item_overview_block .item_overview_info .wsp {
+	font-family:'Avenir Medium';
+	font-size:20px;
+	color:#000000;
+}
+
+#line_sheet_section #line_sheet_content .line_sheet_item .item_overview_block .item_overview_info .wsp span {
+	color:#a7a4a4;
+	font-weight:600;
+}
+
+#line_sheet_section #line_sheet_content .line_sheet_item .item_overview_block .item_overview_info .color-material_info {
+	margin-bottom:25px;
+	margin-top:25px;
+}
+
+#line_sheet_section #line_sheet_content .line_sheet_item .item_overview_block .item_overview_info .color-material_info:after {
+	display:block;
+	content:'';
+	clear:both;
+}
+
+#line_sheet_section #line_sheet_content .line_sheet_item .item_overview_block .item_overview_info .color-material_info .color {
+	width:25%;
+	float:left;
+	position:relative;
+}
+
+#line_sheet_section #line_sheet_content .line_sheet_item .item_overview_block .item_overview_info .color-material_info .color p {
+	padding-left:25px;
+	text-transform:uppercase;
+	color:#000000;
+	margin-bottom:0px;
+	line-height:1.2;
+}
+
+#line_sheet_section #line_sheet_content .line_sheet_item .item_overview_block .item_overview_info .color-material_info .color p:first-child {
+	font-family:'Avenir Heavy';
+}
+
+#line_sheet_section #line_sheet_content .line_sheet_item .item_overview_block .item_overview_info .color-material_info .color span {
+	display:block;
+	position:absolute;
+	background:#c3ece3;
+	width:18px;
+	height:18px;
+	top:3px;
+	left:0;
+	border:1px solid #000000;
+}
+
+#line_sheet_section #line_sheet_content .line_sheet_item .item_overview_block .item_overview_info .color-material_info .material {
+	width:75%;
+	float:left;
+}
+
+#line_sheet_section #line_sheet_content .line_sheet_item .item_overview_block .item_overview_info .color-material_info .material p {
+	color:#000000;
+	margin-bottom:0px;
+	text-transform:uppercase;
+	line-height:1.2;
+}
+
+#line_sheet_section #line_sheet_content .line_sheet_item .item_overview_block .item_overview_info .color-material_info .material p:first-child {
+	font-family:'Avenir Heavy';
+}
+
+#line_sheet_section #line_sheet_content .line_sheet_item .item_overview_block .item_overview_info .item_overview_description {
+	font-family:'Avenir Book';
+	color:#000000;
+}
+
+#line_sheet_section #line_sheet_content .line_sheet_item .item_overview_block .close_overview {
+	color:#6f6a6a;
+	position:absolute;
+	display:block;
+	right:10px;
+	top:10px;
+	cursor:pointer;
+}
+
+#fe_section #fe_content .fe_item .item_overview_block {
+	display:none;
+}
+
+#fe_section #fe_content .fe_item .item_overview_block {
+	position:absolute;
+	width:80%;
+	height:100%;
+	top:0px;
+	z-index:99;
+	padding:8px 0;
+	background:#ffffff;
+	border-right:1px solid #cccccc;
+}
+
+#fe_section #fe_content .fe_item .item_overview_block {
+	position:absolute;
+	width:80%;
+	height:100%;
+	top:0px;
+	z-index:99;
+	padding:5px 0;
+	background:#ffffff;
+	border-right:1px solid #cccccc;
+	border-top:1px solid #cccccc;
+	display:none;
+}
+
+#fe_section #fe_content .fe_item .item_overview_block .item_overview_image {
+	width:21%;
+	float:left;
+	height:100%;
+}
+
+#fe_section #fe_content .fe_item .item_overview_block .item_overview_image {
+	width:16%;
+	float:left;
+}
+
+#fe_section #fe_content .fe_item .item_overview_block .item_overview_image img {
+	width:100%;
+	border:1px solid #cccccc;
+}
+
+#fe_section #fe_content .fe_item .item_overview_block .item_overview_info {
+	width:79%;
+	float:left;
+	padding:10px 0 20px 15px;
+}
+
+#fe_section #fe_content .fe_item .item_overview_block .item_overview_info .name {
+	text-transform:uppercase;
+	color:#000000;
+	font-weight:600;
+	margin-bottom:0px;
+	font-size:20px;
+	font-family:'Avenir Heavy';
+}
+
+#fe_section #fe_content .fe_item .item_overview_block .item_overview_info .wsp {
+	font-family:'Avenir Medium';
+	font-size:20px;
+	color:#000000;
+}
+
+#fe_section #fe_content .fe_item .item_overview_block .item_overview_info .wsp span {
+	color:#a7a4a4;
+	font-weight:600;
+}
+
+#fe_section #fe_content .fe_item .item_overview_block .item_overview_info .color-material_info {
+	margin-bottom:25px;
+	margin-top:25px;
+}
+
+#fe_section #fe_content .fe_item .item_overview_block .item_overview_info .color-material_info:after {
+	display:block;
+	content:'';
+	clear:both;
+}
+
+#fe_section #fe_content .fe_item .item_overview_block .item_overview_info .color-material_info .color {
+	width:25%;
+	float:left;
+	position:relative;
+}
+
+#fe_section #fe_content .fe_item .item_overview_block .item_overview_info .color-material_info .color p {
+	padding-left:25px;
+	text-transform:uppercase;
+	color:#000000;
+	margin-bottom:0px;
+	line-height:1.2;
+}
+
+#fe_section #fe_content .fe_item .item_overview_block .item_overview_info .color-material_info .color p:first-child {
+	font-family:'Avenir Heavy';
+}
+
+#fe_section #fe_content .fe_item .item_overview_block .item_overview_info .color-material_info .color span {
+	display:block;
+	position:absolute;
+	background:#c3ece3;
+	width:18px;
+	height:18px;
+	top:3px;
+	left:0;
+	border:1px solid #000000;
+}
+
+#fe_section #fe_content .fe_item .item_overview_block .item_overview_info .color-material_info .material {
+	width:75%;
+	float:left;
+}
+
+#fe_section #fe_content .fe_item .item_overview_block .item_overview_info .color-material_info .material p {
+	color:#000000;
+	margin-bottom:0px;
+	text-transform:uppercase;
+	line-height:1.2;
+}
+
+#fe_section #fe_content .fe_item .item_overview_block .item_overview_info .color-material_info .material p:first-child {
+	font-family:'Avenir Heavy';
+}
+
+#fe_section #fe_content .fe_item .item_overview_block .item_overview_info .item_overview_description {
+	font-family:'Avenir Book';
+	color:#000000;
+}
+
+#fe_section #fe_content .fe_item .item_overview_block .close_overview {
+	color:#6f6a6a;
+	position:absolute;
+	display:block;
+	right:10px;
+	top:10px;
+	cursor:pointer;
+}
+
+.st01 {
+	fill:#23c1ea;
+}
+
+.toggle_totals {
+	position:absolute;
+	right:5px;
+	bottom:5px;
+	width:30px;
+	height:30px;
+}
+
+.toggle_totals_input {
+	position:absolute;
+	right:5px;
+	bottom:5px;
+	width:30px;
+	height:30px;
+	margin-top:0px;
+	z-index:99;
+	display:none;
+}
+
+.toggle_totals_input:checked + label {
+	-webkit-transform:rotate(180deg);
+	transform:rotate(180deg);
+	padding-left:0;
+}
+
+.toggle_totals_input:checked + label + .current_total_body {
+	height:100% !important;
+}
+
+/*
+.toggle_totals_label {
+	display:block;
+	position:absolute;
+	right:15px;
+	bottom:20px;
+	width:25px;
+	height:25px;
+	margin-bottom:0px;
+	padding:10px;
+}
+*/
+.toggle_totals_label {
+	display:block;
+	position:relative;
+	/* right: 20px; */
+	/* top: 10px; */
+	width:435px;
+	height:35px;
+	margin-bottom:0px;
+	/* padding: 10px; */
+	float:right;
+	margin-top:-35px;
+	padding-left:390px;
+}
+
+.toggle_totals_label:before {
+	display:block;
+	content:'';
+	width:35px;
+	height:35px;
+	background:url(../assets/images/svg/arrow-down.svg);
+}
+
+section.page_content#collection_item_section {
+	top:56px;
+}
+
+.closed_bar #collection_item_section .go_back {
+	width:100%;
+	text-align:center;
+	display:inline-block;
+	float:left;
+	padding:3px 0;
+	top:50%;
+	-webkit-transform:translateY(-50%);
+	transform:translateY(-50%);
+	position:relative;
+}
+
+.closed_bar #collection_item_section .go_back:before {
+	content:'';
+	display:block;
+	margin:auto 0;
+	width:28px;
+	height:28px;
+	background:url(../assets/images/svg/arrow-left.svg);
+}
+
+#collection_item_section .navigation_holder {
+	border-bottom:1px solid #b6b6b6;
+	border-right:1px solid #cccccc;
+	position:fixed;
+	width:50%;
+	z-index:999;
+	background:#ffffff;
+	top:55px;
+	display:block;
+}
+
+#collection_item_section .left {
+	padding:0px;
+	padding-bottom:85px;
+	min-height:1024px;
+}
+
+#collection_item_section .collection_item_slider {
+	position:fixed !important;
+	top:55px !important;
+	right:0px;
+	width:50%;
+	padding:0px;
+	height:970px;
+	z-index:999;
+}
+
+#collection_item_section .navigation_holder .col-md-1 {
+	height:56px;
+	border-right:1px solid #b6b6b6;
+}
+
+#collection_item_section .navigation_holder .col-md-11 {
+	height:56px;
+	-webkit-transform-style:preserve-3d;
+	-moz-transform-style:preserve-3d;
+	transform-style:preserve-3d;
+}
+
+#collection_item_section .navigation_holder .collection_title {
+	display:inline-block;
+	float:left;
+	text-transform:uppercase;
+	font-size:24px;
+	font-family:'Avenir Book';
+	position:relative;
+	padding-top:5px;
+	line-height:1;
+	top:50%;
+	-webkit-transform:translateY(-50%);
+	transform:translateY(-50%);
+}
+
+#collection_item_section .navigation_holder .current_item_name {
+	cursor:pointer;
+	display:block;
+	font-weight:bold;
+	position:relative;
+	margin-bottom:3px;
+	font-size:20px;
+	float:left;
+	font-family:'Avenir Heavy';
+	color:#333333;
+	position:relative;
+	padding-left:15px;
+}
+
+#collection_item_section .navigation_holder .col-md-10 {
+	display:block;
+	height:56px;
+	position:relative;
+	margin-bottom:0px;
+	-webkit-transform-style:preserve-3d;
+	-moz-transform-style:preserve-3d;
+	transform-style:preserve-3d;
+}
+
+.unslider-arrow.next {
+	content:'';
+	position:absolute;
+}
+
+.unslider-arrow.prev {
+	content:'';
+	position:absolute;
+	top:0px;
+	right:20px;
+}
+
+.unslider-arrow.prev:before {
+	display:block;
+	content:'';
+	height:48px;
+	width:48px;
+	right:0px;
+	top:0px;
+	background:url(../assets/images/svg/arrow-up.svg);
+}
+
+.unslider-arrow.next:before {
+	display:block;
+	content:'';
+	height:48px;
+	width:48px;
+	right:0px;
+	top:0px;
+	background:url(../assets/images/svg/arrow-up.svg);
+	-webkit-transform:rotate(180deg);
+	transform:rotate(180deg);
+}
+
+#collection_item_section .line_sheet_item .item_image {
+	width:100px;
+	float:left;
+	height:100px;
+	border:1px solid #cccccc;
+	background:#ffffff;
+}
+
+#collection_item_section .line_sheet_item .item_image img {
+	width:100%;
+}
+
+#collection_item_section .line_sheet_item .item_image .item_detail {
+	display:inline-block;
+	text-transform:uppercase;
+	font-size:12px;
+	font-family:'Avenir Heavy';
+	border-bottom:1px solid #000000;
+	margin-bottom:0px;
+	margin-top:5px;
+	line-height:1;
+}
+
+.closed_bar #collection_item_section .line_sheet_item {
+	width:96%;
+	margin:auto;
+	padding:20px 0;
+	position:relative;
+	border-bottom:1px solid #cccccc;
+}
+
+#collection_item_section .line_sheet_item.last {
+	border-bottom:none !important;
+}
+
+#collection_item_section .line_sheet_item:after {
+	display:block;
+	content:'';
+	clear:both;
+}
+
+#collection_item_section .line_sheet_item .item_meta {
+	width:60%;
+	float:left;
+	height:110px;
+	padding-left:15px;
+}
+
+#collection_item_section .line_sheet_item .item_meta .name {
+	text-transform:uppercase;
+	color:#000000;
+	font-weight:600;
+	margin-bottom:0px;
+	font-size:20px;
+	font-family:'Avenir Heavy';
+}
+
+#collection_item_section .line_sheet_item .item_meta .wsp {
+	font-family:'Avenir Medium';
+	font-size:20px;
+	color:#000000;
+}
+
+#collection_item_section .line_sheet_item .item_meta .wsp span {
+	color:#a7a4a4;
+	font-weight:600;
+}
+
+#collection_item_section .line_sheet_item .item_meta .color-material_info {
+	margin-bottom:0px;
+	margin-top:10px;
+	font-family:'Avenir Medium';
+	text-transform:uppercase;
+	font-size:20px;
+	color:#000000;
+}
+
+#collection_item_section .line_sheet_item .item_meta .color-material_info:after {
+	display:block;
+	content:'';
+	clear:both;
+}
+
+#collection_item_section .line_sheet_item .item_meta .color-material_info .color {
+	width:25%;
+	float:left;
+	position:relative;
+}
+
+#collection_item_section .line_sheet_item .item_meta .color-material_info .color p {
+	padding-left:25px;
+	text-transform:uppercase;
+	color:#000000;
+	margin-bottom:0px;
+	line-height:1.2;
+	font-family:'Avenir Medium';
+}
+
+#collection_item_section .line_sheet_item .item_meta .color-material_info .color span {
+	display:block;
+	position:absolute;
+	background:#c3ece3;
+	width:18px;
+	height:18px;
+	top:3px;
+	left:0;
+	border:1px solid #000000;
+}
+
+#collection_item_section .line_sheet_item .item_meta .color-material_info .color p:first-child {
+	font-family:'Avenir Heavy';
+}
+
+#collection_item_section .line_sheet_item .item_meta .color-material_info .material {
+	width:75%;
+	float:left;
+}
+
+#collection_item_section .line_sheet_item .item_meta .color-material_info .material p {
+	color:#000000;
+	margin-bottom:0px;
+	text-transform:uppercase;
+	line-height:1.2;
+	font-family:'Avenir Medium';
+}
+
+#collection_item_section .line_sheet_item .item_meta .color-material_info .material p:first-child {
+	font-family:'Avenir Heavy';
+}
+
+#collection_item_section .line_sheet_item .product_sizes {
+	margin-top:15px;
+	margin-bottom:15px;
+}
+
+#collection_item_section .line_sheet_item .product_sizes label {
+	width:55px;
+	margin-right:6px;
+	font-family:'Avenir Medium';
+	font-weight:normal;
+}
+
+#collection_item_section .line_sheet_item .product_sizes input {
+	width:100%;
+	display:block;
+	text-align:left;
+	background:#eaeaea;
+	border:1px solid #eaeaea;
+	outline:none;
+	font-family:'Avenir Roman';
+	font-size:18px;
+	color:#818181;
+	padding:0px 4px;
+}
+
+#collection_item_section .line_sheet_item .product_sizes input:focus {
+	border:1px solid #23c1ea;
+}
+
+#collection_item_section .line_sheet_item .item_meta .product_quantity input {
+	display:block;
+	background:#eaeaea;
+	border:1px solid #eaeaea;
+	outline:none;
+	font-family:'Avenir Roman';
+	width:58%;
+	padding:2px 10px;
+}
+
+#collection_item_section .line_sheet_item .item_meta .product_quantity input::-webkit-input-placeholder {
+	font-family:'Avenir Medium';
+	font-size:12px;
+}
+
+#collection_item_section .line_sheet_item .item_price {
+	width:20%;
+	float:left;
+	height:110px;
+	text-align:right;
+}
+
+#collection_item_section .line_sheet_item .item_price .total_title {
+	font-family:'Avenir Medium';
+	margin-bottom:0px;
+}
+
+#collection_item_section .line_sheet_item .item_price .product_total {
+	text-transform:uppercase;
+	font-size:24px;
+	font-family:'Avenir Black';
+	font-weight:bold;
+}
+
+#collection_item_section .line_sheet_item .item_price .product_total.active {
+	color:#23c1ea;
+}
+
+#collection_item_section .line_sheet_item .item_price .clear_item {
+	font-family:'Avenir Light';
+	margin-bottom:0px;
+	text-transform:uppercase;
+	font-size:12px;
+	color:#adadad;
+	position:relative;
+	top:5px;
+}
+
+#collection_item_section .collection_item_description .description {
+	font-size:13px;
+	color:#000000;
+	font-family:'Avenir Book';
+	margin-top:40px;
+}
+
+#collection_item_section .collection_item_description {
+	width:96%;
+	margin:auto;
+	border-bottom:1px solid #cccccc;
+	padding:130px 0 30px;
+}
+
+#collection_item_section .collection_item_description .collection_item_name {
+	font-size:24px;
+	line-height:27px;
+	font-family:'Avenir Heavy';
+	text-transform:uppercase;
+	color:#000000;
+}
+
+#collection_item_section .collection_item_description .color-material_info .color {
+	width:25%;
+	float:left;
+	position:relative;
+}
+
+#collection_item_section .collection_item_description .color-material_info .material {
+	width:60%;
+	float:left;
+	position:relative;
+}
+
+#collection_item_section .collection_item_description .color-material_info .color p:nth-child(1) {
+	color:#000000;
+	font-family:'Avenir Heavy';
+	margin-bottom:0px;
+	text-transform:uppercase;
+}
+
+#collection_item_section .collection_item_description .color-material_info .color p:nth-child(2) {
+	color:#000000;
+	font-family:'Avenir Medium';
+	margin-bottom:0px;
+	text-transform:uppercase;
+}
+
+#collection_item_section .collection_item_description .color-material_info .material p:nth-child(1) {
+	color:#000000;
+	font-family:'Avenir Heavy';
+	margin-bottom:0px;
+	text-transform:uppercase;
+}
+
+#collection_item_section .collection_item_description .color-material_info .material p:nth-child(2) {
+	color:#000000;
+	font-family:'Avenir Medium';
+	margin-bottom:0px;
+	text-transform:uppercase;
+}
+
+#collection_item_section .line_sheet_item .product_quantity input {
+	display:block;
+	background:#eaeaea;
+	border:1px solid #eaeaea;
+	outline:none;
+	font-family:'Avenir Roman';
+	width:58%;
+	padding:2px 10px;
+}
+
+#collection_item_section .line_sheet_item .product_quantity input::-webkit-input-placeholder {
+	font-family:'Avenir Medium';
+	font-size:12px;
+}
+
+.unslider-carousel {
+	margin-top:0px !important;
+}
+
+.collection_item_divider {
+	position:absolute;
+	height:100%;
+	width:1px;
+	top:0px;
+	bottom:0px;
+	background:#b6b6b6;
+	left:50%;
+	z-index:99;
+}
+
+#fe_section #fe_content .fe_item .item_image {
+	width:10%;
+	float:left;
+}
+
+#fe_section #fe_content .fe_item .remove_item {
+	position:absolute;
+	right:1px;
+	text-transform:uppercase;
+	font-size:9px;
+	font-family:'Avenir Light';
+	font-weight:300;
+	line-height:1.2;
+}
+
+#fe_section #fe_content .fe_item .remove_item:after {
+	display:inline-block;
+	content:'';
+	border:1px solid #000000;
+	border-radius:50%;
+	width:18px;
+	height:18px;
+	top:5px;
+	position:relative;
+	text-align:center;
+	margin-left:5px;
+	background:url(../assets/images/svg/close-icon.svg);
+}
+
+#fe_section #fe_content .fe_item .item_image img {
+	width:100%;
+	border:1px solid #cccccc;
+}
+
+#fe_section #fe_content .fe_item .item_image .item_detail {
+	display:inline-block;
+	text-transform:uppercase;
+	font-size:12px;
+	font-family:'Avenir Heavy';
+	border-bottom:1px solid #000000;
+	margin-bottom:0px;
+	margin-top:5px;
+	line-height:1;
+}
+
+.open_bar #fe_section .fe_divider {
+	position:absolute;
+	top:0px;
+	bottom:0px;
+	width:1px;
+	left:25%;
+	height:1000px;
+}
+
+.open_bar #fe_section .fe_sidebar {
+	display:block;
+	width:25%;
+	float:left;
+	background:#ffffff;
+	border-right:solid 1px #b6b6b6;
+}
+
+.open_bar #fe_section .fe_sidebar .sidebar_title {
+	font-size:24px;
+	text-transform:uppercase;
+	font-family:'Avenir Book';
+	width:90%;
+	margin:auto;
+	border-bottom:0px solid #ffffff;
+	color:#000000;
+	padding-top:18px;
+}
+
+.open_bar #fe_section #fe_content {
+	width:75%;
+	float:left;
+	position:relative;
+	padding-bottom:20px;
+}
+
+.open_bar #fe_section #fe_content .fe_item {
+	width:99%;
+	float:left;
+	position:relative;
+	padding-bottom:20px;
+	border-bottom:solid 1px #b6b6b6;
+	margin-top:20px;
+	padding-top:10px;
+}
+
+.closed_bar #fe_section #fe_content .fe_item {
+	width:80%;
+	margin:auto;
+	padding:20px 0;
+	position:relative;
+	border-bottom:1px solid #cccccc;
+}
+
+#fe_section #fe_content .fe_item.last {
+	border-bottom:none !important;
+	margin-bottom:10px;
+}
+
+#fe_section #fe_content .fe_item:after {
+	display:block;
+	content:'';
+	clear:both;
+}
+
+#fe_section #fe_content .fe_item .item_meta {
+	width:70%;
+	float:left;
+	min-height:230px;
+	padding-left:15px;
+}
+
+#fe_section #fe_content .fe_item .item_meta .name {
+	text-transform:uppercase;
+	color:#000000;
+	font-weight:600;
+	margin-bottom:6px;
+	font-size:20px;
+	line-height:22px;
+	font-family:'Avenir Heavy';
+}
+
+#fe_section #fe_content .fe_item .item_meta .wsp {
+	font-family:'Avenir Medium';
+	font-size:20px;
+	color:#000000;
+}
+
+#fe_section #fe_content .fe_item .item_meta .wsp span {
+	color:#a7a4a4;
+	font-weight:600;
+}
+
+#fe_section #fe_content .fe_item .item_meta .color-material_info {
+	margin-bottom:25px;
+	margin-top:25px;
+}
+
+#fe_section #fe_content .fe_item .item_meta .color-material_info:after {
+	display:block;
+	content:'';
+	clear:both;
+}
+
+#fe_section #fe_content .fe_item .item_meta .color-material_info .color {
+	width:25%;
+	float:left;
+	position:relative;
+}
+
+#fe_section #fe_content .fe_item .item_meta .color-material_info .color p {
+	padding-left:25px;
+	text-transform:uppercase;
+	color:#000000;
+	margin-bottom:0px;
+	line-height:1.2;
+	font-family:'Avenir Medium';
+}
+
+#fe_section #fe_content .fe_item .item_meta .color-material_info .color span {
+	display:block;
+	position:absolute;
+	background:#ffffff;
+	width:18px;
+	height:18px;
+	top:0;
+	left:0;
+	/* border:1px solid #cccccc; */
+}
+
+#fe_section #fe_content .fe_item .item_meta .color-material_info .color span img {
+	background:#ffffff;
+	border:1px solid #cccccc;
+}
+
+#fe_section #fe_content .fe_item .item_meta .color-material_info .color p:first-child {
+	font-family:'Avenir Heavy';
+}
+
+#fe_section #fe_content .fe_item .item_meta .color-material_info .material {
+	width:75%;
+	float:left;
+}
+
+#fe_section #fe_content .fe_item .item_meta .color-material_info .material p {
+	color:#000000;
+	margin-bottom:0px;
+	text-transform:uppercase;
+	line-height:1.2;
+	font-family:'Avenir Medium';
+}
+
+#fe_section #fe_content .fe_item .item_meta .color-material_info .material p:first-child {
+	font-family:'Avenir Heavy';
+}
+
+#fe_section #fe_content .fe_item .item_meta .product_sizes {
+	margin-bottom:15px;
+}
+
+#fe_section #fe_content .fe_item .item_meta .product_sizes label {
+	width:60px;
+	margin-right:8px;
+	font-family:'Avenir Medium';
+}
+
+#fe_section #fe_content .fe_item .item_meta .product_sizes input {
+	width:100%;
+	display:block;
+	text-align:left;
+	background:#eaeaea;
+	border:1px solid #eaeaea;
+	outline:none;
+	font-family:'Avenir Roman';
+	color:#818181;
+	font-size:18px;
+	padding:0px 4px;
+}
+
+#fe_section #fe_content .fe_item .item_meta .product_sizes input:focus {
+	border:1px solid #23c1ea;
+}
+
+#fe_section #fe_content .fe_item .item_meta .product_quantity input {
+	display:block;
+	background:#eaeaea;
+	border:1px solid #eaeaea;
+	outline:none;
+	font-family:'Avenir Roman';
+	width:58%;
+	padding:2px 10px;
+}
+
+#fe_section #fe_content .fe_item .item_meta .product_quantity input::-webkit-input-placeholder {
+	font-family:'Avenir Medium';
+	font-size:12px;
+}
+
+#fe_section #fe_content .fe_item .item_price {
+	width:20%;
+	float:left;
+	height:220px;
+	text-align:right;
+}
+
+#fe_section #fe_content .fe_item .item_price div {
+	position:relative;
+	top:50%;
+	-webkit-transform:translateY(-50%);
+	transform:translateY(-50%);
+}
+
+#fe_section #fe_content .fe_item .item_price .total_title {
+	font-family:'Avenir Medium';
+	margin-bottom:0px;
+}
+
+#fe_section #fe_content .fe_item .item_price .product_total {
+	text-transform:uppercase;
+	font-size:24px;
+	font-family:'Avenir Black';
+	font-weight:bold;
+	color:#23c1ea;
+}
+
+#fe_section #fe_content .fe_item .item_price .product_total.active {
+	color:#23c1ea;
+}
+
+#fe_section #fe_content .fe_item .item_price .clear_item {
+	font-family:'Avenir Light';
+	margin-bottom:0px;
+	text-transform:uppercase;
+	font-size:12px;
+	color:#adadad;
+	position:relative;
+	top:25px;
+}
+
+.open_bar #fe_section #fe_content .actions_wrapper {
+	width:96%;
+	margin:auto;
+	border-bottom:1px solid #adadad;
+	padding:10px 0 5px;
+	font-family:'Avenir Heavy';
+	text-transform:uppercase;
+	font-size:12px;
+	font-weight:600;
+}
+
+.closed_bar #fe_section #fe_content .actions_wrapper {
+	width:80%;
+	margin:auto;
+	border-bottom:1px solid #adadad;
+	padding:10px 0 5px;
+	font-family:'Avenir Medium';
+	text-transform:uppercase;
+	font-size:12px;
+	font-weight:600;
+}
+
+#fe_section #fe_content .actions_wrapper:after {
+	display:block;
+	content:'';
+	clear:both;
+}
+
+#fe_section #fe_content .actions_wrapper .clear_line_sheet {
+	float:right;
+	display:inline-block;
+}
+
+/* .open_bar */
+.fe_sidebar_header .go_back {
+	position:relative;
+}
+
+.fe_sidebar_header {
+	padding-top:10px;
+	padding-bottom:10px;
+	padding-right:0px !important;
+	padding-left:0px !important;
+	border-right:none;
+	height:56px;
+}
+
+.fe_sidebar_header .go_back {
+	color:#333333;
+}
+
+/* .open_bar */
+.fe_sidebar_header .go_back {
+	text-align:center;
+	display:inline-block;
+	position:relative;
+	top:50%;
+	-webkit-transform:translateY(-50%);
+	transform:translateY(-50%);
+}
+
+/*.open_bar */
+.fe_sidebar_header .title {
+	width:65%;
+	text-align:center;
+	display:inline-block;
+	font-size:16px;
+	font-family:'Avenir Medium';
+	text-transform:uppercase;
+	top:50%;
+	-webkit-transform:translateY(-50%);
+	transform:translateY(-50%);
+}
+
+.open_bar .fe_sidebar_header .toogle_menu {
+	width:15%;
+	text-align:center;
+	display:inline-block;
+	font-family:'Avenir Book';
+	border-right:none;
+	font-size:15pt;
+	border-right:none;
+	height:28px;
+	top:50%;
+	-webkit-transform:translateY(-50%);
+	transform:translateY(-50%);
+}
+
+.unslider ul {
+	list-style-type:none;
+}
+
+/* .open_bar */
+.fe_sidebar_header .go_back:before {
+	content:'';
+	display:block;
+	margin:auto 0;
+	width:28px;
+	height:28px;
+	background:url(../assets/images/svg/arrow-left.svg);
+}
+
+.closed_bar .fe_sidebar_header .go_back:before {
+	content:'';
+	display:block;
+	margin:auto;
+	width:28px;
+	height:28px;
+	background:url(../assets/images/svg/arrow-left.svg);
+}
+
+#fe_section #fe_content .designer_order {
+	width:96%;
+	margin:auto;
+}
+
+#fe_section #fe_content .designer_order .designer_order_header {
+	background:#000000;
+	width:100%;
+	padding:5px 5px;
+	margin-bottom:10px;
+}
+
+#fe_section #fe_content .designer_order .designer_order_header span:nth-child(1) {
+	color:#ffffff;
+	display:inline-block;
+	text-transform:uppercase;
+	font-family:'Avenir Heavy';
+}
+
+#fe_section #fe_content .designer_order .designer_order_header span:nth-child(2) {
+	color:#ffffff;
+	display:block;
+	float:right;
+	font-family:'Avenir Light';
+	text-transform:uppercase;
+	padding-top:1px;
+}
+
+section#fe_section {
+	top:112px;
+}
+
+section#fe_content {
+	padding-top:40px;
+}
+
+.fe_page.content_sorter .ordre_title {
+	text-align:left;
+	font-size:24px;
+	font-family:'Avenir Book';
+	color:#000000;
+	padding-left:50px;
+	line-height:1;
+	position:relative;
+	top:60%;
+	-webkit-transform:translateY(-50%);
+	transform:translateY(-50%);
+}
+
+.fe_page.content_sorter .ordre_title:before {
+	display:inline-block;
+	content:'';
+	width:45px;
+	height:45px;
+	background:url(../assets/images/svg/cart-icon-black.svg);
+	position:absolute;
+	left:0px;
+	top:-15px;
+}
+
+#fe_section #fe_content .designer_order .fe_items_total_wrapper {
+	padding:10px;
+	/* background:#eaeaea; */
+	background-color:#ffffff;
+}
+
+.fe_items_total_wrapper div.col-md-6 {
+	margin-top:20px;
+}
+
+#fe_section #fe_content .designer_order .fe_items_total_wrapper .right p {
+	text-align:right;
+	text-transform:uppercase;
+}
+
+#fe_section #fe_content .designer_order .fe_items_total_wrapper .left p {
+	text-transform:uppercase;
+}
+
+#fe_section #fe_content .designer_order .fe_items_total_wrapper .left p:nth-child(1) {
+	font-family:'Avenir Heavy';
+	font-weight:800;
+	font-size:16px;
+	/* margin:10px 0 0px; */
+}
+
+#fe_section #fe_content .designer_order .fe_items_total_wrapper .left p:nth-child(2) {
+	font-family:'Avenir Medium';
+}
+
+#fe_section #fe_content .designer_order .fe_items_total_wrapper .right p:nth-child(1) {
+	font-family:'Avenir Heavy';
+	font-size:18px;
+	margin-bottom:5px;
+}
+
+#fe_section #fe_content .designer_order .fe_items_total_wrapper .right p:nth-child(1) span {
+	font-family:'Avenir Black';
+	font-weight:800;
+	font-size:20px;
+	margin-left:20px;
+	color:#23c1ea;
+}
+
+#fe_section #fe_content .designer_order .fe_items_total_wrapper .right p:nth-child(2) {
+	font-size:10px;
+	font-family:'Avenir Light';
+	font-weight:300;
+	line-height:1.2;
+	width:100px;
+	float:right;
+}
+
+.fe_sidebar .collection_description p {
+	font-size:18px;
+	font-family:'Avenir Medium';
+	color:#a5a5a5;
+	padding:20px;
+	border-bottom:1px solid #b6b6b6;
+	margin-bottom:0px;
+	line-height:1.6;
+}
+
+.fe_sidebar .order_summary .title {
+	text-transform:uppercase;
+	font-size:14px;
+	font-family:'Avenir Book';
+	padding:10px 0px;
+	border-bottom:1px solid #b6b6b6;
+	margin:0 20px;
+}
+
+.fe_sidebar .order_summary {
+	background:#f7f7f7;
+	padding-top:15px;
+}
+
+.fe_sidebar .order_summary .single_ordre_summary {
+	padding:25px 0px;
+	border-bottom:1px solid #b6b6b6;
+	margin:0 20px;
+}
+
+.fe_sidebar .order_summary .single_ordre_summary p:after {
+	display:block;
+	content:'';
+	clear:both;
+}
+
+.fe_sidebar .order_summary .single_ordre_summary p span:nth-child(1) {
+	font-family:'Avenir Heavy';
+	font-size:13px;
+	float:left;
+	text-transform:uppercase;
+}
+
+.fe_sidebar .order_summary .single_ordre_summary p span:nth-child(2) {
+	font-family:'Avenir Medium';
+	font-size:13px;
+	float:right;
+	width:55%;
+}
+
+.fe_sidebar_overlay {
+	position:absolute;
+	top:0px;
+	bottom:0px;
+	left:0px;
+	width:25%;
+	background:#f7f7f7;
+	z-index:9;
+	min-height:1000px !important;
+	height:100%;
+	border-right:solid 1px #b6b6b6;
+}
+
+page-cart div.scroll_content {
+	/* height:2000px; */
+	display:inline-block;
+}
+
+.fe_sidebar {
+	position:relative;
+	z-index:99;
+}
+
+.fe_footer .col-md-5 {
+	padding:0px;
+}
+
+.fe_footer .col-md-5 p:nth-child(1) {
+	color:#000000;
+	font-size:14px;
+	font-family:'Avenir Medium';
+	margin-bottom:0px;
+}
+
+.fe_footer .col-md-5 p:nth-child(2) {
+	font-family:'Avenir Medium';
+	font-size:12px;
+	color:#9b9b9b;
+	margin-bottom:0px;
+}
+
+.fe_footer .col-md-7 {
+	text-align:right;
+	padding:0px;
+}
+
+.fe_footer .fe_save_draft {
+	color:#ffffff;
+	text-transform:uppercase;
+	padding:15px;
+	font-size:16px;
+	background:#909090;
+	display:inline-block;
+	font-family:'Avenir Light';
+	padding:12px 28px;
+}
+
+.fe_footer .confirm_order {
+	background:#000000;
+	color:#ffffff;
+	text-transform:uppercase;
+	padding:15px;
+	font-size:16px;
+	display:inline-block;
+	margin-left:25px;
+	font-family:'Avenir Heavy';
+	padding:12px 28px;
+}
+
+.fe_footer {
+	width:96%;
+	margin:auto;
+	padding:30px 0;
+	border-top:5px solid #000000;
+	border-bottom:1px solid #000000;
+	margin-bottom:15px;
+}
+
+.fe_footer .approval_description {
+	text-align:right;
+	padding-top:30px;
+	font-size:10px;
+	font-family:'Avenir Medium';
+	color:#666666;
+}
+
+#fe_content .clear_all_ordres {
+	width:96%;
+	margin:auto;
+	margin-bottom:5px;
+	text-align:right;
+	text-transform:uppercase;
+	font-size:12px;
+	color:#000000;
+	font-family:"Avenir Light";
+	font-weight:300;
+}
+
+.open_bar .orders_sidebar {
+	display:block;
+	width:25%;
+	float:left;
+	background:#ffffff;
+	z-index:99;
+}
+
+.open_bar #orders_section .orders_sidebar .sidebar_title {
+	font-size:24px;
+	text-transform:uppercase;
+	font-family:'Avenir Book';
+	width:90%;
+	margin:auto;
+	border-bottom:0px solid #ffffff;
+	color:#000000;
+	padding-top:18px;
+	margin-bottom:150px;
+}
+
+#orders_section .orders_sidebar .divider {
+	margin:0px !important;
+	position:absolute;
+	width:1px;
+	left:25%;
+	background:#adadad;
+	z-index:999;
+	height:1000px;
+}
+
+#orders_section .orders_sidebar .draft_requested_list {
+	border-top:1px solid #adadad;
+}
+
+#orders_section .orders_sidebar .draft_requested_list p {
+	font-size:20px;
+	text-transform:uppercase;
+	font-family:'Avenir Book';
+	color:#000000;
+	border-bottom:1px solid #adadad;
+	padding:15px;
+	margin-bottom:0px;
+	cursor:pointer;
+	position:relative;
+}
+
+#orders_section .orders_sidebar .draft_requested_list p.active {
+	font-weight:600;
+	background:#f7f7f7;
+	font-family:'Avenir Heavy';
+}
+
+#orders_section .orders_sidebar .draft_requested_list p:after {
+	display:inline-block;
+	content:'';
+	width:45px;
+	height:45px;
+	background:url(../assets/images/svg/arrow-right-grey.svg);
+	position:absolute;
+	right:0px;
+	top:8px;
+}
+
+/*
+.ordre_subheader .content_sorter {
+	text-align: right;
+	border-right: 1px solid #ccc;
+	border-left: 1px solid #b6b6b6;
+	padding: 10px 15px;
+	height: 56px;
+}
+*/
+.ordre_subheader .orders_page.content_sorter .orders_title {
+	text-align:left;
+	font-size:24px;
+	font-family:'Avenir Book';
+	color:#000000;
+	padding-left:60px;
+	line-height:1;
+	position:relative;
+	top:60%;
+	-webkit-transform:translateY(-50%);
+	transform:translateY(-50%);
+	text-transform:uppercase;
+}
+
+.ordre_subheader .orders_page.content_sorter .orders_title:before {
+	display:inline-block;
+	content:'';
+	width:45px;
+	height:45px;
+	background:url(../assets/images/svg/orders-icon-black.svg);
+	position:absolute;
+	left:0px;
+	top:-12px;
+}
+
+.open_bar .orders_page.orders_sidebar_header {
+	text-transform:uppercase;
+	font-size:15pt;
+	padding-top:10px;
+	padding-bottom:10px;
+	padding-right:0px !important;
+	padding-left:0px !important;
+	font-family:'Avenir Book';
+	border-right:none;
+	height:56px;
+}
+
+.open_bar .orders_page.orders_sidebar_header .go_back {
+	text-align:center;
+	display:inline-block;
+	top:50%;
+	-webkit-transform:translateY(-50%);
+	transform:translateY(-50%);
+}
+
+.open_bar .orders_page.orders_sidebar_header .go_back:before {
+	content:'';
+	display:block;
+	margin:auto;
+	width:28px;
+	height:28px;
+	background:url(../assets/images/svg/arrow-left.svg);
+}
+
+.open_bar .orders_page.orders_sidebar_header .toogle_menu {
+	width:15%;
+	text-align:center;
+	display:none; /* inline-block */
+	top:50%;
+	-webkit-transform:translateY(-50%);
+	transform:translateY(-50%);
+}
+
+.open_bar #orders_section #orders_content {
+	width:75%;
+	float:left;
+	position:relative;
+}
+
+#orders_content table {
+	width:96%;
+	margin:auto;
+}
+
+#orders_content table tr {
+	border-bottom:1px solid #9b9b9b;
+}
+
+#orders_content table tr:nth-child(1) {
+	border-bottom:2px solid #9b9b9b;
+}
+
+#orders_content table tr th {
+	padding:20px 0 10px 0;
+	color:#9b9b9b;
+	text-transform:uppercase;
+	font-family:'Avenir Light';
+	font-weight:600;
+	font-size:12px;
+}
+
+#orders_content table tr th span {
+	color:#000000;
+}
+
+#orders_content table tr td {
+	padding:22px 0;
+	font-size:16px;
+	font-family:'Avenir Medium';
+}
+
+#orders_content table tr td.synchronized {
+	padding:26px 0;
+}
+
+#orders_content table tr td.des_name {
+	text-transform:uppercase;
+	font-family:'Avenir Heavy';
+	font-size:16px;
+	color:#000000;
+}
+
+#orders_content table tr td button.remove_ordre {
+	background:#ffffff;
+	color:#909090;
+	border:1px solid #909090;
+	outline:none;
+	padding:5px 10px;
+	text-transform:uppercase;
+	font-family:'Avenir Medium';
+	font-size:14px;
+}
+
+#orders_content table tr td button.restore_ordre {
+	background:#909090;
+	color:#ffffff;
+	border:1px solid #909090;
+	outline:none;
+	padding:5px 10px;
+	text-transform:uppercase;
+	font-family:'Avenir Medium';
+	margin-right:15px;
+	font-size:14px;
+}
+
+#orders_content table tr td button.view_ordre {
+	background:#909090;
+	color:#ffffff;
+	border:1px solid #909090;
+	outline:none;
+	padding:5px 10px;
+	text-transform:uppercase;
+	font-family:'Avenir Medium';
+	margin-right:15px;
+	font-size:14px;
+}
+
+#orders_content table tr td.actions {
+	text-align:right;
+}
+
+#orders_content table tr td button.view_ordre {
+	background:#909090;
+	color:#ffffff;
+	border:1px solid #909090;
+	outline:none;
+	padding:5px 15px;
+	text-transform:uppercase;
+	font-family:'Avenir Medium';
+	font-size:14px;
+}
+
+#orders_content table tr th button.sync_all {
+	border:1px solid #141414;
+	outline:none;
+	background:#ffffff;
+	padding:5px 5px 5px 20px;
+	text-transform:uppercase;
+	font-size:10px;
+	color:#141414;
+	position:relative;
+	font-family:'SanFrancisco Medium';
+}
+
+.ordres_list.open {
+	display:block;
+}
+
+.ordres_list {
+	display:none;
+}
+
+#orders_content table tr th button.sync_all:before {
+	content:'';
+	display:inline-block;
+	width:20px;
+	height:20px;
+	background:url(../assets/images/svg/refresh-icon-black.svg);
+	position:absolute;
+	left:0px;
+	top:2px;
+}
+
+.sync_status {
+	text-align:center;
+}
+
+.sync_status.synchronized {
+	text-align:center;
+}
+
+.sync_status.synchronized:before {
+	content:'';
+	display:inline-block;
+	width:32px;
+	height:32px;
+	background:url(../assets/images/svg/fat-tick-icon-blue.svg) no-repeat center center;
+}
+
+.sync_status.unsynchronized {
+	text-align:center;
+}
+
+.sync_status.unsynchronized:before {
+	content:'';
+	display:inline-block;
+	width:40px;
+	height:40px;
+	background:url(../assets/images/svg/refresh-icon-black.svg) no-repeat center center;
+}
+
+div.syncing li.active {
+	font-family:"Avenir Heavy" !important;
+	font-weight:bold !important;
+	color:#23c1ea !important;
+}
+
+.open_bar .settings_page.settings_sidebar_header {
+	text-transform:uppercase;
+	font-size:15pt;
+	padding-top:10px;
+	padding-bottom:10px;
+	padding-right:0px !important;
+	padding-left:0px !important;
+	font-family:'Avenir Book';
+	border-right:none;
+	height:56px;
+}
+
+.open_bar .settings_page.settings_sidebar_header .go_back {
+	text-align:center;
+	display:inline-block;
+	top:50%;
+	-webkit-transform:translateY(-50%);
+	transform:translateY(-50%);
+}
+
+.open_bar .settings_page.settings_sidebar_header .go_back:before {
+	content:'';
+	display:block;
+	margin:auto;
+	width:28px;
+	height:28px;
+	background:url(../assets/images/svg/arrow-left.svg);
+}
+
+.open_bar .settings_page.settings_sidebar_header .toogle_menu {
+	width:15%;
+	text-align:center;
+	display:none; /* inline-block; */
+	top:50%;
+	-webkit-transform:translateY(-50%);
+	transform:translateY(-50%);
+}
+
+.ordre_subheader .settings_page.content_sorter .settings_title {
+	text-align:left;
+	font-size:24px;
+	font-family:'Avenir Book';
+	color:#000000;
+	padding-left:50px;
+	line-height:1;
+	position:relative;
+	top:60%;
+	-webkit-transform:translateY(-50%);
+	transform:translateY(-50%);
+	text-transform:uppercase;
+}
+
+.ordre_subheader .settings_page.content_sorter .settings_title:before {
+	display:inline-block;
+	content:'';
+	width:45px;
+	height:45px;
+	background:url(../assets/images/svg/refresh-icon-black.svg);
+	position:absolute;
+	left:0px;
+	top:-12px;
+}
+
+.ordre_subheader .settings_page.content_sorter .designer_settings:before {
+	background:url(../assets/images/svg/settings-icon.svg);
+}
+
+.open_bar .settings_sidebar {
+	display:block;
+	width:25%;
+	float:left;
+	background:#ffffff;
+	z-index:99;
+}
+
+#settings_section .settings_sidebar .divider {
+	margin:0px !important;
+	position:absolute;
+	width:1px;
+	height:100%;
+	left:25%;
+	z-index:999;
+	min-height:1000px;
+}
+
+.open_bar #settings_section .settings_sidebar .sidebar_title {
+	font-size:24px;
+	text-transform:uppercase;
+	font-family:'Avenir Book';
+	width:90%;
+	margin:auto;
+	border-bottom:0px solid #ffffff;
+	color:#000000;
+	padding-top:18px;
+	margin-bottom:150px;
+}
+
+#settings_section .settings_sidebar .settings_list {
+	border-top:1px solid #adadad;
+}
+
+#settings_section .settings_sidebar .settings_list div.active {
+	background:#f7f7f7;
+}
+
+#settings_section .settings_sidebar .settings_list div.active span {
+	font-weight:600;
+	font-family:'Avenir Heavy';
+}
+
+#settings_section .settings_sidebar .settings_list div {
+	font-size:20px;
+	text-transform:uppercase;
+	font-family:'Avenir Book';
+	color:#000000;
+	border-bottom:1px solid #adadad;
+	padding:15px;
+	margin-bottom:0px;
+	cursor:pointer;
+	position:relative;
+}
+
+#settings_section .settings_sidebar .settings_list div {
+	padding-left:50px;
+}
+
+#settings_section .settings_sidebar .settings_list div:nth-child(1):after {
+	display:inline-block;
+	content:'';
+	width:45px;
+	height:45px;
+	background:url(../assets/images/svg/arrow-right-grey.svg);
+	position:absolute;
+	right:0px;
+	top:8px;
+}
+
+#settings_section .settings_sidebar .settings_list div:nth-child(1):before {
+	display:inline-block;
+	content:'';
+	width:38px;
+	height:38px;
+	background:url(../assets/images/svg/download-icon_black.svg);
+	position:absolute;
+	left:5px;
+	top:11px;
+}
+
+#settings_section .settings_sidebar .settings_list div.order_buyer:before {
+	display:inline-block;
+	content:'';
+	width:38px;
+	height:38px;
+	background:url(../assets/images/svg/masquerade-icon.svg);
+	position:absolute;
+	left:5px;
+	top:11px;
+}
+
+#settings_section .settings_sidebar .settings_list div:nth-child(2):before {
+	display:inline-block;
+	content:'';
+	width:38px;
+	height:38px;
+	background:url(../assets/images/svg/refresh-icon-black.svg);
+	position:absolute;
+	left:5px;
+	top:11px;
+}
+
+#settings_section .settings_sidebar .settings_list div ul {
+	list-style-type:none;
+	margin-top:10px;
+	margin-bottom:10px;
+	padding-left:0px;
+}
+
+#settings_section .settings_sidebar .settings_list div ul li {
+	border-bottom:1px solid #adadad;
+	padding:20px 0;
+	font-size:16px;
+	font-family:'Avenir Medium';
+	position:relative;
+}
+
+#settings_section .settings_sidebar .settings_list div ul li.li_active {
+	font-family:'Avenir Heavy';
+}
+
+#settings_section .settings_sidebar .settings_list div ul li:last-child {
+	border-bottom:none;
+}
+
+#settings_section .settings_sidebar .settings_list div.syncing {
+	padding-bottom:0px !important;
+}
+
+#settings_section .settings_sidebar .settings_list div ul li:after {
+	display:inline-block;
+	content:'';
+	width:32px;
+	height:32px;
+	background:url(../assets/images/svg/arrow-right-grey.svg);
+	position:absolute;
+	right:0px;
+	top:15px;
+}
+
+#settings_content table {
+	width:96%;
+	margin:auto;
+}
+
+#settings_content table tr:nth-child(1) {
+	border-bottom:2px solid #9b9b9b;
+}
+
+#settings_content table tr th {
+	padding:20px 0 10px 0;
+	color:#9b9b9b;
+	text-transform:uppercase;
+	font-family:'Avenir Light';
+	font-weight:600;
+	font-size:12px;
+}
+
+.open_bar #settings_section #settings_content {
+	width:75%;
+	float:left;
+	position:relative;
+	border-left:solid 1px #b6b6b6;
+	height:100%;
+	min-height:1500px;
+}
+
+#settings_content table tr td {
+	padding:22px 0;
+	font-size:16px;
+	font-family:'Avenir Medium';
+}
+
+#settings_content table tr {
+	border-bottom:1px solid #9b9b9b;
+	vertical-align:top;
+}
+
+#settings_content table tr td.actions {
+	text-align:right;
+	min-width:200px;
+}
+
+#settings_content table tr td button.remove_ordre {
+	background:#ffffff;
+	color:#909090;
+	border:1px solid #909090;
+	outline:none;
+	padding:5px 10px;
+	text-transform:uppercase;
+	font-family:'Avenir Medium';
+	font-size:14px;
+}
+
+#settings_content table tr td button.update_ordre {
+	background:#03a5d4;
+	color:#ffffff;
+	border:1px solid #80d2eb;
+	outline:none;
+	padding:5px 10px;
+	text-transform:uppercase;
+	font-family:'Avenir Medium';
+	margin-right:15px;
+	font-size:14px;
+}
+
+#settings_content table tr th button.remove_all {
+	border:1px solid #141414;
+	outline:none;
+	background:#ffffff;
+	padding:5px 5px 5px 5px;
+	text-transform:uppercase;
+	font-size:10px;
+	color:#141414;
+	position:relative;
+	font-family:'SanFrancisco Medium';
+}
+
+#settings_content table tr td.des_name {
+	text-transform:uppercase;
+	font-family:'Avenir Heavy';
+	font-size:16px;
+	color:#000000;
+	max-width:275px;
+}
+
+#settings_content table tr td:nth-child(3) {
+	/* collection */
+	max-width:275px;
+}
+
+#settings_content .sync_item.set_sync {
+	width:96%;
+	margin:auto;
+}
+
+#settings_content .sync_item.set_sync .title {
+	text-transform:uppercase;
+	font-size:12px;
+	font-family:'Avenir Medium';
+	border-bottom:1px solid #9b9b9b;
+	padding-bottom:5px;
+	padding-top:20px;
+}
+
+#settings_content .sync_item.ord_sync table tr:nth-child(1) th:nth-child(1) {
+	color:#000000;
+}
+
+#settings_content .sync_item.set_sync .title span {
+	font-family:'Avenir Black';
+}
+
+#settings_content .sync_item.set_sync .item {
+	border-bottom:1px solid #9b9b9b;
+}
+
+#settings_content .sync_item.set_sync .item p {
+	font-size:16px;
+	font-family:'Avenir Medium';
+	margin-bottom:0px;
+	padding:25px 0;
+}
+
+#settings_content .settings_item {
+	display:none;
+}
+
+#settings_content .settings_item.active {
+	display:block;
+}
+
+#settings_content .sync_item.set_sync .item p span {
+	font-family:'Avenir Black';
+	text-transform:uppercase;
+}
+
+#settings_content .sync_item .type {
+	text-transform:uppercase;
+}
+
+#settings_content .settings_item.sync_item.set_sync p.left {
+	width:93%;
+	float:left;
+}
+
+#settings_content .settings_item.sync_item.set_sync div.right {
+	width:7%;
+	float:left;
+	position:relative;
+	top:22px;
+}
+
+#settings_content .settings_item.sync_item.set_sync div.right:after {
+	display:block;
+	content:'';
+	clear:both;
+}
+
+#settings_content .settings_item.sync_item.set_sync .item:after {
+	display:block;
+	content:'';
+	clear:both;
+}
+
+/** CHECKBOX STYLING **/
+
+.checkbox {
+	vertical-align:top;
+	margin:0 3px 0 0;
+	width:17px;
+	height:17px;
+}
+
+.checkbox + label {
+	cursor:pointer;
+}
+
+.checkbox + label:focus {
+	outline:none;
+}
+
+.checkbox:not(checked) {
+	position:absolute;
+	opacity:0;
+}
+
+.checkbox:not(checked) + label {
+	position:absolute;
+	padding:0 0 0 60px;
+}
+
+.checkbox:not(checked) + label:before {
+	content:'';
+	position:absolute;
+	top:0px;
+	right:0;
+	width:50px;
+	height:29px;
+	border-radius:13px;
+	background:#909090;
+	box-shadow:inset 0 2px 3px rgba(0, 0, 0, 0.2);
+}
+
+.checkbox:not(checked) + label:after {
+	content:'';
+	position:absolute;
+	top:0px;
+	left:12px;
+	width:28px;
+	height:28px;
+	border-radius:50%;
+	background:#ffffff;
+	box-shadow:0 2px 5px rgba(0, 0, 0, 0.3);
+	transition:all .2s;
+}
+
+.checkbox:checked + label:before {
+	background:#03a5d4;
+}
+
+.checkbox:checked + label:after {
+	left:30px;
+}
+
+#orders_content .designer_order .designer_order_header {
+	width:100%;
+	padding:2px 5px;
+	background:#000000;
+}
+
+#orders_content .designer_order .designer_order_header span:nth-child(1) {
+	color:#ffffff;
+	display:inline-block;
+	text-transform:uppercase;
+	font-family:'Avenir Heavy';
+}
+
+#orders_content .designer_order .designer_order_header span:nth-child(2) {
+	color:#ffffff;
+	display:block;
+	float:right;
+	font-family:'Avenir Light';
+	text-transform:uppercase;
+	padding-top:1px;
+}
+
+.open_bar #orders_content .order_item {
+	margin:auto;
+	padding:30px 0;
+	position:relative;
+	border-bottom:1px solid #cccccc;
+}
+
+#orders_content .order_item:after {
+	display:block;
+	content:'';
+	clear:both;
+}
+
+#orders_content .order_item .order_image {
+	width:10%;
+	float:left;
+}
+
+#orders_content .order_item .order_image img {
+	width:100%;
+	border:1px solid #cccccc;
+}
+
+#orders_content .order_item .item_meta {
+	width:70%;
+	float:left;
+	height:220px;
+	padding-left:15px;
+}
+
+#orders_content .order_item .item_meta .name {
+	text-transform:uppercase;
+	color:#000000;
+	font-weight:600;
+	margin-bottom:0px;
+	font-size:20px;
+	font-family:'Avenir Heavy';
+}
+
+#orders_content .order_item .item_meta .wsp {
+	font-family:'Avenir Medium';
+	font-size:20px;
+	color:#000000;
+}
+
+#orders_content .order_item .item_meta .wsp span {
+	color:#a7a4a4;
+	font-weight:600;
+}
+
+#orders_content .order_item .item_meta .color-material_info {
+	margin-bottom:25px;
+	margin-top:25px;
+}
+
+#orders_content .order_item .item_meta .color-material_info .color {
+	width:25%;
+	float:left;
+	position:relative;
+}
+
+#orders_content .order_item .item_meta .color-material_info .color p {
+	padding-left:25px;
+	text-transform:uppercase;
+	color:#000000;
+	margin-bottom:0px;
+	line-height:1.2;
+	font-family:'Avenir Medium';
+}
+
+#orders_content .order_item .item_meta .color-material_info .color p:first-child {
+	font-family:'Avenir Heavy';
+}
+
+#orders_content .order_item .item_meta .color-material_info .color span {
+	display:block;
+	position:absolute;
+	background:#c3ece3;
+	width:18px;
+	height:18px;
+	top:3px;
+	left:0;
+	border:1px solid #000000;
+}
+
+#orders_content .order_item .item_meta .color-material_info .material {
+	width:75%;
+	float:left;
+}
+
+#orders_content .order_item .item_meta .color-material_info:after {
+	display:block;
+	content:'';
+	clear:both;
+}
+
+#orders_content .order_item .item_meta .color-material_info .material p {
+	color:#000000;
+	margin-bottom:0px;
+	text-transform:uppercase;
+	line-height:1.2;
+	font-family:'Avenir Medium';
+}
+
+#orders_content .order_item .item_meta .color-material_info .material p:first-child {
+	font-family:'Avenir Heavy';
+}
+
+#orders_content .order_item .item_meta .product_sizes {
+	margin-bottom:15px;
+}
+
+#orders_content .order_item .item_meta .product_sizes label {
+	width:55px;
+	margin-right:8px;
+	font-family:'Avenir Medium';
+}
+
+#orders_content .order_item .item_meta .product_sizes input {
+	width:100%;
+	display:block;
+	text-align:left;
+	background:#eaeaea;
+	border:1px solid #eaeaea;
+	outline:none;
+	font-family:'Avenir Roman';
+	color:#818181;
+	padding:0px 4px;
+	font-size:16px;
+}
+
+#orders_content .order_item .item_price {
+	width:20%;
+	float:left;
+	height:220px;
+	text-align:right;
+}
+
+#orders_content .order_item .item_price div {
+	position:relative;
+	top:50%;
+	-webkit-transform:translateY(-50%);
+	transform:translateY(-50%);
+}
+
+#orders_content .order_item .item_price .total_title {
+	font-family:'Avenir Medium';
+	margin-bottom:0px;
+}
+
+#orders_content .order_item .item_price .product_total {
+	text-transform:uppercase;
+	font-size:24px;
+	font-family:'Avenir Black';
+	font-weight:bold;
+}
+
+.designer_order.single_order {
+	width:96%;
+	margin:auto;
+	margin-top:10px;
+}
+
+#orders_content .order_item .item_meta .product_enquiry span {
+	text-transform:uppercase;
+}
+
+#orders_content .order_item .item_meta .product_enquiry {
+	font-size:12px;
+	font-family:'Avenir Medium';
+	margin-bottom:0px;
+}
+
+#orders_content .order_items_total_wrapper {
+	padding:10px;
+	background:#eaeaea;
+}
+
+#orders_content .order_items_total_wrapper .left p:nth-child(1) {
+	font-family:'Avenir Heavy';
+	font-weight:800;
+	margin:10px 0 0px;
+}
+
+#orders_content .order_items_total_wrapper .left p {
+	text-transform:uppercase;
+}
+
+#orders_content .order_items_total_wrapper .right p:nth-child(1) {
+	font-family:'Avenir Medium';
+	margin-bottom:5px;
+}
+
+#orders_content .order_items_total_wrapper .right p:nth-child(2) {
+	font-size:10px;
+	font-family:'Avenir Light';
+	font-weight:300;
+	line-height:1.2;
+	width:100px;
+	float:right;
+}
+
+#orders_content .order_items_total_wrapper .right p {
+	text-align:right;
+	text-transform:uppercase;
+}
+
+#orders_content .order_items_total_wrapper .right p:nth-child(1) span {
+	font-family:'Avenir Black';
+	font-weight:800;
+	font-size:20px;
+	margin-left:20px;
+}
+
+.back_to_ordres {
+	text-transform:uppercase;
+	font-family:'Avenir Medium';
+	color:#ffffff;
+	background:#909090;
+	padding:5px 18px;
+	display:inline-block;
+	margin-bottom:10px;
+}
+
+/** 2-Feb-2017 **/
+.product_details_page > div {
+	height:100%;
+	position:relative;
+}
+
+.product_details_page .product-details_images {
+	list-style-type:none;
+	width:30%;
+	padding-left:10px;
+}
+
+.product_details_page .product-details_images li {
+	margin-bottom:10px;
+	border:2px solid #d6d6d6;
+}
+
+.product_details_page .product-details_images li img {
+	position:relative;
+	width:100%;
+}
+
+.product-details_close {
+	position:absolute;
+	right:5px;
+	top:5px;
+}
+
+.product-details_close:before {
+	display:block;
+	content:'';
+	width:40px;
+	height:40px;
+	background:url(../assets/images/svg/close-icon-grey.svg);
+}
+
+.product_preview_image {
+	border:0px solid #ffffff;
+	margin-top:25px;
+	-webkit-transform-style:preserve-3d;
+	-moz-transform-style:preserve-3d;
+	transform-style:preserve-3d;
+	width:50% !important;
+}
+
+.product_preview_image img {
+	width:100%;
+	position:relative;
+	/* top: 50%;
+	-webkit-transform: translateY(-50%);
+	-ms-transform: translateY(-50%);
+	transform: translateY(-50%);
+	*/
+}
+
+.product_details_360 span {
+	display:block;
+}
+
+.product_details_360 span:nth-child(1) {
+	font-size:24px;
+	text-transform:uppercase;
+	font-family:'Avenir Light';
+	color:#000000;
+	font-weight:600;
+	padding-top:20px;
+}
+
+.product_details_360 span:nth-child(2) {
+	font-size:16px;
+	font-family:'Avenir Light';
+	color:#000000;
+	font-weight:600;
+}
+
+.product_details_360:before {
+	display:block;
+	content:'';
+	width:100px;
+	height:100px;
+	background:url(../assets/images/svg/360-icon.svg);
+	float:left;
+}
+
+.product_details_360:after {
+	display:block;
+	content:'';
+	clear:both;
+}
+
+img.go_to_top {
+	width:45px;
+	bottom:10px;
+	left:10px;
+}
+
+.col_item_name {
+	background:#cccccc;
+	padding:7px 0 1px 0;
+	position:fixed;
+	top:110px;
+	width:50%;
+	display:block;
+}
+
+#pbody.download_page {
+	position:relative;
+	background:url(../assets/images/ordre_bg_login.jpg) no-repeat center top;
+}
+
+#pbody.download_page #download_progress {
+	background-color:#ffffff;
+	border:2px solid #cccccc;
+	width:520px;
+	height:190px;
+	padding:0 20px 20px 25px;
+	position:absolute;
+	top:50%;
+	left:50%;
+	margin:260px 0 0 -190px;
+}
+
+#pbody.download_page .login_submit {
+	margin-left:110px;
+	margin-top:22px;
+}
+
+#loading.loading_container {
+	padding:250px;
+}
+
+.loading_spinner {
+}
+
+.go_back {
+	padding-right:20px;
+}
+
+.ion-popover {
+	background:rgba(255, 255, 255, 0.6);
+}
+
+.ordre_subheader .content_sorter .sorter_item .downloaded {
+	border-color:#23c1ea;
+	color:#23c1ea;
+}
+
+.ordre_subheader .content_sorter .downloaded {
+	/* color:#23c1ea; */
+}
+
+.swiper-pagination-fraction, .swiper-pagination-custom, .swiper-container-horizontal > .swiper-pagination-bullets {
+	bottom:55px !important;
+	left:0;
+	width:100%;
+}
+
+.content_sorter a.sorter_item.download_button.downloaded {
+	border-color:#23c1ea;
+	background-color:#23c1ea;
+}
+
+.content_sorter a.sorter_item.download_button.downloaded > span {
+	color:#ffffff;
+	background-color:#23c1ea;
+}
+
+.list-ios > .item-block:last-child, .list-ios > .item-wrapper:last-child .item-block {
+	border:0.55px solid #b5b5b5;
+}
+
+div.no_results {
+	margin-left:40px;
+	margin-top:40px;
+}
+
+div.no_results p {
+	font-family:'Avenir Light';
+	font-size:20px;
+}
+
+ion-slide.swiper-slide {
+	height:970px;
+}
+
+.virtual-position {
+	/* left:25%; */
+	width:100%;
+	transform:none !important;
+	position:relative !important;
+}
+
+div.line_sheet_item {
+	/* outline:1px solid red; */
+}
+
+#line_sheet_content ion-list.list-ios {
+	margin-top:68px;
+}
+
+.closed_bar #line_sheet_section #line_sheet_content {
+	margin-top:95px !important;
+}
+
+.page_count {
+	color:#b1a8a8;
+}
+
+.actions_wrapper {
+	padding-left:15px;
+	text-transform:uppercase;
+}
+
+.actions_wrapper div.pagination {
+	margin:0 0 0 40px;
+	position:relative;
+	left:80px;
+}
+
+.actions_wrapper div.pagination button.btn-paginate {
+	display:inline-block;
+	padding:14px 6px 13px 6px;
+	margin-bottom:0;
+	font-size:14px;
+	font-weight:400;
+	text-align:center;
+	white-space:nowrap;
+	vertical-align:middle;
+	cursor:pointer;
+	border:none;
+	border-radius:0;
+}
+
+.actions_wrapper div.pagination button.btn-paginate {
+	/* margin-right: 16px !important; */
+	/* margin-top: 0px; */
+	line-height:1.0 !important;
+	width:48px;
+	background-color:#ffffff;
+}
+
+.actions_wrapper div.pagination button.btn-paginate.active {
+	background-color:#d2d2d2;
+}
+
+.navigation_holder {
+	border-bottom:1px solid #b6b6b6;
+	border-right:1px solid #cccccc;
+	position:fixed;
+	width:50%;
+	z-index:999;
+	background:#ffffff;
+	/* top:55px; */
+	display:block;
+}
+
+.navigation_holder .go_back {
+	width:100%;
+	text-align:center;
+	display:inline-block;
+	float:left;
+	padding:3px 0;
+	top:50%;
+	-webkit-transform:translateY(-50%);
+	transform:translateY(-50%);
+	position:relative;
+	background:url(../assets/images/svg/arrow-left.svg) no-repeat;
+	height:28px;
+}
+
+.navigation_holder .col-md-1 {
+	height:56px;
+	border-right:1px solid #b6b6b6;
+}
+
+.navigation_holder .col-md-11 {
+	height:56px;
+	-webkit-transform-style:preserve-3d;
+	-moz-transform-style:preserve-3d;
+	transform-style:preserve-3d;
+}
+
+.navigation_holder .collection_title {
+	display:inline-block;
+	float:left;
+	text-transform:uppercase;
+	font-size:24px;
+	font-family:'Avenir Book';
+	position:relative;
+	padding-top:5px;
+	line-height:1;
+	top:50%;
+	-webkit-transform:translateY(-50%);
+	transform:translateY(-50%);
+}
+
+.navigation_holder .col_item_name {
+	/* top:55px; */
+	height:34px;
+	padding-top:10px;
+}
+
+.navigation_holder .current_item_name {
+	cursor:pointer;
+	display:block;
+	position:relative;
+	margin-bottom:3px;
+	float:left;
+	color:#333333;
+	position:relative;
+	padding-left:15px;
+	font-size:12px;
+	font-family:'Avenir Medium';
+	text-transform:uppercase;
+}
+
+.navigation_holder .col-md-10 {
+	display:block;
+	height:56px;
+	position:relative;
+	margin-bottom:0px;
+	-webkit-transform-style:preserve-3d;
+	-moz-transform-style:preserve-3d;
+	transform-style:preserve-3d;
+}
+
+.fe_footer .col-md-10 {padding-left:0!important;}
+.fe_footer p.approval_description {text-align: left!important; padding-top:10px!important;padding-left:0!important;padding-bottom:0!important;}
+.fe_buttons {text-align:right;margin-bottom:25px;}
+.fe_save_draft {background-color:#a5a5a5;}
+.send_draft {background-color:#000000!important;}
+.fe_footer a.confirm_order.send_order {background:#23c1ea!important;}
+
+
+/*  ********** END style.css **********  */
+

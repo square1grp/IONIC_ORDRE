@@ -1,0 +1,109 @@
+<page-header></page-header>  
+<div class="ordre_subheader" ion-fixed>
+  <div class="collections_page collections_sidebar_header" [ngClass]="{'col-md-3': navOpen, 'col-md-1': !navOpen}">
+    <a *ngIf="this.values.user_profile.seller_account_id==0" tappable (click)="popView()" class="go_back" [ngClass]="{'col-md-2': navOpen, '': !navOpen}"></a>
+    <a *ngIf="this.values.user_profile.seller_account_id!=0" tappable class="go_back" [ngClass]="{'col-md-2': navOpen, '': !navOpen}"></a>
+    <span class="title col-md-8">Designer Showroom</span>
+    <span class="toogle_menu" tappable [ngClass]="{'col-md-2': navOpen, '': !navOpen}" (click)="navOpen=!navOpen">|||</span>
+  </div>
+  <div class="content_sorter" [ngClass]="{'col-md-6': navOpen, 'col-md-8': !navOpen}">
+    <div class="collection_title"></div>
+    <ng-container *ngIf="data.selectedCollection?.hasOwnProperty('offline')">
+    <a *ngIf="(data.selectedCollection?.offline=='Downloaded')" class="sorter_item download_button downloaded" (click)="this.downloadManager(data.currentCollectionID, this.values.designer.seller_account_id,this.values.designer.title,data.selectedCollection?.collection_title,1)">
+        <span  class=" btn sort btn-default" >Update</span>
+     </a>
+    </ng-container>
+    <ng-container *ngIf="(!data.selectedCollection?.hasOwnProperty('offline')||data.selectedCollection?.offline!='Downloaded')">
+    <a class="sorter_item download_button" (click)="this.downloadManager(data.currentCollectionID, this.values.designer.seller_account_id,this.values.designer.title,data.selectedCollection?.collection_title,1)">
+        <span class=" btn sort btn-default" >Download</span>
+     </a>
+    </ng-container>
+   
+    <a class="sorter_item line_sheet_link" tappable (click)="lineSheet()">
+      <span class="btn filter btn-default">Line Sheet</span>
+    </a>
+  </div>
+  <div class="col-md-3 page_serch_wrapper">
+    <input type="text" name="search" [formControl]="searchControl" [(ngModel)]="searchValue" class="page_search" placeholder="Search">
+  </div>
+</div>
+<ion-content>
+  <div id="pbody" [ngClass]="{'open_bar': navOpen, 'closed_bar': !navOpen}">
+
+    <section class="page_content" id="collection_section">
+           
+
+      <div class="collection_sidebar" [ngClass]="{'open': navOpen, 'closed': !navOpen}">
+        <p class="divider"></p>
+        <div class="sidebar_title"><lazy-img src="{{values.APIRoot}}/app/get_image.php?image=/{{values.designer.logo_image}}&w=310&h=140&zc=1&xtype=designer"></lazy-img></div>
+        <div class="collection_description">
+          <p class="open-to-ordre-title" ><span [innerHTML]="values.designer.title"></span><br/>Collections open-to-ordre</p>
+        </div>
+        <div class="collection_item collection1" tappable [ngClass]="{'current': collection.collection_title==data.selectedCollection?.collection_title, '': collection.collection_title!=data.selectedCollection?.collection_title}" *ngFor="let collection of values.collections, let i = index" (click)="this.changeCollection(collection.collection_id, this.values.designer.seller_account_id, i)">
+          <a class="name" [innerHTML]="collection.collection_title"></a>
+          <ng-container *ngIf="(collection.offline!='Downloading' && collection.offline!='Downloaded')"> 
+              <img src="assets/images/mini_download_icon-black.png">
+              <a href="#" class="download_collection"></a>
+          </ng-container>
+          <ng-container *ngIf="collection.hasOwnProperty('offline')">
+            <ng-container *ngIf="collection.offline=='Downloading'">
+              <a href="#" class="download_collection">Downloading</a>
+              <img src="assets/images/mini_download_icon-grey.png">
+            </ng-container>
+            <ng-container *ngIf="(collection.offline=='Downloaded')">
+              <a href="#" class="download_collection">Downloaded</a>
+              <img src="assets/images/mini_download_icon-blue.png">
+            </ng-container>
+          </ng-container>          
+        </div>
+      </div>
+
+      <div class="collection_content">
+        <section id="collection1">
+          <div class="collection_delivery">
+            <p [innerHTML]="data.selectedCollection?.collection_title"></p>
+            <p>DELIVERS {{data.selectedCollection?.display_delivery_start_date}} - {{data.selectedCollection?.display_delivery_end_date}}</p>
+          </div>
+          <ng-container *ngIf="items.length==0 && searchValue.length>0">
+            <div class="no_results"> 
+                <p>There are no items matching your search.</p>
+                <p>Tap the Collection title on the left to refresh, or enter a new search.</p>
+            </div>    
+          </ng-container>  
+          <ng-container *ngFor="let product of items">
+            <div class="collection_item_part">
+              <ng-container>
+                  <lazy-img tappable (click)="productItem(product)" src="{{values.APIRoot}}/app/get_image.php?image=/{{product.variants[0]?.variant_images[0].variant_image}}&w=342&h=509&xtype=prodimage" ></lazy-img>
+                  <div class="single_collection_meta" >
+                    <span class="add_to_cart_item" tappable (click)="addProductToCart(product.product_title,product.materials,values.designer.title,product.region_prices[this.values.user_profile.user_region_id].wsp,values.designer.seller_account_id,'all',product.product_id)">
+                      <img [src]="isProductInOrder(product.product_id,values.designer.seller_account_id)"/></span>
+                    <p class="collection_code">{{product?.variants[0].title}}</p>
+                    <p class="single_collection_item_title" style="height: 40px;" [innerHTML]="product.product_title"></p>
+                    <p class="single_collection_item_wsp">Wsp <span>{{values.designer?.buyer_code}} {{values.designer?.buyer_symbol}} {{product?.region_prices[this.values.user_profile.user_region_id]?.wsp}}</span></p>
+                    <p class="single_collection_item_sizing">Sizing <span>{{product.variants[0].sizes_list}}</span></p>
+                    <p class="single_collection_colors">
+                      <span *ngFor="let variant of product.variants">
+                        <lazy-img src="{{values.APIRoot}}/app/get_image.php?image=/{{variant.swatch.swatch_image}}&w=20&h=20&xtype=prodimage"></lazy-img>
+                      </span>
+                    </p>
+                  </div>
+              </ng-container>
+            </div>
+
+          </ng-container>
+          <ion-infinite-scroll (ionInfinite)="doInfinite($event)" threshold="60%">
+            <ion-infinite-scroll-content
+              loadingSpinner="bubbles"
+              loadingText="Loading...">
+            </ion-infinite-scroll-content>
+          </ion-infinite-scroll>   
+
+        </section>
+      </div>     
+  
+    </section>
+  </div>
+  <ion-fab left bottom>
+    <img ion-fab src="assets/images/arrow-up.png" tappable [color]="primary" [mode]="ios" (click)="scrollToTop()" style="z-index: 1000;">
+  </ion-fab>
+</ion-content>

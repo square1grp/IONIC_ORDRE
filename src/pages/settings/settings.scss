@@ -1,0 +1,19 @@
+page-settings {
+    .modal-wrapper{
+        font-family: 'Avenir Medium';
+        position: absolute;
+        width: 100vw;
+        height: 300vh;
+        top: 0; 
+        bottom: 0;
+        left: 0;
+        right: 0;
+        margin: auto;
+        border: 0;
+        background: rgba(0,0,0,0.5);
+        color: #000000;
+        border-style: solid;
+        border-width: 1px;
+        border-radius: 0px !important;
+    }
+}

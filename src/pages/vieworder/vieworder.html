@@ -1,0 +1,103 @@
+<page-header>
+</page-header>
+<ion-content>
+  <div id="pbody" class="open_bar">
+    <div class="ordre_subheader">
+      <div class="col-md-3  fe_page fe_sidebar_header">
+        <a (click)="popView()" class="go_back  col-md-2"></a>
+        <span class="title col-md-8">View Order</span>
+        <span class="toogle_menu col-md-2"></span>
+      </div>
+      <div class="col-md-9 fe_page content_sorter">
+        <div class="ordre_title">ORDER #{{values.vieworder.request.order[0].sales_order_parts[0].order_id}}</div>
+      </div>
+    </div>
+    <section class="page_content" id="fe_section">
+      <div class="fe_divider"></div>
+      <div class="fe_sidebar_overlay"></div>
+      <div class="fe_sidebar  open">
+        <p class="divider"></p>
+        <div class="sidebar_title">
+          View your Order
+        </div>
+        <div class="collection_description">
+          <p></p>
+        </div>
+        <div class="order_summary">
+          <p class="title">Order Summary</p>
+          <div class="single_ordre_summary" *ngFor="let designer of values.vieworder.request.order[0].sales_order_parts">
+            <p class="designer_name"><span>Designer</span><span>{{designer.designer_title}}</span></p>
+            <!--p class="collection_name"><span>Collection</span><span>Spring Summer Autumn is the Collection's name</span></p>
+            <p class="ordre"><span>Ordre</span><span>30 Oct 2016 - 30 Nov 2016</span></p>
+            <p class="delivers"><span>Delivers</span><span>15 Jan 2017 - 31 Mar 2017</span></p-->
+            <p class="number"><span>No. Products</span><span>{{designer.total_line_items}}</span></p>
+            <p class="qty"><span>Total QTY</span><span>{{designer.total_qty}}</span></p>
+            <p class="total"><span>Total Value</span><span>{{designer.currency_code}} {{designer.currency_symbol}}{{designer.total_amount | number :'.2'}}</span></p>
+          </div>
+        </div>
+      </div>
+      <section id="fe_content">
+        <article class="designer_order" *ngFor="let designer of this.values.vieworder.request.order[0].sales_order_parts">
+          <div class="designer_order_header">
+            <span>{{designer.designer_title}}</span>
+          </div>
+
+          <div *ngFor="let line of designer.sales_order_lines">
+            <div *ngIf="line.size">
+              <div class="fe_item">
+                <div class="item_image">
+                  <lazy-img src="{{values.APIRoot}}/app/get_image.php?image=/{{line.image}}&w=342&h=509&xtype=prodimage"></lazy-img>
+                  <!--p class="item_detail">Detail</p-->
+                </div>
+                <div class="item_meta">
+                  <p class="name">{{line.product_title}}: {{line.sku}}</p>
+                  <p class="wsp"><span>WSP</span> {{designer.currency_code}} {{designer.currency_symbol}}{{line.price | number :'.2'}}</p>
+                  <div class="color-material_info">
+                    <div class="color">
+                      <p>Color</p>
+                      <p>{{line.colour}}</p>
+                      <span><lazy-img src="{{values.APIRoot}}/app/get_image.php?image=/{{line.swatch}}&w=20&h=20&xtype=prodimage" ></lazy-img></span>
+                    </div>
+                    <div class="material">
+                      <p>Material</p>
+                      <p>{{line.material}}</p>
+                    </div>
+                  </div>
+                  <div class="product_sizes">
+                    <label for="s{{i}}" *ngFor="let size of line.size; let i = index">Size {{size.title}}
+                        <input type="text"  ng-model="qty" name="{{size.variant_size_id}}" value="{{size.qty}}" id="s{{i}}" disabled>
+                    </label>                  
+                  </div>
+                </div>
+                <div class="item_price">
+                  <div>
+                    <p class="total_title">Products total WSP</p>
+                    <p class="product_total ">{{designer.currency_code}} {{designer.currency_symbol}}{{line.variant_total | number :'.2'}}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="fe_items_total_wrapper">
+            <div class="col-md-6 left">
+              <p>{{designer.designer_title}} Totals</p>
+              <p>No. products: {{designer.total_line_items}} &nbsp;&nbsp;|&nbsp;&nbsp; TOTAL Quantity: {{designer.total_qty}}</p>
+            </div>
+            <div class="col-md-6 right">
+              <p>Total value <span>{{designer.currency_code}} {{designer.currency_symbol}}{{designer.total_amount| number :'.2'}}</span> </p>
+            </div>
+            <div style="clear: both;" ></div>
+          </div>
+        </article>
+        <div class="fe_footer">
+          <div class="col-md-5">
+            <p>Total includes Terms of Trade Discount if previoulsy agreed</p>
+            <p>Total costs excludes Freight and Taxes</p>
+          </div>
+          <div style="clear: both;" ></div>         
+        </div>
+      </section>
+    </section>
+  </div>
+</ion-content>

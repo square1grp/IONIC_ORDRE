@@ -1,0 +1,23 @@
+
+  <header class="ordre_header">
+    <div class="col-md-5 col-sm-5 header_left">
+      <a *ngIf="this.values.user_profile.seller_account_id > 0 || this.values.user_profile.masquarade_id > 0" (tap)="openCollectionPage(collectionPage)" class="homepage_link"></a>
+      <a *ngIf="this.values.user_profile.seller_account_id == 0 && this.values.user_profile.masquarade_id == 0" (tap)="openHomePage(designersPage)" class="homepage_link"></a>
+    </div>
+    <div class="col-md-2 col-sm-2 header_sitename"><img src="assets/images/ordre_logo.png"></div>
+    <div class="col-md-5 col-sm-5 header_icons header_right">
+      <span *ngIf="(this.values.user_profile.seller_account_id != 0)" class="business_name_designer">
+        {{this.values.user_profile.business_display_name}}
+      </span>     
+      <a *ngIf="(this.values.user_profile.seller_account_id == 0)" (tap)="openPage(cartPage)" class="header_mini_cart_link" [ngClass]="{'active': this.values.cart.request.order[0]?.sales_order_parts.length>0, '': !this.values.cart.request.order[0]?.sales_order_parts}">
+        <span [ngClass]="{'business_name_buyer': this.values.user_profile.masquarade_id == 0, 'business_name_masquerade': this.values.user_profile.masquarade_id != 0}">
+          {{this.values.user_profile.business_display_name+'&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;'}}{{this.values.cart.request.order[0].total_qty}}
+        </span> 
+      </a>      
+      <a *ngIf="(this.values.user_profile.seller_account_id == 0)" (tap)="openPage(ordersPage)" class="header_drafts_link"></a>
+      <a *ngIf="this.values.user_profile.masquarade_id == 0" (tap)="openCachePage(cachePage)" class="headers_sync"></a>
+      <a *ngIf="this.values.user_profile.seller_account_id > 0" (tap)="openPage(settingsPage)" class="headers_setting_item"></a>
+      <a *ngIf="this.values.user_profile.masquarade_id > 0" (tap)="exitMasquarade()" class="headers_logout"></a>
+      <a *ngIf="this.values.user_profile.masquarade_id == 0" (tap)="logOut()" class="headers_logout"></a>
+    </div>
+  </header>

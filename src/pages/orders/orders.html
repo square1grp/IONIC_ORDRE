@@ -1,0 +1,93 @@
+<page-header></page-header>
+<ion-content>
+<div id="pbody" class="open_bar">
+  <div class="ordre_subheader">
+    <div class="col-md-3  orders_page orders_sidebar_header">
+      <!--a class="go_back col-md-2"></a-->
+      <span class="title col-md-8"></span>
+      <span class="toogle_menu col-md-2">|||</span>
+    </div>
+    <div class="col-md-9 orders_page content_sorter">
+      <div class="orders_title">Your Orders</div>
+    </div>
+  </div>
+  <section class="page_content" id="orders_section" >
+    <div class="orders_sidebar  open">
+      <p class="divider"></p>
+      <div class="sidebar_title">  Your Orders </div>
+      <div class="draft_requested_list">
+        <p [ngClass]="{'active': uiState=='draft', '': uiState=='requested'}" class="active" block="drafts" (click)="uiChange('draft')">Saved & Sent Drafts</p>
+        <p [ngClass]="{'active': uiState=='requested', '': uiState=='draft'}" block="requested" (click)="uiChange('requested')">Requested Orders</p>
+      </div>
+    </div>
+  <section id="orders_content" >
+    <div class="ordres_list drafts open" *ngIf="uiState=='draft'">
+      <table >
+        <tr>
+          <th><span>Saved</span> date</th>
+          <th>Ordre #</th>
+          <th>Designer</th>
+          <th>Curr</th>
+          <th>Total value</th>
+          <th></th>
+          <th></th>
+          <!--th>Synced</th-->
+          <!--th style="text-align: right;"><button class="sync_all">Sync all ordres</button></th-->
+        </tr>
+        <ng-container *ngIf="this.data.draftOrders!==undefined">
+          <ng-container *ngFor="let draft of this.data.draftOrders.slice().reverse()">
+            <tr *ngIf="draft.buyer_id == this.values.user_profile.buyer_id">
+              <td>{{draft.date | date:medium}}</td>
+              <td *ngIf="draft.status!='DRAFT'">DRAFT</td>
+              <td *ngIf="draft.status=='DRAFT'">SENT</td>
+              <td class="des_name" [innerHTML]="draft.designer_title"></td>
+              <td>{{draft.currency_code}}</td>
+              <td>{{draft.currency_symbol}}{{draft.total_amount | number :'.2'}}</td>
+              <!--td class="sync_status synchronized"></td-->
+              <td class="actions">
+                <button *ngIf="draft.status!='DRAFT'" (click)="restoreDraft(draft._id)" class="restore_ordre">Restore</button>
+                <button *ngIf="draft.status!='DRAFT'" (click)="removeDraft(draft._id)" class="remove_ordre">Remove</button>
+                <button *ngIf="draft.status=='DRAFT'" (click)="webViewOrder(draft.order_id)" class="view_ordre">View</button>
+              </td>
+            </tr>  
+          </ng-container>   
+        </ng-container>    
+      </table>
+    </div>
+    <div class="ordres_list requested open" *ngIf="uiState=='requested'">
+      <table>
+        <tr>
+          <th><span>Requested</span> date</th>
+          <th>Ordre #</th>
+          <th>Designer</th>
+          <th>Curr</th>
+          <th>Total value</th>
+          <!--th>Synced</th-->
+          <!--th style="text-align: right;"><button class="sync_all">Sync all ordres</button></th-->
+          <th></th>
+        </tr>
+        <ng-container *ngIf="this.data.requestedOrders!==undefined">
+          <ng-container *ngFor="let order of this.data.requestedOrders.slice().reverse()">
+            <tr *ngIf="order.buyer_id == this.values.user_profile.buyer_id">
+              <td>{{order.date | date:medium}}</td>
+              <td>{{order.order_id}}</td>
+              <td class="des_name" [innerHTML]="order.designer_title"></td>
+              <td>{{order.currency_code}}</td>
+              <td>{{order.currency_symbol}}{{order.total_amount | number :'.2'}}</td>
+              <!--td class="sync_status synchronized"></td-->
+              <td class="actions">
+                <button (click)="webViewOrder(order.order_id)" class="view_ordre">View</button>
+              </td>
+            </tr>
+          </ng-container>
+        </ng-container>
+        
+      </table>
+
+    </div>
+  </section>
+
+  </section>
+</div>
+</ion-content>
+
