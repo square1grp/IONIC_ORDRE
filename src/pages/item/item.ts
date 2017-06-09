@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { PopoverController, ViewController, NavController, NavParams, Content, App } from 'ionic-angular';
+import { PopoverController, ViewController, NavController, NavParams, Content } from 'ionic-angular';
 import { CartProvider } from '../../providers/cart';
 import { Values } from '../../providers/values';
 import { Data } from '../../providers/data';
@@ -35,19 +35,8 @@ export class ItemPage {
   cart: any;
   nb: any;
 
-  constructor(private app: App, public navCtrl: NavController, public viewCtrl: ViewController, public popoverCtrl: PopoverController, public navparams: NavParams, public cartProvider: CartProvider, public values: Values, public data: Data) {
+  constructor(public navCtrl: NavController, public viewCtrl: ViewController, public popoverCtrl: PopoverController, public navparams: NavParams, public cartProvider: CartProvider, public values: Values, public data: Data) {
 
-  
-    /*
-    this.slideOptions = {
-        pager: true,
-        direction: 'horizontal'
-    };
-    */  
-  }
-  
-  ngAfterViewInit() {
-    //this.app._setDisableScroll(true);
   }
 
   view360(variants, default360){
