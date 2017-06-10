@@ -104,9 +104,11 @@ Rotation.prototype.show = function (n) {
   //children[this.current].style.display = 'none';
   for (var i = 0, len; i < len; i++) {/*if (i !== n)*/ if (children[i].getAttribute("style")!==null) children[i].style.display = 'none';}
   children[n].style.display = 'block';
-  if (n !== this.current) this.emit('show', n, len);
+  if (n !== this.current) {
+	  this.emit('show', n, len);
+	  console.log('Rotation show('+n+')');
+  }
   this.current = n;
-console.log('Rotation show('+n+')');
   return this;
 };
 
