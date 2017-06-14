@@ -65,6 +65,9 @@ export class ItemPage {
   ngOnInit(){
 
     this.product = this.navparams.get("product");
+    console.log('/////////////----  product start ----/////////////');
+    console.log(this.product);
+    console.log('/////////////----   product end  ----/////////////');
     this.collection = this.navparams.get("collection");
     this.data.designer = this.navparams.get("designer");
     //this.data.consolelog('ionViewDidLoad ItemPage')   

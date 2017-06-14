@@ -1,8 +1,8 @@
 import { Component, ChangeDetectionStrategy, ChangeDetectorRef, ElementRef, ViewChild } from '@angular/core';
 import { NavParams, ViewController } from 'ionic-angular';
 import { Values } from '../../providers/values';
-
-import circlr from '../../dev/circlr';  /* based on https://github.com/andrepolischuk/circlr/  */
+import circlr from 'circlr';
+//import circlr from '../../dev/circlr';  /* based on https://github.com/andrepolischuk/circlr/  */
 
 @Component({
     templateUrl: 'view360.html',
@@ -15,6 +15,7 @@ export class View360Page {
   myImageFrames: any;
   ThreeSixtyFrames = [];
   currentItem360: any;
+  instanceOfCirclr: any;
 
   @ViewChild('test3d') view3D: ElementRef;
 
@@ -22,81 +23,53 @@ export class View360Page {
 
   ngOnInit(){
     this.productVariants = this.navParams.get("productVariants");
-    //console.log(JSON.stringify(this.productVariants))
     this.currentItem360 = this.navParams.get("default360");
     this.ThreeSixtyFrames = [];
     this.myImageFrames = this.values.imageFrames;
-    //this.cd.markForCheck();
     this.change360(this.currentItem360);
-    console.log('Current:'+this.currentItem360);
   }
-
-  ngAfterViewInit() {
-    //  https://github.com/andrepolischuk/circlr/
-    //console.log('Init circlr');
-    console.log('ngAfterViewInit() called');
-    console.log('ngAfterViewInit has frame count '+this.ThreeSixtyFrames.length+'.');
-    //this.init360();
-
-  }
-
   init360(){
-    circlr(this.view3D.nativeElement)
-      .scroll(true)
-      .interval(150)
-      .play(23)
-      .reverse(true);
-  }
-
-  change360(newitem360){
-      console.log('change360: has frame count '+this.ThreeSixtyFrames.length+'.');
-      if (this.ThreeSixtyFrames.length){
-          circlr(this.view3D.nativeElement).stop();
-          circlr(this.view3D.nativeElement).unbind();
-          this.ThreeSixtyFrames = [];
-          console.log('change360 called circlr .stop/unbind');
-      }
-    this.ThreeSixtyFrames = [];
-    //this.cd.markForCheck();
-    console.log('360 Changing to:'+newitem360);
-    //this.myImageFrames = [];
-    //this.cd.markForCheck();
-    this.currentItem360 = newitem360;
-
-    console.log('360 Changed to:'+newitem360);
-      let currentItem360 = newitem360;
-
-    //this.build360(newitem360);
-      this.ThreeSixtyFrames = [];
-      this.values.imageFrames.forEach((frame,index) => {
-          this.ThreeSixtyFrames[index] = this.values.APIRoot + '/app/get_image.php?image=/' + currentItem360 + 'img' + frame + '.jpg&w=480&h=670&zc=3&xtype=360';
-      });
-
     let delayMillis = 1;
     setTimeout(() => {
-       this.init360();
-      //this.cd.markForCheck();
+       this.instanceOfCirclr = circlr(this.view3D.nativeElement)
+          .scroll(true)
+          .interval(120)
+          .reverse(true);
+       this.instanceOfCirclr.setCurrent(0).play(23);
     }, delayMillis);
-
-    //this.cd.markForCheck();
-    //console.log('Make New')
-
+    
+  }
+  play(n:number){
+    let delayMillis = 1;
+    setTimeout(() => {
+       if(this.instanceOfCirclr) this.instanceOfCirclr.setCurrent(0).play(n);
+    }, delayMillis);
+    
+  }
+ 
+  change360(newitem360){
+      if (this.ThreeSixtyFrames.length){
+          this.instanceOfCirclr.format();
+      }
+      let currentItem360 = newitem360;
+      // if (this.currentItem360 == newitem360)
+      // {
+          this.build360(currentItem360);
+      // }
+      if(this.instanceOfCirclr === undefined)
+      {
+        this.init360();
+      }
+      else
+      {
+        this.play(23);
+      }
   }
 
   build360(currentItem360){
-      this.ThreeSixtyFrames = [];
       this.values.imageFrames.forEach((frame,index) => {
           this.ThreeSixtyFrames[index] = this.values.APIRoot + '/app/get_image.php?image=/' + currentItem360 + 'img' + frame + '.jpg&w=480&h=670&zc=3&xtype=360';
       });
-    /*
-      this.values.imageFrames.forEach((frame) => {
-      this.ThreeSixtyFrames.push(this.values.APIRoot + '/app/get_image.php?image=/' + currentItem360 + 'img' + frame + '.jpg&w=480&h=670&zc=3&xtype=360')
-      //{{values.APIRoot}}/app/get_image.php?image=/{{currentItem360}}img{{image}}.jpg&w=480&h=670&zc=3&xtype=360
-    });
-    //console.log(JSON.stringify(this.ThreeSixtyFrames));
-
-    */
-    this.cd.markForCheck();
   }
 
   close360(){

@@ -53,6 +53,10 @@ Rotation.prototype.interval = function (ms) {
   this._interval = ms;
   return this;
 };
+Rotation.prototype.setCurrent = function (n) {
+  this.current = n;
+  return this;
+};
 
 Rotation.prototype.start = function (n) {
   var children = this.children();
@@ -63,7 +67,6 @@ Rotation.prototype.start = function (n) {
     children[i].style.display = 'none';
     children[i].style.width = '100%';
   }
-
   this.show(n);
   return this;
 };
@@ -75,7 +78,11 @@ Rotation.prototype.play = function (n) {
   function timer() {
     if (n === undefined || n > self.current) self.next();
     if (n < self.current) self.prev();
-    if (n === self.current) self.stop();
+    if (n === self.current) 
+    {
+      self.stop();
+      self.next();
+    }
   }
 
   this.timer = setInterval(timer, this._interval);
@@ -87,6 +94,12 @@ Rotation.prototype.stop = function () {
   this.timer = null;
   return this;
 };
+
+Rotation.prototype.format = function () {
+  if (this.timer) this.stop();
+  this.current = 0;
+  return this;
+}
 
 Rotation.prototype.prev = function () {
   return this.show(this.current - 1);
@@ -101,12 +114,10 @@ Rotation.prototype.show = function (n) {
   var len = children.length;
   if (n < 0) n = this._cycle ? n + len : 0;
   if (n > len - 1) n = this._cycle ? n - len : len - 1;
-  //children[this.current].style.display = 'none';
-  for (var i = 0, len; i < len; i++) {/*if (i !== n)*/ if (children[i].getAttribute("style")!==null) children[i].style.display = 'none';}
+  for (var i = 0, len; i < len; i++) {if (children[i].getAttribute("style")!==null) children[i].style.display = 'none';}
   children[n].style.display = 'block';
   if (n !== this.current) {
 	  this.emit('show', n, len);
-	  console.log('Rotation show('+n+')');
   }
   this.current = n;
   return this;
@@ -169,7 +180,6 @@ Rotation.prototype.onWheel = function (event) {
 Rotation.prototype.children = function () {
   var nodes = this.el.childNodes;
   var elements = [];
-
   for (var i = 0, len = nodes.length; i < len; i++) {
     if (nodes[i].nodeType === 1) elements.push(nodes[i]);
   }

@@ -10,7 +10,7 @@
         </ng-container>
       </ng-container>
     </div>
-    <div class="col-md-6 product_preview_image" #test3d id="test3d" style="width:50% important!;">     
+    <div class="col-md-6 product_preview_image" #test3d id="test3d" style="width:50% important!;">
       <ng-container *ngIf=(ThreeSixtyFrames)>
         <lazy-img *ngFor="let image of ThreeSixtyFrames" src="{{image}}" style="display:none" class="image360"></lazy-img>
       </ng-container>
