@@ -33,10 +33,7 @@ export class LoginPage {
   }
 
   ngOnInit(){
-
-    console.log('Init Login');
     this.data.initDB().then(data => {
-      console.log('Init completed');
       if(this.values.APIRoot == "https://ordre.kineticmedia.com.au"){
         let alert = this.alertCtrl.create({
           title: 'WARNING: You are running on the TEST database.',
@@ -50,12 +47,11 @@ export class LoginPage {
             }
           ]
         });
-        console.log('Show warning');
         alert.present();  
         if(this.values.hasOwnProperty('user_profile')){
           if (this.values.user_profile.user_id > 0){
             console.log('Returning user');
-            this.logUserIn();
+            //this.logUserIn();
           }
         }
       };
@@ -114,9 +110,12 @@ export class LoginPage {
         this.values.user_profile.forcecache = 0;  //don't force update images when recaching
         
         //this.logUserIn();
-        this.navCtrl.push(CollectionPage, { designer: this.values.designer, mode:'' });
+        //console.log(this.values.designer);
+
+        //this.navCtrl.push(CollectionPage, { designer: this.values.designer, mode:'' });
         if(this.values.user_profile.status=='ok'){
           this.logUserIn();
+          this.navCtrl.push(CollectionPage, { designer: this.values.designer, mode:'' });
         }
         else
         {

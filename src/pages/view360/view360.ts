@@ -1,8 +1,8 @@
 import { Component, ChangeDetectionStrategy, ChangeDetectorRef, ElementRef, ViewChild } from '@angular/core';
 import { NavParams, ViewController } from 'ionic-angular';
 import { Values } from '../../providers/values';
-import circlr from 'circlr';
-//import circlr from '../../dev/circlr';  /* based on https://github.com/andrepolischuk/circlr/  */
+//import circlr from 'circlr';
+import circlr from '../../dev/circlr';  /* based on https://github.com/andrepolischuk/circlr/  */
 
 @Component({
     templateUrl: 'view360.html',
@@ -29,7 +29,7 @@ export class View360Page {
     this.change360(this.currentItem360);
   }
   init360(){
-    let delayMillis = 1;
+    let delayMillis = 500;
     setTimeout(() => {
        this.instanceOfCirclr = circlr(this.view3D.nativeElement)
           .scroll(true)

@@ -156,8 +156,6 @@ export class Data {
   // login method for kinetic API
 
   login(credentials, device_token){
-
-    //this.consolelog('Login using:' + JSON.stringify(credentials));
     let email = credentials.user_email
     let password = credentials.user_password
     return new Promise((resolve, reject) => {
@@ -171,7 +169,6 @@ export class Data {
         .map(res => res.json())
         .subscribe(data => {
           this.consolelog('Got Authentication Result');
-          //this.consolelog('Response:' + JSON.stringify(data));
           resolve(data);
         });
     });

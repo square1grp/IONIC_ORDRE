@@ -20,7 +20,7 @@ export class MyApp {
     platform.ready().then(() => {
       // StatusBar.styleDefault();
       console.log('Platform ready')
-      this.splashScreen.hide();
+      this.splashScreen.show();
       this.statusBar.hide();
       this.statusBar.overlaysWebView(false);
       this.statusBar.backgroundColorByHexString('#000000');
