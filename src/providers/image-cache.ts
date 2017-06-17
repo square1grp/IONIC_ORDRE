@@ -33,7 +33,7 @@ export class OrdreImageCache {
         //this.src = "../assets/images/tinyplaceholder.png"   
         //this.src = this.src;
         let imageURL = this.src
-        console.log('Element triggered cache check:'+imageURL)
+        //console.log('Element triggered cache check:'+imageURL)
         this.storage.get(imageURL).then((image) => {
         //this.data.getImage(imageURL).then((image) => {
             if(image!=null)
