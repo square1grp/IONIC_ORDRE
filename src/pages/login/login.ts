@@ -115,7 +115,7 @@ export class LoginPage {
         //this.navCtrl.push(CollectionPage, { designer: this.values.designer, mode:'' });
         if(this.values.user_profile.status=='ok'){
           this.logUserIn();
-          this.navCtrl.push(CollectionPage, { designer: this.values.designer, mode:'' });
+          //this.navCtrl.push(CollectionPage, { designer: this.values.designer, mode:'' });
         }
         else
         {
