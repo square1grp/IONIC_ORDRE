@@ -27,12 +27,9 @@
     <input type="text" name="search" [formControl]="searchControl" [(ngModel)]="searchValue" class="page_search" placeholder="Search">
   </div>
 </div>
-<ion-content>
+<ion-content scroll='false'>
   <div id="pbody" [ngClass]="{'open_bar': navOpen, 'closed_bar': !navOpen}">
-
     <section class="page_content" id="collection_section">
-           
-
       <div class="collection_sidebar" [ngClass]="{'open': navOpen, 'closed': !navOpen}">
         <p class="divider"></p>
         <div class="sidebar_title"><lazy-img src="{{values.APIRoot}}/app/get_image.php?image=/{{values.designer.logo_image}}&w=310&h=140&zc=1&xtype=designer"></lazy-img></div>
@@ -57,9 +54,7 @@
           </ng-container>          
         </div>
       </div>
-
-      <div class="collection_content">
-        <section id="collection1">
+      <div class="collection_content" >
           <div class="collection_delivery">
             <p [innerHTML]="data.selectedCollection?.collection_title"></p>
             <p>DELIVERS {{data.selectedCollection?.display_delivery_start_date}} - {{data.selectedCollection?.display_delivery_end_date}}</p>
@@ -70,37 +65,36 @@
                 <p>Tap the Collection title on the left to refresh, or enter a new search.</p>
             </div>    
           </ng-container>  
-          <ng-container *ngFor="let product of items">
-            <div class="collection_item_part">
-              <ng-container>
-                  <lazy-img tappable (click)="productItem(product)" src="{{values.APIRoot}}/app/get_image.php?image=/{{product.variants[0]?.variant_images[0].variant_image}}&w=342&h=509&xtype=prodimage" ></lazy-img>
-                  <div class="single_collection_meta" >
-                    <span class="add_to_cart_item" tappable (click)="addProductToCart(product.product_title,product.materials,values.designer.title,product.region_prices[this.values.user_profile.user_region_id].wsp,values.designer.seller_account_id,'all',product.product_id)">
-                      <img [src]="isProductInOrder(product.product_id,values.designer.seller_account_id)"/></span>
-                    <p class="collection_code">{{product?.variants[0].title}}</p>
-                    <p class="single_collection_item_title" style="height: 40px;" [innerHTML]="product.product_title"></p>
-                    <p class="single_collection_item_wsp">Wsp <span>{{values.designer?.buyer_code}} {{values.designer?.buyer_symbol}} {{product?.region_prices[this.values.user_profile.user_region_id]?.wsp}}</span></p>
-                    <p class="single_collection_item_sizing">Sizing <span>{{product.variants[0].sizes_list}}</span></p>
-                    <p class="single_collection_colors">
-                      <span *ngFor="let variant of product.variants">
-                        <lazy-img src="{{values.APIRoot}}/app/get_image.php?image=/{{variant.swatch.swatch_image}}&w=20&h=20&xtype=prodimage"></lazy-img>
-                      </span>
-                    </p>
-                  </div>
-              </ng-container>
-            </div>
+          <ion-content class="product-list">
+              <ion-list *ngFor="let product of items">
+                <div class="collection_item_part">
+                  <ng-container>
+                      <lazy-img tappable (click)="productItem(product)" src="{{values.APIRoot}}/app/get_image.php?image=/{{product.variants[0]?.variant_images[0].variant_image}}&w=342&h=509&xtype=prodimage" ></lazy-img>
+                      <div class="single_collection_meta" >
+                        <span class="add_to_cart_item" tappable (click)="addProductToCart(product.product_title,product.materials,values.designer.title,product.region_prices[this.values.user_profile.user_region_id].wsp,values.designer.seller_account_id,'all',product.product_id)">
+                          <img [src]="isProductInOrder(product.product_id,values.designer.seller_account_id)"/></span>
+                        <p class="collection_code">{{product?.variants[0].title}}</p>
+                        <p class="single_collection_item_title" style="height: 40px;" [innerHTML]="product.product_title"></p>
+                        <p class="single_collection_item_wsp">Wsp <span>{{values.designer?.buyer_code}} {{values.designer?.buyer_symbol}} {{product?.region_prices[this.values.user_profile.user_region_id]?.wsp}}</span></p>
+                        <p class="single_collection_item_sizing">Sizing <span>{{product.variants[0].sizes_list}}</span></p>
+                        <p class="single_collection_colors">
+                          <span *ngFor="let variant of product.variants">
+                            <lazy-img src="{{values.APIRoot}}/app/get_image.php?image=/{{variant.swatch.swatch_image}}&w=20&h=20&xtype=prodimage"></lazy-img>
+                          </span>
+                        </p>
+                      </div>
+                  </ng-container>
+                </div>
+              </ion-list>
+            <ion-infinite-scroll (ionInfinite)="doInfinite($event)" threshold="60%">
+              <ion-infinite-scroll-content
+                loadingSpinner="bubbles"
+                loadingText="Loading...">
+              </ion-infinite-scroll-content>
+            </ion-infinite-scroll>
+        </ion-content>
+      </div>
 
-          </ng-container>
-          <ion-infinite-scroll (ionInfinite)="doInfinite($event)" threshold="60%">
-            <ion-infinite-scroll-content
-              loadingSpinner="bubbles"
-              loadingText="Loading...">
-            </ion-infinite-scroll-content>
-          </ion-infinite-scroll>   
-
-        </section>
-      </div>     
-  
     </section>
   </div>
   <ion-fab left bottom>

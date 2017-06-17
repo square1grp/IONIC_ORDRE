@@ -1,15 +1,18 @@
 page-item {
-#pbody {
-    height: 100%;
-}
-.page_content {
-    height: 100%;
-}
-.left {
-    height: 100%;
-    overflow-y: scroll;
-}
-.scroll-content {
-    overflow: hidden;
-}
+    #pbody {
+        height: 100%;
+    }
+
+    .page_content {
+        height: 100%;
+    }
+
+    .left {
+        height: 100%;
+        overflow-y: scroll;
+    }
+
+    .scroll-content {
+        overflow: hidden;
+    }
 }

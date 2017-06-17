@@ -1,3 +1,30 @@
 page-collection {
     $fab-list-button-background-color: #FFFFFF;
+
+    #pbody {
+        height: 100%;
+    }
+
+    .page_content {
+        height: 95%;
+    }
+
+    .collection_content {
+        height: 100%;
+        //overflow-y: scroll;
+    }
+
+    ion-content .scroll-content {
+        overflow: hidden;
+    }
+
+    .product-list .scroll-content {
+        overflow: scroll;
+    }
+
+    .collection_sidebar{
+        height: 100%;
+        overflow-y: scroll;
+    }
 }
+ 
