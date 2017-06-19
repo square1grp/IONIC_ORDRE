@@ -482,7 +482,7 @@ export class Data {
           let pdata = JSON.parse(result);
           this.consolelog('Collection found in db for designer:'+designer_id); 
           resolve(pdata.data);                     
-          this.loading.dismiss().catch(() => {});
+          //this.loading.dismiss().catch(() => {});
         }
         if(checkpoint==true||force==true||result==null)
         {       
@@ -495,11 +495,13 @@ export class Data {
           if(this.values.online){
             console.log('Hitting API');
             let apiSource = this.values.APIRoot + "/app/api.php?json={%22action%22:%22collections_short%22,%22request%22:{%22device_token%22:%22"+device_token+"%22,%22user_token%22:%22"+user_token+"%22,%22checkpoint%22:%22"+(baseDate.getTime()/1000)+"%22,%22seller_account_id%22:"+designer_id+"}}"
+            //this.loading.dismiss().catch(() => {});
+            //this.presentLoadingCustom();
             this.http.get(apiSource).map(res => res.json()).subscribe(data => {
                 resolve(data.result);
                 this.consolelog('Got Collection from API:'+apiSource); 
                 //this.consolelog('Response:'+JSON.stringify(data.result));                   
-                this.loading.dismiss().catch(() => {});             
+                //this.loading.dismiss().catch(() => {});             
                 this.values.collection_checkpoint[designer_id] = new Date();
                 this.storeCollections(record_id,data.result)
 
@@ -1165,7 +1167,7 @@ export class Data {
       this.loading.onDidDismiss(() => {
         this.consolelog('Dismissed loading');
       })
-      this.loading.present()//.then(() =>{
+      return this.loading.present();//.then(() =>{
        // let nlt='';
        // resolve(nlt);
       //})
