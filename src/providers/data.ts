@@ -715,10 +715,14 @@ export class Data {
                         }
                         //  cache 360 frames                                 
                         if ((imageslide.variant_360)&&(this.values.cancel==0)){
-                          this.values.imageFrames.forEach((frame) => {
+                          //this.values.imageFrames.forEach((frame) => {
+						  let pad = "00";
+						  for (let i = 1, len = imageslide.frame_count; i < len; i++) {
+						    let thisFrame = ""+i;
+							let frame = pad.substring(0, pad.length - thisFrame.length) + thisFrame;
                             this.consolelog('Cached 360 image:'+this.values.APIRoot+'/app/get_image.php?image=/'+imageslide.variant_360+'img'+frame+'.jpg&w=480&h=670&zc=3&xtype=360');
                             this.cacheMaybe(this.values.APIRoot+'/app/get_image.php?image=/'+imageslide.variant_360+'img'+frame+'.jpg&w=480&h=670&zc=3&xtype=360',force);
-                          });
+                          };
                         }
                       })  
                     }

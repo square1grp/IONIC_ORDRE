@@ -1,6 +1,6 @@
 {
-  "name": "Ionic",
-  "short_name": "Ionic",
+  "name": "ORDRE App",
+  "short_name": "ORDRE App",
   "start_url": "index.html",
   "display": "standalone",
   "icons": [{

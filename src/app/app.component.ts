@@ -19,7 +19,7 @@ export class MyApp {
   constructor(private statusBar: StatusBar, private splashScreen: SplashScreen, public platform: Platform, public menu: MenuController, public dataService: Data, public events: Events, public connectivity: Connectivity, public values: Values) {
     platform.ready().then(() => {
       // StatusBar.styleDefault();
-      console.log('Platform ready')
+      console.log('Platform ready');
       this.splashScreen.show();
       this.statusBar.hide();
       this.statusBar.overlaysWebView(false);
