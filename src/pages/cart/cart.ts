@@ -234,7 +234,7 @@ export class CartPage {
     //check we're online
     if(!this.values.online){   
       this.data.offlineManager();
-      this.data.loading.dismiss().catch((err) => {console.log('Problem with spinner:'+err)});
+      //this.data.loading.dismiss().catch((err) => {console.log('Problem with spinner:'+err)});
       return false;
     };     
     this.submitting=true;

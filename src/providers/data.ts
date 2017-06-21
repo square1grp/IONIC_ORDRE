@@ -30,7 +30,7 @@ export class Data {
   selectedCollection: any;
   retailers: any;
   buyers: any;
-  loading: any;
+  //loading: any;
   
 
   //drafts and orders
@@ -141,7 +141,7 @@ export class Data {
         subTitle: 'You need to be online to do this. Check your settings and try again.',
         buttons: [
           {
-            text: 'Try Again',
+            text: 'OK',
             handler: () => {
               this.consolelog('Warning about being offline');
               
@@ -405,14 +405,14 @@ export class Data {
           //console.log(pdata.data);
           this.values.designers = null;
           resolve(pdata.data);
-          this.loading.dismiss().catch(() => {});
+          //this.loading.dismiss().catch(() => {});
         }
         console.log('Online:'+this.values.online)
         if((checkpoint==true||force==true||result==null)&&(this.values.online))
         {
           if(!this.values.online){
             this.offlineManager();
-            this.loading.dismiss().catch((err) => {console.log('Problem with spinner:'+err)});
+            //this.loading.dismiss().catch((err) => {console.log('Problem with spinner:'+err)});
             return false;
           };
           //if (!this.values.user_profile.seller_account_id){this.presentLoadingCustom()};
@@ -420,30 +420,42 @@ export class Data {
           this.consolelog('Forced update?'+force);
           let apiSource = this.values.APIRoot + "/app/api.php?json={%22action%22:%22designers%22,%22request%22:{%22device_token%22:%22"+device_token+"%22,%22user_token%22:%22"+user_token+"%22,%22checkpoint%22:%22"+(baseDate.getTime()/1000)+"%22}}";    
           this.consolelog(apiSource);
-          this.http.get(apiSource).map(res => res.json()).subscribe(data => {
-              this.consolelog('Got All Designers from API');
-              let gotdata = data.result;
-              resolve(data.result);
+          // let loading = this.loadingCtrl.create({
+          //   dismissOnPageChange: false,
+          //     spinner: 'crescent',
+          //     content: "<div id='loading' class='loading_container'><div class='loading_spinner'></div></div>"}
+          // );
+          //loading.present().then(() => {
+            this.http.get(apiSource).map(res => res.json()).subscribe(data => {
+                this.consolelog('Got All Designers from API');
+                let gotdata = data.result;
+                console.log(data.result);
+                resolve(data.result);
+                this.consolelog("=======================");
+                //this.loading.dismiss().catch(() => {});
 
-              this.loading.dismiss().catch(() => {});
+                //this.deleteItem(record_id_get).then(() => {                 
+                //this.consolelog(JSON.stringify(data.result))
+                this.values.designer_checkpoint = new Date();
+                this.consolelog('Store in pouchDB');
+                this.storeDesigners = {'_id':record_id,data:gotdata};
 
-              //this.deleteItem(record_id_get).then(() => {                 
-              //this.consolelog(JSON.stringify(data.result))
-              this.values.designer_checkpoint = new Date();
-              this.consolelog('Store in pouchDB');
-              this.storeDesigners = {'_id':record_id,data:gotdata};
+                this.consolelog('Store Designers with wrapper.');
+                this.storage.set(record_id, JSON.stringify(this.storeDesigners)).then((new_ID) => {
+                  //this.consolelog('Designers stored in pouchDB ID:'+JSON.stringify(new_ID));
 
-              this.consolelog('Store Designers with wrapper.');
-              this.storage.set(record_id, JSON.stringify(this.storeDesigners)).then((new_ID) => {
-                //this.consolelog('Designers stored in pouchDB ID:'+JSON.stringify(new_ID));
+                  //  cache the images
+                  //data.result.forEach((designer, dindex) => {
+                    //this.cacheMaybe(this.values.APIRoot + '/app/get_image.php?image=/'+designer.profile_image+'&w=271&h=178');                 
+                    //this.cacheMaybe(this.values.APIRoot+'/app/get_image.php?image=/'+designer.logo_image+'&w=310&h=140&zc=1');
+                  //});
 
-                //  cache the images
-                //data.result.forEach((designer, dindex) => {
-                  //this.cacheMaybe(this.values.APIRoot + '/app/get_image.php?image=/'+designer.profile_image+'&w=271&h=178');                 
-                  //this.cacheMaybe(this.values.APIRoot+'/app/get_image.php?image=/'+designer.logo_image+'&w=310&h=140&zc=1');
-                //});
-
-              })
+                //loading.dismissAll();
+              }).catch(function(err){
+                    console.log(err);
+                //loading.dismissAll();
+              });
+            //})
           })
         }
       })
@@ -474,34 +486,25 @@ export class Data {
     if (force==true&&checkpoint==false&&this.values.online) {record_id_get='NOPEA'}    
     return new Promise((resolve, reject) => {
       this.consolelog('Get Collections for designer:'+designer_id);
-      //this.presentLoadingCustom();
       console.log('Hitting Storage');
       this.storage.get(record_id_get).then((result) => {
         if(result!=null){
-          //this.consolelog(result.data);
           let pdata = JSON.parse(result);
           this.consolelog('Collection found in db for designer:'+designer_id); 
           resolve(pdata.data);                     
-          //this.loading.dismiss().catch(() => {});
         }
         if(checkpoint==true||force==true||result==null)
         {       
           if(!this.values.online){
-            this.offlineManager();            
-            this.loading.dismiss().catch(() => {});
-            return false;
+            this.offlineManager();
+            reject(null);
           };
-          //return new Promise(resolve => {
           if(this.values.online){
             console.log('Hitting API');
             let apiSource = this.values.APIRoot + "/app/api.php?json={%22action%22:%22collections_short%22,%22request%22:{%22device_token%22:%22"+device_token+"%22,%22user_token%22:%22"+user_token+"%22,%22checkpoint%22:%22"+(baseDate.getTime()/1000)+"%22,%22seller_account_id%22:"+designer_id+"}}"
-            //this.loading.dismiss().catch(() => {});
-            //this.presentLoadingCustom();
             this.http.get(apiSource).map(res => res.json()).subscribe(data => {
                 resolve(data.result);
                 this.consolelog('Got Collection from API:'+apiSource); 
-                //this.consolelog('Response:'+JSON.stringify(data.result));                   
-                //this.loading.dismiss().catch(() => {});             
                 this.values.collection_checkpoint[designer_id] = new Date();
                 this.storeCollections(record_id,data.result)
 
@@ -523,12 +526,7 @@ export class Data {
                  
             })
           }
-          else
-          {
-            this.loading.dismiss().catch(() => {});;
-          }
         }
-        this.loading.dismiss().catch(() => {});;
       }).catch(function(err){
           console.log(err);
           let idn='';
@@ -614,7 +612,6 @@ export class Data {
               console.log('Not found in dB: Products for collection '+record_id_get);
               if(!this.values.online){
                 this.offlineManager();
-                this.data.loading.dismiss().catch((err) => {console.log('Problem with spinner:'+err)}); 
                 reject(null);
               };
               if(this.values.online){ 
@@ -759,6 +756,8 @@ export class Data {
         }
         //this.consolelog('Getting Products for:'+designer_id);
         resolve(response);       
+      }).catch(function(err){
+            reject(err);
       });
     });
   }
@@ -1152,27 +1151,27 @@ export class Data {
 
 
 
-  presentLoadingCustom() {
-    //return new Promise((resolve, reject) => {
-      console.log('Loading spinner');
-      this.loading = this.loadingCtrl.create({
-        dismissOnPageChange: false,
-        spinner: 'crescent',
-        content: `
-          <div id="loading" class="loading_container">
-            <div class="loading_spinner"></div>
-          </div>`
-      });
+  // presentLoadingCustom() {
+  //   //return new Promise((resolve, reject) => {
+  //     console.log('Loading spinner');
+  //     this.loading = this.loadingCtrl.create({
+  //       dismissOnPageChange: false,
+  //       spinner: 'crescent',
+  //       content: `
+  //         <div id="loading" class="loading_container">
+  //           <div class="loading_spinner"></div>
+  //         </div>`
+  //     });
 
-      this.loading.onDidDismiss(() => {
-        this.consolelog('Dismissed loading');
-      })
-      return this.loading.present();//.then(() =>{
-       // let nlt='';
-       // resolve(nlt);
-      //})
-    //})
-  }
+  //     this.loading.onDidDismiss(() => {
+  //       this.consolelog('Dismissed loading');
+  //     })
+  //     this.loading.present();//.then(() =>{
+  //      // let nlt='';
+  //      // resolve(nlt);
+  //     //})
+  //   //})
+  // }
 
   consolelog(str){
     if(this.values.debug){

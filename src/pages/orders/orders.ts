@@ -105,7 +105,7 @@ export class OrdersPage {
     // https://github.com/driftyco/ionic-native/issues/1446
     // https://forum.ionicframework.com/t/issue-inappbrowser-invalid-event-target/88548
     // link to a web page  === FIX COMING
-    const browser = this.iab.create(this.values.APIRoot + '/ordres/detail/'+id,'_system');
+    //const browser = this.iab.create(this.values.APIRoot + '/ordres/detail/'+id,'_system');
     console.log('View linked to:'+this.values.APIRoot + '/ordres/detail/'+id)
   }
 

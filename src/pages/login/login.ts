@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, AlertController } from 'ionic-angular';
+import { NavController, AlertController, LoadingController } from 'ionic-angular';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { DesignersPage } from '../designers/designers';
 import { CollectionPage } from '../collection/collection';
@@ -22,7 +22,7 @@ export class LoginPage {
   errorMessage: any;
   loggingin: any;
   
-  constructor(public navCtrl: NavController, public formBuilder: FormBuilder, public data: Data, public values: Values, public cartProvider: CartProvider, private alertCtrl: AlertController) {
+  constructor(public navCtrl: NavController, public formBuilder: FormBuilder, public data: Data, public values: Values, public cartProvider: CartProvider, private alertCtrl: AlertController, public loadingCtrl: LoadingController) {
     
     this.loginForm = formBuilder.group({
       user_email: [''],
@@ -90,7 +90,7 @@ export class LoginPage {
   submitLogin(): void {  
     if(!this.values.online){
       this.data.offlineManager();
-      this.data.loading.dismiss().catch((err) => {console.log('Problem with spinner:'+err)});
+      //this.data.loading.dismiss().catch((err) => {console.log('Problem with spinner:'+err)});
       return;
     }
     else
@@ -132,8 +132,13 @@ export class LoginPage {
   }
 
   logUserIn(){
-    this.data.presentLoadingCustom();
-    
+    //this.data.presentLoadingCustom();
+    let loading = this.loadingCtrl.create({
+        dismissOnPageChange: false,
+        spinner: 'crescent',
+        content: "<div id='loading' class='loading_container'><div class='loading_spinner'></div></div>"}
+    );
+    loading.present().then(() => {
     //if(this.values.online){
       this.values.device_token = this.values.user_profile.device_token
       this.cartProvider.emptyOrder();
@@ -165,7 +170,8 @@ export class LoginPage {
             if(!this.values.online){
               if(this.values.collections[0].offline!='Downloaded'){
                 this.data.offlineManager();
-                this.data.loading.dismiss().catch((err) => {console.log('Problem with spinner:'+err)});
+                //this.data.loading.dismiss().catch((err) => {console.log('Problem with spinner:'+err)});
+                loading.dismissAll();
                 return false;
               }
             };      
@@ -176,6 +182,8 @@ export class LoginPage {
               this.data.consolelog('Set products from download after init')
               this.data.consolelog('Got product JSON:'+this.data.currentCollectionID)
               console.log('Loading init items');
+              //this.data.loading.dismiss().catch((err) => {});
+              loading.dismissAll();
               this.navCtrl.push(CollectionPage, { designer: this.values.designer, mode:'' });
             }).catch(function(err){
                 console.log(err);
@@ -186,6 +194,8 @@ export class LoginPage {
       }
       else
       {
+        //this.data.loading.dismiss().catch((err) => {});
+        loading.dismissAll();
         this.navCtrl.push(DesignersPage);
         //this.navCtrl.push(TestPage);
       }   
@@ -194,6 +204,7 @@ export class LoginPage {
     //{
     //  this.loggingin=false;
     //} 
+    });
   }
 
 }

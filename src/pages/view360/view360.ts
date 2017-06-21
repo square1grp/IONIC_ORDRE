@@ -29,7 +29,7 @@ export class View360Page {
     this.change360(this.currentItem360);
   }
   init360(){
-    let delayMillis = 500;
+    let delayMillis = 1000;
     setTimeout(() => {
        this.instanceOfCirclr = circlr(this.view3D.nativeElement)
           .scroll(true)

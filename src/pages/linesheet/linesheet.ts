@@ -75,7 +75,7 @@ export class LinesheetPage {
     this.data.consolelog('ionViewDidLoad CollectionPage')
     //this.data.getThisCollections(this.data.designer.seller_account_id);
     //this.data.getDesignerCurrency(this.values.user_profile.user_region_id,-1);
-    this.data.loading.dismiss().catch(() => {});
+    //this.data.loading.dismiss().catch(() => {});
 
     //build array for virtual scrolling (flatten product + variants)
     this.buildArray('',0);

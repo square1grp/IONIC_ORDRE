@@ -29,10 +29,10 @@ export class CachePage {
 
   ngOnInit(){
     this.uiState ='downloaded';
-    this.data.presentLoadingCustom();
+    //this.data.presentLoadingCustom();
     this.data.getDownloads().then(() =>{
       this.data.getLog();
-      this.data.loading.dismiss().catch((err) => {console.log('Problem with spinner:'+err)});
+      //this.data.loading.dismiss().catch((err) => {console.log('Problem with spinner:'+err)});
     });         
   }
 
@@ -62,14 +62,14 @@ export class CachePage {
           text: 'Proceed',
           handler: () => {
             //clear all images and data (not orders or drafts)
-            this.data.presentLoadingCustom();         
+            //this.data.presentLoadingCustom();         
             this.storage.clear().then(() =>{
               //resave user profile
               this.data.saveUser(this.values.user_profile);         
               this.data.addDownlog('Remove All','',0,'',0); 
               this.data.getDownloads().then(() =>{
                 //this.data.loading.dismiss()
-                this.data.loading.dismiss().catch((err) => {console.log('Problem with spinner:'+err)});
+                //this.data.loading.dismiss().catch((err) => {console.log('Problem with spinner:'+err)});
                 //this.data.getLog();
               }); 
             })                            

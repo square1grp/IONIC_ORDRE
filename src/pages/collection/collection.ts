@@ -83,7 +83,7 @@ export class CollectionPage {
       this.values.lsproducts = this.values.products;     
 
     }  
-    this.data.loading.dismiss().catch((err) => {console.log('Problem with spinner:'+err)});
+    //this.data.loading.dismiss().catch((err) => {console.log('Problem with spinner:'+err)});
     this.search();       
   }
 
@@ -206,11 +206,11 @@ export class CollectionPage {
     if(!this.values.online){
       if(this.values.collections[index].offline!='Downloaded'){
         this.data.offlineManager();
-        this.data.loading.dismiss().catch((err) => {console.log('Problem with spinner:'+err)});
+        //this.data.loading.dismiss().catch((err) => {console.log('Problem with spinner:'+err)});
         return false;
       }
     } 
-    this.data.presentLoadingCustom();
+    //this.data.presentLoadingCustom();
     this.items = [];
     //this.cd.markForCheck();
     this.searchValue= '';
@@ -227,7 +227,7 @@ export class CollectionPage {
       //this.values.lsproducts = this.values.products; 
       this.firstItem = 0;
       this.addItemsToGrid('',0);     
-      this.data.loading.dismiss().catch((err) => {console.log('Problem with spinner:'+err)});       
+      //this.data.loading.dismiss().catch((err) => {console.log('Problem with spinner:'+err)});       
     });  
   }
 
@@ -257,7 +257,7 @@ export class CollectionPage {
   }
 
   lineSheet(){
-    this.data.presentLoadingCustom();
+    //this.data.presentLoadingCustom();
     console.log('Tapped');
     //this stupid delay otherwise no spinner
     setTimeout(() => {
