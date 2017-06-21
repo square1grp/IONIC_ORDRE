@@ -53,18 +53,18 @@ export class CollectionPage {
     //this.values.lsproducts = null;    
     this.values.search= '';
     this.searchValue = '';
-    this.mode = this.navParams.get("mode")
+    this.mode = this.navParams.get("mode");
 
     //console.log('Designer:'+JSON.stringify(this.values.designer));
     //this.designer.content = this.designer.content.split(/<p>|<\/p>|¤/);
-    //this.data.consolelog(this.data.designer)
-    //this.data.consolelog('ionViewDidLoad CollectionPage')
+    //this.data.consolelog(this.data.designer);
+    //this.data.consolelog('ionViewDidLoad CollectionPage');
     /*
     if (typeof this.mode == 'undefined') {
       this.values.lsproducts = this.values.products;
     };
     */
-    console.log('Mode:'+this.mode)
+    console.log('Mode:'+this.mode);
     if(this.mode!='fromlinesheet'){ 
       //this.data.getDesignerCurrency(this.values.user_profile.user_region_id,0);
       //this.data.getThisCollections(this.values.designer.seller_account_id,this.values.device_token,this.values.user_profile.user_token).then((data) => {
@@ -88,11 +88,11 @@ export class CollectionPage {
   }
 
   search(){
-    console.log('Search enabled')
+    console.log('Search enabled');
     this.searchControl.valueChanges.debounceTime(1000).distinctUntilChanged().subscribe(searchString => {
       //if(searchString != '' && searchString){
-        console.log('Search for:'+searchString)
-        let mode=0
+        console.log('Search for:'+searchString);
+        let mode=0;
         this.searchValue = searchString;
         if(searchString.length==0){mode=1}
         this.addItemsToGrid(searchString,mode);
@@ -101,7 +101,7 @@ export class CollectionPage {
   }
 
   addItemsToGrid(search,mode){
-    this.maxItems = this.values.products.length
+    this.maxItems = this.values.products.length;
     if(((search.length>0)&&(mode!=2))||(mode==1)){
       this.firstItem=0;
       this.lastItem=0;
@@ -112,15 +112,15 @@ export class CollectionPage {
       return false;  
     }
     if((this.firstItem + 18)>this.maxItems){
-      this.lastItem = this.maxItems
+      this.lastItem = this.maxItems;
     }
     else
     {
       this.lastItem = this.firstItem+18;
     }
-    console.log(this.firstItem)
-    console.log(this.lastItem-1)
-    console.log(this.maxItems)
+    console.log(this.firstItem);
+	console.log(this.lastItem-1);
+	console.log(this.maxItems);
     
     let abort=false;
     for (var i = this.firstItem; i < this.lastItem&&abort==false; i++) {
@@ -131,7 +131,7 @@ export class CollectionPage {
         }
         else
         {         
-          if(this.lastItem<this.maxItems){this.lastItem = this.lastItem + 1 ;} 
+          if(this.lastItem<this.maxItems){this.lastItem = this.lastItem + 1;} 
         }
       }
       else
@@ -163,7 +163,7 @@ export class CollectionPage {
   addProductToCart(product_title,material,designer_title,price,designer_id,type,product_id){
 
       if(this.values.user_profile.seller_account_id != 0){return false;}
-      //let qty = 0
+      //let qty = 0;
 
       //find the product
       let abort=false;
@@ -192,17 +192,17 @@ export class CollectionPage {
       }
     }
     if(abort){
-      return("assets/images/selected-icon.png")
+      return("assets/images/selected-icon.png");
     }
     else
     {  
-      return("assets/images/select-icon.png")
+      return("assets/images/select-icon.png");
     }
   }
 
   changeCollection(collection_id, designer_id, index){
     //console.log(JSON.stringify(this.values.collections));
-    console.log('Change Collection:'+collection_id)
+    console.log('Change Collection:'+collection_id);
     if(!this.values.online){
       if(this.values.collections[index].offline!='Downloaded'){
         this.data.offlineManager();
@@ -223,7 +223,7 @@ export class CollectionPage {
     this.data.getProduct(collection_id,this.values.device_token,this.values.user_profile.user_token,0,0).then((data) => {
       this.data.consolelog('Got collection products:'+collection_id)
       //this.values.products = data;
-      this.data.consolelog('Set Products Obj')
+      this.data.consolelog('Set Products Obj');
       //this.values.lsproducts = this.values.products; 
       this.firstItem = 0;
       this.addItemsToGrid('',0);     
@@ -238,11 +238,11 @@ export class CollectionPage {
       };
      if(mode!=3){    
       if(this.values.user_profile.forcecache){
-        mode=2
+        mode=2;
       }
       else
       {
-        mode=1
+        mode=1;
       }          
     }       
     let popover = this.popoverController.create(this.viewloaderPage,{collection_id:collection_id,designer_id:designer_id,mode:mode, source:'collection'});
