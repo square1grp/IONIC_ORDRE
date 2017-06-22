@@ -49,7 +49,7 @@ export class CartPage {
   }
 
   addSizes(){
-    return new Promise((resolve, reject) => {
+    //return new Promise((resolve, reject) => {
     console.log('*** Adding Sizes ***');
     this.values.cart.request.order[0].sales_order_parts.forEach((orderPart, part_index) => {
 
@@ -138,8 +138,8 @@ export class CartPage {
         });
       });
     });
-    resolve(null);
-    });
+    // resolve(null);
+    // });
     //console.log('Real Cart Contains:'+JSON.stringify(this.values.cart)); 
   }
 
