@@ -42,8 +42,6 @@ export class LinesheetPage {
   designer: any;
   @ViewChild(Content) content: Content;
   @ViewChild('toggle_totals_input') totalMenu:ElementRef;
-  @ViewChild('prevButton') prevButton:ElementRef;
-  @ViewChild('nextButton') nextButton:ElementRef;
 
   itemPage = ItemPage;
   itemsCnt: number;

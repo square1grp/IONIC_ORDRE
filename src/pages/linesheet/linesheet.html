@@ -47,11 +47,11 @@
       <span class="page_count">/ {{pages+1}} pages</span>
     </span>
     <div class="pagination">
-      <button ion-button #prevButton class="btn-paginate prev" color="light" (click)="prevPage(prevButton)" [style.visibility]="prevVisibility">PREV</button>
+      <button ion-button  class="btn-paginate prev" color="light" (click)="prevPage()" [style.visibility]="prevVisibility">PREV</button>
       <ng-container *ngFor="let pagecnt of pageGroupArray[currentGroupIndex], let i = index">
         <span><button class="btn-paginate" [ngClass]="{'active': page+1==pagecnt.page, '': page+1!=pagecnt.page}" type="button" tappable (click)="changePage(pagecnt.page)">{{pagecnt.page}}</button></span>   
       </ng-container>
-      <button ion-button #nextButton class="btn-paginate next" color="light" (click)="nextPage(prevButton)" [style.visibility]="nextVisibility" >NEXT</button>
+      <button ion-button  class="btn-paginate next" color="light" (click)="nextPage()" [style.visibility]="nextVisibility" >NEXT</button>
       <!--span class="clear_line_sheet">clear line sheet</span-->
     </div>
   </div>
