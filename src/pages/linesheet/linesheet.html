@@ -37,7 +37,7 @@
       <p><span>Designer Total {{this.values.designer.buyer_code}}</span><span>{{this.values.designer.buyer_symbol}}{{values.cart.request.order[0]?.sales_order_parts[this.cartProvider.order_part_item_id]?.total_amount | number :'.2'}}</span></p>
     </div>
 
-  </div>  
+  </div>
   
   <div class="collection_delivery"><p>{{data.selectedCollection?.collection_title}}</p><p>DELIVERS {{data.selectedCollection?.display_start_date}} - {{data.selectedCollection?.display_end_date}}</p>
   </div>  
@@ -47,11 +47,11 @@
       <span class="page_count">/ {{pages+1}} pages</span>
     </span>
     <div class="pagination">
-      <!--span><button class="btn-paginate prev" tappable="" type="button">PREV</button></span-->
-      <ng-container *ngFor="let pagecnt of pageArray, let i = index">
+      <button ion-button #prevButton class="btn-paginate prev" color="light" (click)="prevPage(prevButton)" [style.visibility]="prevVisibility">PREV</button>
+      <ng-container *ngFor="let pagecnt of pageGroupArray[currentGroupIndex], let i = index">
         <span><button class="btn-paginate" [ngClass]="{'active': page+1==pagecnt.page, '': page+1!=pagecnt.page}" type="button" tappable (click)="changePage(pagecnt.page)">{{pagecnt.page}}</button></span>   
       </ng-container>
-      <!--span><button class="btn-paginate next" tappable="" type="button">NEXT</button></span-->
+      <button ion-button #nextButton class="btn-paginate next" color="light" (click)="nextPage(prevButton)" [style.visibility]="nextVisibility" >NEXT</button>
       <!--span class="clear_line_sheet">clear line sheet</span-->
     </div>
   </div>

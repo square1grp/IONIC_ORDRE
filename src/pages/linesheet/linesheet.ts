@@ -27,11 +27,23 @@ export class LinesheetPage {
   lastPageItems: number;
   pageArray = [];
 
+  //pagination variables
+  currentGroupIndex: number;
+  pageLength: number;
+  pageArrayLength: number;
+  currentPageArray = [];
+  pageGroupArray = [];
+  totalGroupCount: number;
+  prevVisibility: string = "hidden";
+  nextVisibility: string = "hidden";
+
   collection: any;
   products: any;
   designer: any;
   @ViewChild(Content) content: Content;
   @ViewChild('toggle_totals_input') totalMenu:ElementRef;
+  @ViewChild('prevButton') prevButton:ElementRef;
+  @ViewChild('nextButton') nextButton:ElementRef;
 
   itemPage = ItemPage;
   itemsCnt: number;
@@ -40,7 +52,6 @@ export class LinesheetPage {
   searchControl: FormControl;
   searchValue: string;
   vArray: any;
-  
   constructor( private zone: NgZone, private cd: ChangeDetectorRef, private popoverController:PopoverController, public navCtrl: NavController, public navParams: NavParams, public data: Data, public cartProvider: CartProvider, public values: Values, private el: ElementRef, private renderer: Renderer, private alertCtrl:AlertController, private popoverCtrl:PopoverController) {
     //this.values.products = null;
 
@@ -83,6 +94,69 @@ export class LinesheetPage {
 
     this.addItemsToGrid();
     this.search();
+
+
+
+
+    //***** Pagination code part **************//
+
+    this.pageArrayLength = this.pageArray.length;
+    this.pageLength = 7;
+    this.currentGroupIndex = 0;
+
+    let remainGroup = this.pageArrayLength % this.pageLength;
+    let totalGroupCount = Math.floor(this.pageArrayLength / this.pageLength);
+    let groupIndex = 0;
+    let tempGroup = [];
+    let pageLength = this.pageLength;
+    
+    if(totalGroupCount == 0) {
+        pageLength = remainGroup;
+        this.prevVisibility = "hidden";
+        this.nextVisibility = "hidden";
+    }
+    else {
+        this.prevVisibility = "hidden";
+        this.nextVisibility = "visible";
+    }
+
+    for (let index = 0; index < this.pageArrayLength ; index++) {
+        tempGroup.push(this.pageArray[index]);
+        if((index + 1) % pageLength == 0) {
+          this.pageGroupArray.push(tempGroup);
+          groupIndex++;
+          this.totalGroupCount = groupIndex;
+          console.log(this.totalGroupCount);
+          if(groupIndex == totalGroupCount) pageLength = remainGroup;
+          tempGroup = [];
+        }
+    }
+  }
+
+  prevPage() {
+    if(this.currentGroupIndex <= 0){
+      this.currentGroupIndex = 0;
+    }
+    else
+    {
+      this.currentGroupIndex--;
+    }
+    if(this.currentGroupIndex == 0) this.prevVisibility = "hidden";
+    this.nextVisibility = "visible";
+  }
+
+  nextPage() {
+    if(this.currentGroupIndex >= this.totalGroupCount - 1)
+    {
+      this.currentGroupIndex = this.totalGroupCount - 1;
+    }
+    else
+    {
+      this.currentGroupIndex++;
+    }
+
+    if(this.currentGroupIndex == this.totalGroupCount - 1) this.nextVisibility = "hidden";
+    this.prevVisibility = "visible";
   }
 
   ionViewDidEnter(){
