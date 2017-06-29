@@ -444,4 +444,7 @@ export class LinesheetPage {
     //this.cd.markForCheck();
   }
   
+  tab(event) {
+    console.log(event);
+  }
 }

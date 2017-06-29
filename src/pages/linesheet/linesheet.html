@@ -126,7 +126,8 @@
             </div>
             <div class="product_sizes">
               <label for="s{{size.variant_id}}{{size.variant_size_id}}" *ngFor="let size of item?.variant.sizes">Size {{size.size_title}}
-                <input type="tel" ng-model="qty" name="{{size.variant_size_id}}" [disabled]="this.values.user_profile.seller_account_id != 0 ? true : null" value="{{size.qty}}" id="s{{size.variant_id}}{{size.variant_size_id}}" (blur)="addToCart(item?.product.product_title+' : '+item.variant.title,item.variant.colour,item?.product.materials,item?.variant.swatch.swatch_image,item?.variant.variant_images[0].variant_image,values.designer.title,size.variant_id,size.sku,item?.product.region_prices[this.values.user_profile.user_region_id].wsp,$event,values.designer.seller_account_id,size.size_title,size.variant_size_id,'type',item?.product.product_id)">
+                <ion-input (input)="tab($event)" type="number" ng-model="qty" name="size.variant_size_id" [disabled]="this.values.user_profile.seller_account_id != 0 ? true : null" value="{{size.qty}}" id="s{{size.variant_id}}{{size.variant_size_id}}" (blur)="addToCart(item?.product.product_title+' : '+item.variant.title,item.variant.colour,item?.product.materials,item?.variant.swatch.swatch_image,item?.variant.variant_images[0].variant_image,values.designer.title,size.variant_id,size.sku,item?.product.region_prices[this.values.user_profile.user_region_id].wsp,$event,values.designer.seller_account_id,size.size_title,size.variant_size_id,'type',item?.product.product_id)">
+                </ion-input>
               </label>
             </div>
             <!--p class="product_quantity">
