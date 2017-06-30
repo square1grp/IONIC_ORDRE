@@ -181,8 +181,8 @@ export class CartPage {
     //this.values.cart = Object.assign({}, this.values.emptyCart);
     //this.navCtrl.push(LoginPage);  
     let confirm = this.alertCtrl.create({
-      title: 'Conform Clear',
-      message: 'Are you sure to clear order?',
+      title: 'Confirm Clear Order',
+      message: 'Are you sure?',
       buttons: [
         {
           text: 'Cancel',
@@ -194,12 +194,12 @@ export class CartPage {
           text: 'OK',
           handler: () => {
               this.cartProvider.emptyOrder();
-              let toast = this.toastCtrl.create({
-                message: "Your Order has been cleared.",
-                duration: 3000,
-                position: 'middle'
-              });
-              toast.present();
+              // let toast = this.toastCtrl.create({
+              //   message: "Your Order has been cleared.",
+              //   duration: 3000,
+              //   position: 'middle'
+              // });
+              // toast.present();
 
               console.log('Clear Order');
               if (this.values.user_profile.seller_account_id){
