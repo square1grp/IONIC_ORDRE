@@ -74,11 +74,11 @@
                   </div>
                   <div class="product_sizes">
                     <label for="{{i}}{size.variant_size_id}}" *ngFor="let size of line.size; let i = index">Size {{size.title}}
-                        <input type="tel" ng-model="qty" name="{{i}}{{size.variant_size_id}}" value="{{size.qty}}" id="{{i}}{{size.variant_size_id}}" (blur)="addToCart(line.product_title,line.colour,line.materials,line.swatch,line.image,designer.title,size.variant_id,size.sku,line.price,$event,designer.seller_account_id,size.size_title,size.variant_size_id,'type',line.product_id)">
+                        <input type="number" ng-model="qty" name="{{i}}{{size.variant_size_id}}" value="{{size.qty}}" id="{{i}}{{size.variant_size_id}}" (blur)="addToCart(line.product_title,line.colour,line.materials,line.swatch,line.image,designer.title,size.variant_id,size.sku,line.price,$event,designer.seller_account_id,size.size_title,size.variant_size_id,'type',line.product_id)">
                     </label>                  
                   </div>
                   <p class="product_quantity">
-                    <input type="text" name="special_request" maxlength="255" value="{{line.special_request}}" placeholder="Enter product enquiry here" (blur)="addSpecial($event,line.variant_id,orderPart)">
+                    <input type="number" name="special_request" maxlength="255" value="{{line.special_request}}" placeholder="Enter product enquiry here" (blur)="addSpecial($event,line.variant_id,orderPart)">
                   </p>
                 </div>
                 <div class="item_price">

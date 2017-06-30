@@ -443,8 +443,5 @@ export class LinesheetPage {
     this.navCtrl.pop();
     //this.cd.markForCheck();
   }
-  
-  tab(event) {
-    console.log(event);
-  }
+
 }
