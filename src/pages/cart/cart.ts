@@ -1,5 +1,5 @@
 import { Component, ViewChild} from '@angular/core';
-import { NavController, NavParams, AlertController, Content  } from 'ionic-angular';
+import { NavController, NavParams, AlertController, ToastController, Content  } from 'ionic-angular';
 import { CartProvider } from '../../providers/cart';
 import { Values } from '../../providers/values';
 import { Data } from '../../providers/data';
@@ -29,7 +29,7 @@ export class CartPage {
   submitting: boolean;  
   @ViewChild(Content) content: Content;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public cartProvider: CartProvider, public values: Values, public data: Data, private alertCtrl: AlertController) {
+  constructor(public navCtrl: NavController, public toastCtrl: ToastController, public navParams: NavParams, public cartProvider: CartProvider, public values: Values, public data: Data, private alertCtrl: AlertController) {
 
   }
 
@@ -180,15 +180,41 @@ export class CartPage {
   clearOrder(){
     //this.values.cart = Object.assign({}, this.values.emptyCart);
     //this.navCtrl.push(LoginPage);  
-    this.cartProvider.emptyOrder();
-    console.log('Clear Order');
-    if (this.values.user_profile.seller_account_id){
-      this.navCtrl.setRoot(CollectionPage, { designer: this.values.designer });
-    }
-    else
-    {
-      this.navCtrl.setRoot(DesignersPage);
-    }
+    let confirm = this.alertCtrl.create({
+      title: 'Conform Clear',
+      message: 'Are you sure to clear order?',
+      buttons: [
+        {
+          text: 'Cancel',
+          handler: () => {
+              console.log('Clear Order are canceled');
+          }
+        },
+        {
+          text: 'OK',
+          handler: () => {
+              this.cartProvider.emptyOrder();
+              let toast = this.toastCtrl.create({
+                message: "Your Order has been cleared.",
+                duration: 3000,
+                position: 'middle'
+              });
+              toast.present();
+
+              console.log('Clear Order');
+              if (this.values.user_profile.seller_account_id){
+                this.navCtrl.setRoot(CollectionPage, { designer: this.values.designer });
+              }
+              else
+              {
+                this.navCtrl.setRoot(DesignersPage);
+              }          
+          }
+        }
+      ]
+    });
+    confirm.present();
+    
   }
 
   setItemQty(){
