@@ -152,11 +152,13 @@ export class CartProvider {
       if (this.order_part_item_id!=-1){
         let abort=false;
         for (let lindex = 0, len = this.values.cart.request.order[0].sales_order_parts[this.order_part_item_id].sales_order_lines.length; lindex < len && !abort; lindex++) {   
+          console.log('Ordre_line_sku:' + this.values.cart.request.order[0].sales_order_parts[this.order_part_item_id].sales_order_lines[lindex].sku);
+          console.log('Ordre_line_size_ sku:' + this.line_item.sku);
           if (this.values.cart.request.order[0].sales_order_parts[this.order_part_item_id].sales_order_lines[lindex].variant_id == this.line_item.variant_id) {
             hasVariant = hasVariant+1;
           }          
           if (this.values.cart.request.order[0].sales_order_parts[this.order_part_item_id].sales_order_lines[lindex].sku == this.line_item.sku) {
-            console.log('!Found Line Item:'+lindex+' matches this SKU:'+this.line_item.prodsku+' with existing SKU:'+this.values.cart.request.order[0].sales_order_parts[this.order_part_item_id].sales_order_lines[lindex].sku);
+            console.log('!Found Line Item:'+lindex+' matches this SKU:'+this.line_item.sku+' with existing SKU:'+this.values.cart.request.order[0].sales_order_parts[this.order_part_item_id].sales_order_lines[lindex].sku);
            this.line_item_id = lindex;
            if(qty>0){abort=true}
           }
@@ -219,7 +221,8 @@ export class CartProvider {
         else
         {
           //  remove the line item
-          this.values.cart.request.order[0].sales_order_parts[this.order_part_item_id].sales_order_lines.splice(this.line_item_id,1);
+          console.log("remove order line");
+          //this.values.cart.request.order[0].sales_order_parts[this.order_part_item_id].sales_order_lines.splice(this.line_item_id,1);
         }
 
         //recalc order total qty
@@ -287,6 +290,7 @@ export class CartProvider {
   }
 
   clearSomeItem(variant_id,keepit){
+    console.log("======= clearSomeItem =======");
     let abort=false;
     for (let i = 0, len = this.values.cart.request.order[0].sales_order_parts.length; i < len && !abort; i++) { 
       this.clearItem(i,-1,keepit,variant_id)
@@ -294,6 +298,7 @@ export class CartProvider {
   }
 
   clearItem(order_part,product_id,keepit,variant_id){  
+    console.log("======= clearItem =======");
     console.log('Clear:'+order_part+':'+product_id+':'+variant_id)
     let abort=false;
     let variant_removed = false;
