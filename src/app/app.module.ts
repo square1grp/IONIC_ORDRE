@@ -18,6 +18,7 @@ import { View360Page } from '../pages/view360/view360';
 import { Connectivity } from '../providers/connectivity';
 import { BrowserModule } from '@angular/platform-browser';
 import { InAppBrowser } from '@ionic-native/in-app-browser';
+import { Keyboard } from '@ionic-native/keyboard';
 
 //import { Storage } from '@ionic/storage';
 import { HttpModule } from '@angular/http';
@@ -82,6 +83,6 @@ import { Network } from '@ionic-native/network';
     ViewOrderPage,
     View360Page
   ],
-  providers: [InAppBrowser, StatusBar,SplashScreen,{provide: ErrorHandler, useClass: IonicErrorHandler}, CartProvider, Connectivity, Data, Values, File, Network]
+  providers: [InAppBrowser,Keyboard, StatusBar,SplashScreen,{provide: ErrorHandler, useClass: IonicErrorHandler}, CartProvider, Connectivity, Data, Values, File, Network]
 })
 export class AppModule {}
