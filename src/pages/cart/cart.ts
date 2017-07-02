@@ -34,6 +34,7 @@ export class CartPage {
   }
 
   ngOnInit(){
+    console.log("========  cart page ======");
 
     //   sort cart order parts by product_id
     /*
@@ -81,6 +82,7 @@ export class CartPage {
                   let CurrentTotal = 0;
                   console.log('** Checking order for products:' + variant.variant_id);
                   for (let sindex = 0, len = this.values.cart.request.order[0].sales_order_parts[part_index].sales_order_lines.length; sindex < len && !abort; sindex++) { 
+                    console.log('=======  Test: Ordreline index ========');
                     console.log('Test:'+this.values.cart.request.order[0].sales_order_parts[part_index].sales_order_lines[sindex].variant_id);
                     if (this.values.cart.request.order[0].sales_order_parts[part_index].sales_order_lines[sindex].variant_id == variant.variant_id){
                       console.log('Found one.');
@@ -144,7 +146,9 @@ export class CartPage {
   }
 
   addToCart(product_title,colour,material,swatch,image,designer_title,variant_id, sku, price, event, designer_id, size, size_id, type, product_id){     
-    if(this.values.user_profile.seller_account_id != 0){return false;}
+    if(this.values.user_profile.seller_account_id != 0){
+      console.log('this.values.user_profile.seller_account_id :' + this.values.user_profile.seller_account_id);
+      return false;}
     let qty = event.target.value
     console.log('add to cart:'+qty);
     this.cartProvider.addToCart(product_title,colour,material,swatch,image,designer_title,designer_id, product_id, variant_id, size, size_id, type, qty, price, sku);
@@ -165,19 +169,21 @@ export class CartPage {
 
 
   clearItem(order_part,product_id,keepit,variant_id){
-
+    console.log("========  clear Item in Current Order page ======");
     console.log('Clear line variant id:'+variant_id)
     this.cartProvider.clearItem(order_part,product_id,keepit,variant_id)
     this.setItemQty();
   }
 
   clearDesigner(order_part){
+    console.log("========  clear designer ======");
     console.log('Clear designer:'+order_part);
     this.cartProvider.clearItem(order_part,0,0,0)
   }
 
 
   clearOrder(){
+    console.log("========  clear Order**** in Current Order page ======");
     //this.values.cart = Object.assign({}, this.values.emptyCart);
     //this.navCtrl.push(LoginPage);  
     let confirm = this.alertCtrl.create({
