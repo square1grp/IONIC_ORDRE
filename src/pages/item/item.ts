@@ -34,6 +34,7 @@ export class ItemPage {
 
   cart: any;
   nb: any;
+  qty: any;
 
   constructor(public navCtrl: NavController, public viewCtrl: ViewController, public popoverCtrl: PopoverController, public navparams: NavParams, public cartProvider: CartProvider, public values: Values, public data: Data) {
 
@@ -99,11 +100,20 @@ export class ItemPage {
 
   addToCart(product_title,colour,material,swatch,image,designer_title,variant_id, sku, price, event, designer_id, size, size_id, type, product_id){
       if(this.values.user_profile.seller_account_id != 0){return false;}
-      let qty = event.target.value
-      //this.data.consolelog('add to cart:'+qty);
-      this.cartProvider.addToCart(product_title,colour,material,swatch,image,designer_title,designer_id, product_id, variant_id, size, size_id, type, qty, price, sku);
+      if(event == null) {
+          this.qty = 0;
+      } else {
+          this.qty = event.target.value;
+          if(this.qty == "") this.qty = 0;
+      }
+      this.cartProvider.addToCart(product_title,colour,material,swatch,image,designer_title,designer_id, product_id, variant_id, size, size_id, type, this.qty, price, sku);
       
       this.setItemQty();
+      this.qty = 0;
+    console.log('/////////////----  variant start ----/////////////');
+    //console.log(variantOB);
+    console.log('/////////////----   variant end  ----/////////////');
+
   }
 
   clearItem(variant_id,keepit){
@@ -157,6 +167,25 @@ export class ItemPage {
     this.navCtrl.pop();
   }
 
-  
+  isProductInOrder(product_id, variant_id, designer_id){
+    let abort=false;
+    for (let part = 0, len = this.values.cart.request.order[0].sales_order_parts.length; part < len && !abort; part++) {
+      if (this.values.cart.request.order[0].sales_order_parts[part].seller_account_id==designer_id){
+        //check line items
+        for (let line = 0, len = this.values.cart.request.order[0].sales_order_parts[part].sales_order_lines.length; line < len && !abort; line++) {
+          if(this.values.cart.request.order[0].sales_order_parts[part].sales_order_lines[line].product_id == product_id && this.values.cart.request.order[0].sales_order_parts[part].sales_order_lines[line].variant_id == variant_id) {
+            abort=true;
+          }
+        }  
+      }
+    }
+    if(abort){
+      return("assets/images/selected-icon.png");
+    }
+    else
+    {  
+      return("assets/images/select-icon.png");
+    }
+  }
   
 }

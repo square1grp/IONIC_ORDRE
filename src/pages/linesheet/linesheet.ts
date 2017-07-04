@@ -50,6 +50,8 @@ export class LinesheetPage {
   searchControl: FormControl;
   searchValue: string;
   vArray: any;
+  qty: any = 0;
+  addFlag: boolean = false;
   constructor( private zone: NgZone, private cd: ChangeDetectorRef, private popoverController:PopoverController, public navCtrl: NavController, public navParams: NavParams, public data: Data, public cartProvider: CartProvider, public values: Values, private el: ElementRef, private renderer: Renderer, private alertCtrl:AlertController, private popoverCtrl:PopoverController) {
     //this.values.products = null;
 
@@ -325,21 +327,65 @@ export class LinesheetPage {
     })
   }
   */
-  addToCart(product_title,colour,material,swatch,image,designer_title, variant_id, sku, price, event, designer_id, size, size_id, type, product_id){
+  addToCart(product_title,colour,material,swatch,image,designer_title, variant_id, sku, price, event, designer_id, size, size_id, type, product_id, itemItem){
     this.zone.run(() => {
       if(this.values.user_profile.seller_account_id != 0){return false;}
-      let qty = event.target.value
+      if(event == null) {
+          this.qty = 0;
+          this.addFlag = true;          
+      } else {
+          this.qty = event.target.value;
+          if(this.qty == "") this.qty = 0;
+      }
+      this.cartProvider.addToCart(product_title,colour,material,swatch,image,designer_title, designer_id, product_id, variant_id, size, size_id, type, this.qty, price, sku);
+      this.setItemQty();
+      this.cd.markForCheck();
+      this.qty = 0;
+    });
+    console.log("====== item ========");
+    console.log(itemItem);
+    console.log("====== item end ========");    
+  }
+  
+  addProductVariantToCart(product_title,colour,material,swatch,image,designer_title, variant_id, sku, price, event, designer_id, size, size_id, type, product_id, itemItem){
+    this.zone.run(() => {
+      if(this.values.user_profile.seller_account_id != 0){return false;}
+      let qty = event.target.value;
       this.data.consolelog('add to cart:'+qty);
       this.cartProvider.addToCart(product_title,colour,material,swatch,image,designer_title, designer_id, product_id, variant_id, size, size_id, type, qty, price, sku);
       this.setItemQty();
       this.cd.markForCheck();
     });
+    console.log("====== item ========");
+    console.log(itemItem);
+    console.log("====== item end ========");
   }
 
   clearItem(variant_id,keepit){
     this.data.consolelog('Clear variant id:'+variant_id)
     this.cartProvider.clearSomeItem(variant_id,keepit)
     this.setItemQty();
+  }
+
+  isProductInOrder(product_id, variant_id, designer_id){
+    let abort=false;
+    for (let part = 0, len = this.values.cart.request.order[0].sales_order_parts.length; part < len && !abort; part++) {
+      if (this.values.cart.request.order[0].sales_order_parts[part].seller_account_id==designer_id){
+        //check line items
+        for (let line = 0, len = this.values.cart.request.order[0].sales_order_parts[part].sales_order_lines.length; line < len && !abort; line++) {
+          if(this.values.cart.request.order[0].sales_order_parts[part].sales_order_lines[line].product_id == product_id && this.values.cart.request.order[0].sales_order_parts[part].sales_order_lines[line].variant_id == variant_id) {
+            abort=true;
+          }
+        }  
+      }
+    }
+    if(abort){
+      return("assets/images/selected-icon.png");
+    }
+    else
+    {  
+      return("assets/images/select-icon.png");
+    }
   }
 
   setItemQty(){
