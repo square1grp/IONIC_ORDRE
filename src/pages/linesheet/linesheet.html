@@ -137,7 +137,7 @@
           <span class="add_to_cart_item" tappable (click)="addToCart(item?.product.product_title+' : '+item.variant.title, item.variant.colour, item?.product.materials, item?.variant.swatch.swatch_image, item?.variant.variant_images[0].variant_image, values.designer.title, item?.variant.sizes[0].variant_id, item?.variant.sizes[0].sku, item?.product.region_prices[this.values.user_profile.user_region_id].wsp, null, values.designer.seller_account_id, item?.variant.sizes[0].size_title, item?.variant.sizes[0].variant_size_id,'all', item?.product.product_id, item)">
               <img [src]="isProductInOrder(item?.variant.product_id, item?.variant.variant_id, values.designer.seller_account_id)"/></span>
           <div>
-              <p class="total_title">Products total WSP</p>
+              <p class="total_title"><!-- Products total WSP--></p>
               <p class="product_total" [ngClass]="{'active': item?.variant.total>0, '': item?.variant?.total==0}">{{this.values.designer.buyer_code}} {{this.values.designer.buyer_symbol}}{{item?.variant.total | number :'.2'}}</p> 
               <p class="clear_item" tappable (click)="clearItem(item?.variant?.variant_id,1)">Clear item</p>
             </div>
