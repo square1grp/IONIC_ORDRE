@@ -130,44 +130,28 @@ export class CartProvider {
       }
     };
 
-    console.log('Found:'+this.order_part_item_id)
-
     //add sales_order_line
-    qty = parseInt(qty) 
+    qty = parseInt(qty)
     if (isNaN(parseFloat(qty))||(qty==undefined)){
       qty=0
     }
 
     if(qty!=undefined){
-      console.log(prodsku)
-      console.log('product_id:'+product_id)
       this.line_item = {'product_title':product_title,'product_id':product_id, 'variant_id':variant_id,'variant_size_id':size_id, 'size_title':size, 'quantity':qty, 'price': price, 'sku':prodsku,'material':material,'colour':colour,'swatch':swatch,'image':image}
-      console.log(this.line_item.sku)
-      console.log(prodsku)
-      console.log('Qty:'+qty)
-
-      //  is this product already in the cart
       let hasVariant = 0
       this.line_item_id=-1;
       if (this.order_part_item_id!=-1){
         let abort=false;
         for (let lindex = 0, len = this.values.cart.request.order[0].sales_order_parts[this.order_part_item_id].sales_order_lines.length; lindex < len && !abort; lindex++) {   
-          console.log('Ordre_line_sku:' + this.values.cart.request.order[0].sales_order_parts[this.order_part_item_id].sales_order_lines[lindex].sku);
-          console.log('Ordre_line_size_ sku:' + this.line_item.sku);
           if (this.values.cart.request.order[0].sales_order_parts[this.order_part_item_id].sales_order_lines[lindex].variant_id == this.line_item.variant_id) {
             hasVariant = hasVariant+1;
           }          
           if (this.values.cart.request.order[0].sales_order_parts[this.order_part_item_id].sales_order_lines[lindex].sku == this.line_item.sku) {
-            console.log('!Found Line Item:'+lindex+' matches this SKU:'+this.line_item.sku+' with existing SKU:'+this.values.cart.request.order[0].sales_order_parts[this.order_part_item_id].sales_order_lines[lindex].sku);
            this.line_item_id = lindex;
            if(qty>0){abort=true}
           }
         };
       }
-      console.log(JSON.stringify(this.line_item))
-      console.log('Line Item to update:'+this.line_item_id)
-      console.log(this.line_item.sku)
-      console.log(this.line_item.price)
       //  add new line item or replace QTY
       let oldQty = 0
       let doTally = 0

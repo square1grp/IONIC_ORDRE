@@ -84,7 +84,10 @@ export class CollectionPage {
 
     }  
     //this.data.loading.dismiss().catch((err) => {console.log('Problem with spinner:'+err)});
-    this.search();       
+    this.search(); 
+    console.log("======= products start =======");
+    console.log(this.values.products);
+    console.log("======= products end =======");      
   }
 
   search(){

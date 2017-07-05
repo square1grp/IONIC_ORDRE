@@ -142,7 +142,11 @@ export class CartPage {
     });
     // resolve(null);
     // });
-    //console.log('Real Cart Contains:'+JSON.stringify(this.values.cart)); 
+    console.log('===== Real Cart Contains: JSON.stringify ========');
+    console.log(JSON.stringify(this.values.cart)); 
+    console.log('===== Real Cart Contains ========');
+    console.log(this.values.cart);
+    console.log('===== Real Cart Contains ========');
   }
 
   addToCart(product_title,colour,material,swatch,image,designer_title,variant_id, sku, price, event, designer_id, size, size_id, type, product_id){     
