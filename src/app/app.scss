@@ -1,6 +1,6 @@
 /*
 ********************
-ORDRE APP STYLE, 2017-06-19 20:05
+ORDRE APP STYLE, 2017-07-05 21:00
 ********************
 */
 
@@ -724,7 +724,7 @@ page-linesheet .ordre_subheader .content_sorter {
 .ordre_subheader .content_sorter .sorter_item {
 	display:inline-block;
 	position:relative;
-	border:1px solid #b1a8a8;
+	border:1px solid #333333;
 	padding:2px 10px;
 }
 
@@ -885,7 +885,7 @@ page-linesheet .ordre_subheader .content_sorter {
 	text-transform:uppercase;
 	padding:3px 10px;
 	border-radius:0px;
-	color:#b1a8a8;
+	color:#333333;
 	border-color:#b1a8a8;
 	font-size:16px;
 	font-family:'San Francisco Regular';
@@ -895,7 +895,7 @@ page-linesheet .ordre_subheader .content_sorter {
 	text-transform:uppercase;
 	padding:3px 10px;
 	border-radius:0px;
-	color:#b1a8a8;
+	color:#333333;
 	border-color:#b1a8a8;
 	font-size:16px;
 	font-family:'San Francisco Regular';
@@ -2834,9 +2834,9 @@ section.page_content#collection_item_section {
 	border:1px solid #eaeaea;
 	outline:none;
 	font-family:'Avenir Roman';
-	font-size:18px;
-	color:#818181;
-	padding:0px 4px;
+	font-size:20px;
+	color:#525252;
+	padding:4px 8px;
 }
 
 #collection_item_section .line_sheet_item .product_sizes input:focus {
