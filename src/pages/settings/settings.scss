@@ -16,4 +16,41 @@ page-settings {
         border-width: 1px;
         border-radius: 0px !important;
     }
+    .label {
+        color: #000000;
+        text-align: left;
+    }
+    .list-ios .item-block .item-inner {
+        border-bottom: 0px;
+    }
+    .radio-ios .radio-icon {
+        left: 0%;
+        position: absolute;
+    }
+    .col-md-9 {
+        padding-left: 0px;
+    }
+    .text-input-ios {
+        padding: 11px 8px 11px 8px;
+        /* padding: 0; */
+        width: calc(82% - 8px);
+        border: 1px solid !important;
+        margin: 6px 0 24px 0;
+    }
+    .selector-list {
+        border-bottom: 1px solid;
+        margin-bottom: 0;
+    }
+    .list-ios > .item-block:last-child, .list-ios > .item-wrapper:last-child .item-block {
+        border: 0px solid #b5b5b5;
+    }
+    .list-ios {
+        margin-left: 3%;
+    }
+    .order_buyer .order_buyer_submit {
+        margin-top: 10%;
+        float: right;
+        margin-right: 15%;  
+        border: 0px;      
+    }
 }

@@ -18,6 +18,10 @@ export class MyApp {
 
   constructor(private statusBar: StatusBar,public keyboard: Keyboard, private splashScreen: SplashScreen, public platform: Platform, public menu: MenuController, public dataService: Data, public events: Events, public connectivity: Connectivity, public values: Values) {
     platform.ready().then(() => {
+      // console.log("====== platform width and hight =====");
+      // console.log(platform.width());
+      // console.log(platform.height());
+      // console.log("======================================");
       this.splashScreen.show();
       this.statusBar.hide();
       this.statusBar.overlaysWebView(false);

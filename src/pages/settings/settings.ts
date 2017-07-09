@@ -18,12 +18,13 @@ import { CollectionPage } from '../collection/collection';
 export class SettingsPage {
 
   retailer: any;
-  buyer: any;
-  retailers: any;
-  retailer_id: any;
+  thisBuyer_id: any = 0;
+  retailers: any = [];
+  searchResultRetailers: any = [];
+  retailer_id: any = 0;
   collectionPage = CollectionPage;
   retailersLoading: any;
-  buyers: [{'first_name':'Select Retailer','last_name':'','buyer_id':0}];
+  buyers: any = [];// [{'first_name':'Select Retailer','last_name':'','buyer_id':0}];
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public data: Data, private values: Values) {
     //
@@ -32,34 +33,50 @@ export class SettingsPage {
   ngOnInit(){
     this.retailersLoading = true;
     this.getThisRetailers().then(data => {
-      this.retailersLoading = false;  
+      this.retailersLoading = false;
     });
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad SettingsPage');
-
   }
 
   getThisRetailers(){
     return new Promise((resolve, reject) => {
-      this.data.getRetailers(this.values.device_token,this.values.user_profile.user_token).then(response => {     
+      this.data.getRetailers(this.values.device_token,this.values.user_profile.user_token).then(response => { 
         this.retailers = response;
         resolve(true);
-        //console.log('Retailers:' + JSON.stringify(this.retailers));
+        // console.log('====== Retailers =======');
+        // console.log(this.retailers);
+        // console.log('========================');
       });
     });
   }
-
-  setBuyers(retailer_id){
+  searchRetailers(event) {
+    this.searchResultRetailers = this.retailers;
+    this.retailer_id = 0;
+    this.buyers = [];
+    this.thisBuyer_id = 0;
+    let searchString = event.target.value;
+    if(searchString && searchString.trim() != "") {
+      this.searchResultRetailers = this.searchResultRetailers.filter((retailer) => {
+          return (retailer.business_name.toLowerCase().indexOf(searchString.toLowerCase()) > -1);
+      });
+    }
+    else {
+      this.searchResultRetailers = [];
+    }
+  }
+  setBuyers(){
     //  get the retailer from Retailers
-      this.retailer_id = retailer_id
-      console.log('Get buyers for:'+retailer_id)
+      //this.retailer_id = retailer_id
+      //console.log('Get buyers for:'+this.retailer_id)
+      this.thisBuyer_id = 0;
       let abort = false;
-      for (let i = 0, len = this.retailers.length; i < len && !abort; i++) { 
-        if(this.retailers[i].retailer_id == retailer_id){
+      for (let i = 0, len = this.searchResultRetailers.length; i < len && !abort; i++) { 
+        if(this.searchResultRetailers[i].retailer_id == this.retailer_id){
           abort = true;
-          this.buyers = this.retailers[i].buyers
+          this.buyers = this.searchResultRetailers[i].buyers
         }
       }
       console.log('Buyers:' + JSON.stringify(this.buyers));
@@ -67,12 +84,12 @@ export class SettingsPage {
     //this.buyers = [{'first_name':'John','last_name':'Smith','buyer_id':0}];
   }
 
-  startMasquerade(buyer_id){
+  startMasquerade(){
 
     let account_id = this.values.user_profile.seller_account_id
     this.values.user_profile.masquarade_id = account_id;
     this.values.user_profile.seller_account_id = 0;
-    this.values.user_profile.buyer_id = buyer_id;
+    this.values.user_profile.buyer_id = this.thisBuyer_id;
 
     this.retailer = this.getRetailer(this.retailer_id)
     let account_name = this.values.user_profile.business_display_name
