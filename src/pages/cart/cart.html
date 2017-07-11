@@ -106,7 +106,8 @@
         </article>
         <div class="fe_footer">
           <div class="col-md-12 fe_buttons">
-            <a (click)="saveDraft('draft','draft')" class="fe_save_draft" *ngIf="this.submitting==false">Save as draft order</a>
+            <ion-input id="focus-input" #focusInput></ion-input>
+            <a (click)="timeSaveDraft('draft','draft')" class="fe_save_draft" *ngIf="this.submitting==false">Save as draft order</a>
             <ion-spinner name="ios" *ngIf="this.submitting==true"></ion-spinner>
             <a (click)="saveOrder('draft','server')" class="confirm_order send_draft" *ngIf="((this.submitting==false))">Send Draft to Server</a>
             <ion-spinner name="ios" *ngIf="this.submitting==true"></ion-spinner>

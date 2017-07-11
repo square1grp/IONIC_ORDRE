@@ -6,6 +6,7 @@ import { Data } from '../../providers/data';
 import { OrdersPage } from '../orders/orders';
 import { DesignersPage } from '../designers/designers';
 import { CollectionPage } from '../collection/collection';
+import { Keyboard } from '@ionic-native/keyboard';
 /*
   Generated class for the Cart page.
 
@@ -28,8 +29,9 @@ export class CartPage {
   collectionPage = CollectionPage;
   submitting: boolean;  
   @ViewChild(Content) content: Content;
+  @ViewChild('focusInput') forcusInput;
 
-  constructor(public navCtrl: NavController, public toastCtrl: ToastController, public navParams: NavParams, public cartProvider: CartProvider, public values: Values, public data: Data, private alertCtrl: AlertController) {
+  constructor(public navCtrl: NavController, public toastCtrl: ToastController, public navParams: NavParams, public cartProvider: CartProvider, public values: Values, public data: Data, private alertCtrl: AlertController, public keyboard: Keyboard) {
 
   }
 
@@ -160,6 +162,7 @@ export class CartPage {
   }
 
   addSpecial(event,variant_id,part_id){
+    
     if(this.values.user_profile.seller_account_id != 0){return false;}
     let message = event.target.value;  
     console.log('Variant ID:'+variant_id+':'+message)    
@@ -169,6 +172,7 @@ export class CartPage {
         console.log('Set request for line:'+i)
       }
     });  
+    console.log('===== addSpecial ========');
   }
 
 
@@ -265,7 +269,9 @@ export class CartPage {
   }
 
   saveOrder(mode,ui){ 
-    //console.log('add to cart');
+    this.forcusInput.setFocus();
+    this.keyboard.close();
+    console.log('add to cart');
     if(this.submitting==true){return false}
     //check we're online
     if(!this.values.online){   
@@ -352,8 +358,18 @@ export class CartPage {
     });
     alert.present();    
   }
+  
+  timeSaveDraft(mode, ui) {
+    this.forcusInput.setFocus();
+    this.keyboard.close();
+    this.saveDraft(mode,ui);
+    // setTimeout(() => {
+    //   this.saveDraft(mode,ui);
+    // }, 1000);
+  }
 
   saveDraft(mode,ui){
+    this.keyboard.close();
     console.log('Save Draft');
     if(this.submitting==true){return false}
     this.submitting=true;
