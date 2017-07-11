@@ -358,17 +358,9 @@ export class CartPage {
     });
     alert.present();    
   }
-  
-  timeSaveDraft(mode, ui) {
-    this.forcusInput.setFocus();
-    this.keyboard.close();
-    this.saveDraft(mode,ui);
-    // setTimeout(() => {
-    //   this.saveDraft(mode,ui);
-    // }, 1000);
-  }
 
   saveDraft(mode,ui){
+    this.forcusInput.setFocus();
     this.keyboard.close();
     console.log('Save Draft');
     if(this.submitting==true){return false}

@@ -25,6 +25,7 @@ export class SettingsPage {
   collectionPage = CollectionPage;
   retailersLoading: any;
   buyers: any = [];// [{'first_name':'Select Retailer','last_name':'','buyer_id':0}];
+  typeahead: string = "";
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public data: Data, private values: Values) {
     //
@@ -46,9 +47,6 @@ export class SettingsPage {
       this.data.getRetailers(this.values.device_token,this.values.user_profile.user_token).then(response => { 
         this.retailers = response;
         resolve(true);
-        // console.log('====== Retailers =======');
-        // console.log(this.retailers);
-        // console.log('========================');
       });
     });
   }
@@ -62,15 +60,30 @@ export class SettingsPage {
       this.searchResultRetailers = this.searchResultRetailers.filter((retailer) => {
           return (retailer.business_name.toLowerCase().indexOf(searchString.toLowerCase()) > -1);
       });
+      let abort = false;
+      if(this.searchResultRetailers.length > 0) {
+        for (let i = 0, len = this.searchResultRetailers.length; i < len && !abort; i++) { 
+          if(this.searchResultRetailers[i].business_name.toLowerCase().indexOf(searchString.toLowerCase()) == 0){
+            abort = true;
+            this.typeahead = this.searchResultRetailers[i].business_name;
+            let typeaheadTail = this.searchResultRetailers[i].business_name.substr(searchString.length);
+            this.typeahead = searchString.concat(typeaheadTail);
+          }
+          else {
+            this.typeahead = "";
+          }
+        }
+      }
+      else {
+        this.typeahead = "";
+      }
     }
     else {
       this.searchResultRetailers = [];
+      this.typeahead = "";
     }
   }
   setBuyers(){
-    //  get the retailer from Retailers
-      //this.retailer_id = retailer_id
-      //console.log('Get buyers for:'+this.retailer_id)
       this.thisBuyer_id = 0;
       let abort = false;
       for (let i = 0, len = this.searchResultRetailers.length; i < len && !abort; i++) { 
@@ -79,9 +92,6 @@ export class SettingsPage {
           this.buyers = this.searchResultRetailers[i].buyers
         }
       }
-      console.log('Buyers:' + JSON.stringify(this.buyers));
-    //  set buyers
-    //this.buyers = [{'first_name':'John','last_name':'Smith','buyer_id':0}];
   }
 
   startMasquerade(){

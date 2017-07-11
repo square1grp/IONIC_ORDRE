@@ -31,8 +31,7 @@ page-settings {
         padding-left: 0px;
     }
     .text-input-ios {
-        padding: 11px 8px 11px 8px;
-        /* padding: 0; */
+        padding: 11px 15px 11px 15px;
         width: calc(82% - 8px);
         border: 1px solid !important;
         margin: 6px 0 24px 0;
@@ -51,6 +50,15 @@ page-settings {
         margin-top: 10%;
         float: right;
         margin-right: 15%;  
-        border: 0px;      
+        border: 0px;
+    }
+    div#search-inputs {
+        position: relative;
+        height: 75px;
+        padding-left: 15px;
+    }
+    div#search-inputs ion-input {
+        position: absolute;
+        padding-left: 2%;
     }
 }

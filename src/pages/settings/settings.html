@@ -27,7 +27,10 @@
 				<ion-spinner name="ios" *ngIf="this.retailersLoading==true"></ion-spinner>
 			</div>
 			<p class="col-md-9" *ngIf="this.retailersLoading==false">1. Search for a Retailer</p>
-			<ion-input (input)="searchRetailers($event)" *ngIf="this.retailersLoading==false"></ion-input>
+			<div id="search-inputs" class="col-md-11">
+				<ion-input id="typeahead-field" *ngIf="this.retailersLoading==false" value="{{typeahead}}" [style.color]="'#999'" readonly="true"></ion-input>
+				<ion-input id="search-field" (input)="searchRetailers($event)" *ngIf="this.retailersLoading==false"></ion-input>
+			</div>
 			<div class="col-md-5" *ngIf="this.searchResultRetailers.length > 0">
 				<p class="selector-list">2. Select Retailers</p>
 				<ion-list radio-group [(ngModel)]="retailer_id" (ionChange)="setBuyers()">
@@ -49,11 +52,8 @@
 					<button class="order_buyer_submit" (click)="startMasquerade()" [style.background]="thisBuyer_id==0 ? '#000' : '#3CC7EF'">Order as Buyer</button>
 				</div>
 			</div>			
-			
-
 		</div>
 	</section>
-
 </section>
 </div>
 </ion-content>
