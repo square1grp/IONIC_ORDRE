@@ -190,7 +190,8 @@ section.welcome_section .sitename_wrapper .line_divider {
 }
 
 #pbody.logged_out.login_page {
-	background:url(../assets/images/ordre_bg_login.jpg) no-repeat center top;
+	/* background:url(../assets/images/ordre_bg_login.jpg) no-repeat center top; */
+	background:url(https://www.ordre.com/css/images/ordre-home-image_center.jpg) no-repeat center top;
 	background-size:cover;
 	display:block;
 	-webkit-transform-style:preserve-3d;
