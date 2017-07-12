@@ -260,9 +260,8 @@ export class CollectionPage {
   }
 
   lineSheet(){
-    //this.data.presentLoadingCustom();
-    console.log('Tapped');
-    //this stupid delay otherwise no spinner
+    //console.log('Tapped');
+    this.data.presentLoadingCustom();
     setTimeout(() => {
       this.navCtrl.push(LinesheetPage, { collection: this.data.selectedCollection })}
     ,500);

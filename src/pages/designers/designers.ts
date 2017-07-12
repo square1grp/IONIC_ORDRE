@@ -49,7 +49,9 @@ export class DesignersPage {
           this.data.consolelog('Set products from download after init')
           this.data.consolelog('Got product JSON:'+this.data.currentCollectionID)
           console.log('Loading init items');
-          loading.dismissAll();
+          setTimeout(() => {
+                loading.dismissAll();
+          }, 1600);
           this.navCtrl.push(CollectionPage, { designer: designer, mode:'' });
         }).catch(function(err){
             console.log(err);

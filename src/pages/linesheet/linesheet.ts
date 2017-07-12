@@ -123,13 +123,17 @@ export class LinesheetPage {
     for (let index = 0; index < this.pageArrayLength ; index++) {
         tempGroup.push(this.pageArray[index]);
         if((index + 1) % pageLength == 0) {
-          this.pageGroupArray.push(tempGroup);
-          groupIndex++;
-          this.totalGroupCount = groupIndex;
-          console.log(this.totalGroupCount);
-          if(groupIndex == totalGroupCount) pageLength = remainGroup;
-          tempGroup = [];
+            this.pageGroupArray.push(tempGroup);
+            groupIndex++;
+            this.totalGroupCount = groupIndex;
+            console.log(this.totalGroupCount);
+            if(groupIndex == totalGroupCount) pageLength = remainGroup;
+            tempGroup = [];
         }
+    }
+    if(typeof this.data.loading !== 'undefined') {
+        this.data.loading.dismissAll();;
+        this.data.loadingState = false;
     }
   }
 

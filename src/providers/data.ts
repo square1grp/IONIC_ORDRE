@@ -30,7 +30,7 @@ export class Data {
   selectedCollection: any;
   retailers: any;
   buyers: any;
-  //loading: any;
+  loading: any;
   
 
   //drafts and orders
@@ -44,6 +44,7 @@ export class Data {
   storeCollection: any;
   storeProducts: any;
   dlog: any;
+  loadingState: boolean = false;
 
   SQLLite: boolean;
 
@@ -1176,6 +1177,26 @@ export class Data {
   //     //})
   //   //})
   // }
+
+  presentLoadingCustom() {
+        this.loading = this.loadingCtrl.create({
+              dismissOnPageChange: false,
+              spinner: 'crescent',
+              content: `
+                    <div id="loading" class="loading_container">
+                      <div class="loading_spinner"></div>
+                    </div>`
+        });
+        this.loadingState = true;
+        this.loading.present().then(() =>{
+              setTimeout(() => {
+                    if(this.loadingState == true) {
+                          this.loading.dismissAll();;
+                          this.loadingState = false;
+                    }
+              }, 20000);
+        })
+  }
 
   consolelog(str){
     if(this.values.debug){
