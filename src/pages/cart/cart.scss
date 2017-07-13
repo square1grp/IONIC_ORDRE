@@ -5,4 +5,20 @@ page-cart {
         display: inline-block;
         color: #fff;
     }
+    .scroll-content {
+        overflow-y: hidden;
+    }
+    div.open_bar#pbody {
+        height: 100%;
+    }
+    section.page_content {
+        height: 100%;
+    }
+    section #fe_content {
+        height: 100%;
+        overflow-y: scroll;
+    }
+    div.fe_sidebar_overlay {
+        overflow-y: scroll;
+    }
 }

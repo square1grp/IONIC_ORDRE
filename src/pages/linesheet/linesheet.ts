@@ -110,8 +110,8 @@ export class LinesheetPage {
     let tempGroup = [];
     let pageLength = this.pageLength;
     
-    if(totalGroupCount == 0) {
-        pageLength = remainGroup;
+    if((totalGroupCount == 0) || (totalGroupCount == 1 && remainGroup == 0)) {
+        if(remainGroup != 0) pageLength = remainGroup;
         this.prevVisibility = "hidden";
         this.nextVisibility = "hidden";
     }
@@ -159,7 +159,7 @@ export class LinesheetPage {
       this.currentGroupIndex++;
     }
 
-    if(this.currentGroupIndex == this.totalGroupCount - 1) this.nextVisibility = "hidden";
+    if((this.currentGroupIndex == this.totalGroupCount - 1) || (this.currentGroupIndex == this.totalGroupCount && this.pageArrayLength % this.pageLength == 0)) this.nextVisibility = "hidden";
     this.prevVisibility = "visible";
   }
 

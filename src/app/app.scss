@@ -3040,7 +3040,7 @@ section.page_content#collection_item_section {
 
 .open_bar #fe_section .fe_sidebar {
 	display:block;
-	width:25%;
+	width:100%;
 	float:left;
 	background:#ffffff;
 	border-right:solid 1px #b6b6b6;
@@ -3542,11 +3542,12 @@ section#fe_content {
 }
 
 .fe_sidebar_overlay {
-	position:absolute;
+	position: relative;
 	top:0px;
 	bottom:0px;
 	left:0px;
 	width:25%;
+	float: left;
 	background:#f7f7f7;
 	z-index:9;
 	min-height:1000px !important;
