@@ -689,9 +689,12 @@ section.page_content:after {
 	position:relative;
 	top:-6px;
 	right:3px;
-	max-width:75%;
 	line-height:1;
 	transform:translateY(-50%);
+	overflow: hidden;
+    word-wrap: break-word;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 .content_sorter .collection_title {
@@ -3043,7 +3046,7 @@ section.page_content#collection_item_section {
 	width:100%;
 	float:left;
 	background:#ffffff;
-	border-right:solid 1px #b6b6b6;
+	//border-right:solid 1px #b6b6b6;
 }
 
 .open_bar #fe_section .fe_sidebar .sidebar_title {
@@ -3062,6 +3065,7 @@ section.page_content#collection_item_section {
 	float:left;
 	position:relative;
 	padding-bottom:20px;
+	border-left:solid 1px #b6b6b6;
 }
 
 .open_bar #fe_section #fe_content .fe_item {
@@ -3552,7 +3556,6 @@ section#fe_content {
 	z-index:9;
 	min-height:1000px !important;
 	height:100%;
-	border-right:solid 1px #b6b6b6;
 }
 
 page-cart div.scroll_content {
