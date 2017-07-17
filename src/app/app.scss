@@ -2730,9 +2730,7 @@ section.page_content#collection_item_section {
 }
 
 #collection_item_section .line_sheet_item .item_meta {
-	width:60%;
 	float:left;
-	height:110px;
 	padding-left:15px;
 }
 
@@ -2863,15 +2861,12 @@ section.page_content#collection_item_section {
 }
 
 #collection_item_section .line_sheet_item .item_price {
-	width:20%;
-	float:left;
-	height:110px;
+	float:right;
 	text-align:right;
 }
 
 #collection_item_section .line_sheet_item .item_price .total_title {
 	font-family:'Avenir Medium';
-	margin-bottom:0px;
 }
 
 #collection_item_section .line_sheet_item .item_price .product_total {

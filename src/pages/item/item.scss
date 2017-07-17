@@ -2,17 +2,30 @@ page-item {
     #pbody {
         height: 100%;
     }
-
     .page_content {
         height: 100%;
     }
-
     .left {
         height: 100%;
         overflow-y: scroll;
     }
-
     .scroll-content {
         overflow: hidden;
+    }
+    @media only screen and (max-width: 1024px) {
+        #collection_item_section .line_sheet_item .item_meta {
+            width: 48%;
+        }
+        #collection_item_section .line_sheet_item .item_price {
+            width: 31%;
+        }
+    }
+    @media only screen and (min-width: 1025px) {
+        #collection_item_section .line_sheet_item .item_meta {
+            width: 58%;
+        }
+        #collection_item_section .line_sheet_item .item_price {
+            width: 26%;
+        }
     }
 }
