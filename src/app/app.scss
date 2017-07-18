@@ -1305,6 +1305,7 @@ page-linesheet .ordre_subheader .content_sorter {
 .open_bar .page_content .collection_content {
 	width:75%;
 	float:left;
+	border-left: 1px solid #b6b6b6;
 }
 
 #collection_section .collection_sidebar.open {
@@ -4893,6 +4894,7 @@ div.line_sheet_item {
 .navigation_holder .col-md-1 {
 	height:56px;
 	border-right:1px solid #b6b6b6;
+    padding: 0px 6px;
 }
 
 .navigation_holder .col-md-11 {

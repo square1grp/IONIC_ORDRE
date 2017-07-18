@@ -257,7 +257,7 @@ export class CartProvider {
             qty = this.values.vieworder.request.order[0].sales_order_parts[0].sales_order_lines[j].quantity;
             console.log('Found QTY in the cart for SKU:' + sku + ' of '+ qty );
             abort=true;
-            return qty;            
+            return qty;
           }
         };
       //}
