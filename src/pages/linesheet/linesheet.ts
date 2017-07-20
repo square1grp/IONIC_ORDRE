@@ -224,7 +224,7 @@ export class LinesheetPage {
       this.pageArray.push({'page':i+1,'items':pageItems,'id':i}) ; 
     }  
     console.log(JSON.stringify(this.pageArray));    
-    console.log('Mirror:'+this.vArray.length)
+    console.log('Mirror:'+this.vArray.length);
   }
 
   changePage(page){

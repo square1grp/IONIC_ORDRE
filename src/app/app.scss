@@ -3670,7 +3670,7 @@ page-cart div.scroll_content {
 	left:25%;
 	background:#adadad;
 	z-index:999;
-	height:1000px;
+	//height:1000px;
 }
 
 #orders_section .orders_sidebar .draft_requested_list {
@@ -3782,6 +3782,7 @@ page-cart div.scroll_content {
 	width:75%;
 	float:left;
 	position:relative;
+	border-left: solid 1px #b6b6b6;
 }
 
 #orders_content table {

@@ -1,3 +1,31 @@
 page-linesheet {
-
+    @media only screen and (max-width: 1024px) {
+        .current_total.visible {
+            width: 27%;
+        }
+        .toggle_totals_label {
+            padding-left: 86%;
+        }
+        .actions_wrapper div.pagination {
+            left: 1%;
+        }
+    }
+    @media only screen and (min-width: 1025px) {
+        .toggle_totals_label {
+            padding-left: 92%;
+        }
+        .actions_wrapper div.pagination {
+            left: 10%;
+        }
+    }
+    @media only screen and (min-width: 1366px) {
+        .toggle_totals_label {
+            padding-left: 92%;
+            padding-right: 6%;
+        }
+        .actions_wrapper div.pagination {
+            left: 10%;
+        }
+    }
+    
 }
