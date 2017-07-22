@@ -4622,11 +4622,11 @@ div.syncing li.active {
 	margin-bottom:10px;
 }
 
-/** 2-Feb-2017 **/
+/** 2-Feb-2017 
 .product_details_page > div {
 	height:100%;
 	position:relative;
-}
+}**/
 
 .product_details_page .product-details_images {
 	list-style-type:none;
@@ -4959,12 +4959,73 @@ div.line_sheet_item {
 .scroll-content {
 	padding-bottom: 65px;
 }
-
+.popover-content .scroll-content {
+	padding-bottom: 0px;
+	overflow-y: hidden;
+}
+.popover-content section.product_details_page {
+	height: 100%;
+}
+.popover-content div.product_details_sidebar {
+	height: 100%;
+}
+.popover-content div.product_details_sidebar_list {
+	height: 100%;
+	overflow-y: scroll;
+}
 .list-ios {
 	margin-top: 0;
 	margin-bottom: 0;
 }
-
-
+div.popover-viewport {
+	//width: 100%;
+	height: 100%;
+}
+@media only screen and (max-width: 1024px) and (orientation: portrait) {
+	div.product_preview_image {
+		position: relative;
+		width: 75% !important;
+		top: 100px;
+		padding: 0px;
+		margin: 0px;
+		margin-bottom: 50px;
+	}
+	.popover-content .scroll-content {
+		position: relative;
+		height: 1340px;
+	}
+}
+@media only screen and (min-width: 1025px) and (orientation: portrait) {
+	div.product_preview_image {
+		position: relative;
+		width: 75% !important;
+		top: 130px;
+		padding: 0px;
+		margin: 0px;
+		margin-bottom: 65px;
+	}
+	.popover-content .scroll-content {
+		position: relative;
+		height: 1800px;
+	}
+}
+@media only screen and (min-width: 1025px) and (max-width: 1365px) and (orientation: landscape) {
+	div.product_preview_image {
+		left: 8%;
+	}
+	.popover-content .scroll-content {
+		position: relative;
+		height: 1000px;
+	}
+}
+@media only screen and (min-width: 1366px) and (orientation: landscape) {
+	div.product_preview_image {
+		left: 4%;
+	}
+	.popover-content .scroll-content {
+		position: relative;
+		height: 1340px;
+	}
+} 
 /*  ********** END style.css **********  */
 
