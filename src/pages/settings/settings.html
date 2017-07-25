@@ -33,7 +33,7 @@
 			</div>
 			<div class="col-md-5" *ngIf="this.searchResultRetailers.length > 0">
 				<p class="selector-list">2. Select Retailers</p>
-				<ion-list radio-group [(ngModel)]="retailer_id" (ionChange)="setBuyers()">
+				<ion-list radio-group [(ngModel)]="retailer_id" id="retailer-list" (ionChange)="setBuyers()">
 					<ion-item *ngFor="let retailer of searchResultRetailers">
 						<ion-radio value="{{ retailer.retailer_id }}"></ion-radio>
 						<ion-label>{{ retailer.business_name }}</ion-label>
@@ -42,7 +42,7 @@
 			</div>
 			<div class="col-md-5" *ngIf="this.buyers.length > 0">
 				<p class="selector-list">3. Select Buyer</p>
-				<ion-list radio-group [(ngModel)]="thisBuyer_id">
+				<ion-list radio-group [(ngModel)]="thisBuyer_id" id="buyer-list">
 					<ion-item *ngFor="let buyer of buyers">
 						<ion-radio value="{{ buyer.buyer_id }}"></ion-radio>
 						<ion-label>{{ buyer.first_name + ' ' + buyer.last_name }}</ion-label>

@@ -3,9 +3,13 @@ page-orders {
         height: 100%;
     }
     section.page_content {
-        height: 100%;
+        height: 96%;
     }
     .open_bar #orders_section #orders_content {
         height: 100%;
+        overflow: scroll;
+    }
+    .scroll-content {
+        overflow-y: hidden;
     }
 }
