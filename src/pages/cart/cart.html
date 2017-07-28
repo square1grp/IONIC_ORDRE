@@ -45,88 +45,90 @@
         </article>
       </section>
       <section id="fe_content" *ngIf="this.values.cart.request.order[0].buyer_id!=0">
-        <p class="clear_all_ordres" tappable (click)="clearOrder()">Clear Order</p>
-        <article class="designer_order" *ngFor="let designer of this.values.cart.request.order[0].sales_order_parts; let orderPart = index;">
-          <div class="designer_order_header">
-            <span [innerHTML]="designer.designer_title"></span>
-          </div>
+          <ion-content id="linesheetScroolUp" #linesheetScroolUp>  
+              <p class="clear_all_ordres" tappable (click)="clearOrder()">Clear Order</p>
+              <article class="designer_order" *ngFor="let designer of this.values.cart.request.order[0].sales_order_parts; let orderPart = index;">
+                <div class="designer_order_header">
+                  <span [innerHTML]="designer.designer_title"></span>
+                </div>
 
-          <div *ngFor="let line of designer.sales_order_lines; let lineid = index">
-            <div *ngIf="line.size">
-              <div class="fe_item">
-                <span class="remove_item" tappable (click)="clearItem(orderPart,0,0,line.variant_id)">Remove</span>
-                <div class="item_image">
-                  <lazy-img src="{{values.APIRoot}}/app/get_image.php?image=/{{line.image}}&w=110&h=165&xtype=prodimage"></lazy-img>
-                  <!--p class="item_detail">Detail</p-->
-                </div>
-                <div class="item_meta">
-                  <p class="name" [innerHTML]="line.product_title"></p>
-                  <p class="wsp"><span>WSP</span> {{designer.currency_code}} {{designer.currency_symbol}}{{line.price  | number :'.2'}}</p>
-                  <div class="color-material_info">
-                    <div class="color">
-                      <p>Color</p>
-                      <p>{{line.colour}}</p>
-                      <span><lazy-img src="{{values.APIRoot}}/app/get_image.php?image=/{{line.swatch}}&w=20&h=20&xtype=prodimage" ></lazy-img></span>
+                <div *ngFor="let line of designer.sales_order_lines; let lineid = index">
+                  <div *ngIf="line.size">
+                    <div class="fe_item">
+                      <span class="remove_item" tappable (click)="clearItem(orderPart,0,0,line.variant_id)">Remove</span>
+                      <div class="item_image">
+                        <lazy-img src="{{values.APIRoot}}/app/get_image.php?image=/{{line.image}}&w=110&h=165&xtype=prodimage"></lazy-img>
+                        <!--p class="item_detail">Detail</p-->
+                      </div>
+                      <div class="item_meta">
+                        <p class="name" [innerHTML]="line.product_title"></p>
+                        <p class="wsp"><span>WSP</span> {{designer.currency_code}} {{designer.currency_symbol}}{{line.price  | number :'.2'}}</p>
+                        <div class="color-material_info">
+                          <div class="color">
+                            <p>Color</p>
+                            <p>{{line.colour}}</p>
+                            <span><lazy-img src="{{values.APIRoot}}/app/get_image.php?image=/{{line.swatch}}&w=20&h=20&xtype=prodimage" ></lazy-img></span>
+                          </div>
+                          <div class="material">
+                            <p>Material</p>
+                            <p [innerHTML]="line.material"></p>
+                          </div>
+                        </div>
+                        <div class="product_sizes">
+                          <label for="{{i}}{size.variant_size_id}}" *ngFor="let size of line.size; let i = index">Size {{size.title}}
+                              <input type="number" ng-model="qty" name="{{i}}{{size.variant_size_id}}" value="{{size.qty}}" id="{{i}}{{size.variant_size_id}}" (blur)="addToCart(line.product_title,line.colour,line.materials,line.swatch,line.image,designer.title,size.variant_id,size.sku,line.price,$event,designer.seller_account_id,size.size_title,size.variant_size_id,'type',line.product_id)">
+                          </label>                  
+                        </div>
+                        <p class="product_quantity">
+                          <input type="text" name="special_request" maxlength="255" value="{{line.special_request}}" placeholder="Enter product enquiry here" (blur)="addSpecial($event,line.variant_id,orderPart)">
+                        </p>
+                      </div>
+                      <div class="item_price">
+                        <div>
+                          <p class="total_title">Products total WSP</p>
+                          <p class="product_total ">{{designer.currency_code}} {{designer.currency_symbol}}{{line.variant_total | number :'.2'}}</p>
+                          <p class="clear_item" tappable (click)="clearItem(orderPart,0,1,line.variant_id)">Clear item</p> 
+                        </div>
+                      </div>
                     </div>
-                    <div class="material">
-                      <p>Material</p>
-                      <p [innerHTML]="line.material"></p>
-                    </div>
-                  </div>
-                  <div class="product_sizes">
-                    <label for="{{i}}{size.variant_size_id}}" *ngFor="let size of line.size; let i = index">Size {{size.title}}
-                        <input type="number" ng-model="qty" name="{{i}}{{size.variant_size_id}}" value="{{size.qty}}" id="{{i}}{{size.variant_size_id}}" (blur)="addToCart(line.product_title,line.colour,line.materials,line.swatch,line.image,designer.title,size.variant_id,size.sku,line.price,$event,designer.seller_account_id,size.size_title,size.variant_size_id,'type',line.product_id)">
-                    </label>                  
-                  </div>
-                  <p class="product_quantity">
-                    <input type="text" name="special_request" maxlength="255" value="{{line.special_request}}" placeholder="Enter product enquiry here" (blur)="addSpecial($event,line.variant_id,orderPart)">
-                  </p>
-                </div>
-                <div class="item_price">
-                  <div>
-                    <p class="total_title">Products total WSP</p>
-                    <p class="product_total ">{{designer.currency_code}} {{designer.currency_symbol}}{{line.variant_total | number :'.2'}}</p>
-                    <p class="clear_item" tappable (click)="clearItem(orderPart,0,1,line.variant_id)">Clear item</p> 
                   </div>
                 </div>
-              </div>
-            </div>
-          </div>
 
-          <div class="fe_items_total_wrapper">
-            <div class="col-md-6 left">
-              <p><span [innerHTML]="designer.designer_title"></span> Totals</p>
-              <p>No. products: {{designer.total_line_items}} &nbsp;&nbsp;|&nbsp;&nbsp; TOTAL Quantity: {{designer.total_qty}}</p>
-            </div>
-            <div class="col-md-6 right">
-              <p>Total value <span>{{designer.currency_code}} {{designer.currency_symbol}}{{designer.total_amount | number :'.2'}}</span> </p>
-              <p tappable (click)="clearDesigner(orderPart)" class="clear_designer_items">Clear items from this designer</p>
-            </div>
-            <div style="clear: both;" ></div>
-          </div>
-        </article>
-        <div class="fe_footer">
-          <div class="col-md-12 fe_buttons">
-            <ion-input id="focus-input" #focusInput></ion-input>
-            <a (click)="saveDraft('draft','draft')" class="fe_save_draft" *ngIf="this.submitting==false">Save as draft order</a>
-            <ion-spinner name="ios" *ngIf="this.submitting==true"></ion-spinner>
-            <a (click)="saveOrder('draft','server')" class="confirm_order send_draft" *ngIf="((this.submitting==false))">Send Draft to Server</a>
-            <ion-spinner name="ios" *ngIf="this.submitting==true"></ion-spinner>
-            <a (click)="saveOrder('final','server')" class="confirm_order send_order" *ngIf="((this.submitting==false))">Confirm order request</a>
-          </div>
-          <div style="clear: both;"></div>
-          <div class="col-md-9">
-            <p>Total includes Terms of Trade Discount if previously agreed</p>
-            <p>Total costs excludes Freight and Taxes</p>
-          </div>
-          <div class="col-md-7"></div>
-          <div class="col-md-10">
-            <p class="approval_description">Your order will be delivered to the Designer(s) for approval. You will be invoiced in accordance with the terms and conditions confirmed.</p>
-          </div>
-          <div class="col-md-2"></div>
-          <div style="clear: both;"></div> 
-        </div>       
-        <p class="clear_all_ordres" tappable (click)="clearOrder()">Clear Order</p>
+                <div class="fe_items_total_wrapper">
+                  <div class="col-md-6 left">
+                    <p><span [innerHTML]="designer.designer_title"></span> Totals</p>
+                    <p>No. products: {{designer.total_line_items}} &nbsp;&nbsp;|&nbsp;&nbsp; TOTAL Quantity: {{designer.total_qty}}</p>
+                  </div>
+                  <div class="col-md-6 right">
+                    <p>Total value <span>{{designer.currency_code}} {{designer.currency_symbol}}{{designer.total_amount | number :'.2'}}</span> </p>
+                    <p tappable (click)="clearDesigner(orderPart)" class="clear_designer_items">Clear items from this designer</p>
+                  </div>
+                  <div style="clear: both;" ></div>
+                </div>
+              </article>
+              <div class="fe_footer">
+                <div class="col-md-12 fe_buttons">
+                  <ion-input id="focus-input" #focusInput></ion-input>
+                  <a (click)="saveDraft('draft','draft')" class="fe_save_draft" *ngIf="this.submitting==false">Save as draft order</a>
+                  <ion-spinner name="ios" *ngIf="this.submitting==true"></ion-spinner>
+                  <a (click)="saveOrder('draft','server')" class="confirm_order send_draft" *ngIf="((this.submitting==false))">Send Draft to Server</a>
+                  <ion-spinner name="ios" *ngIf="this.submitting==true"></ion-spinner>
+                  <a (click)="saveOrder('final','server')" class="confirm_order send_order" *ngIf="((this.submitting==false))">Confirm order request</a>
+                </div>
+                <div style="clear: both;"></div>
+                <div class="col-md-9">
+                  <p>Total includes Terms of Trade Discount if previously agreed</p>
+                  <p>Total costs excludes Freight and Taxes</p>
+                </div>
+                <div class="col-md-7"></div>
+                <div class="col-md-10">
+                  <p class="approval_description">Your order will be delivered to the Designer(s) for approval. You will be invoiced in accordance with the terms and conditions confirmed.</p>
+                </div>
+                <div class="col-md-2"></div>
+                <div style="clear: both;"></div> 
+              </div>       
+              <p class="clear_all_ordres" tappable (click)="clearOrder()">Clear Order</p>
+          </ion-content>  
       </section>      
     </section>
   </div>

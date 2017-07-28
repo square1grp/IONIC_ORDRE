@@ -65,7 +65,7 @@
                 <p>Tap the Collection title on the left to refresh, or enter a new search.</p>
             </div>    
           </ng-container>  
-          <ion-content class="product-list">
+          <ion-content class="product-list" #collectionScroll>
               <ion-list *ngFor="let product of items">
                 <div class="collection_item_part">
                   <ng-container>

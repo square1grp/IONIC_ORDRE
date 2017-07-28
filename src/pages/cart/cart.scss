@@ -16,6 +16,12 @@ page-cart {
     }
     section #fe_content {
         height: 100%;
+        //overflow-y: scroll;
+    }
+    ion-content#linesheetScroolUp {
+        height: 100%
+    }
+    ion-content#linesheetScroolUp div.scroll-content {
         overflow-y: scroll;
     }
     div.fe_sidebar_overlay {

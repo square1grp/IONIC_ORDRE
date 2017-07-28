@@ -29,6 +29,7 @@ export class CartPage {
   collectionPage = CollectionPage;
   submitting: boolean;  
   @ViewChild(Content) content: Content;
+  @ViewChild("linesheetScroolUp") scrollContent: Content;
   @ViewChild('focusInput') forcusInput;
 
   constructor(public navCtrl: NavController, public toastCtrl: ToastController, public navParams: NavParams, public cartProvider: CartProvider, public values: Values, public data: Data, private alertCtrl: AlertController, public keyboard: Keyboard) {
@@ -407,7 +408,7 @@ export class CartPage {
   }
 
   scrollToTop() {
-    this.content.scrollToTop();
+    this.scrollContent.scrollToTop();
   }
 
   popView(){

@@ -29,6 +29,7 @@ export class CollectionPage {
 
   @ViewChild(Nav) nav: Nav;
   @ViewChild(Content) content: Content;
+  @ViewChild("collectionScroll") scrollContent: Content;
 
   items = [];
   maxItems: any;
@@ -239,15 +240,15 @@ export class CollectionPage {
         this.data.offlineManager();
         return false;
       };
-     if(mode!=3){    
+     if(mode!=3){
       if(this.values.user_profile.forcecache){
         mode=2;
       }
       else
       {
         mode=1;
-      }          
-    }       
+      }
+    }
     let popover = this.popoverController.create(this.viewloaderPage,{collection_id:collection_id,designer_id:designer_id,mode:mode, source:'collection'});
     popover.present();
     this.data.cacheCollection(collection_id,designer_id,designer,collection_title,mode).then(() => {
@@ -268,7 +269,8 @@ export class CollectionPage {
   }
 
   scrollToTop() {
-    this.content.scrollToTop();
+    //let scrollContent: Content = document.getElementById("collectionScroll");
+    this.scrollContent.scrollToTop();
   }
 
 

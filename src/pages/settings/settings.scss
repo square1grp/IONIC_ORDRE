@@ -84,4 +84,7 @@ page-settings {
     .open_bar #settings_section #settings_content {
         height: 100%;
     }
+    .list-ios > .item-block:first-child {
+        border-top: 0px;
+    }
 }
