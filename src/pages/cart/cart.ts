@@ -56,7 +56,13 @@ export class CartPage {
     //return new Promise((resolve, reject) => {
     console.log('*** Adding Sizes ***');
     this.values.cart.request.order[0].sales_order_parts.forEach((orderPart, part_index) => {
-
+      if(this.values.designer == undefined) {
+          this.values.designers.forEach(element => {
+              if(element.title == this.values.cart.request.order[0].sales_order_parts[0].designer_title) {
+                  this.values.designer = element;
+              }
+          });
+      }
       console.log('Get currency profile');
       this.data.getDesignerCurrency(this.values.user_profile.user_region_id, orderPart.seller_account_id)
       orderPart.currency_code = this.values.designer.buyer_code;
