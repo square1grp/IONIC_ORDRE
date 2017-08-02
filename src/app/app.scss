@@ -5000,6 +5000,9 @@ div.popover-viewport {
 	div.settings_item div.col-md-5 ion-list#buyer-list {
 		max-height: 65%;
 	}
+	.open_bar #settings_section #settings_content {
+		height:1262px;
+	}
 }
 @media only screen and (min-width: 1025px) and (orientation: portrait) {
 	div.product_preview_image {
@@ -5020,6 +5023,9 @@ div.popover-viewport {
 	div.settings_item div.col-md-5 ion-list#buyer-list {
 		max-height: 74%;
 	}
+	.open_bar #settings_section #settings_content {
+		height:1820px;
+	}
 }
 @media only screen and (min-width: 1025px) and (max-width: 1365px) and (orientation: landscape) {
 	div.product_preview_image {
@@ -5035,6 +5041,9 @@ div.popover-viewport {
 	div.settings_item div.col-md-5 ion-list#buyer-list {
 		max-height: 57%;
 	}
+	.open_bar #settings_section #settings_content {
+		height:997px;
+	}
 }
 @media only screen and (min-width: 1366px) and (orientation: landscape) {
 	div.product_preview_image {
@@ -5049,6 +5058,9 @@ div.popover-viewport {
 	}
 	div.settings_item div.col-md-5 ion-list#buyer-list {
 		max-height: 66%;
+	}
+	.open_bar #settings_section #settings_content {
+		height:1260px;
 	}
 }
 /*  ********** END style.css **********  */
