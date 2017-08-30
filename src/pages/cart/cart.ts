@@ -222,8 +222,12 @@ export class CartPage {
               // });
               // toast.present();
 
-              console.log('Clear Order');
-              if (this.values.user_profile.seller_account_id){
+              console.log('/----Clear Order----/');
+              console.log('/----user_profile.seller_account_id----/');
+              console.log(this.values.user_profile.seller_account_id);
+              console.log('/----user_profile.masquarade_id----/');
+              console.log(this.values.user_profile.masquarade_id);
+              if (this.values.user_profile.seller_account_id > 0 || this.values.user_profile.masquarade_id > 0){
                 this.navCtrl.setRoot(CollectionPage, { designer: this.values.designer });
               }
               else
