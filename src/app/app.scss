@@ -13,6 +13,12 @@ ORDRE APP STYLE, 2017-07-05 21:00
 	font-family:'San Francisco Regular2';
 	src:url(../assets/fonts/System_San_Francisco_Display_Regular_2.ttf);
 }
+/****** Change code for the fix of font family issue in collection page. *******/
+@font-face {
+	font-family:'San Francisco RegularOtf';
+	src:url(../assets/fonts/SanFranciscoDisplay-Regular.otf);
+}
+/********************************************************************************/
 
 @font-face {
 	font-family:'San Francisco Thin';
@@ -881,7 +887,7 @@ page-linesheet .ordre_subheader .content_sorter {
 	background:url(../assets/images/search_icon.png) no-repeat right;
 	background-position-x:95%;
 	font-size:16px;
-	font-family:'San Francisco Regular';
+	font-family:'San Francisco RegularOtf';
 	text-transform:uppercase;
 }
 
@@ -892,7 +898,7 @@ page-linesheet .ordre_subheader .content_sorter {
 	color:#333333;
 	border-color:#b1a8a8;
 	font-size:16px;
-	font-family:'San Francisco Regular';
+	font-family:'San Francisco RegularOtf';
 }
 
 .ordre_subheader .content_sorter .filter {
@@ -902,7 +908,7 @@ page-linesheet .ordre_subheader .content_sorter {
 	color:#333333;
 	border-color:#b1a8a8;
 	font-size:16px;
-	font-family:'San Francisco Regular';
+	font-family:'San Francisco RegularOtf';
 }
 
 .designer_list {
