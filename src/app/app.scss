@@ -68,6 +68,13 @@ ORDRE APP STYLE, 2017-07-05 21:00
 	src:url(../assets/fonts/System_San_Francisco_Text_Medium.ttf);
 }
 
+//------  fix code of REMOVE ALL buttion font issue ---//
+@font-face {
+	font-family:'SanFrancisco MediumOtf';
+	src:url(../assets/fonts/SanFranciscoText-Medium.otf);
+}
+//-----------------------------------------------------//
+
 a {
 	color:#23c1ea;
 	text-decoration:none;
@@ -4232,7 +4239,7 @@ div.syncing li.active {
 	font-size:10px;
 	color:#141414;
 	position:relative;
-	font-family:'SanFrancisco Medium';
+	font-family:'SanFrancisco MediumOtf';
 }
 
 #settings_content table tr td.des_name {

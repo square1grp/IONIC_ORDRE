@@ -236,11 +236,11 @@ export class CollectionPage {
   }
 
   downloadManager(collection_id,designer_id,designer,collection_title,mode){
-      if(!this.values.online){
-        this.data.offlineManager();
-        return false;
-      };
-     if(mode!=3){
+    if(!this.values.online){
+      this.data.offlineManager();
+      return false;
+    };
+    if(mode!=3){
       if(this.values.user_profile.forcecache){
         mode=2;
       }
