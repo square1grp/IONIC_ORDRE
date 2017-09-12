@@ -41,7 +41,8 @@ export class ViewloaderPage {
         if(this.source=='collection'){
           //reload collection
         }
-        this.viewCtrl.dismiss().catch((err) => {console.log('Problem with spinner:'+err)});
+        //this.data.addIsOpenedProp();
+        this.viewCtrl.dismiss().then(() => {this.data.addIsOpenedProp()}).catch((err) => {console.log('Problem with spinner:'+err)});
       })
 
     /*

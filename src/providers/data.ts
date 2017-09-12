@@ -380,11 +380,14 @@ export class Data {
     let ONE_HOUR = 60 * 60 * 1000;
     let baseDate = new Date('01/01/1980'); 
     let nowDate = Date.now();
-    this.consolelog('Get Designers - Checkpoint:'+this.values.designer_checkpoint+ ' compared:'+(this.values.designer_checkpoint.getTime() == baseDate.getTime()) );
+    this.consolelog('Get Designers - Checkpoint:'+this.values.designer_checkpoint+ ' compared:' + 
+      (this.values.designer_checkpoint.getTime() == baseDate.getTime()) );
     this.consolelog('Checkpoint past?'+(nowDate-ONE_HOUR > this.values.designer_checkpoint.getTime()));
-    if ((this.values.online)&&((this.values.designer_checkpoint.getTime() == baseDate.getTime()) || (nowDate-ONE_HOUR > this.values.designer_checkpoint.getTime()))) {
-      force = true;
-      checkpoint = true;
+
+    if ((this.values.online)&&((this.values.designer_checkpoint.getTime() == baseDate.getTime()) || 
+      (nowDate-ONE_HOUR > this.values.designer_checkpoint.getTime()))) {
+        force = true;
+        checkpoint = true;
     }
     this.consolelog('Force?'+force);
     
@@ -392,24 +395,30 @@ export class Data {
 
     let record_id = 'designers'
     let record_id_get = record_id;
-    if (force==true&&checkpoint==false) {
+    if (force == true && checkpoint == true) {
       record_id_get='NOPEA1'
     }
+    console.log("//-----  record_id_get  ------//");
+    console.log(record_id_get);
 
     return new Promise((resolve, reject) => {
-      this.consolelog('Try GET:'+record_id);
+      this.consolelog('Try GET:' + record_id);
       this.storage.get(record_id_get).then((result) => {
         
+        console.log("//-----  result  ------//");
+        console.log(JSON.parse(result));
+
         if(result!=null){
-          console.log('Got:'+record_id)
+          console.log('Got:' + record_id)
           let pdata = JSON.parse(result)
           //console.log(pdata.data);
           this.values.designers = null;
           resolve(pdata.data);
+          return false;
           //this.loading.dismiss().catch(() => {});
         }
         console.log('Online:'+this.values.online)
-        if((checkpoint==true||force==true||result==null)&&(this.values.online))
+        if((checkpoint == true || force == true || result == null) && (this.values.online))
         {
           if(!this.values.online){
             this.offlineManager();
@@ -1236,12 +1245,28 @@ export class Data {
         })
   }
 
-  consolelog(str){
+  consolelog(str) {
     if(this.values.debug){
       console.log('LOG:'+str);
     }
   }
 
+  isOpenedCollection(designer_id) {
+    if (this.values.designers == undefined) return false;
+    for (let cindex = 0, len = this.values.designers.length; cindex < len; cindex++) {
+      if (this.values.designers[cindex].seller_account_id == designer_id) return true;
+    }
+    return false;
+  }
+
+  addIsOpenedProp() {
+    for (let cindex = 0, len = this.values.downloadedCollections.length; cindex < len; cindex++) {
+      let isOpenedCollection = this.isOpenedCollection(this.values.downloadedCollections[cindex].designer_id);
+      this.values.downloadedCollections[cindex].isOpenedCollection = isOpenedCollection;
+    }
+    //let newCindex = {'data':this.values.downloadedCollections}
+    //this.storage.set('collection_index', newCindex)
+  }
   /*
   getBuyers(retailer_id,device_token,user_token){
 

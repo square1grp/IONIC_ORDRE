@@ -202,7 +202,7 @@ export class LoginPage {
       {
         //this.data.loading.dismiss().catch((err) => {});
         loading.dismissAll();
-        this.navCtrl.push(DesignersPage);
+        this.navCtrl.setRoot(DesignersPage);
         //this.navCtrl.push(TestPage);
       }   
     //}

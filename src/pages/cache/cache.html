@@ -62,7 +62,7 @@
 						<td [innerHTML]="collection.collection"></td>
 						<td>{{collection.size}}MB</td>
 						<td class="actions">
-							<button (click)="this.downloadManager(collection.collection_id,collection.designer_id,collection.designer,collection.collection,1)" class="update_ordre">Update</button>
+							<button (click)="this.downloadManager(collection.collection_id,collection.designer_id,collection.designer,collection.collection,1)" class="update_ordre" [style.visibility]="collection.isOpenedCollection ? 'visible' : 'hidden'">Update</button>
 							<button (click)="this.downloadManager(collection.collection_id,collection.designer_id,collection.designer,collection.collection,3)" class="remove_ordre">Remove</button>
 						</td>
 					</tr>

@@ -37,6 +37,10 @@ export class CachePage {
       console.log(this.values.downloadedCollections);
       console.log("//-------  getDownloads() => this.values.collections  --------//");
       console.log(this.values.collections);
+
+      this.data.addIsOpenedProp();
+      console.log("//----- this.values.downloadedCollections ------//");
+      console.log(this.values.downloadedCollections);
     });         
   }
 
@@ -132,7 +136,7 @@ export class CachePage {
             }   
           } 
         }
-        this.data.cacheCollection(collection_id, designer_id, designer, collection, mode);    
+        this.data.cacheCollection(collection_id, designer_id, designer, collection, mode);  
      });
   }
 
