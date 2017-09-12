@@ -69,6 +69,8 @@ export class DesignersPage {
         //this.data.consolelog('Designers:'+JSON.stringify(response));
         console.log('About to render');
         this.values.designers = response //.designers[0];
+        console.log("//-----this.values.designers-----//");
+        console.log(this.values.designers);
       }).catch(function(err){
             console.log(err);
       });

@@ -33,6 +33,10 @@ export class CachePage {
     this.data.getDownloads().then(() =>{
       this.data.getLog();
       //this.data.loading.dismiss().catch((err) => {console.log('Problem with spinner:'+err)});
+      console.log("//-------  getDownloads() => this.values.downloadedCollections ------//");
+      console.log(this.values.downloadedCollections);
+      console.log("//-------  getDownloads() => this.values.collections  --------//");
+      console.log(this.values.collections);
     });         
   }
 
@@ -82,9 +86,17 @@ export class CachePage {
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad CachePage');
+    console.log("//-------  this.values.downloadedCollections ------//");
+    console.log(this.values.downloadedCollections);
+    console.log("//-------  this.values.collections  --------//");
+    console.log(this.values.collections);
+    console.log("//-------  this.values.collection_checkpoint  --------//");
+    console.log(this.values.collection_checkpoint);
+    console.log("//-------  this.values.designer_checkpoint  --------//");
+    console.log(this.values.designer_checkpoint);
   }
 
-  downloadManager(collection_id,designer_id,designer,collection,mode){
+  downloadManager(collection_id, designer_id, designer, collection, mode){
      if(mode!=3){ 
       if(!this.values.online){
         this.data.offlineManager();
@@ -93,8 +105,9 @@ export class CachePage {
      }
       //let record_id = 'collections_'+designer_id;
       console.log('Getting collections for designer:'+designer_id)
-      this.data.getCollections(designer_id,this.values.device_token,this.values.user_profile.user_token,0).then(response => {
+      this.data.getCollections(designer_id, this.values.device_token, this.values.user_profile.user_token, 0).then(response => {
         console.log('Got collections for designer')
+        console.log(response);
         this.values.collections = response;
         if(mode!=3){
           if(this.values.user_profile.forcecache){
@@ -103,12 +116,24 @@ export class CachePage {
           else
           {
             mode=4
+          }
+        }
+        let popover = this.popoverController.create(this.viewloaderPage, {collection_id:collection_id, designer_id:designer_id,
+          mode:mode, source:'cache'});
+        popover.present();
+        if(this.values.designer == undefined) {
+          if ((designer_id>0)&&(this.values.designers)){
+            let abort = false;
+            for (let i = 0, len = this.values.designers.length; i < len && !abort; i++) {
+              if (this.values.designers[i].seller_account_id == designer_id) {
+                this.values.designer = this.values.designers[i];
+                abort = true;
+              }
+            }   
           } 
         }
-        let popover = this.popoverController.create(this.viewloaderPage,{collection_id:collection_id,designer_id:designer_id,mode:mode, source:'cache'});
-        popover.present();
-        this.data.cacheCollection(collection_id,designer_id,designer,collection,mode);    
-     });            
+        this.data.cacheCollection(collection_id, designer_id, designer, collection, mode);    
+     });
   }
 
   openPage(page): void {

@@ -24,6 +24,8 @@ export class ViewloaderPage {
     this.source = this.navParams.get('source');
     if(this.mode==4){this.mode=1}; 
     if(this.mode==5){this.mode=2};  
+    console.log("//--------- this.values.downloadTarget -----------//");
+    console.log(this.values.downloadTarget);
   }
 
   close() {

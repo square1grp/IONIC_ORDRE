@@ -106,6 +106,8 @@ export class LoginPage {
         
         //set user profile
         this.values.user_profile = response;
+        console.log("//////------User_Profile------/////");
+        console.log(response);
         this.values.user_profile.masquerade_id = 0;  //whenmasquarading, user id of masquerader
         this.values.user_profile.forcecache = 0;  //don't force update images when recaching
         
@@ -151,8 +153,12 @@ export class LoginPage {
         //  get the designer object from the list of designers
         //  so get all designers
         //  iterate through to find this one
+        console.log("//-----device_token-----//");
+        console.log(this.values.device_token);
         this.data.getDesigners(this.values.device_token,this.values.user_profile.user_token,0).then((response) => {
           this.designers = response;
+          console.log("//-----this.values.designers-----//");
+          console.log(this.values.designers);
           let abort = false;
           for (let i = 0, len = this.designers.length; i < len && !abort; i++) { 
             if(this.designers[i].seller_account_id == this.values.user_profile.seller_account_id){

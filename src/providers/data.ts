@@ -463,70 +463,86 @@ export class Data {
     });
   }
 
-  getCollections(designer_id,device_token,user_token,force){
+  getCollections(designer_id, device_token, user_token, force){
 
-    let checkpoint=false;
+    let checkpoint = false;
     
     let ONE_HOUR = 60 * 60 * 1000;
-    let baseDate = new Date('01/01/1980'); 
+    let baseDate = new Date('01/01/1980');
     let nowDate = Date.now();
-
+    console.log("//------  this.values.collection_checkpoint  ----------//");
+    console.log(this.values.collection_checkpoint);
     if (!this.values.collection_checkpoint[designer_id]){
       this.values.collection_checkpoint[designer_id] = new Date('01/01/1980');
     }
 
-    this.consolelog('Get Collections for '+designer_id+' - Checkpoint:'+this.values.collection_checkpoint[designer_id]+ ' compared:'+(this.values.collection_checkpoint[designer_id].getTime() == baseDate.getTime()) );
+    this.consolelog('Get Collections for '+designer_id+' - Checkpoint:'+this.values.collection_checkpoint[designer_id] + 
+        ' compared:'+(this.values.collection_checkpoint[designer_id].getTime() == baseDate.getTime()) );
     this.consolelog('Checkpoint past?'+(nowDate-ONE_HOUR > this.values.collection_checkpoint[designer_id].getTime()));
-    if ((force==0)&&(this.values.online)&&((this.values.collection_checkpoint[designer_id].getTime() == baseDate.getTime()) || (nowDate-ONE_HOUR > this.values.collection_checkpoint[designer_id].getTime()))) {
-      force = true;
-    } 
 
+    if ((force==0)&&(this.values.online)&&((this.values.collection_checkpoint[designer_id].getTime() == baseDate.getTime()) 
+        || (nowDate-ONE_HOUR > this.values.collection_checkpoint[designer_id].getTime()))) {
+      force = true;
+    }
+    console.log("this.values.collection_checkpoint[designer_id].getTime() : " + this.values.collection_checkpoint[designer_id].getTime());
+    console.log("baseDate.getTime() : " + baseDate.getTime());
+    console.log("this.values.collection_checkpoint[designer_id].getTime() : " + this.values.collection_checkpoint[designer_id].getTime());
+    console.log("nowDate-ONE_HOUR : " + (nowDate-ONE_HOUR));
     //  check for designers in pouch
     let record_id = 'collections_'+designer_id
     let record_id_get = record_id;
-    if (force==true&&checkpoint==false&&this.values.online) {record_id_get='NOPEA'}    
+    console.log("force : " + force);
+    console.log("checkpoint : " + checkpoint);
+    console.log("this.values.online : " + this.values.online);
+    //if (force == true && checkpoint == false && this.values.online) {record_id_get = 'NOPEA'}    
     return new Promise((resolve, reject) => {
-      this.consolelog('Get Collections for designer:'+designer_id);
+      this.consolelog('Get Collections for designer:' + designer_id);
       console.log('Hitting Storage');
+      console.log("record_id : " + record_id);
+      console.log("record_id_get : " + record_id_get);
       this.storage.get(record_id_get).then((result) => {
-        if(result!=null){
+        if(result != null){
           let pdata = JSON.parse(result);
-          this.consolelog('Collection found in db for designer:'+designer_id); 
-          resolve(pdata.data);                     
+          this.consolelog('Collection found in db for designer:' + designer_id); 
+          resolve(pdata.data);
         }
-        if(checkpoint==true||force==true||result==null)
-        {       
-          if(!this.values.online){
-            this.offlineManager();
-            reject(null);
-          };
-          if(this.values.online){
-            console.log('Hitting API');
-            let apiSource = this.values.APIRoot + "/app/api.php?json={%22action%22:%22collections_short%22,%22request%22:{%22device_token%22:%22"+device_token+"%22,%22user_token%22:%22"+user_token+"%22,%22checkpoint%22:%22"+(baseDate.getTime()/1000)+"%22,%22seller_account_id%22:"+designer_id+"}}"
-            this.http.get(apiSource).map(res => res.json()).subscribe(data => {
-                resolve(data.result);
-                this.consolelog('Got Collection from API:'+apiSource); 
-                this.values.collection_checkpoint[designer_id] = new Date();
-                this.storeCollections(record_id,data.result)
+        else {
+          if(checkpoint == true || force == true || result == null)
+          {
+            if(!this.values.online){
+              this.offlineManager();
+              reject(null);
+            };
+            if(this.values.online){
+              console.log('Hitting API');
+              let apiSource = this.values.APIRoot + "/app/api.php?json={%22action%22:%22collections_short%22,%22request%22:{%22device_token%22:%22" +
+                  device_token+"%22,%22user_token%22:%22" + user_token + "%22,%22checkpoint%22:%22" + (baseDate.getTime()/1000) +
+                  "%22,%22seller_account_id%22:" + designer_id + "}}"
+              this.http.get(apiSource).map(res => res.json()).subscribe(data => {
+                  resolve(data.result);
+                  this.consolelog('Got Collection from API:' + apiSource); 
+                  this.values.collection_checkpoint[designer_id] = new Date();
+                  this.storeCollections(record_id, data.result)
 
-                //  set download status based on collection download index
-                
-                this.storage.get('download_log').then((response) => {
-                  if(response!=null){
-                    let ulog = response.data;
-                    for (let i = 0, len = ulog.length; i < len; i++) {  
-                      for (let j = 0, len = this.values.collections.length; j < len; j++) {  
-                        if(ulog[i].collection_id==this.values.collections[j].collection_id){
-                          //set collection status
-                          this.values.collections[j].offline='Downloaded'
+                  //  set download status based on collection download index
+                  
+                  this.storage.get('download_log').then((response) => {
+                    if(response!=null){
+                      let ulog = response.data;
+                      for (let i = 0, len = ulog.length; i < len; i++) {  
+                        for (let j = 0, len = this.values.collections.length; j < len; j++) {  
+                          if(ulog[i].collection_id == this.values.collections[j].collection_id){
+                            //set collection status
+                            this.values.collections[j].offline='Downloaded'
+                          }
                         }
-                      }
-                    }   
-                  }               
-                });
-                 
-            })
+                      }   
+                    }               
+                  });
+                  
+              })
           }
+        }
         }
       }).catch(function(err){
           console.log(err);
@@ -538,14 +554,14 @@ export class Data {
 
   //  stores collection list for a designer, record_id = 'collections_' + designer_id
 
-  storeCollections(record_id,data){
+  storeCollections(record_id, data){
     //return new Promise((resolve, reject) => {
       this.consolelog('4. Store in db');
       let storeCollection = {'_id':record_id,data:data};
       this.consolelog('5. Store Collections with wrapper.'); //+ JSON.stringify(this.storeCollection));
       //this.deleteItem(record_id).then(() => {
-        this.consolelog('5d. Delete done, Posting:'+storeCollection._id)
-        this.storage.set(record_id, JSON.stringify(storeCollection))//.then((new_ID) => {
+        this.consolelog('5d. Delete done, Posting:'+storeCollection._id);
+        this.storage.set(record_id, JSON.stringify(storeCollection));//.then((new_ID) => {
           //this.consolelog('6. Collection stored!!!')
           //this.consolelog('6a:'+JSON.stringify(new_ID));
           //new_ID='';
@@ -607,6 +623,7 @@ export class Data {
             this.consolelog('9. Done getting data');
             //this.consolelog('DATA:'+JSON.stringify(pdata.data));
             if (force>0){
+              this.consolelog('/// ---- enter into this.productCache(pdata.data,force)');
               this.productCache(pdata.data,force);
             }
           } else {
@@ -668,9 +685,16 @@ export class Data {
     }
 
    productCache(products,force){
+     console.log('//-------  this.values.designers  -------//');
+      console.log(this.values.designers);
+      console.log('//-------  this.values.designer  -------//');
+      console.log(this.values.designer);
+      
       //designer logos not passively cached
       //http://ordre.kineticmedia.com.au/app/get_image.php?image=/media/prod_images/t/t/tt1.jpg&w=320&h=150&zc=1&xtype=designer
-      this.cacheMaybe(this.values.APIRoot + '/app/get_image.php?image=/'+this.values.designer.logo_image+'&w=320&h=150&zc=1&xtype=designer',force);
+      if(this.values.designer != undefined) {
+        this.cacheMaybe(this.values.APIRoot + '/app/get_image.php?image=/' + this.values.designer.logo_image+'&w=320&h=150&zc=1&xtype=designer',force);
+      }
       console.log('Product Cache');
       //  mode
       //  1 = just try and cache
@@ -707,9 +731,11 @@ export class Data {
                         //  variant images
                         if((imageslide.variant_image.length>0)&&(this.values.cancel==0)){ 
                           //  item?
-                          this.cacheMaybe(this.values.APIRoot + '/app/get_image.php?image=/'+imageslide.variant_image+'&w=683&h=980&zc=2&xtype=prodimage',force);  
+                          this.cacheMaybe(this.values.APIRoot + '/app/get_image.php?image=/' + imageslide.variant_image +
+                            '&w=683&h=980&zc=2&xtype=prodimage',force);  
                           //  linesheet
-                          this.cacheMaybe(this.values.APIRoot + '/app/get_image.php?image=/'+imageslide.variant_image+'&w=110&h=165&xtype=prodimage',force); 
+                          this.cacheMaybe(this.values.APIRoot + '/app/get_image.php?image=/' + imageslide.variant_image +
+                            '&w=110&h=165&xtype=prodimage',force); 
                         }
                         //  cache 360 frames                                 
                         if ((imageslide.variant_360)&&(this.values.cancel==0)){
@@ -718,8 +744,10 @@ export class Data {
 						  for (let i = 1, len = imageslide.frame_count; i < len; i++) {
 						    let thisFrame = ""+i;
 							let frame = pad.substring(0, pad.length - thisFrame.length) + thisFrame;
-                            this.consolelog('Cached 360 image:'+this.values.APIRoot+'/app/get_image.php?image=/'+imageslide.variant_360+'img'+frame+'.jpg&w=480&h=670&zc=3&xtype=360');
-                            this.cacheMaybe(this.values.APIRoot+'/app/get_image.php?image=/'+imageslide.variant_360+'img'+frame+'.jpg&w=480&h=670&zc=3&xtype=360',force);
+                            this.consolelog('Cached 360 image:' + this.values.APIRoot + '/app/get_image.php?image=/' + imageslide.variant_360 +
+                            'img' + frame + '.jpg&w=480&h=670&zc=3&xtype=360');
+                            this.cacheMaybe(this.values.APIRoot + '/app/get_image.php?image=/' + imageslide.variant_360 + 'img' + frame +
+                              '.jpg&w=480&h=670&zc=3&xtype=360', force);
                           };
                         }
                       })  
@@ -746,12 +774,16 @@ export class Data {
   
   // all collections for the selected designer
 
-  getThisCollections(designer_id,device_token,user_token){
+  getThisCollections(designer_id, device_token, user_token){
     return new Promise((resolve, reject) => {
-      this.getCollections(designer_id,device_token,user_token,0).then(response => {
+      console.log(this.values.designers);
+      console.log(this.values.designer);
+      console.log(designer_id);
+      this.getCollections(designer_id, device_token, user_token, 0).then(response => {
         this.values.collections = response;
         //this.consolelog('Values.Collections:'+JSON.stringify(this.values.collections))
         this.consolelog('Got Collections... ');
+        console.log(this.values.collections);
         if(this.values.hasOwnProperty('collections')){
           //current collection ID
           this.currentCollectionID = this.setThisCollection();
@@ -769,20 +801,20 @@ export class Data {
 
   //  manage caching a collection (cache index / log / get products / mode)
 
-  cacheCollection(collection_id,designer_id,designer_title,collection_title,mode){
+  cacheCollection(collection_id, designer_id, designer_title, collection_title, mode){
     return new Promise((resolve, reject) => {
-      console.log('Cache processing mode:'+mode+' Collection ID:'+collection_id);
+      console.log('Cache processing mode:' + mode + ' Collection ID:' + collection_id);
       //  set the specific collection with an offline property status
       this.values.downloadTarget = 0;
       this.values.downloadQueue = 0;
-      this.values.cancel=0;
+      this.values.cancel = 0;
       //  mode logic
       //  mode
       //  0 = no cache
       //  1 = just try and cache
       //  2 = delete then cache
       //  3 = just delete     
-      let abort=false;
+      let abort = false;
       for (let cindex = 0, len = this.values.collections.length; cindex < len && !abort; cindex++) {
         if (this.values.collections[cindex].collection_id == collection_id){
           abort = true;
@@ -793,7 +825,7 @@ export class Data {
           //this.values.collections[cindex].size = this.values.collections[cindex].app_total_bytes
           //this.data.consolelog('3. Status set to "downloading" - updating collections obj for this designer')
           
-          let record_id = 'collections_'+designer_id;
+          let record_id = 'collections_' + designer_id;
 
           //  log entry
           //  0 = just get products
@@ -802,23 +834,23 @@ export class Data {
           //  3 = just delete   
           //  4 = update 
           //  5 = update all images     
-          let action='';
-          if(mode==1){action='Downloaded'};
-          if(mode==2){action='Downloaded (all images)'};
-          if(mode==3){action='Remove'};
-          if(mode==4){action='Updated'};
-          if(mode==5){action='Updated (all images)'};
-          this.storeCollections(record_id,this.values.collections)
+          let action = '';
+          if(mode == 1){action = 'Downloaded'};
+          if(mode == 2){action = 'Downloaded (all images)'};
+          if(mode == 3){action = 'Remove'};
+          if(mode == 4){action = 'Updated'};
+          if(mode == 5){action = 'Updated (all images)'};
+          this.storeCollections(record_id, this.values.collections)
           this.consolelog('7. Save Collection');          
-          this.getProduct(collection_id,this.values.user_profile.device_token,this.values.user_profile.user_token,mode,0).then((data) => {
+          this.getProduct(collection_id, this.values.user_profile.device_token, this.values.user_profile.user_token, mode, 0).then((data) => {
             //this.values.products = data;
             if(mode==3){
-              this.delCindex(collection_title,collection_id,designer_title,designer_id)
+              this.delCindex(collection_title, collection_id, designer_title, designer_id)
             }
             else
             {
               if(mode>0){
-                this.addCindex(action,collection_title,collection_id,designer_title,designer_id,this.values.collections[cindex].app_total_bytes);   
+                this.addCindex(action, collection_title, collection_id, designer_title, designer_id, this.values.collections[cindex].app_total_bytes);   
               }
             }   
             resolve('');       
@@ -835,8 +867,9 @@ export class Data {
     console.log('Add to cache index');
     let sizeMb = Math.round(parseInt(sizebytes)/1024/1000);
     let entry_date = new Date();
-    let index_entry = {'collection_id':collection_id,'designer':designer_title, 'designer_id':designer_id,'collection':collection_title,'download_date':entry_date,'size':sizeMb}
-    this.addDownlog(action,collection_title,collection_id,designer_title,designer_id);
+    let index_entry = {'collection_id':collection_id, 'designer':designer_title, 'designer_id':designer_id, 'collection':collection_title,
+      'download_date':entry_date, 'size':sizeMb};
+    this.addDownlog(action, collection_title, collection_id, designer_title, designer_id);
     this.storage.get('collection_index').then((response) => {
       let cIndex = [];
       if(response!=null){
@@ -997,6 +1030,7 @@ export class Data {
   }
 
   cacheMaybe(url,force){
+      console.log('//-------- Check cacheMaybe() -------//')
       //  cache force
       //  1 = just try and cache
       //  2 = delete then cache
@@ -1009,6 +1043,8 @@ export class Data {
         this.deleteItem(url).then(() => {     
           if(force==3){
             this.values.downloadQueue = this.values.downloadQueue - 1;
+            console.log('//-----  this.values.downloadQueue  -----//');
+            console.log(this.values.downloadQueue);
           }    
           if(force==2){
             this.cacheImage(url)  
@@ -1080,8 +1116,9 @@ export class Data {
             let d = new Date()
             let n = d.getTime()
             let filename = 'img_'+imageID+'_'+n+suffix;    
-            //file or dB storage for cache       
+            //file or dB storage for cache
             if(this.platform.is('cordova!')){
+              console.log("/////////////====browser====//////////////////////");
               this.getImageCordova(blob,filename,url).then((nr1) => {
                 let nr='';
                 resolve(nr);
@@ -1089,6 +1126,7 @@ export class Data {
             }
             else
             {
+              console.log("/////////////====cordova====//////////////////////");
               //console.log('Image Cache Get Blob:'+url)
               this.getImage64(blob,filename,url,imageType).then((nr1) =>{
                 let nr='';
