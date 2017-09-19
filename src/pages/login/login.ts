@@ -108,6 +108,10 @@ export class LoginPage {
         this.values.user_profile = response;
         console.log("//////------User_Profile------/////");
         console.log(response);
+        let currentDate = new Date();
+        console.log("Current_checkpoint : " + currentDate.getTime()/1000);
+        console.log("//////------this.values------/////");
+        console.log(this.values);
         this.values.user_profile.masquerade_id = 0;  //whenmasquarading, user id of masquerader
         this.values.user_profile.forcecache = 0;  //don't force update images when recaching
         
@@ -160,7 +164,7 @@ export class LoginPage {
           console.log("//-----this.values.designers-----//");
           console.log(this.values.designers);
           let abort = false;
-          for (let i = 0, len = this.designers.length; i < len && !abort; i++) { 
+          for (let i = 0, len = this.designers.length; i < len && !abort; i++) {
             if(this.designers[i].seller_account_id == this.values.user_profile.seller_account_id){
               this.values.designer =  this.designers[i];
               abort = true; 

@@ -257,21 +257,21 @@ export class Data {
   }
 
   saveDraftOrder(draft) {  
-    //draft._id = id;
-    
-    return new Promise((resolve, reject) => {
-      draft._id = new Date().toJSON();
-      delete draft._rev;
-      this.consolelog('SAVING:'+JSON.stringify(draft))
-      this.dbDraft.post(draft).then((new_id) => {
-        resolve(new_id);
-      }).catch( error => {
-        reject(error);
-      })
-    });    
-    //this.dbDraft.post(draft).subscribe((data) =>{
-    //  return data;  
-    //});
+      //draft._id = id;
+      return new Promise((resolve, reject) => {
+          draft._id = new Date().toJSON();
+          delete draft._rev;
+          //this.consolelog('SAVING:' + JSON.stringify(draft));
+          this.consoleLog("draft", draft);
+          this.dbDraft.post(draft).then((new_id) => {
+              resolve(new_id);
+          }).catch( error => {
+              reject(error);
+          })
+      });    
+      //this.dbDraft.post(draft).subscribe((data) =>{
+      //  return data;  
+      //});
   }
 
   getDraftOrder(id){
@@ -374,7 +374,7 @@ export class Data {
         });
   }
 
-  getDesigners(device_token,user_token,force){
+  getDesigners(device_token, user_token, force){
 
     let checkpoint = false;
     let ONE_HOUR = 60 * 60 * 1000;
@@ -395,8 +395,8 @@ export class Data {
 
     let record_id = 'designers'
     let record_id_get = record_id;
-    if (force == true && checkpoint == true) {
-      record_id_get='NOPEA1'
+    if (force == true) {
+      record_id_get = 'NOPEA1';
     }
     console.log("//-----  record_id_get  ------//");
     console.log(record_id_get);
@@ -418,17 +418,20 @@ export class Data {
           //this.loading.dismiss().catch(() => {});
         }
         console.log('Online:'+this.values.online)
+        if(!this.values.online){
+          this.offlineManager();
+          //this.loading.dismiss().catch((err) => {console.log('Problem with spinner:'+err)});
+          return false;
+        };
+        
         if((checkpoint == true || force == true || result == null) && (this.values.online))
         {
-          if(!this.values.online){
-            this.offlineManager();
-            //this.loading.dismiss().catch((err) => {console.log('Problem with spinner:'+err)});
-            return false;
-          };
+          
           //if (!this.values.user_profile.seller_account_id){this.presentLoadingCustom()};
           //return new Promise(resolve => {
           this.consolelog('Forced update?'+force);
-          let apiSource = this.values.APIRoot + "/app/api.php?json={%22action%22:%22designers%22,%22request%22:{%22device_token%22:%22"+device_token+"%22,%22user_token%22:%22"+user_token+"%22,%22checkpoint%22:%22"+(baseDate.getTime()/1000)+"%22}}";    
+          let apiSource = this.values.APIRoot + "/app/api.php?json={%22action%22:%22designers%22,%22request%22:{%22device_token%22:%22" +
+            device_token + "%22,%22user_token%22:%22" + user_token + "%22,%22checkpoint%22:%22" + (baseDate.getTime()/1000) + "%22}}";    
           this.consolelog(apiSource);
           // let loading = this.loadingCtrl.create({
           //   dismissOnPageChange: false,
@@ -441,10 +444,10 @@ export class Data {
                 let gotdata = data.result;
                 console.log(data.result);
                 resolve(data.result);
-                this.consolelog("=======================");
+                //this.consolelog("=======================");
                 //this.loading.dismiss().catch(() => {});
 
-                //this.deleteItem(record_id_get).then(() => {                 
+                //this.deleteItem(record_id_get).then(() => {
                 //this.consolelog(JSON.stringify(data.result))
                 this.values.designer_checkpoint = new Date();
                 this.consolelog('Store in pouchDB');
@@ -1248,6 +1251,13 @@ export class Data {
   consolelog(str) {
     if(this.values.debug){
       console.log('LOG:'+str);
+    }
+  }
+
+  consoleLog(str1, str2) {
+    if(this.values.debug){
+      console.log('//------- ' + str1 + ' -------//');
+      console.log(str2);
     }
   }
 

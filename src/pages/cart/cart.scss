@@ -27,6 +27,28 @@ page-cart {
     div.fe_sidebar_overlay {
         overflow-y: scroll;
     }
+    div.purchase_wraper {
+        padding-left: 15px;
+    }
+    div.purchase_wraper span.purchase_order {
+        font-size: 13px;
+        font-family: 'Montserrat Bold';
+        color: #1fbfed;
+        float: left;
+        margin-top: 4px;
+    }
+    div.purchase_wraper input {
+        background: #ffffff;
+        border: 1px solid #d7d7d7;
+        width: 150px;
+        margin-left: 10px;
+        height: 25px;
+    }
+    div.purchase_wraper span.purchase_optional {
+        font-size: 12px;
+        font-family: 'Montserrat Reg';
+        color: #a7a7a7;
+    }
     @media only screen and (max-width: 1024px) {
         .fe_footer .confirm_order {
             font-size: 13px;

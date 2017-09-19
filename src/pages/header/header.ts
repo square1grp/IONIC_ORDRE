@@ -40,6 +40,7 @@ export class OrdreHeader {
 
   openPage(page): void {
     //this.navCtrl.setRoot(page);
+    this.values.isDesignersPage = false;
     this.navCtrl.push(page);
   }
 
@@ -50,6 +51,7 @@ export class OrdreHeader {
   }
   
   openCachePage(page): void {
+    this.values.isDesignersPage = false;
     //this.navCtrl.setRoot(page);
     this.navCtrl.setRoot(page);
     //this.navCtrl.push(page);
@@ -96,6 +98,7 @@ export class OrdreHeader {
   }
 
   logOut(){
+    this.values.isDesignersPage = false;
     let alert = this.alertCtrl.create({
       title: 'Are you sure?',
       subTitle: 'Unsaved Orders will be lost.',
@@ -124,6 +127,7 @@ export class OrdreHeader {
   }
 
   openCollectionPage(page): void {
+    this.values.isDesignersPage = false;
     //this.navCtrl.setRoot(page);
     this.navCtrl.push(page, { designer: this.values.designer });
   }

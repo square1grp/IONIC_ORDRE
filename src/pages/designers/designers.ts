@@ -18,7 +18,8 @@ export class DesignersPage {
   ngOnInit(){
     console.log('Init');
     this.values.designers = null;
-    this.getTheseDesigners(); 
+    this.getTheseDesigners();
+    this.values.isDesignersPage = true;
   }
 
   ngAfterViewChecked(){
@@ -52,20 +53,23 @@ export class DesignersPage {
           setTimeout(() => {
                 loading.dismissAll();
           }, 1600);
+          this.values.isDesignersPage = false;
           this.navCtrl.push(CollectionPage, { designer: designer, mode:'' });
         }).catch(function(err){
             console.log(err);
             loading.dismissAll();
         });
       }).catch(function(err){
-            loading.dismiss().catch((error) => {console.log('Problem with spinner:'+error)});
+            loading.dismiss().catch((error) => {console.log('Problem with spinner:' + error)});
             return false;
         });
     });
   }
 
   getTheseDesigners(){
-      this.data.getDesigners(this.values.device_token,this.values.user_profile.user_token,0).then((response) => {
+      let force = false;
+      if(this.values.isDesignersPage == true) force = true;
+      this.data.getDesigners(this.values.device_token, this.values.user_profile.user_token, force).then((response) => {
         //this.data.consolelog('Designers:'+JSON.stringify(response));
         console.log('About to render');
         this.values.designers = response //.designers[0];
