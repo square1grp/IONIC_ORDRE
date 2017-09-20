@@ -46,6 +46,7 @@ export class SettingsPage {
     return new Promise((resolve, reject) => {
       this.data.getRetailers(this.values.device_token,this.values.user_profile.user_token).then(response => { 
         this.retailers = response;
+        this.data.consoleLog("this Retailers", response);
         resolve(true);
       });
     });

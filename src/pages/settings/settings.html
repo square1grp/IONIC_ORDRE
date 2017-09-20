@@ -36,7 +36,7 @@
 				<ion-list radio-group [(ngModel)]="retailer_id" id="retailer-list" (ionChange)="setBuyers()">
 					<ion-item *ngFor="let retailer of searchResultRetailers">
 						<ion-radio value="{{ retailer.retailer_id }}"></ion-radio>
-						<ion-label>{{ retailer.business_name }}</ion-label>
+						<ion-label [innerHTML]="retailer.business_name"></ion-label>
 					</ion-item>
 				</ion-list>
 			</div>

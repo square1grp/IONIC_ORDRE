@@ -95,7 +95,7 @@ export class CollectionPage {
     console.log('Search enabled');
     this.searchControl.valueChanges.debounceTime(1000).distinctUntilChanged().subscribe(searchString => {
       //if(searchString != '' && searchString){
-        console.log('Search for:'+searchString);
+        console.log('Search for:' + searchString);
         let mode=0;
         this.searchValue = searchString;
         if(searchString.length==0){mode=1}
@@ -235,7 +235,7 @@ export class CollectionPage {
     });  
   }
 
-  downloadManager(collection_id,designer_id,designer,collection_title,mode){
+  downloadManager(collection_id, designer_id, designer, collection_title, mode){
     if(!this.values.online){
       this.data.offlineManager();
       return false;
