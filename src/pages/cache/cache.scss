@@ -5,4 +5,11 @@ page-cache {
         font-size: 17px;
         margin-top: 15px;
     }
+    .scroll-content {
+        overflow-y: hidden;
+    }
+    #settings_content .settings_item {
+        height: 100%;
+        overflow-y: scroll;
+    }
 }
