@@ -39,7 +39,9 @@
 
   </div>
   
-  <div class="collection_delivery"><p>{{data.selectedCollection?.collection_title}}</p><p>DELIVERS {{data.selectedCollection?.display_start_date}} - {{data.selectedCollection?.display_end_date}}</p>
+  <div class="collection_delivery">
+    <p [innerHTML]="data.selectedCollection?.collection_title"></p>
+    <p>DELIVERS {{data.selectedCollection?.display_start_date}} - {{data.selectedCollection?.display_end_date}}</p>
   </div>  
   <div class="actions_wrapper">
     <span>

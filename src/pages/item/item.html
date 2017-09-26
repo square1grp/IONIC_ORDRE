@@ -46,7 +46,7 @@
         <div class="item_meta">
           <p class="name">{{variant.title}}</p>
           <p class="wsp"><span>WSP</span> {{this.data.designer?.buyer_code}} {{this.data.designer?.buyer_symbol}}{{product?.region_prices[this.values.user_profile.user_region_id].wsp | number :'.2'}}</p>
-          <div class="color-material_info"> {{variant.colour}} </div>
+          <div class="color-material_info" [innerHTML]="variant.colour"> </div>
         </div>
         <div class="item_price">
         <div>

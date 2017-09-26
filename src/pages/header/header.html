@@ -11,8 +11,8 @@
       </span>     
       <a *ngIf="(this.values.user_profile.seller_account_id == 0)" (tap)="openPage(cartPage)" class="header_mini_cart_link" [ngClass]="{'active': this.values.cart.request.order[0]?.sales_order_parts.length>0, '': !this.values.cart.request.order[0]?.sales_order_parts}">
         <!--<div id="retailer-name">-->
-          <span [ngClass]="{'business_name_buyer': this.values.user_profile.masquarade_id == 0, 'business_name_masquerade': this.values.user_profile.masquarade_id != 0}">
-            {{this.values.user_profile.business_display_name+'&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;'}}{{this.values.cart.request.order[0].total_qty}}
+          <span [ngClass]="{'business_name_buyer': this.values.user_profile.masquarade_id == 0, 'business_name_masquerade': this.values.user_profile.masquarade_id != 0}"
+            [innerHTML]="this.values.user_profile.business_display_name + '&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;' + this.values.cart.request.order[0].total_qty">
           </span>
         <!--</div>-->
       </a>      

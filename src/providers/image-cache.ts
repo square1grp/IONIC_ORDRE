@@ -25,7 +25,7 @@ export class OrdreImageCache {
     public img: HTMLImageElement;
     public hidden: boolean;
 
-    constructor(private storage: Storage, private cd: ChangeDetectorRef, private platform: Platform, public el: ElementRef, private data: Data, private ds: DomSanitizer, private values:Values) {
+    constructor(private storage: Storage, private cd: ChangeDetectorRef, private platform: Platform, public el: ElementRef, private data: Data, private ds: DomSanitizer, public values:Values) {
         this.hidden = true;
     };
 

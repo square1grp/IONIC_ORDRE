@@ -59,7 +59,6 @@ export class LinesheetPage {
   }
 
   ngOnInit(){
-    //this.data.presentLoadingCustom();
     //this.values.lsproducts = null;
     //this.values.search= '';
     this.searchValue= '';
@@ -86,11 +85,9 @@ export class LinesheetPage {
     this.data.consolelog('ionViewDidLoad CollectionPage')
     //this.data.getThisCollections(this.data.designer.seller_account_id);
     //this.data.getDesignerCurrency(this.values.user_profile.user_region_id,-1);
-    //this.data.loading.dismiss().catch(() => {});
 
     //build array for virtual scrolling (flatten product + variants)
     this.buildArray('',0);
-    console.log('Loading init items');
 
     this.addItemsToGrid();
     this.search();
@@ -131,10 +128,10 @@ export class LinesheetPage {
             tempGroup = [];
         }
     }
-    if(typeof this.data.loading !== 'undefined') {
-        this.data.loading.dismissAll();;
-        this.data.loadingState = false;
-    }
+    console.log("dismiss_linsheet");
+    setTimeout(() => {
+        this.data.dismissLoadingSpiner();
+    }, 800);
   }
 
   prevPage() {
@@ -416,6 +413,12 @@ export class LinesheetPage {
   }  
 
   downloadManager(collection_id,designer_id,designer,collection_title,mode){
+      this.data.presentLoadingSpiner();
+      setTimeout(() => {
+          if (this.data.isloadingState == true) {
+              this.data.dismissLoadingSpiner();
+          }
+      }, 2000);
       if(!this.values.online){
         this.data.offlineManager();
         return false;
@@ -431,7 +434,12 @@ export class LinesheetPage {
     }       
     let popover = this.popoverController.create(this.viewloaderPage,{collection_id:collection_id,designer_id:designer_id,mode:mode});
     popover.present();
-    this.data.cacheCollection(collection_id,designer_id,designer,collection_title,mode)   
+    this.data.cacheCollection(collection_id,designer_id,designer,collection_title,mode).then(() => {
+        setTimeout(() => {
+            this.data.dismissLoadingSpiner();
+        }, 500);
+        //this.cd.markForCheck(); 
+    });      
   }
   /*
   downloadCollection(collection_id,designer_id){
@@ -474,7 +482,12 @@ export class LinesheetPage {
   }
 
   productItem(product){
-    this.data.consolelog('Product clicked');
+    this.data.presentLoadingSpiner();
+    setTimeout(() => {
+        if (this.data.isloadingState == true) {
+            this.data.dismissLoadingSpiner();
+        }
+    }, 2000);
     this.navCtrl.push(ItemPage, { product: product, collection: this.data.selectedCollection });
   }
 

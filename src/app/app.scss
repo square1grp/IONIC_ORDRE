@@ -20,6 +20,11 @@ ORDRE APP STYLE, 2017-07-05 21:00
 }
 
 @font-face {
+	font-family:'San Francisco ThinOtf';
+	src:url(../assets/fonts/SanFranciscoDisplay-Thin.otf);
+}
+
+@font-face {
 	font-family:'Montserrat Bold';
 	src:url(../assets/fonts/Montserrat-Bold.otf);
 }
@@ -331,7 +336,7 @@ section.login_section .login_form_wrapper .login_form input {
 .login_form div span {
 	color:#ffffff;
 	position:relative;
-	font-family:'San Francisco Thin';
+	font-family:'San Francisco ThinOtf';
 	font-size:14px;
 }
 
@@ -1464,7 +1469,7 @@ page-linesheet .ordre_subheader .content_sorter {
 	float:left;
 	width:33%;
 	position:relative;
-	min-height:497px;
+	min-height:502px;
 }
 
 .open_bar .page_content .collection_content .collection_item_part img {
@@ -1477,7 +1482,7 @@ page-linesheet .ordre_subheader .content_sorter {
 	width:auto;
 	position:relative;
 	max-width:25%;
-	min-height:342px;
+	min-height:502px;
 }
 
 .closed_bar .page_content .collection_content .collection_item_part img {

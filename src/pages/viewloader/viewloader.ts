@@ -14,7 +14,7 @@ export class ViewloaderPage {
   mode: number;
   source: any;
   
-  constructor(private values: Values, public viewCtrl: ViewController, private data:Data, public navParams: NavParams){}
+  constructor(public values: Values, public viewCtrl: ViewController, private data:Data, public navParams: NavParams){}
 
   ngOnInit(){
 
@@ -24,27 +24,33 @@ export class ViewloaderPage {
     this.source = this.navParams.get('source');
     if(this.mode==4){this.mode=1}; 
     if(this.mode==5){this.mode=2};  
-    console.log("//--------- this.values.downloadTarget -----------//");
-    console.log(this.values.downloadTarget);
   }
 
   close() {
       let status='';
       if(this.mode==3){
-        status = 'Removed';
+          status = 'Removed';
       }
       else
       {
-        status = 'Downloaded';
+          status = 'Downloaded';
       }   
       this.setCollectionStatus(status,this.collection_id).then(() => {
-        if(this.source=='collection'){
-          //reload collection
-        }
-        //this.data.addIsOpenedProp();
-        this.viewCtrl.dismiss().then(() => {this.data.addIsOpenedProp()}).catch((err) => {console.log('Problem with spinner:'+err)});
+          if(this.source=='collection'){
+            //reload collection
+          }
+          //this.data.addIsOpenedProp();
+          this.viewCtrl.dismiss().then(() => {
+              console.log("loaderViewe_Dismissed!!");
+              setTimeout(() => {
+                  console.log("call_dismissSpiner");
+                  this.data.dismissLoadingSpiner();
+              }, 500);
+              this.data.addIsOpenedProp();
+          }).catch((err) => {
+              console.log('Problem with spinner:'+err);
+          });
       })
-
     /*
     let abort = false;
     for (let i = 0, len =  this.values.collections.length; i < len && !abort; i++) {    
@@ -68,11 +74,19 @@ export class ViewloaderPage {
     */     
   }
 
-  abort(){
-    this.values.cancel=1;
-    this.setCollectionStatus('',this.collection_id).then(() => {
-      this.viewCtrl.dismiss().catch((err) => {console.log('Problem with spinner:'+err)});
-    }) 
+  abort() {
+      this.values.cancel=1;
+      this.setCollectionStatus('',this.collection_id).then(() => {
+          this.viewCtrl.dismiss().then(() => {
+              console.log("loaderViewe_Dismissed!!");
+              setTimeout(() => {
+                  console.log("call_dismissSpiner");
+                  this.data.dismissLoadingSpiner();
+              }, 500);
+          }).catch((err) => {
+              console.log('Problem with spinner:'+err);
+          });
+      });
   }
 
   setCollectionStatus(status,collection_id){

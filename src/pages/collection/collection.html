@@ -32,26 +32,32 @@
     <section class="page_content" id="collection_section">
       <div class="collection_sidebar" [ngClass]="{'open': navOpen, 'closed': !navOpen}">
         <p class="divider"></p>
-        <div class="sidebar_title"><lazy-img src="{{values.APIRoot}}/app/get_image.php?image=/{{values.designer.logo_image}}&w=310&h=140&zc=1&xtype=designer"></lazy-img></div>
+        <div class="sidebar_title">
+            <lazy-img src="{{values.APIRoot}}/app/get_image.php?image=/{{values.designer.logo_image}}&w=310&h=140&zc=1&xtype=designer">
+            </lazy-img>
+        </div>
         <div class="collection_description">
           <p class="open-to-ordre-title" ><span [innerHTML]="values.designer.title"></span><br/>Collections open-to-ordre</p>
         </div>
-        <div class="collection_item collection1" tappable [ngClass]="{'current': collection.collection_title==data.selectedCollection?.collection_title, '': collection.collection_title!=data.selectedCollection?.collection_title}" *ngFor="let collection of values.collections, let i = index" (click)="this.changeCollection(collection.collection_id, this.values.designer.seller_account_id, i)">
-          <a class="name" [innerHTML]="collection.collection_title"></a>
-          <ng-container *ngIf="(collection.offline!='Downloading' && collection.offline!='Downloaded')">
-              <img src="assets/images/mini_download_icon-black.png">
-              <a href="#" class="download_collection"></a>
-          </ng-container>
-          <ng-container *ngIf="collection.hasOwnProperty('offline')">
-            <ng-container *ngIf="collection.offline=='Downloading'">
-              <a href="#" class="download_collection">Downloading</a>
-              <img src="assets/images/mini_download_icon-grey.png">
-            </ng-container>
-            <ng-container *ngIf="(collection.offline=='Downloaded')">
-              <a href="#" class="download_collection">Downloaded</a>
-              <img src="assets/images/mini_download_icon-blue.png">
-            </ng-container>
-          </ng-container>
+        <div class="collection_item collection1" tappable [ngClass]="{ 'current': collection.collection_title == data
+          .selectedCollection?.collection_title, '': collection.collection_title != data.selectedCollection?.collection_title }" 
+          *ngFor="let collection of values.collections, let i = index" (click)="this.changeCollection(collection.collection_id, 
+          this.values.designer.seller_account_id, i)">
+              <a class="name" [innerHTML]="collection.collection_title"></a>
+              <ng-container *ngIf="(collection.offline!='Downloading' && collection.offline!='Downloaded')">
+                  <img src="assets/images/mini_download_icon-black.png">
+                  <a href="#" class="download_collection"></a>
+              </ng-container>
+              <ng-container *ngIf="collection.hasOwnProperty('offline')">
+                  <ng-container *ngIf="collection.offline=='Downloading'">
+                      <a href="#" class="download_collection">Downloading</a>
+                      <img src="assets/images/mini_download_icon-grey.png">
+                  </ng-container>
+                  <ng-container *ngIf="(collection.offline=='Downloaded')">
+                      <a href="#" class="download_collection">Downloaded</a>
+                      <img src="assets/images/mini_download_icon-blue.png">
+                  </ng-container>
+              </ng-container>
         </div>
       </div>
       <div class="collection_content" >

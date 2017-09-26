@@ -14,7 +14,7 @@ export class CartProvider {
   orderResponse      : any;
   line_total         : any;
 
-  constructor(private http: Http, private values: Values, private loadingController: LoadingController) {
+  constructor(private http: Http, public values: Values, private loadingController: LoadingController) {
     
     //this.url = this.config.url;
   }

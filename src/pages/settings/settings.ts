@@ -27,7 +27,7 @@ export class SettingsPage {
   buyers: any = [];// [{'first_name':'Select Retailer','last_name':'','buyer_id':0}];
   typeahead: string = "";
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public data: Data, private values: Values) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public data: Data, public values: Values) {
     //
   }
 

@@ -45,19 +45,19 @@ export class Data {
   storeProducts: any;
   dlog: any;
   loadingState: boolean = false;
+  isloadingState: boolean = false;
 
   SQLLite: boolean;
 
   constructor(private file: File, public storage: Storage, public loadingCtrl: LoadingController, public http: Http,
-              public platform: Platform, public values: Values, private alertCtrl: AlertController, private connectivity:Connectivity) {}
+    public platform: Platform, public values: Values, private alertCtrl: AlertController, private connectivity:Connectivity) {}
+
 
   ngOnInit(){
     setTimeout(() => {
       this.initDB();
     }, 3000);
   }
-
-  
 
   initDB() {
 
@@ -145,7 +145,7 @@ export class Data {
             text: 'OK',
             handler: () => {
               this.consolelog('Warning about being offline');
-              
+              this.dismissLoadingSpiner();
             }
           }
         ]
@@ -1228,26 +1228,61 @@ export class Data {
   //   //})
   // }
 
-  presentLoadingCustom() {
-        this.loading = this.loadingCtrl.create({
-              dismissOnPageChange: false,
-              spinner: 'crescent',
-              content: `
-                    <div id="loading" class="loading_container">
-                      <div class="loading_spinner"></div>
-                    </div>`
-        });
-        this.loadingState = true;
-        this.loading.present().then(() =>{
-              setTimeout(() => {
-                    if(this.loadingState == true) {
-                          this.loading.dismissAll();;
-                          this.loadingState = false;
-                    }
-              }, 20000);
-        })
+  // presentLoadingCustom() {
+  //       this.loading = this.loadingCtrl.create({
+  //             dismissOnPageChange: false,
+  //             spinner: 'crescent',
+  //             content: `
+  //                   <div id="loading" class="loading_container">
+  //                     <div class="loading_spinner"></div>
+  //                   </div>`
+  //       });
+  //       this.loadingState = true;
+  //       this.loading.present().then(() =>{
+  //             setTimeout(() => {
+  //                   if(this.loadingState == true) {
+  //                         this.loading.dismissAll();;
+  //                         this.loadingState = false;
+  //                   }
+  //             }, 20000);
+  //       })
+  // }
+
+  createLoader () {
+      this.loading = this.loadingCtrl.create({
+            dismissOnPageChange: false,
+            spinner: 'crescent',
+            content: `
+                  <div id="loading" class="loading_container">
+                    <div class="loading_spinner"></div>
+                  </div>`
+      }); 
   }
 
+  presentLoadingSpiner() {
+      console.log(this.loadingState);
+      if (this.loadingState == true) return;
+      this.createLoader ();
+      this.loading.present().then(() => {
+          console.log("presented");
+          this.loadingState = true;
+      }).catch(function(err){
+          console.log(err);
+      });
+  }
+
+  dismissLoadingSpiner() {
+      console.log(this.loadingState);
+      if (this.loadingState == false) {
+        this.isloadingState = true;
+        return;
+      }
+      this.loading.dismiss().then(() => {
+          console.log("dismissed");
+          this.loadingState = false;
+          this.isloadingState = false;
+      })
+  }
   consolelog(str) {
     if(this.values.debug){
       console.log('LOG:'+str);

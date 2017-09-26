@@ -25,7 +25,7 @@ export class CachePage {
   uiState:any; 
   viewloaderPage = ViewloaderPage; 
 
-  constructor(public popoverController:PopoverController, public navCtrl: NavController, public navParams: NavParams, private values:Values, private storage:Storage, private data:Data, private alertCtrl: AlertController) {}
+  constructor(public popoverController:PopoverController, public navCtrl: NavController, public navParams: NavParams, public values:Values, private storage:Storage, public data:Data, private alertCtrl: AlertController) {}
 
   ngOnInit(){
     this.uiState ='downloaded';

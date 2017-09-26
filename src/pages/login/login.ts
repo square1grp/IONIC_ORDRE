@@ -22,7 +22,8 @@ export class LoginPage {
   errorMessage: any;
   loggingin: any;
   
-  constructor(public navCtrl: NavController, public formBuilder: FormBuilder, public data: Data, public values: Values, public cartProvider: CartProvider, private alertCtrl: AlertController, public loadingCtrl: LoadingController) {
+  constructor(public navCtrl: NavController, public formBuilder: FormBuilder, public data: Data, public values: Values, 
+    public cartProvider: CartProvider, private alertCtrl: AlertController, public loadingCtrl: LoadingController) {
     
     this.loginForm = formBuilder.group({
       user_email: [''],
@@ -34,7 +35,7 @@ export class LoginPage {
 
   ngOnInit(){
     this.data.initDB().then(data => {
-      if(this.values.APIRoot == "https://ordre.kineticmedia.com.au"){
+      if (this.values.APIRoot == "https://ordre.kineticmedia.com.au") {
         let alert = this.alertCtrl.create({
           title: 'WARNING: You are running on the TEST database.',
           subTitle: 'Orders will not be processed.',
@@ -48,8 +49,8 @@ export class LoginPage {
           ]
         });
         alert.present();  
-        if(this.values.hasOwnProperty('user_profile')){
-          if (this.values.user_profile.user_id > 0){
+        if (this.values.hasOwnProperty('user_profile')) {
+          if (this.values.user_profile.user_id > 0) {
             console.log('Returning user');
             //this.logUserIn();
           }
@@ -60,7 +61,7 @@ export class LoginPage {
 
 
 
-  offlineManager(){
+  offlineManager() {
     /*
     if(!this.connectivityService.isOnline()){
       let alert = this.alertCtrl.create({
@@ -90,13 +91,13 @@ export class LoginPage {
   submitLogin(): void {  
     if(!this.values.online){
       this.data.offlineManager();
-      //this.data.loading.dismiss().catch((err) => {console.log('Problem with spinner:'+err)});
       return;
     }
     else
     {
-      if(this.loggingin==true){return}
-      this.loggingin=true;
+      if (this.loggingin == true) { return; }
+      this.data.presentLoadingSpiner();
+      this.loggingin = true;
       console.log('Form Post: Login');
 
       let logindata = this.loginForm.value;
@@ -125,6 +126,7 @@ export class LoginPage {
         }
         else
         {
+          this.data.dismissLoadingSpiner();
           this.loggingin=false;
           let alert = this.alertCtrl.create({
             title: this.values.user_profile.title,
@@ -138,14 +140,6 @@ export class LoginPage {
   }
 
   logUserIn(){
-    //this.data.presentLoadingCustom();
-    let loading = this.loadingCtrl.create({
-        dismissOnPageChange: false,
-        spinner: 'crescent',
-        content: "<div id='loading' class='loading_container'><div class='loading_spinner'></div></div>"}
-    );
-    loading.present().then(() => {
-    //if(this.values.online){
       this.values.device_token = this.values.user_profile.device_token
       this.cartProvider.emptyOrder();
       this.values.user_profile.masquarade_id = 0;
@@ -180,8 +174,6 @@ export class LoginPage {
             if(!this.values.online){
               if(this.values.collections[0].offline!='Downloaded'){
                 this.data.offlineManager();
-                //this.data.loading.dismiss().catch((err) => {console.log('Problem with spinner:'+err)});
-                loading.dismissAll();
                 return false;
               }
             };      
@@ -191,9 +183,6 @@ export class LoginPage {
             this.data.getProduct(this.data.currentCollectionID,this.values.device_token,this.values.user_profile.user_token,0,0).then(data => {
               this.data.consolelog('Set products from download after init')
               this.data.consolelog('Got product JSON:'+this.data.currentCollectionID)
-              console.log('Loading init items');
-              //this.data.loading.dismiss().catch((err) => {});
-              loading.dismissAll();
               this.navCtrl.push(CollectionPage, { designer: this.values.designer, mode:'' });
             }).catch(function(err){
                 console.log(err);
@@ -204,8 +193,6 @@ export class LoginPage {
       }
       else
       {
-        //this.data.loading.dismiss().catch((err) => {});
-        loading.dismissAll();
         this.navCtrl.setRoot(DesignersPage);
         //this.navCtrl.push(TestPage);
       }   
@@ -214,7 +201,7 @@ export class LoginPage {
     //{
     //  this.loggingin=false;
     //} 
-    });
+    //});
   }
 
 }
