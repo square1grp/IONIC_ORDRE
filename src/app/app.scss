@@ -4189,12 +4189,21 @@ div.syncing li.active {
 }
 
 #settings_content table tr th {
-	padding:20px 0 10px 0;
+	padding:40px 0 10px 0;
 	color:#9b9b9b;
 	text-transform:uppercase;
 	font-family:'Avenir Light';
 	font-weight:600;
 	font-size:12px;
+}
+
+#settings_content table tr th:last-child {
+    padding: 20px 0 10px 0;
+    color: #9b9b9b;
+    text-transform: uppercase;
+    font-family: 'Avenir Light';
+    font-weight: 600;
+    font-size: 12px;
 }
 
 .open_bar #settings_section #settings_content {
@@ -4207,9 +4216,15 @@ div.syncing li.active {
 }
 
 #settings_content table tr td {
-	padding:22px 0;
+	padding:32px 0 22px;
 	font-size:16px;
 	font-family:'Avenir Medium';
+}
+
+#settings_content table tr td.actions {
+    padding: 20px 0;
+    font-size: 16px;
+    font-family: 'Avenir Medium';
 }
 
 #settings_content table tr {
@@ -4227,7 +4242,7 @@ div.syncing li.active {
 	color:#909090;
 	border:1px solid #909090;
 	outline:none;
-	padding:7px 10px 3px;
+	padding:14px 10px 10px;
 	text-transform:uppercase;
 	font-family:'Avenir Medium';
 	font-size:14px;
@@ -4238,7 +4253,7 @@ div.syncing li.active {
 	color:#ffffff;
 	border:1px solid #80d2eb;
 	outline:none;
-	padding:7px 10px 3px;
+	padding:14px 10px 10px;
 	text-transform:uppercase;
 	font-family:'Avenir Medium';
 	margin-right:15px;
@@ -4249,9 +4264,9 @@ div.syncing li.active {
 	border:1px solid #141414;
 	outline:none;
 	background:#ffffff;
-	padding:6px 5px 5px 5px;
+	padding:12px 5px 11px 5px;
 	text-transform:uppercase;
-	font-size:10px;
+	font-size:12px;
 	color:#141414;
 	position:relative;
 	font-family:'SanFrancisco MediumOtf';

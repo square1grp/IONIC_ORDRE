@@ -118,12 +118,12 @@
             <div class="color-material_info">
               <div class="color">
                 <p>Color</p>
-                <p>{{item?.variant.colour}}</p>
+                <p [innerHTML]="item?.variant.colour"></p>
                 <span><lazy-img src="{{values.APIRoot}}/app/get_image.php?image=/{{item?.variant.swatch.swatch_image}}&w=20&h=20&xtype=prodimage"></lazy-img></span>
               </div>
               <div class="material">
               <p>Material</p>
-                <p  [innerHTML]="item?.product.materials"></p>
+                <p [innerHTML]="item?.product.materials"></p>
               </div>
             </div>
             <div class="product_sizes">
