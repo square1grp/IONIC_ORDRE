@@ -38,7 +38,7 @@
 					<li [ngClass]="{'': uiState!=='settings', 'active': uiState=='settings'}" block="set_sync" (click)="uiChange('settings')">Settings</li>
 					<li [ngClass]="{'': uiState!='log', 'active': uiState=='log'}" block="collect_sync" (click)="uiChange('log')">Log</li>
 					<!--li block="ord_sync">Orders Sync Log </li-->
-				</ul>				
+				</ul>
 			</div>
 			<div class="version">
 				<span>v1.03</span>
@@ -46,8 +46,9 @@
 		</div>
 	</div>
 	<section id="settings_content">
-		<div class="settings_item downloaded active" *ngIf="uiState=='downloaded'">
-			<table >
+		<div class="no_download_collection" *ngIf="this.values.downloadedCollections.length == 0"> There are currently no downloaded collections. </div>
+		<div class="settings_item downloaded active" *ngIf="uiState=='downloaded' && this.values.downloadedCollections.length > 0">
+			<table>
 				<tr>
 					<th>Downloaded</th>
 					<th>Designer</th>

@@ -1,3 +1,4 @@
+import { Data } from './data';
 import { Injectable } from '@angular/core';
 import { Http, Headers, RequestOptions } from '@angular/http';
 import { LoadingController } from 'ionic-angular';
@@ -14,7 +15,7 @@ export class CartProvider {
   orderResponse      : any;
   line_total         : any;
 
-  constructor(private http: Http, public values: Values, private loadingController: LoadingController) {
+  constructor(private http: Http, public values: Values, private loadingController: LoadingController, private data: Data) {
     
     //this.url = this.config.url;
   }
@@ -104,7 +105,7 @@ export class CartProvider {
   addToCart(product_title, colour, material, swatch, image, designer_title, designer_id, product_id, variant_id,
     size, size_id, type, qty, price, prodsku: string) {
 
-      console.log('Start:Adding to cart')
+      console.log('Start:Adding to cart');
 
       //new order, set buyer_id
       if (this.values.cart.request.order[0].buyer_id == 0) {
@@ -115,20 +116,20 @@ export class CartProvider {
           this.values.cart.request.order[0].masquerade_originator =  this.values.user_profile.masquerade_id;      
       }
 
-      console.log('Check if designer is in cart')
+      console.log('Check if designer is in cart');
       //check for designer in cart
       this.order_part_item_id = -1;
-      console.log('Cart Parts:' + JSON.stringify(this.values.cart.request.order[0].sales_order_parts))
+      console.log('Cart Parts:' + JSON.stringify(this.values.cart.request.order[0].sales_order_parts));
       let abort = false;
       for (let pindex = 0, len = this.values.cart.request.order[0].sales_order_parts.length; pindex < len && !abort; pindex++) {  
           if (this.values.cart.request.order[0].sales_order_parts[pindex].seller_account_id == designer_id) {
               this.order_part_item_id = pindex;
-              abort=true;
+              abort = true;
           }
       };
 
       //add sales_order_line
-      qty = parseInt(qty)
+      qty = parseInt(qty);
       if (isNaN(parseFloat(qty)) || (qty == undefined)){
           qty = 0;
       }
@@ -149,19 +150,23 @@ export class CartProvider {
               'image'           : image
           }
           let hasVariant = 0;
+          let totalVariantQty = 0;
           this.line_item_id = -1;
 
           if (this.order_part_item_id != -1){
               let abort = false;
               for (let lindex = 0, len = this.values.cart.request.order[0].sales_order_parts[this.order_part_item_id].sales_order_lines.length; 
-                lindex < len && !abort; lindex++) {   
+                lindex < len && !abort; lindex++) {
                   if (this.values.cart.request.order[0].sales_order_parts[this.order_part_item_id].sales_order_lines[lindex].
                     variant_id == this.line_item.variant_id) {
                       hasVariant = hasVariant + 1;
-                  }          
+                      totalVariantQty = totalVariantQty + this.values.cart.request.order[0].sales_order_parts[this.order_part_item_id]
+                        .sales_order_lines[lindex].quantity;
+                  }
                   if (this.values.cart.request.order[0].sales_order_parts[this.order_part_item_id].sales_order_lines[lindex].sku == this.line_item.sku) {
                       this.line_item_id = lindex;
-                      if(qty > 0){abort = true;}
+                      //if (qty > 0) { abort = true; }
+                      //abort = true;
                   }
               };
           }
@@ -171,11 +176,11 @@ export class CartProvider {
           let doTally = 0;
 
           //new line item
-          if (this.line_item_id == -1){
+          if (this.line_item_id == -1) {
             
               //  if a new designer (seller_account_id) then add sales_order_parts
-              if(qty >= 0 || type == 'all'){
-                  if (this.order_part_item_id == -1){
+              if(qty >= 0 || type == 'all') {
+                  if (this.order_part_item_id == -1) {
                       this.line_total = price * qty;
                       this.order_part = {
                           'designer_title'    : designer_title, 
@@ -190,21 +195,28 @@ export class CartProvider {
                           'all_products'      : '',
                           'sales_order_lines' : [this.line_item]
                       };
+                      if (qty > 0) this.order_part.total_line_items = this.order_part.total_line_items + 1;
                       this.order_part_item_id = this.values.cart.request.order[0].sales_order_parts.push(this.order_part) - 1;
                       console.log('New Order Part Index:' + this.order_part_item_id);
                   }
                   else
                   { 
-                      this.values.cart.request.order[0].sales_order_parts[this.order_part_item_id].sales_order_lines.push(this.line_item);
+                        this.values.cart.request.order[0].sales_order_parts[this.order_part_item_id].sales_order_lines.push(this.line_item);
+                        if (totalVariantQty == 0 && totalVariantQty + qty > 0) {
+                            this.values.cart.request.order[0].sales_order_parts[this.order_part_item_id].total_line_items = this.values.cart.request.
+                            order[0].sales_order_parts[this.order_part_item_id].total_line_items + 1;
+                        }
+                        // if (totalVariantQty > 0 && totalVariantQty + qty > 0) {
+                        //     this.values.cart.request.order[0].sales_order_parts[this.order_part_item_id].total_line_items = this.values.cart.request.
+                        //     order[0].sales_order_parts[this.order_part_item_id].total_line_items + 1;
+                        // }
+                        this.data.consoleLog("totalVariantQty + qty", totalVariantQty + qty);
                   }
                   this.values.cart.request.order[0].sales_order_parts[this.order_part_item_id].total_qty = this.values.cart.request.order[0].
-                    sales_order_parts[this.order_part_item_id].total_qty + qty
+                    sales_order_parts[this.order_part_item_id].total_qty + qty;
                   this.values.cart.request.order[0].total_qty = this.values.cart.request.order[0].total_qty + qty;
-                  if (hasVariant==0) {
-                      this.values.cart.request.order[0].sales_order_parts[this.order_part_item_id].total_line_items = this.values.cart.request.
-                        order[0].sales_order_parts[this.order_part_item_id].total_line_items + 1
-                  }
-                  doTally=1;  
+                  
+                  doTally = 1;  
               }
           }
           else
@@ -212,18 +224,35 @@ export class CartProvider {
               oldQty = this.values.cart.request.order[0].sales_order_parts[this.order_part_item_id].sales_order_lines[this.line_item_id].quantity;
               if (qty >= 0 || type == 'all') {        
                   //  recalc order part old qty
-                  doTally=1;
+                  doTally = 1;
                   this.values.cart.request.order[0].sales_order_parts[this.order_part_item_id].sales_order_lines[this.line_item_id].quantity = qty;
-                  this.values.cart.request.order[0].sales_order_parts[this.order_part_item_id].total_qty = this.values.cart.request.order[0].
-                    sales_order_parts[this.order_part_item_id].total_qty + qty - oldQty
+                  this.values.cart.request.order[0].sales_order_parts[this.order_part_item_id].total_qty = this.values.cart.request.order[0]
+                    .sales_order_parts[this.order_part_item_id].total_qty + qty - oldQty;
                   //  recalc order part total amount / line items
-                  this.values.cart.request.order[0].sales_order_parts[this.order_part_item_id].line_total = ((qty * price) - (oldQty*price));
-                  if ((this.values.cart.request.order[0].sales_order_parts[this.order_part_item_id].sales_order_lines[this.line_item_id].quantity==0) && (oldQty > 0)) {
-                      if(hasVariant == 1) {
+                  this.values.cart.request.order[0].sales_order_parts[this.order_part_item_id].line_total = ((qty * price) - (oldQty * price));
+                //   if ((this.values.cart.request.order[0].sales_order_parts[this.order_part_item_id].sales_order_lines[this.line_item_id]
+                //     .quantity == 0) && (oldQty > 0)) {
+                //       if(hasVariant == 1) {
+                //         this.values.cart.request.order[0].sales_order_parts[this.order_part_item_id].total_line_items = this.values.cart.request.order[0].
+                //           sales_order_parts[this.order_part_item_id].total_line_items - 1
+                //       }  
+                //   }
+                //   if ((this.values.cart.request.order[0].sales_order_parts[this.order_part_item_id].sales_order_lines[this.line_item_id]
+                //     .quantity > 0) && (oldQty = 0)) {
+                //       if(hasVariant == 1) {
+                //         this.values.cart.request.order[0].sales_order_parts[this.order_part_item_id].total_line_items = this.values.cart.request.order[0].
+                //           sales_order_parts[this.order_part_item_id].total_line_items + 1
+                //       }  
+                //   }
+                  if (totalVariantQty > 0 && (totalVariantQty - oldQty + qty) == 0) {
                         this.values.cart.request.order[0].sales_order_parts[this.order_part_item_id].total_line_items = this.values.cart.request.order[0].
-                          sales_order_parts[this.order_part_item_id].total_line_items - 1
-                      }  
+                            sales_order_parts[this.order_part_item_id].total_line_items - 1
                   }
+                  if (totalVariantQty == 0 && (totalVariantQty - oldQty + qty) > 0) {
+                        this.values.cart.request.order[0].sales_order_parts[this.order_part_item_id].total_line_items = this.values.cart.request.order[0].
+                          sales_order_parts[this.order_part_item_id].total_line_items + 1
+                  }
+                  this.data.consoleLog("totalVariantQty - oldQty + qty", totalVariantQty - oldQty + qty);
               }  
               else
               {
@@ -241,7 +270,7 @@ export class CartProvider {
           if (doTally == 1) {
               // recalc order part total
               let OldTotal = this.values.cart.request.order[0].sales_order_parts[this.order_part_item_id].total_amount;
-              let NewTotal = OldTotal - (oldQty*price) + (qty * price);
+              let NewTotal = OldTotal - (oldQty * price) + (qty * price);
               this.values.cart.request.order[0].sales_order_parts[this.order_part_item_id].total_amount = NewTotal;
           }
       }
@@ -331,12 +360,11 @@ export class CartProvider {
                   this.values.cart.request.order[0].sales_order_parts[i].total_qty = order_part_qty
                   // remove the line item for this size variant 
                   if (keepit == 1) {
-                    this.values.cart.request.order[0].sales_order_parts[i].sales_order_lines[j].quantity = 0;
+                      this.values.cart.request.order[0].sales_order_parts[i].sales_order_lines[j].quantity = 0;
                   }
-                  else
-                  {
+                  else {
                       this.values.cart.request.order[0].sales_order_parts[i].sales_order_lines.splice(j, 1); 
-                      if (variant_removed == false) {this.values.cart.request.order[0].sales_order_parts[i].total_line_items = order_part_line_items - 1};
+                      if (variant_removed == false && qty > 0) {this.values.cart.request.order[0].sales_order_parts[i].total_line_items = order_part_line_items - 1};
                       variant_removed = true;
                       //check if this was line in order part
                       if (this.values.cart.request.order[0].sales_order_parts[i].sales_order_lines.length == 0) {

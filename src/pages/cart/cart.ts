@@ -49,11 +49,10 @@ export class CartPage {
         }
         */
         this.submitting = false;
-        console.log("//------- this.values.cart -------//");
-        console.log(this.values.cart);
+        this.data.consoleLog("this.values.cart before addSizes()", this.values.cart);
         this.addSizes();
-        console.log("//------- this.values.cart -------//");
-        console.log(this.values.cart);
+        this.data.consoleLog("this.values.cart", this.values.cart);
+        this.data.consoleLog("values.cart.request.order[0].sales_order_parts", this.values.cart.request.order[0].sales_order_parts);
     }
 
     addSizes(){

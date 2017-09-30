@@ -50,8 +50,11 @@
         </div>
         <div class="item_price">
         <div>
-            <span class="add_to_cart_item" tappable (click)="addToCart(product.product_title+' : '+variant.title, variant.colour, product.materials, variant.swatch.swatch_image, variant.variant_images[0].variant_image, data.designer.title, variant.sizes[0].variant_id, variant.sizes[0].sku, product.region_prices[this.values.user_profile.user_region_id].wsp, null, data.designer.seller_account_id, variant.sizes[0].size_title, variant.sizes[0].variant_size_id,'all', product.product_id)">
-              <img [src]="isProductInOrder(variant.product_id, variant.variant_id, values.designer.seller_account_id)"/></span>
+            <span class="add_to_cart_item" tappable (click)="addToCart(product.product_title+' : '+variant.title, variant.colour,
+              product.materials, variant.swatch.swatch_image, variant.variant_images[0].variant_image, data.designer.title,
+              variant.sizes[0].variant_id, variant.sizes[0].sku, product.region_prices[this.values.user_profile.user_region_id].wsp, null,
+              data.designer.seller_account_id, variant.sizes[0].size_title, variant.sizes[0].variant_size_id,'all', product.product_id)">
+                <img [src]="isProductInOrder(variant.product_id, variant.variant_id, values.designer.seller_account_id)"/></span>
             <p class="total_title"><!-- Products total WSP--></p>
             <p class="product_total" [ngClass]="{'active': variant?.total>0, '': variant?.total==0}">{{this.data.designer?.buyer_code}} {{this.data.designer?.buyer_symbol}}{{variant?.total | number :'.2'}}</p> 
             
@@ -62,7 +65,11 @@
         <div class="product_sizes">
             <label for="s{{size.variant_id}}" *ngFor="let size of variant.sizes">{{size.size_title}}
 
-              <input type="number" [disabled]="this.values.user_profile.seller_account_id != 0 ? true : null" name="{{size.variant_size_id}}" value="{{size.qty}}" id="{{size.variant_size_id}}" (blur)="addToCart(product.product_title+' : '+variant.title, variant.colour, product.materials, variant.swatch.swatch_image, variant.variant_images[0].variant_image, data.designer.title, size.variant_id, size.sku, product.region_prices[this.values.user_profile.user_region_id].wsp, $event, data.designer.seller_account_id, size.size_title, size.variant_size_id,'type', product.product_id)">
+              <input type="number" [disabled]="this.values.user_profile.seller_account_id != 0 ? true : null" name="{{size.variant_size_id}}" 
+                value="{{size.qty}}" id="{{size.variant_size_id}}" (blur)="addToCart(product.product_title+' : '+variant.title, variant.colour, 
+                product.materials, variant.swatch.swatch_image, variant.variant_images[0].variant_image, data.designer.title, size.variant_id, 
+                size.sku, product.region_prices[this.values.user_profile.user_region_id].wsp, $event, data.designer.seller_account_id, 
+                size.size_title, size.variant_size_id,'type', product.product_id)">
             </label>
           </div>
           <!--p class="product_quantity">

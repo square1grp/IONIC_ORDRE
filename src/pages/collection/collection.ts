@@ -163,21 +163,22 @@ export class CollectionPage {
         //}, 500);
     }
 
-    addProductToCart(product_title, material, designer_title, price,designer_id, type,product_id) {
+    addProductToCart(product_title, material, designer_title, price, designer_id, type, product_id) {
 
         if (this.values.user_profile.seller_account_id != 0) { return false; }
         //let qty = 0;
         //find the product
-        let abort=false;
+        let abort = false;
         for (let pindex = 0, len = this.values.products.length; pindex < len && !abort; pindex++) {
           if (this.values.products[pindex].product_id == product_id) {
             abort = true;
             //add all the variants to cart
+            this.data.consoleLog("this.values.products[pindex]", this.values.products[pindex]);
             this.values.products[pindex].variants.forEach((variant) => {
               this.cartProvider.addToCart(product_title + ' : ' + variant.title, variant.colour, 
               material, variant.swatch.swatch_image, variant.variant_images[0].variant_image, 
-              designer_title, designer_id, product_id, variant.variant_id, variant.sizes[0].title, 
-              variant.sizes[0].size_id, type, 0, price, variant.sizes[0].sku);
+              designer_title, designer_id, product_id, variant.variant_id, variant.sizes[0].size_title, 
+              variant.sizes[0].variant_size_id, type, 0, price, variant.sizes[0].sku);
             }); 
           }
         }
@@ -233,6 +234,7 @@ export class CollectionPage {
         this.data.getProduct(collection_id, this.values.device_token, this.values.user_profile.user_token, 0, 0).then((data) => {
             this.data.consolelog('Got collection products:' + collection_id);
             //this.values.products = data;
+            this.data.consoleLog("this.values.products", this.values.products);
             this.data.consolelog('Set Products Obj');
             //this.values.lsproducts = this.values.products; 
             this.firstItem = 0;
