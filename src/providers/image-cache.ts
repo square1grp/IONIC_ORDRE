@@ -65,9 +65,9 @@ export class OrdreImageCache {
                     this.hidden = false;
                     this.cd.markForCheck();
                     //console.log('Cache the image:'+imageURL)    
-                    this.data.putImage(imageURL).then(() => {
-                        //this.hidden = false;
-                    }); 
+                    // this.data.putImage(imageURL).then(() => {
+                    //     //this.hidden = false;
+                    // }); 
                 }
             }   
         

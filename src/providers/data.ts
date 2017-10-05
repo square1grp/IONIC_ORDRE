@@ -46,8 +46,16 @@ export class Data {
   dlog: any;
   loadingState: boolean = false;
   isloadingState: boolean = false;
-
   SQLLite: boolean;
+
+  //  download management CindexCollection
+  c_collection_title: string;
+  c_collection_id: any;
+  c_designer_title: string;
+  c_designer_id: any;
+  c_mode: number;
+  c_action: string;
+  c_collection_total_bytes; any;
 
   constructor(private file: File, public storage: Storage, public loadingCtrl: LoadingController, public http: Http,
     public platform: Platform, public values: Values, private alertCtrl: AlertController, private connectivity:Connectivity) {}
@@ -476,92 +484,91 @@ export class Data {
   }
 
   getCollections(designer_id, device_token, user_token, force){
+      
+      let checkpoint = false;
+      
+      let ONE_HOUR = 60 * 60 * 1000;
+      let baseDate = new Date('01/01/1980');
+      let nowDate = Date.now();
+      console.log("//------  this.values.collection_checkpoint  ----------//");
+      console.log(this.values.collection_checkpoint);
+      if (!this.values.collection_checkpoint[designer_id]) {
+          this.values.collection_checkpoint[designer_id] = new Date('01/01/1980');
+      }
 
-    let checkpoint = false;
-    
-    let ONE_HOUR = 60 * 60 * 1000;
-    let baseDate = new Date('01/01/1980');
-    let nowDate = Date.now();
-    console.log("//------  this.values.collection_checkpoint  ----------//");
-    console.log(this.values.collection_checkpoint);
-    if (!this.values.collection_checkpoint[designer_id]){
-      this.values.collection_checkpoint[designer_id] = new Date('01/01/1980');
-    }
+      this.consolelog('Get Collections for ' + designer_id + ' - Checkpoint:' + this.values.collection_checkpoint[designer_id] + 
+        ' compared:' + (this.values.collection_checkpoint[designer_id].getTime() == baseDate.getTime()) );
+      this.consolelog('Checkpoint past?' + (nowDate-ONE_HOUR > this.values.collection_checkpoint[designer_id].getTime()));
 
-    this.consolelog('Get Collections for '+designer_id+' - Checkpoint:'+this.values.collection_checkpoint[designer_id] + 
-        ' compared:'+(this.values.collection_checkpoint[designer_id].getTime() == baseDate.getTime()) );
-    this.consolelog('Checkpoint past?'+(nowDate-ONE_HOUR > this.values.collection_checkpoint[designer_id].getTime()));
-
-    if ((force==0)&&(this.values.online)&&((this.values.collection_checkpoint[designer_id].getTime() == baseDate.getTime()) 
+      if ((force==0)&&(this.values.online)&&((this.values.collection_checkpoint[designer_id].getTime() == baseDate.getTime()) 
         || (nowDate-ONE_HOUR > this.values.collection_checkpoint[designer_id].getTime()))) {
-      force = true;
-    }
-    console.log("this.values.collection_checkpoint[designer_id].getTime() : " + this.values.collection_checkpoint[designer_id].getTime());
-    console.log("baseDate.getTime() : " + baseDate.getTime());
-    console.log("this.values.collection_checkpoint[designer_id].getTime() : " + this.values.collection_checkpoint[designer_id].getTime());
-    console.log("nowDate-ONE_HOUR : " + (nowDate-ONE_HOUR));
-    //  check for designers in pouch
-    let record_id = 'collections_'+designer_id
-    let record_id_get = record_id;
-    console.log("force : " + force);
-    console.log("checkpoint : " + checkpoint);
-    console.log("this.values.online : " + this.values.online);
-    //if (force == true && checkpoint == false && this.values.online) {record_id_get = 'NOPEA'}    
-    return new Promise((resolve, reject) => {
-      this.consolelog('Get Collections for designer:' + designer_id);
-      console.log('Hitting Storage');
-      console.log("record_id : " + record_id);
-      console.log("record_id_get : " + record_id_get);
-      this.storage.get(record_id_get).then((result) => {
-        if(result != null){
-          let pdata = JSON.parse(result);
-          this.consolelog('Collection found in db for designer:' + designer_id); 
-          resolve(pdata.data);
-        }
-        else {
-          if(checkpoint == true || force == true || result == null)
-          {
-            if(!this.values.online){
-              this.offlineManager();
-              reject(null);
-            };
-            if(this.values.online){
-              console.log('Hitting API');
-              let apiSource = this.values.APIRoot + "/app/api.php?json={%22action%22:%22collections_short%22,%22request%22:{%22device_token%22:%22" +
-                  device_token+"%22,%22user_token%22:%22" + user_token + "%22,%22checkpoint%22:%22" + (baseDate.getTime()/1000) +
-                  "%22,%22seller_account_id%22:" + designer_id + "}}"
-              this.http.get(apiSource).map(res => res.json()).subscribe(data => {
-                  resolve(data.result);
-                  this.consolelog('Got Collection from API:' + apiSource); 
-                  this.values.collection_checkpoint[designer_id] = new Date();
-                  this.storeCollections(record_id, data.result)
+          force = true;
+      }
+      console.log("this.values.collection_checkpoint[designer_id].getTime() : " + this.values.collection_checkpoint[designer_id].getTime());
+      console.log("baseDate.getTime() : " + baseDate.getTime());
+      console.log("this.values.collection_checkpoint[designer_id].getTime() : " + this.values.collection_checkpoint[designer_id].getTime());
+      console.log("nowDate-ONE_HOUR : " + (nowDate-ONE_HOUR));
+      //  check for designers in pouch
+      let record_id = 'collections_' + designer_id;
+      let record_id_get = record_id;
+      console.log("force : " + force);
+      console.log("checkpoint : " + checkpoint);
+      console.log("this.values.online : " + this.values.online);
+      //if (force == true && checkpoint == false && this.values.online) {record_id_get = 'NOPEA'}    
+      return new Promise((resolve, reject) => {
+        this.consolelog('Get Collections for designer:' + designer_id);
+        console.log('Hitting Storage');
+        console.log("record_id : " + record_id);
+        console.log("record_id_get : " + record_id_get);
+        this.storage.get(record_id_get).then((result) => {
+            if(result != null){
+              let pdata = JSON.parse(result);
+              this.consolelog('Collection found in db for designer:' + designer_id); 
+              resolve(pdata.data);
+            }
+            else {
+                if(checkpoint == true || force == true || result == null)
+                {
+                    if(!this.values.online){
+                        this.offlineManager();
+                        reject(null);
+                    };
+                    if (this.values.online) {
+                        console.log('Hitting API');
+                        let apiSource = this.values.APIRoot + "/app/api.php?json={%22action%22:%22collections_short%22,%22request%22:{%22device_token%22:%22" +
+                            device_token+"%22,%22user_token%22:%22" + user_token + "%22,%22checkpoint%22:%22" + (baseDate.getTime()/1000) +
+                            "%22,%22seller_account_id%22:" + designer_id + "}}"
+                        this.http.get(apiSource).map(res => res.json()).subscribe(data => {
+                            resolve(data.result);
+                            this.consolelog('Got Collection from API:' + apiSource); 
+                            this.values.collection_checkpoint[designer_id] = new Date();
+                            this.storeCollections(record_id, data.result);
 
-                  //  set download status based on collection download index
-                  
-                  this.storage.get('download_log').then((response) => {
-                    if(response!=null){
-                      let ulog = response.data;
-                      for (let i = 0, len = ulog.length; i < len; i++) {  
-                        for (let j = 0, len = this.values.collections.length; j < len; j++) {  
-                          if(ulog[i].collection_id == this.values.collections[j].collection_id){
-                            //set collection status
-                            this.values.collections[j].offline='Downloaded'
-                          }
-                        }
-                      }   
-                    }               
-                  });
-                  
-              })
-          }
-        }
-        }
-      }).catch(function(err){
-          console.log(err);
-          let idn='';
-          resolve(idn);
-      }) 
-    });
+                            //  set download status based on collection download index
+                            this.storage.get('download_log').then((response) => {
+                                if (response != null) {
+                                    let ulog = response.data;
+                                    for (let i = 0, len = ulog.length; i < len; i++) {  
+                                        for (let j = 0, len = this.values.collections.length; j < len; j++) {  
+                                            if (ulog[i].collection_id == this.values.collections[j].collection_id) {
+                                                //set collection status
+                                                this.values.collections[j].offline='Downloaded'
+                                            }
+                                        }
+                                    }   
+                                }               
+                            });
+                            
+                        });
+                    }
+                }
+            }
+        }).catch(function(err) {
+            console.log(err);
+            let idn = '';
+            resolve(idn);
+        }) 
+      });
   }
 
   //  stores collection list for a designer, record_id = 'collections_' + designer_id
@@ -584,192 +591,555 @@ export class Data {
   }
 
 
-  deleteItem(id){
-    this.consolelog('5a. Delete an ID:'+id)
-    return new Promise((resolve, reject) => {      
-      this.storage.remove(id).then((data) => {
-        this.consolelog('5c. Item deleted:'+id);
-        let idn='';
-        resolve(idn);
-      }).catch(function(err){
-          console.log(err);
-          let idn='';
-          resolve(idn);
-      })   
-    });       
+  deleteItem(id) {
+      //this.consolelog('5a. Delete an ID:' + id);
+      return new Promise((resolve, reject) => {      
+          this.storage.remove(id).then((data) => {
+              //this.consolelog('5c. Item deleted:'+id);
+              let idn='';
+              resolve(idn);
+          }).catch(function(err){
+              console.log(err);
+              let idn='';
+              resolve(idn);
+          });
+      });       
   };
   
 
-  getProduct(collection_id,device_token,user_token,force,mode){
-
+  getProduct(collection_id, device_token, user_token, force, mode) {
       //mode=set values or return them
-
       //force = cache force
-      if(force==4){force=1}; 
-      if(force==5){force=2};   
-      console.log('Force:'+force);
-      //  check for designers in pouch
-      let record_id = 'products_'+collection_id
+      if (force == 4) force = 1;
+      if (force == 5) force = 2;
+      let record_id = 'products_' + collection_id;
       let record_id_get = record_id;
-      if (force==1) {record_id_get='NOPEA'}        
+      if (force == 1) record_id_get = 'NOPEA';        
       return new Promise((resolve, reject) => {
-        this.values.debug = 'Get Products'
-        this.consolelog('8. Get Products for Collection:'+record_id_get)
-        this.storage.get(record_id_get).then((result) => {
-          console.log('8a. Got result from Storage');
-          if(result!=null){
-            console.log('8b. Parse data');
-            let pdata = JSON.parse(result)
-            //console.log(result);
-            console.log('8c. Resolve data');
-            
-            //doing this to avoid unnecessary shuffle of product obj
-            if(mode==0){
-              this.values.products = pdata.data;
-              resolve('');
-            }
-            else
-            {
-              resolve(pdata.data);
-            }
-            this.consolelog('9. Done getting data');
-            //this.consolelog('DATA:'+JSON.stringify(pdata.data));
-            if (force>0){
-              this.consolelog('/// ---- enter into this.productCache(pdata.data,force)');
-              this.productCache(pdata.data,force);
-            }
-          } else {
-              console.log('Not found in dB: Products for collection '+record_id_get);
-              if(!this.values.online){
-                this.offlineManager();
-                reject(null);
-              };
-              if(this.values.online){ 
-              //return new Promise(resolve => {
-              let apiSource = this.values.APIRoot + "/app/api.php?json={%22action%22:%22collection_products%22,%22request%22:{%22device_token%22:%22"+device_token+"%22,%22user_token%22:%22"+user_token+"%22,%22collection_id%22:"+collection_id+"}}"
-              this.http.get(apiSource).map(res => res.json()).subscribe(productData => {
-                  this.consolelog('10. Got Products from API:'+apiSource);                   
-                  //this.consolelog('PRODUCT DATA:'+JSON.stringify(productData.result));
-                  //console.log(JSON.stringify(productData.result));
-                  if(mode==0){
-                    this.values.products = productData.result;
-                    resolve('');
+          this.values.debug = 'Get Products';
+          this.storage.get(record_id_get).then((result) => {
+              if (result != null) {
+                  let pdata = JSON.parse(result)
+                  if (mode == 0) {
+                      this.values.products = pdata.data;
+                      resolve('');
                   }
-                  else
-                  {
-                    resolve(productData.result);
+                  else {
+                      resolve(pdata.data);
                   }
-                  this.consolelog('11. Try delete, then Store in pouchDB');
-                  this.deleteItem(record_id).then(() =>{
-
-                    let storeProducts = {'_id':record_id,data:productData.result};
-                    this.consolelog('Store Products with wrapper.'); //+ JSON.stringify(this.storeCollection));
-                    //this.consolelog(JSON.stringify(storeProducts));
-                    //this.storage.set(record_id, JSON.stringify(storeCollection)).then((new_ID) => {
-                    let newData = JSON.stringify(storeProducts);
-                    console.log('Store products:'+record_id);
-                    //console.log('DATA:'+newData)
-                    this.storage.set(record_id, newData).then(() => {
-                      console.log('Products Stored:'+record_id);
-                      if (productData.result.length>0){
-                      //  cache or delete the images
-                        if(force>0){
-                          this.productCache(productData.result,force)                        
-                        }
-                      }
-                    }).catch(function(err){
-                        console.log(err);
-                        let idn='';
-                        resolve(idn);
-                    }) 
-                    
-                  })                   
-                
-              });
-              }               
-            };
-        }).catch(function(err){
-          console.log(err);
-          let idn='';
-          resolve(idn);
-        });
+                  this.consolelog('9. Done getting data');
+                  if (force > 0) {
+                      this.productsCache(pdata.data, force);
+                  }
+              } 
+              else {
+                  console.log('Not found in dB: Products for collection ' + record_id_get);
+                  if (!this.values.online) {
+                      this.offlineManager();
+                      reject(null);
+                  }
+                  if (this.values.online) { 
+                      let apiSource = this.values.APIRoot + "/app/api.php?json={%22action%22:%22collection_products%22,%22request%22:{%22device_token%22:%22"
+                        + device_token + "%22,%22user_token%22:%22" + user_token + "%22,%22collection_id%22:" + collection_id + "}}";
+                      this.http.get(apiSource).map(res => res.json()).subscribe(productData => {
+                          this.consolelog('10. Got Products from API:' + apiSource);                   
+                          if (mode == 0) {
+                              this.values.products = productData.result;
+                              resolve('');
+                          } else {
+                              resolve(productData.result);
+                          }
+                          this.deleteItem(record_id).then(() => {
+                              let storeProducts = {'_id':record_id, data:productData.result};
+                              let newData = JSON.stringify(storeProducts);
+                              this.storage.set(record_id, newData).then(() => {
+                                  if (productData.result.length > 0 && force > 0) {
+                                      this.productsCache(productData.result, force);
+                                  }
+                              }).catch((err) => {
+                                  console.log(err);
+                                  let idn = '';
+                                  resolve(idn);
+                              });
+                          });  
+                      });
+                  }               
+              }
+          }).catch(function(err) {
+              console.log(err);
+              let idn = '';
+              resolve(idn);
+          });
       });
-    }
+  }
 
-   productCache(products,force){
-     console.log('//-------  this.values.designers  -------//');
-      console.log(this.values.designers);
-      console.log('//-------  this.values.designer  -------//');
-      console.log(this.values.designer);
-      
+  productCache_original(products, force) {
       //designer logos not passively cached
       //http://ordre.kineticmedia.com.au/app/get_image.php?image=/media/prod_images/t/t/tt1.jpg&w=320&h=150&zc=1&xtype=designer
       if(this.values.designer != undefined) {
-        this.cacheMaybe(this.values.APIRoot + '/app/get_image.php?image=/' + this.values.designer.logo_image+'&w=320&h=150&zc=1&xtype=designer',force);
+          this.cacheMaybe(this.values.APIRoot + '/app/get_image.php?image=/' 
+            + this.values.designer.logo_image + '&w=320&h=150&zc=1&xtype=designer', force);
       }
       console.log('Product Cache');
       //  mode
       //  1 = just try and cache
       //  2 = delete then cache
       //  3 = just delete
-      products.forEach((product, pindex) => {
-        this.values.debug = 'Processing products' 
-        if(product.variants[0]){
-          //  cache the main product image and slider images
+      //products.forEach((product, pindex) => {
+      let product:any ;
+      for (let pindex = 0; pindex < products.length; pindex++) {
+      //for (let pindex = 0; pindex < 3; pindex++) {
+          console.log("pindex: " + pindex);
+          product = products[pindex];
+          this.values.debug = 'Processing products';
+          if (product.variants[0]) {
+              //  cache the main product image and slider images
+              if(product.variants[0].variant_images[0]){
+                  //if(product.variants[0].variant_images[0].variant_image){
+                    //this.consolelog('Cached feature image:'+this.values.APIRoot + '/app/get_image.php?image=/'+product.variants[0]
+                    //.variant_images[0].variant_image+'&w=342&h=509')
+                    //this.cacheMaybe(this.values.APIRoot + '/app/get_image.php?image=/'+product.variants[0].variant_images[0]
+                    //.variant_image+'&w=342&h=509&xtype=prodimage');
+                  //}
+                  if (product.variants.length > 0 && this.values.cancel == false) {
+                      //product.variants.forEach((variant) => {
+                      let variant:any ;
+                      for (let vindex = 0; vindex < product.variants.length; vindex++) {
+                          variant = product.variants[vindex];
+                          //  product hero image
+                          if (variant.variant_images[0].variant_image) {
+                            //this.cacheMaybe(this.values.APIRoot + '/app/get_image.php?image=/'+variant.variant_images[0].variant_image
+                            //+'&w=110&h=165&xtype=prodimage',force);  
+                            this.cacheMaybe(this.values.APIRoot + '/app/get_image.php?image=/' + variant.variant_images[0].variant_image
+                              +'&w=342&h=509&xtype=prodimage', force);
+                          }
+                          //  swatches
+                          if (variant.swatch.swatch_image && this.values.cancel == false) {
+                              this.cacheMaybe(this.values.APIRoot + '/app/get_image.php?image=/' + variant.swatch.swatch_image 
+                                +'&w=20&h=20&xtype=prodimage',force); 
+                              this.cacheMaybe(this.values.APIRoot + '/app/get_image.php?image=/' + variant.swatch.swatch_image 
+                                +'&w=100&h=100&xtype=prodimage',force);
+                          } 
+                          if (variant.variant_images.length > 0 && this.values.cancel == false) {  
+                              variant.variant_images.forEach((imageslide) => {
+                                  //  360 left nav
+                                  //if(imageslide.hasOwnProperty('variant_360')){
+                                  //  this.cacheMaybe(this.values.APIRoot + '/app/get_image.php?image=/'+imageslide.variant_360+'img01
+                                  //  .jpg&w=683&h=957&zc=3',force);  
+                                  //}
+                                  //  variant images
+                                  if((imageslide.variant_image.length > 0)&&(this.values.cancel == false)){ 
+                                      //  item?
+                                      this.cacheMaybe(this.values.APIRoot + '/app/get_image.php?image=/' + imageslide.variant_image +
+                                        '&w=683&h=980&zc=2&xtype=prodimage', force);  
+                                      //  linesheet
+                                      this.cacheMaybe(this.values.APIRoot + '/app/get_image.php?image=/' + imageslide.variant_image +
+                                        '&w=110&h=165&xtype=prodimage', force); 
+                                  }
+                                  //  cache 360 frames                                 
+                                  if (imageslide.variant_360 && this.values.cancel == false) {
+                                    //this.values.imageFrames.forEach((frame) => {
+                                      let pad = "00";
+                                      for (let i = 1, len = imageslide.frame_count; i < len; i++) {
+                                          let thisFrame = "" + i;
+                                          let frame = pad.substring(0, pad.length - thisFrame.length) + thisFrame;
+                                          this.consolelog('Cached 360 image:' + this.values.APIRoot + '/app/get_image.php?image=/' + 
+                                            imageslide.variant_360 + 'img' + frame + '.jpg&w=480&h=670&zc=3&xtype=360');
+                                          this.cacheMaybe(this.values.APIRoot + '/app/get_image.php?image=/' + imageslide.variant_360 + 'img' 
+                                            + frame + '.jpg&w=480&h=670&zc=3&xtype=360', force);
+                                      }
+                                  }
+                              });
+                          }
+                      }
+                  }              
+              }
+          }
+      }
+   }
+
+  productsCache(products, force) {
+      this.values.debug = 'Processing products';
+      this.countDownloadTarget(products, force);
+      this.values.cacheProducts = products;
+      this.values.force = force;
+      this.values.pIndex = 0;
+      this.values.cacheIndex = 0;
+      this.values.numOfProdutTotalImages = 0;
+      //designer logos not passively cached
+      //http://ordre.kineticmedia.com.au/app/get_image.php?image=/media/prod_images/t/t/tt1.jpg&w=320&h=150&zc=1&xtype=designer
+      if(this.values.designer != undefined) {
+          this.cacheMaybe(this.values.APIRoot + '/app/get_image.php?image=/' 
+            + this.values.designer.logo_image + '&w=320&h=150&zc=1&xtype=designer', force);
+          this.values.cacheIndex = this.values.cacheIndex - 1;
+           //this.values.numOfProdutTotalImages = this.values.numOfProdutTotalImages + 1;
+      }
+      this.countProdutTotalImages(this.values.cacheProducts[this.values.pIndex], this.values.force);
+      this.productCache(this.values.cacheProducts[this.values.pIndex], this.values.force);
+  }
+
+  productCache(product, force) {
+      //this.consoleLog("%%%%%%%%%   ProductCache function was called %%%%%%%%%", this.values.pIndex);
+      console.log("Downloading is runnig at the product number  :  " + this.values.pIndex);
+      //console.log("////---- increasing of the Product Index -----////");
+      if (product.variants[0]) {
           if(product.variants[0].variant_images[0]){
-            //if(product.variants[0].variant_images[0].variant_image){
-              //this.consolelog('Cached feature image:'+this.values.APIRoot + '/app/get_image.php?image=/'+product.variants[0].variant_images[0].variant_image+'&w=342&h=509')
-              //this.cacheMaybe(this.values.APIRoot + '/app/get_image.php?image=/'+product.variants[0].variant_images[0].variant_image+'&w=342&h=509&xtype=prodimage');
-            //}
-            
-              if ((product.variants.length>0)&&(this.values.cancel==0)){
-                product.variants.forEach((variant) => {
-                  //  product hero image
-                  if(variant.variant_images[0].variant_image){
-                    //this.cacheMaybe(this.values.APIRoot + '/app/get_image.php?image=/'+variant.variant_images[0].variant_image+'&w=110&h=165&xtype=prodimage',force);  
-                    this.cacheMaybe(this.values.APIRoot + '/app/get_image.php?image=/'+variant.variant_images[0].variant_image+'&w=342&h=509&xtype=prodimage',force);
-                  }
-                    //  swatches
-                    if((variant.swatch.swatch_image)&&(this.values.cancel==0)){
-                      this.cacheMaybe(this.values.APIRoot+'/app/get_image.php?image=/'+variant.swatch.swatch_image+'&w=20&h=20&xtype=prodimage',force); 
-                      this.cacheMaybe(this.values.APIRoot+'/app/get_image.php?image=/'+variant.swatch.swatch_image+'&w=100&h=100&xtype=prodimage',force);
-                    } 
-                    if((variant.variant_images.length>0)&&(this.values.cancel==0)){  
-                      variant.variant_images.forEach((imageslide) =>{
-                        //  360 left nav
-                        //if(imageslide.hasOwnProperty('variant_360')){
-                        //  this.cacheMaybe(this.values.APIRoot + '/app/get_image.php?image=/'+imageslide.variant_360+'img01.jpg&w=683&h=957&zc=3',force);  
-                        //}
-                        //  variant images
-                        if((imageslide.variant_image.length>0)&&(this.values.cancel==0)){ 
-                          //  item?
-                          this.cacheMaybe(this.values.APIRoot + '/app/get_image.php?image=/' + imageslide.variant_image +
-                            '&w=683&h=980&zc=2&xtype=prodimage',force);  
-                          //  linesheet
-                          this.cacheMaybe(this.values.APIRoot + '/app/get_image.php?image=/' + imageslide.variant_image +
-                            '&w=110&h=165&xtype=prodimage',force); 
-                        }
-                        //  cache 360 frames                                 
-                        if ((imageslide.variant_360)&&(this.values.cancel==0)){
-                          //this.values.imageFrames.forEach((frame) => {
-						  let pad = "00";
-						  for (let i = 1, len = imageslide.frame_count; i < len; i++) {
-						    let thisFrame = ""+i;
-							let frame = pad.substring(0, pad.length - thisFrame.length) + thisFrame;
-                            this.consolelog('Cached 360 image:' + this.values.APIRoot + '/app/get_image.php?image=/' + imageslide.variant_360 +
-                            'img' + frame + '.jpg&w=480&h=670&zc=3&xtype=360');
-                            this.cacheMaybe(this.values.APIRoot + '/app/get_image.php?image=/' + imageslide.variant_360 + 'img' + frame +
-                              '.jpg&w=480&h=670&zc=3&xtype=360', force);
-                          };
-                        }
-                      })  
-                    }
-                });
+              if (product.variants.length > 0) {
+                  product.variants.forEach((variant) => {
+                      if (variant.variant_images[0].variant_image) {
+                        this.cacheMaybe(this.values.APIRoot + '/app/get_image.php?image=/' + variant.variant_images[0].variant_image
+                          +'&w=342&h=509&xtype=prodimage', force);
+                      }
+                      //  swatches
+                      if (variant.swatch.swatch_image) {
+                          this.cacheMaybe(this.values.APIRoot + '/app/get_image.php?image=/' + variant.swatch.swatch_image 
+                            +'&w=20&h=20&xtype=prodimage',force); 
+                          this.cacheMaybe(this.values.APIRoot + '/app/get_image.php?image=/' + variant.swatch.swatch_image 
+                            +'&w=100&h=100&xtype=prodimage',force);
+                      } 
+                      if (variant.variant_images.length > 0) {  
+                          variant.variant_images.forEach((imageslide) => {
+                              if(imageslide.variant_image.length > 0){ 
+                                  //  item?
+                                  this.cacheMaybe(this.values.APIRoot + '/app/get_image.php?image=/' + imageslide.variant_image +
+                                    '&w=683&h=980&zc=2&xtype=prodimage', force);  
+                                  //  linesheet
+                                  this.cacheMaybe(this.values.APIRoot + '/app/get_image.php?image=/' + imageslide.variant_image +
+                                    '&w=110&h=165&xtype=prodimage', force); 
+                              }
+                              //  cache 360 frames                                 
+                              if (imageslide.variant_360) {
+                                //this.values.imageFrames.forEach((frame) => {
+                                  let pad = "00";
+                                  for (let i = 1, len = imageslide.frame_count; i < len; i++) {
+                                      let thisFrame = "" + i;
+                                      let frame = pad.substring(0, pad.length - thisFrame.length) + thisFrame;
+                                      this.cacheMaybe(this.values.APIRoot + '/app/get_image.php?image=/' + imageslide.variant_360 + 'img' 
+                                        + frame + '.jpg&w=480&h=670&zc=3&xtype=360', force);
+                                  }
+                              }
+                          });
+                      }
+                  });
               }              
           }
-        }
+      }
+  }
+
+  countProdutTotalImages(product, force) {
+      if (product.variants[0]) {
+          if(product.variants[0].variant_images[0]){
+              if (product.variants.length > 0) {
+                  product.variants.forEach((variant) => {
+                      if (variant.variant_images[0].variant_image) {
+                          this.values.numOfProdutTotalImages = this.values.numOfProdutTotalImages + 1;
+                      }
+                      //  swatches
+                      if (variant.swatch.swatch_image) {
+                          this.values.numOfProdutTotalImages = this.values.numOfProdutTotalImages + 1; 
+                          this.values.numOfProdutTotalImages = this.values.numOfProdutTotalImages + 1;
+                      } 
+                      if (variant.variant_images.length > 0) {  
+                          variant.variant_images.forEach((imageslide) => {
+                              if(imageslide.variant_image.length > 0){ 
+                                  //  item?
+                                  this.values.numOfProdutTotalImages = this.values.numOfProdutTotalImages + 1;  
+                                  //  linesheet
+                                  this.values.numOfProdutTotalImages = this.values.numOfProdutTotalImages + 1; 
+                              }
+                              //  cache 360 frames                                 
+                              if (imageslide.variant_360) {
+                                //this.values.imageFrames.forEach((frame) => {
+                                  for (let i = 1, len = imageslide.frame_count; i < len; i++) {
+                                      this.values.numOfProdutTotalImages = this.values.numOfProdutTotalImages + 1;
+                                  }
+                              }
+                          });
+                      }
+                  });
+              }              
+          }
+      }
+  }
+
+  countDownloadTarget(products, force) {
+      if(this.values.designer != undefined) {
+          this.values.downloadTarget = this.values.downloadTarget + 1;
+      }
+      products.forEach((product, pindex) => {
+          this.values.debug = 'Processing products';
+          if (product.variants[0]) {
+              if(product.variants[0].variant_images[0]){
+                  if (product.variants.length > 0) {
+                      product.variants.forEach((variant) => {
+                          if (variant.variant_images[0].variant_image) {
+                              this.values.downloadTarget = this.values.downloadTarget + 1;
+                          }
+                          if (variant.swatch.swatch_image) {
+                              this.values.downloadTarget = this.values.downloadTarget + 1; 
+                              this.values.downloadTarget = this.values.downloadTarget + 1;
+                          } 
+                          if (variant.variant_images.length > 0) {  
+                              variant.variant_images.forEach((imageslide) => {
+                                  if(imageslide.variant_image.length > 0){ 
+                                      this.values.downloadTarget = this.values.downloadTarget + 1; 
+                                      this.values.downloadTarget = this.values.downloadTarget + 1; 
+                                  }           
+                                  if (imageslide.variant_360) {
+                                      for (let i = 1, len = imageslide.frame_count; i < len; i++) {
+                                          this.values.downloadTarget = this.values.downloadTarget + 1;
+                                      }
+                                  }
+                              });
+                          }
+                      });
+                  }              
+              }
+          }
       });
-   }
+      this.values.downloadQueue = this.values.downloadTarget;
+  }
+
+  cacheMaybe(url, force) {
+      //  cache force
+      //  1 = just try and cache
+      //  2 = delete then cache
+      //  3 = just delete
+      //this.consolelog('Cache Maybe:'+url)  
+      if (force > 1) {
+          console.log('Delete from cache:' + url);
+          this.deleteItem(url).then(() => {     
+              if (force == 3) {
+                  this.values.downloadQueue = this.values.downloadQueue - 1;
+                  this.values.cacheIndex = this.values.cacheIndex + 1;
+                  // this.consoleLog("this.values.downloadQueue", this.values.downloadQueue);
+                  // this.consoleLog("this.values.cacheIndex", this.values.cacheIndex);
+                  // this.consoleLog("this.values.numOfProdutTotalImages", this.values.numOfProdutTotalImages);
+                  if (this.values.cacheIndex >= this.values.numOfProdutTotalImages) {
+                      this.values.pIndex = this.values.pIndex + 1;
+                      this.values.cacheIndex = 0;
+                      this.values.numOfProdutTotalImages = 0;
+                      if (this.values.pIndex >= this.values.cacheProducts.length || this.values.cancel == true) {
+                          if (this.values.cancel ==  false) {
+                              if (this.c_mode ==  3) {
+                                  this.delCindex(this.c_collection_title, this.c_collection_id, this.c_designer_title, this.c_designer_id)
+                              }
+                              else {
+                                  if (this.c_mode > 0) {
+                                      this.addCindex(this.c_action, this.c_collection_title, this.c_collection_id, this.c_designer_title, this.c_designer_id, this.c_collection_total_bytes);   
+                                  }
+                              } 
+                          }
+                          this.values.pIndex = 0;
+                          this.values.cancel = false;
+                      }
+                      else {
+                          this.countProdutTotalImages(this.values.cacheProducts[this.values.pIndex], this.values.force);
+                          this.productCache(this.values.cacheProducts[this.values.pIndex], this.values.force);
+                      }
+                  }
+              }    
+              if (force == 2) {
+                  this.cacheImage(url); 
+              }
+          });
+      }
+      if (force == 1) {
+          //console.log('Cache:' + url); 
+          this.cacheImage(url);
+      }
+  }
+
+  cacheImage(url) {
+      //cache if not already cached
+      this.storage.get(url).then((data) => {  
+          if (data != null) {     
+              //this.consolelog('Skipped - found in cache');
+              this.values.downloadQueue = this.values.downloadQueue - 1;
+              if (this.values.downloadQueue < 0) this.values.downloadQueue = 0;
+              this.values.cacheIndex = this.values.cacheIndex + 1;
+              // this.consoleLog("this.values.downloadQueue", this.values.downloadQueue);
+              // this.consoleLog("this.values.cacheIndex", this.values.cacheIndex);
+              // this.consoleLog("this.values.numOfProdutTotalImages", this.values.numOfProdutTotalImages);
+              if (this.values.cacheIndex >= this.values.numOfProdutTotalImages) {
+                  this.values.pIndex = this.values.pIndex + 1;
+                  this.values.cacheIndex = 0;
+                  this.values.numOfProdutTotalImages = 0;
+                  if (this.values.pIndex >= this.values.cacheProducts.length || this.values.cancel == true) {
+                      if (this.values.cancel ==  false) {
+                          if (this.c_mode ==  3) {
+                              this.delCindex(this.c_collection_title, this.c_collection_id, this.c_designer_title, this.c_designer_id)
+                          }
+                          else {
+                              if (this.c_mode > 0) {
+                                  this.addCindex(this.c_action, this.c_collection_title, this.c_collection_id, this.c_designer_title, this.c_designer_id, this.c_collection_total_bytes);   
+                              }
+                          } 
+                      }
+                      this.values.pIndex = 0;
+                      this.values.cancel = false;
+                  }
+                  else {
+                      this.countProdutTotalImages(this.values.cacheProducts[this.values.pIndex], this.values.force);
+                      this.productCache(this.values.cacheProducts[this.values.pIndex], this.values.force);
+                  }
+              }
+          }
+          else {
+              if (!this.values.online) {
+                  this.offlineManager();
+                  return false;
+              };
+              //this.consolelog('Need to get and store:'+url);
+              this.putImage(url).then(() => {
+                  this.values.downloadQueue = this.values.downloadQueue - 1;  
+                  if (this.values.downloadQueue < 0) this.values.downloadQueue = 0;
+                  //this.storage.get('user_profile')
+                  this.values.cacheIndex = this.values.cacheIndex + 1;
+                  // this.consoleLog("this.values.downloadQueue", this.values.downloadQueue);
+                  // this.consoleLog("this.values.cacheIndex", this.values.cacheIndex);
+                  // this.consoleLog("this.values.numOfProdutTotalImages", this.values.numOfProdutTotalImages);
+                  if (this.values.cacheIndex >= this.values.numOfProdutTotalImages) {
+                      this.values.pIndex = this.values.pIndex + 1;
+                      this.values.cacheIndex = 0;
+                      this.values.numOfProdutTotalImages = 0;
+                      if (this.values.pIndex >= this.values.cacheProducts.length || this.values.cancel == true) {
+                          if (this.values.cancel ==  false) {
+                              if (this.c_mode ==  3) {
+                                  this.delCindex(this.c_collection_title, this.c_collection_id, this.c_designer_title, this.c_designer_id)
+                              }
+                              else {
+                                  if (this.c_mode > 0) {
+                                      this.addCindex(this.c_action, this.c_collection_title, this.c_collection_id, this.c_designer_title, this.c_designer_id, this.c_collection_total_bytes);   
+                                  }
+                              } 
+                          }
+                          else {
+                              console.log("Downloading is canceled at the product number  :  " + this.values.pIndex);
+                          }
+                          this.values.pIndex = 0;
+                          this.values.cancel = false;
+                      }
+                      else {
+                          this.countProdutTotalImages(this.values.cacheProducts[this.values.pIndex], this.values.force);
+                          this.productCache(this.values.cacheProducts[this.values.pIndex], this.values.force);
+                      }
+                  }
+              });
+          }
+          
+      });
+  }
+
+
+
+  //post image from URL into dB
+  putImage(url) {
+      return new Promise((resolve, reject) => {
+          //this.consolelog('Get to put:'+url);
+          let headers = new Headers({
+            "Content-Type": "application/blob"
+          });
+          /*
+          let contentType = 'image/png';
+          if(url.includes('.jpg')){
+            contentType = 'image/jpeg'
+          }
+          */
+          let options = new RequestOptions({
+              headers: headers, 
+              responseType: ResponseContentType.Blob
+          });     
+          this.http.get(url, options).subscribe(response => {
+              let blob = new Blob([response.blob()]);
+              //  image id
+              let imageID = this.values.cacheImageID;
+              this.values.cacheImageID = this.values.cacheImageID + 1;
+
+              //  image type
+              let suffix='.jpg';
+              let imageType='jpeg';
+              if (url.indexOf('png')) {
+                  suffix='.png';
+                  imageType='png';
+              }
+              // date 
+              let d = new Date();
+              let n = d.getTime();
+              let filename = 'img_' + imageID + '_' + n + suffix;    
+              //file or dB storage for cache
+              // if (this.platform.is('cordova!')) {
+              //     console.log("/////////////====browser====//////////////////////");
+              //     this.getImageCordova(blob,filename,url).then((nr1) => {
+              //         let nr = '';
+              //         resolve(nr);
+              //     })
+              // }
+              // else {
+                  console.log("/////////////====cordova====//////////////////////");
+                  //console.log('Image Cache Get Blob:'+url)
+              this.getImage64(blob, filename, url, imageType).then((nr1) => {
+                  let nr = '';
+                  resolve(nr);
+              })
+              // }
+          });
+      });    
+  }
+
+  getImageCordova(blob,filename,url){    
+      return new Promise((resolve, reject) => {     
+        this.file.writeFile(this.values.fs + this.values.imageCacheFolder, filename, blob, true).then((nr1)=>{
+          let nr='';
+          resolve(nr);
+          this.cacheIndex(url,filename) 
+        })
+      })
+  }
+
+  getImage64(blob,filename,url,imageType) {
+    //console.log('Get As Image 64:'+url)
+    return new Promise((resolve, reject) => {   
+      let image64='';
+      var myReader:FileReader = new FileReader();
+      myReader.onloadend = (e) => {
+          image64 = myReader.result;
+          let nr='';
+          resolve(nr);
+          //this.cacheIndex(url,'data:image/'+imageType+';base64,'+image64);
+          this.cacheIndex(url,image64);
+      }
+      myReader.readAsDataURL(blob);
+    });        
+  }
+
+  cacheIndex(url,filename){
+    this.storage.set(url,filename)
+  }
+
+  //fetch the blob from the dB; returns blob
+  getImage(img_src){
+      //this.consolelog('Get image from Cache:'+img_src);
+      return new Promise((resolve, reject) => { 
+          this.storage.get(img_src).then((data) => {
+            //let image = JSON.parse(data);  
+            resolve(data);
+          }).catch(function(err){
+            //console.log(err);
+            let idn='../assets/images/tinyplaceholder.png';
+            resolve(idn);
+          });
+          /*
+          this.imageDB.getAttachment(img_src, 'file').then((image) => {
+              //this.consolelog('Get from pouch:'+img_src)
+              resolve(image);
+          }).catch(function(err){
+              //this.consolelog('Not found in cache'); //+img_src+' --> '+err);
+              reject('Not found in cache');//+img_src+' --> '+err);
+          })
+          */
+      });
+  }
 
   getDownloads() {
     return new Promise((resolve, reject) => {
@@ -814,63 +1184,70 @@ export class Data {
   //  manage caching a collection (cache index / log / get products / mode)
 
   cacheCollection(collection_id, designer_id, designer_title, collection_title, mode){
-    return new Promise((resolve, reject) => {
-      console.log('Cache processing mode:' + mode + ' Collection ID:' + collection_id);
-      //  set the specific collection with an offline property status
-      this.values.downloadTarget = 0;
-      this.values.downloadQueue = 0;
-      this.values.cancel = 0;
-      //  mode logic
-      //  mode
-      //  0 = no cache
-      //  1 = just try and cache
-      //  2 = delete then cache
-      //  3 = just delete     
-      let abort = false;
-      for (let cindex = 0, len = this.values.collections.length; cindex < len && !abort; cindex++) {
-        if (this.values.collections[cindex].collection_id == collection_id){
-          abort = true;
-          console.log('Set collection status');
-          this.values.collections[cindex].offline = 'Downloading';
-          
-          //this.values.collections[cindex].designer = designer_title;
-          //this.values.collections[cindex].size = this.values.collections[cindex].app_total_bytes
-          //this.data.consolelog('3. Status set to "downloading" - updating collections obj for this designer')
-          
-          let record_id = 'collections_' + designer_id;
+      return new Promise((resolve, reject) => {
+        console.log('Cache processing mode:' + mode + ' Collection ID:' + collection_id);
+        //  set the specific collection with an offline property status
+        this.values.downloadTarget = 0;
+        this.values.downloadQueue = 0;
+        this.values.cancel = false;
+        //  mode logic
+        //  mode
+        //  0 = no cache
+        //  1 = just try and cache
+        //  2 = delete then cache
+        //  3 = just delete     
+        let abort = false;
+        for (let cindex = 0, len = this.values.collections.length; cindex < len && !abort; cindex++) {
+          if (this.values.collections[cindex].collection_id == collection_id){
+            abort = true;
+            console.log('Set collection status');
+            this.values.collections[cindex].offline = 'Downloading';
+            
+            //this.values.collections[cindex].designer = designer_title;
+            //this.values.collections[cindex].size = this.values.collections[cindex].app_total_bytes
+            //this.data.consolelog('3. Status set to "downloading" - updating collections obj for this designer')
+            
+            let record_id = 'collections_' + designer_id;
 
-          //  log entry
-          //  0 = just get products
-          //  1 = just try and cache
-          //  2 = delete then cache
-          //  3 = just delete   
-          //  4 = update 
-          //  5 = update all images     
-          let action = '';
-          if(mode == 1){action = 'Downloaded'};
-          if(mode == 2){action = 'Downloaded (all images)'};
-          if(mode == 3){action = 'Remove'};
-          if(mode == 4){action = 'Updated'};
-          if(mode == 5){action = 'Updated (all images)'};
-          this.storeCollections(record_id, this.values.collections)
-          this.consolelog('7. Save Collection');          
-          this.getProduct(collection_id, this.values.user_profile.device_token, this.values.user_profile.user_token, mode, 0).then((data) => {
-            //this.values.products = data;
-            if(mode==3){
-              this.delCindex(collection_title, collection_id, designer_title, designer_id)
-            }
-            else
-            {
-              if(mode>0){
-                this.addCindex(action, collection_title, collection_id, designer_title, designer_id, this.values.collections[cindex].app_total_bytes);   
-              }
-            }   
-            resolve('');       
-          });          
+            //  log entry
+            //  0 = just get products
+            //  1 = just try and cache
+            //  2 = delete then cache
+            //  3 = just delete   
+            //  4 = update 
+            //  5 = update all images     
+            let action = '';
+            if (mode == 1) { action = 'Downloaded'; }
+            if (mode == 2) { action = 'Downloaded (all images)'; }
+            if (mode == 3) { action = 'Remove'; }
+            if (mode == 4) { action = 'Updated'; }
+            if (mode == 5) { action = 'Updated (all images)'; }
+            this.storeCollections(record_id, this.values.collections);
+            this.consolelog('7. Save Collection');          
+            this.getProduct(collection_id, this.values.user_profile.device_token, this.values.user_profile.user_token, mode, 0).then((data) => {
+                
+                this.c_collection_title = collection_title;
+                this.c_collection_id = collection_id;
+                this.c_designer_title = designer_title;
+                this.c_designer_id = designer_id;
+                this.c_mode = mode;
+                this.c_action = action;
+                this.c_collection_total_bytes = this.values.collections[cindex].app_total_bytes;
+                
+                // //this.values.products = data;
+                // if (mode ==  3) {
+                //     this.delCindex(collection_title, collection_id, designer_title, designer_id)
+                // }
+                // else {
+                //     if (mode > 0) {
+                //         this.addCindex(action, collection_title, collection_id, designer_title, designer_id, this.values.collections[cindex].app_total_bytes);   
+                //     }
+                // }   
+                resolve('');       
+            });          
+          }
         }
-      }
-    });
-
+      });
   }
 
   // Collection Caching Index
@@ -1041,171 +1418,7 @@ export class Data {
     //set currency string  
   }
 
-  cacheMaybe(url,force){
-      console.log('//-------- Check cacheMaybe() -------//')
-      //  cache force
-      //  1 = just try and cache
-      //  2 = delete then cache
-      //  3 = just delete
-      //this.consolelog('Cache Maybe:'+url)  
-      this.values.downloadTarget = this.values.downloadTarget + 1;
-      this.values.downloadQueue = this.values.downloadQueue + 1;
-      if(force>1){
-        console.log('Delete from cache:'+url)
-        this.deleteItem(url).then(() => {     
-          if(force==3){
-            this.values.downloadQueue = this.values.downloadQueue - 1;
-            console.log('//-----  this.values.downloadQueue  -----//');
-            console.log(this.values.downloadQueue);
-          }    
-          if(force==2){
-            this.cacheImage(url)  
-          }
-        });
-      }
-      if(force==1){
-        console.log('Cache:'+url)  
-        this.cacheImage(url);
-      }
-  }
-
-  cacheImage(url){
-    //cache if not already cached
-    this.storage.get(url).then((data) => {  
-          if(data!=null){     
-            //this.consolelog('Skipped - found in cache');
-            this.values.downloadQueue = this.values.downloadQueue - 1;
-            if(this.values.downloadQueue<0){this.values.downloadQueue=0}
-          }else{
-            if(!this.values.online){
-              this.offlineManager();
-              return false;
-            };
-            //this.consolelog('Need to get and store:'+url);
-            this.putImage(url).then(() => {
-              this.values.downloadQueue = this.values.downloadQueue - 1;  
-              if(this.values.downloadQueue<0){this.values.downloadQueue=0}
-              //this.storage.get('user_profile')
-            });
-          }
-        });
-    }
-
-
-
-  //post image from URL into dB
-  putImage(url){
-      return new Promise((resolve, reject) => {
-        //this.consolelog('Get to put:'+url);
-        let headers = new Headers({
-          "Content-Type": "application/blob"
-        });
-        /*
-        let contentType = 'image/png';
-        if(url.includes('.jpg')){
-          contentType = 'image/jpeg'
-        }
-        */
-        let options = new RequestOptions({
-          headers: headers, 
-          responseType: ResponseContentType.Blob
-        });     
-        this.http.get(url,options).subscribe(response => {
-            let blob = new Blob([response.blob()])
-            //  image id
-            let imageID = this.values.cacheImageID
-            this.values.cacheImageID = this.values.cacheImageID + 1;
-
-            //  image type
-            let suffix='.jpg'
-            let imageType='jpeg'
-            if (url.indexOf('png')){
-              suffix='.png';
-              imageType='png'
-            }
-
-            // date 
-            let d = new Date()
-            let n = d.getTime()
-            let filename = 'img_'+imageID+'_'+n+suffix;    
-            //file or dB storage for cache
-            if(this.platform.is('cordova!')){
-              console.log("/////////////====browser====//////////////////////");
-              this.getImageCordova(blob,filename,url).then((nr1) => {
-                let nr='';
-                resolve(nr);
-              })
-            }
-            else
-            {
-              console.log("/////////////====cordova====//////////////////////");
-              //console.log('Image Cache Get Blob:'+url)
-              this.getImage64(blob,filename,url,imageType).then((nr1) =>{
-                let nr='';
-                resolve(nr);
-              })
-            }
-        });
-      });    
-  }
-
-  getImageCordova(blob,filename,url){    
-      return new Promise((resolve, reject) => {     
-        this.file.writeFile(this.values.fs + this.values.imageCacheFolder, filename, blob, true).then((nr1)=>{
-          let nr='';
-          resolve(nr);
-          this.cacheIndex(url,filename) 
-        })
-      })
-  }
-
-  getImage64(blob,filename,url,imageType) {
-    //console.log('Get As Image 64:'+url)
-    return new Promise((resolve, reject) => {   
-      let image64='';
-      var myReader:FileReader = new FileReader();
-      myReader.onloadend = (e) => {
-          image64 = myReader.result;
-          let nr='';
-          resolve(nr);
-          //this.cacheIndex(url,'data:image/'+imageType+';base64,'+image64);
-          this.cacheIndex(url,image64);
-      }
-      myReader.readAsDataURL(blob);
-    });        
-  }
-
-  cacheIndex(url,filename){
-    this.storage.set(url,filename)
-  }
-
-  //fetch the blob from the dB; returns blob
-  getImage(img_src){
-      //this.consolelog('Get image from Cache:'+img_src);
-      return new Promise((resolve, reject) => { 
-          this.storage.get(img_src).then((data) => {
-            //let image = JSON.parse(data);  
-            resolve(data);
-          }).catch(function(err){
-            //console.log(err);
-            let idn='../assets/images/tinyplaceholder.png';
-            resolve(idn);
-          });
-          /*
-          this.imageDB.getAttachment(img_src, 'file').then((image) => {
-              //this.consolelog('Get from pouch:'+img_src)
-              resolve(image);
-          }).catch(function(err){
-              //this.consolelog('Not found in cache'); //+img_src+' --> '+err);
-              reject('Not found in cache');//+img_src+' --> '+err);
-          })
-          */
-      });
-  }
-
-
-
-
+  
   // presentLoadingCustom() {
   //   //return new Promise((resolve, reject) => {
   //     console.log('Loading spinner');

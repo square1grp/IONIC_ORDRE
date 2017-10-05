@@ -434,7 +434,7 @@ export class LinesheetPage {
     }       
     let popover = this.popoverController.create(this.viewloaderPage,{collection_id:collection_id,designer_id:designer_id,mode:mode});
     popover.present();
-    this.data.cacheCollection(collection_id,designer_id,designer,collection_title,mode).then(() => {
+    this.data.cacheCollection(collection_id, designer_id, designer, collection_title, mode).then(() => {
         setTimeout(() => {
             this.data.dismissLoadingSpiner();
         }, 500);

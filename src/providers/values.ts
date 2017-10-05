@@ -11,8 +11,6 @@ export class Values {
   listview: boolean = false;
   device_token: string= "";
   online: boolean;
-  downloadQueue: number = 0;
-  downloadTarget: number = 0;
   search: string = "";
 
   user_profile: any;
@@ -39,12 +37,20 @@ export class Values {
   lsproducts: any;
   downloadedCollections = [];
 
-  cancel: any;
+  cancel: boolean = false;
 
   cacheImageID: any;
   imageCacheFolder: 'imgCache';
   fs: any;
   freeSpace: any;
+
+  downloadQueue: number = 0;
+  downloadTarget: number = 0;
+  numOfProdutTotalImages: number = 0;
+  cacheProducts: any;
+  force: any;
+  pIndex: number = 0;
+  cacheIndex: number = 0;
 
   imageFrames = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12' , '13', '14', '15',
                  '16', '17', '18', '19', '20', '21', '22', '23', '24'];

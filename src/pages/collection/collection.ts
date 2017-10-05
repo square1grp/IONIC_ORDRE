@@ -82,7 +82,7 @@ export class CollectionPage {
 
         if (this.mode == 'fromlinesheet') { 
             this.values.lsproducts = this.values.products;     
-        }  
+        }   
         this.search(); 
         console.log("======= products start =======");
         console.log(this.values.products);
@@ -246,6 +246,7 @@ export class CollectionPage {
     }
 
     downloadManager(collection_id, designer_id, designer, collection_title, mode) {
+        this.values.cancel = false;
         this.data.presentLoadingSpiner();
         setTimeout(() => {
             if (this.data.isloadingState == true) {
