@@ -290,13 +290,19 @@ export class CollectionPage {
     }
 
     lineSheet() {
-        this.data.presentLoadingSpiner();
-        setTimeout(() => {
-            if (this.data.isloadingState == true) {
-                this.data.dismissLoadingSpiner();
+        this.data.presentLoadingSpinerSec().then(() => {
+            if (this.values.products.length < 12) {
+                this.values.onescreen_total_imgages_num = this.values.products.length *  2;
             }
-        }, 2000);
-        this.navCtrl.push(LinesheetPage, { collection: this.data.selectedCollection });//}
+            else {
+                this.values.onescreen_total_imgages_num = 24;
+            }
+            this.values.onescreen_image_index = 0;
+            console.log("onescreen_total_imgages_num : " + this.values.onescreen_total_imgages_num);
+            console.log("onescreen_image_index : " + this.values.onescreen_image_index);
+            this.navCtrl.push(LinesheetPage, { collection: this.data.selectedCollection });
+        })
+                
     }
 
     scrollToTop() {

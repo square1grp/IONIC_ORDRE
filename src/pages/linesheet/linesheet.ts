@@ -128,10 +128,10 @@ export class LinesheetPage {
             tempGroup = [];
         }
     }
-    console.log("dismiss_linsheet");
-    setTimeout(() => {
-        this.data.dismissLoadingSpiner();
-    }, 800);
+    // console.log("dismiss_linsheet");
+    // setTimeout(() => {
+    //     this.data.dismissLoadingSpiner();
+    // }, 800);
   }
 
   prevPage() {

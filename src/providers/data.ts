@@ -55,7 +55,8 @@ export class Data {
   c_designer_id: any;
   c_mode: number;
   c_action: string;
-  c_collection_total_bytes; any;
+  c_collection_total_bytes: any;
+
 
   constructor(private file: File, public storage: Storage, public loadingCtrl: LoadingController, public http: Http,
     public platform: Platform, public values: Values, private alertCtrl: AlertController, private connectivity:Connectivity) {}
@@ -65,6 +66,7 @@ export class Data {
     setTimeout(() => {
       this.initDB();
     }, 3000);
+    this.createLoader();
   }
 
   initDB() {
@@ -884,7 +886,7 @@ export class Data {
                                   if(imageslide.variant_image.length > 0){ 
                                       this.values.downloadTarget = this.values.downloadTarget + 1; 
                                       this.values.downloadTarget = this.values.downloadTarget + 1; 
-                                  }           
+                                  }
                                   if (imageslide.variant_360) {
                                       for (let i = 1, len = imageslide.frame_count; i < len; i++) {
                                           this.values.downloadTarget = this.values.downloadTarget + 1;
@@ -893,7 +895,7 @@ export class Data {
                               });
                           }
                       });
-                  }              
+                  }
               }
           }
       });
@@ -1085,6 +1087,41 @@ export class Data {
               // }
           });
       });    
+  }
+
+  getNumofOnescreenProcountImages(products, onescreen_products_num) {
+      let totalImages: number = 0;
+      let product: any;
+      for (let pindex = 0; pindex <= onescreen_products_num; pindex++) {
+          product = products[pindex];
+          if (product.variants[0]) {
+              if(product.variants[0].variant_images[0]){
+                  if (product.variants.length > 0) {
+                      product.variants.forEach((variant) => {
+                          if (variant.variant_images[0].variant_image) {
+                              totalImages ++;
+                          }
+                          if (variant.swatch.swatch_image) {
+                              totalImages += 2;
+                          } 
+                          if (variant.variant_images.length > 0) {  
+                              variant.variant_images.forEach((imageslide) => {
+                                  if(imageslide.variant_image.length > 0){ 
+                                      totalImages += 2; 
+                                  }
+                                  if (imageslide.variant_360) {
+                                      for (let i = 1, len = imageslide.frame_count; i < len; i++) {
+                                          totalImages ++;
+                                      }
+                                  }
+                              });
+                          }
+                      });
+                  }
+              }
+          }
+      }
+      return totalImages;
   }
 
   getImageCordova(blob,filename,url){    
@@ -1461,7 +1498,7 @@ export class Data {
   //       })
   // }
 
-  createLoader () {
+  createLoader() {
       this.loading = this.loadingCtrl.create({
             dismissOnPageChange: false,
             spinner: 'crescent',
@@ -1475,7 +1512,6 @@ export class Data {
   presentLoadingSpiner() {
       console.log(this.loadingState);
       if (this.loadingState == true) return;
-      this.createLoader ();
       this.loading.present().then(() => {
           console.log("presented");
           this.loadingState = true;
@@ -1490,12 +1526,32 @@ export class Data {
         this.isloadingState = true;
         return;
       }
+      console.log("Spinner_dismiss() function are called");
       this.loading.dismiss().then(() => {
-          console.log("dismissed");
+          console.log("Spinner are dismissed perfectly.");
           this.loadingState = false;
           this.isloadingState = false;
-      })
+          this.createLoader();
+      }).catch(function(err){
+          console.log(err);
+      });
   }
+
+  presentLoadingSpinerSec() {
+      return new Promise((resolve, reject) => {
+          console.log(this.loadingState);
+          if (this.loadingState == true) return;
+          this.loading.present().then(() => {
+              console.log("presented");
+              this.loadingState = true;
+              resolve();
+          }).catch(function(err){
+              console.log(err);
+              reject();
+          });
+      });
+  }
+
   consolelog(str) {
     if(this.values.debug){
       console.log('LOG:'+str);

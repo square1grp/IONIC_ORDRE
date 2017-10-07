@@ -96,6 +96,7 @@ export class LoginPage {
     else
     {
       if (this.loggingin == true) { return; }
+      this.data.createLoader();
       this.data.presentLoadingSpiner();
       this.loggingin = true;
       console.log('Form Post: Login');

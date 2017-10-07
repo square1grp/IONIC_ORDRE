@@ -83,6 +83,7 @@ export class ViewloaderPage {
                     console.log("call_dismissSpiner");
                     this.data.dismissLoadingSpiner();
                 }, 500);
+                this.data.addIsOpenedProp();
             }).catch((err) => {
                 console.log('Problem with spinner:' + err);
             });

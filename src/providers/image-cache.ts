@@ -48,26 +48,46 @@ export class OrdreImageCache {
                     this.hidden = false 
                     this.cd.markForCheck();
                 }
-                else
-                {
+                else {
                     console.log('Write Image');
                     let fixedUrl: SafeUrl = this.ds.bypassSecurityTrustUrl(<string>image)
                     this.src = <string>fixedUrl;
                     this.hidden = false   
                     this.cd.markForCheck();             
                 }
+                console.log('this.values.onescreen_total_imgages_num :' + this.values.onescreen_total_imgages_num);
+                console.log('this.values.onescreen_image_index :' + this.values.onescreen_image_index);
+                if (this.values.onescreen_total_imgages_num > 0) {
+                    this.values.onescreen_image_index ++;
+                    if (this.values.onescreen_image_index >= this.values.onescreen_total_imgages_num) {
+                        this.data.dismissLoadingSpiner();
+                        this.values.onescreen_image_index = 0;
+                        this.values.onescreen_total_imgages_num = 0;
+                    }
+                }
+                
             }
             else
             {
                 //console.log(imageURL + ' not found in cache')
                 if(this.values.online){
-                    this.src = imageURL //this.src;
+                    this.src = imageURL; //this.src;
                     this.hidden = false;
                     this.cd.markForCheck();
-                    //console.log('Cache the image:'+imageURL)    
-                    // this.data.putImage(imageURL).then(() => {
-                    //     //this.hidden = false;
-                    // }); 
+                    console.log('Cache the image:' + imageURL);
+                    this.data.putImage(imageURL).then(() => {
+                        console.log('this.values.onescreen_total_imgages_num :' + this.values.onescreen_total_imgages_num);
+                        console.log('this.values.onescreen_image_index :' + this.values.onescreen_image_index);
+                        if (this.values.onescreen_total_imgages_num > 0) {
+                            this.values.onescreen_image_index ++;
+                            if (this.values.onescreen_image_index >= this.values.onescreen_total_imgages_num) {
+                                this.data.dismissLoadingSpiner();
+                                this.values.onescreen_image_index = 0;
+                                this.values.onescreen_total_imgages_num = 0;
+                            }
+                        }
+                        //this.hidden = false;
+                    }); 
                 }
             }   
         
