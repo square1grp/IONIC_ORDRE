@@ -301,8 +301,7 @@ export class CollectionPage {
             console.log("onescreen_total_imgages_num : " + this.values.onescreen_total_imgages_num);
             console.log("onescreen_image_index : " + this.values.onescreen_image_index);
             this.navCtrl.push(LinesheetPage, { collection: this.data.selectedCollection });
-        })
-                
+        });  
     }
 
     scrollToTop() {
