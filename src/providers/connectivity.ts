@@ -7,36 +7,36 @@ declare var Connection;
 @Injectable()
 export class Connectivity {
 
-  onDevice: boolean;
+    onDevice: boolean;
 
-  constructor(public platform: Platform, private network: Network){
-    this.onDevice = this.platform.is('cordova');
-  }
-
-  isOnline(): boolean {
-    if(this.onDevice) // && Network.type)
-    {
-      return true; //Network.type != 'none';
-    } else {
-      return navigator.onLine; 
+    constructor(public platform: Platform, private network: Network) {
+        this.onDevice = this.platform.is('cordova');
     }
-  }
 
-  isOffline(): boolean {
-    if(this.onDevice)//&& Network.type)
-    {
-      return true; //false //Network.type == 'none';
-    } else {
-      return !navigator.onLine;   
+    isOnline(): boolean {
+        if (this.onDevice) // && Network.type)
+        {
+            return true; //Network.type != 'none';
+        } else {
+            return navigator.onLine;
+        }
     }
-  }
 
-  watchOnline(): any {
-    return this.network.onConnect();
-  }
+    isOffline(): boolean {
+        if (this.onDevice)//&& Network.type)
+        {
+            return true; //false //Network.type == 'none';
+        } else {
+            return !navigator.onLine;
+        }
+    }
 
-  watchOffline(): any {
-    return this.network.onDisconnect();
-  }
+    watchOnline(): any {
+        return this.network.onConnect();
+    }
+
+    watchOffline(): any {
+        return this.network.onDisconnect();
+    }
 
 }

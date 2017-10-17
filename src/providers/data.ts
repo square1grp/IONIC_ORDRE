@@ -1111,9 +1111,9 @@ export class Data {
             myReader.onloadend = (e) => {
                 image64 = myReader.result;
                 let nr = '';
-                resolve(nr);
                 //this.cacheIndex(url,'data:image/'+imageType+';base64,'+image64);
                 this.cacheIndex(url, image64);
+                resolve(nr);
             }
             myReader.readAsDataURL(blob);
         });
@@ -1499,6 +1499,8 @@ export class Data {
             console.log("Spinner are dismissed perfectly.");
             this.loadingState = false;
             this.isloadingState = false;
+            this.values.onescreen_image_index = 0;
+            this.values.onescreen_total_imgages_num = 0;
             this.createLoader();
         }).catch(function (err) {
             console.log(err);
@@ -1512,6 +1514,50 @@ export class Data {
             this.loading.present().then(() => {
                 console.log("presented");
                 this.loadingState = true;
+                this.values.spinnerCheckPoint = Date.now();
+                if (this.values.isHeavyLoad == true) {
+                    setTimeout(() => {
+                        let currentCheckPoint = Date.now();
+                        if (this.loadingState == true && currentCheckPoint - this.values.spinnerCheckPoint >= 40000) {
+                            this.dismissLoadingSpiner();
+                            let alert = this.alertCtrl.create({
+                                title: 'WARNING: Network Connect Error',
+                                subTitle: 'Your Network State is too bad. Please check your Network connect state.',
+                                buttons: [
+                                    {
+                                        text: 'OK',
+                                        handler: () => {
+                                            console.log('Network is too bad.');
+                                        }
+                                    }
+                                ]
+                            });
+                            alert.present();
+                        }
+                    }, 40000);
+                    this.values.isHeavyLoad = false;
+                }
+                else {
+                    setTimeout(() => {
+                        let currentCheckPoint = Date.now();
+                        if (this.loadingState == true && currentCheckPoint - this.values.spinnerCheckPoint >= 20000) {
+                            this.dismissLoadingSpiner();
+                            let alert = this.alertCtrl.create({
+                                title: 'WARNING: Downloading is too Slow.',
+                                subTitle: 'Download are timeout. Please try again.',
+                                buttons: [
+                                    {
+                                        text: 'OK',
+                                        handler: () => {
+                                            console.log('Downloading is too Slow.');
+                                        }
+                                    }
+                                ]
+                            });
+                            alert.present();
+                        }
+                    }, 20000);
+                }
                 resolve();
             }).catch(function (err) {
                 console.log(err);

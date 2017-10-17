@@ -25,30 +25,40 @@ export class DesignersPage {
     }
 
     designerCollections(designer) {
-        this.data.presentLoadingSpiner();
-        this.values.designer = designer;
-        this.data.getDesignerCurrency(this.values.user_profile.user_region_id, 0);
-        this.data.getThisCollections(this.values.designer.seller_account_id, this.values.device_token, this.values.user_profile.user_token).then((data) => {
-            //check collection is downloaded if we're offline
-            if (!this.values.online) {
-                if (this.values.collections[0].offline != 'Downloaded') {
-                    this.data.offlineManager();
-                    return false;
-                }
-            };
-            console.log('Online:' + this.values.online);
+        //this.data.presentLoadingSpiner();
+        this.data.presentLoadingSpinerSec().then(() => {
+            this.values.onescreen_total_imgages_num = 3;
+            this.values.onescreen_image_index = 0;
 
-            this.values.products = null;
-            this.data.getProduct(this.data.currentCollectionID, this.values.device_token, this.values.user_profile.user_token, 0, 0).then(data => {
-                this.data.consolelog('Set products from download after init');
-                this.data.consolelog('Got product JSON:' + this.data.currentCollectionID);
-                this.values.isDesignersPage = false;
-                this.navCtrl.push(CollectionPage, { designer: designer, mode: '' });
+            this.values.designer = designer;
+            this.data.getDesignerCurrency(this.values.user_profile.user_region_id, 0);
+            this.data.getThisCollections(this.values.designer.seller_account_id, this.values.device_token, this.values.user_profile.user_token).then((data) => {
+                //check collection is downloaded if we're offline
+                if (!this.values.online) {
+                    if (this.values.collections[0].offline != 'Downloaded') {
+                        this.data.offlineManager();
+                        return false;
+                    }
+                };
+                console.log('Online:' + this.values.online);
+
+                this.values.products = null;
+                this.data.getProduct(this.data.currentCollectionID, this.values.device_token, this.values.user_profile.user_token, 0, 0).then(data => {
+                    if (this.values.products.length < 9) {
+                        this.values.onescreen_total_imgages_num = this.values.products.length * 2;
+                    }
+                    else {
+                        this.values.onescreen_total_imgages_num = 18;
+                    }
+                    this.data.consoleLog('this.values.products' , this.values.products);
+                    this.values.isDesignersPage = false;
+                    this.navCtrl.push(CollectionPage, { designer: designer, mode: '' });
+                }).catch(function (err) {
+                    console.log(err);
+                });
             }).catch(function (err) {
-                console.log(err);
+                return false;
             });
-        }).catch(function (err) {
-            return false;
         });
     }
 
@@ -57,7 +67,7 @@ export class DesignersPage {
         if (this.values.isDesignersPage == true) {
             force = true;
             this.data.getDesigners(this.values.device_token, this.values.user_profile.user_token, force).then((response) => {
-                this.values.designers = response; 
+                this.values.designers = response;
                 this.values.onescreen_total_imgages_num = this.values.designers.length;
                 for (let index = 0; index < this.values.designers.length; index++) {
                     let designer_id = this.values.designers[index].seller_account_id;
@@ -69,13 +79,13 @@ export class DesignersPage {
         }
         else {
             this.data.getDesigners(this.values.device_token, this.values.user_profile.user_token, force).then((response) => {
-                this.values.designers = response; 
+                this.values.designers = response;
                 this.values.onescreen_total_imgages_num = this.values.designers.length;
                 this.values.isDesignersPage = true;
             }).catch(function (err) {
                 console.log(err);
             });
         }
-        
+
     }
 }

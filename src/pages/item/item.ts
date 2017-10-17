@@ -9,8 +9,8 @@ import { Slides } from 'ionic-angular';
 //import circlr from 'circlr';
 
 @Component({
-  selector: 'page-item',
-  templateUrl: 'item.html'
+    selector: 'page-item',
+    templateUrl: 'item.html'
 })
 export class ItemPage {
 
@@ -23,7 +23,7 @@ export class ItemPage {
     currency_code: any;
     currency_symbol: any;
     yesThisHas360: any;
-    mySlideOptions = { paper:false };
+    mySlideOptions = { paper: false };
 
     //  keypad
     @ViewChild(Content) content: Content;
@@ -33,16 +33,16 @@ export class ItemPage {
     nb: any;
     qty: any;
 
-    constructor(public navCtrl: NavController, public viewCtrl: ViewController, public popoverCtrl: PopoverController, 
-      public navparams: NavParams, public cartProvider: CartProvider, public values: Values, public data: Data) {
+    constructor(public navCtrl: NavController, public viewCtrl: ViewController, public popoverCtrl: PopoverController,
+        public navparams: NavParams, public cartProvider: CartProvider, public values: Values, public data: Data) {
 
     }
 
     view360(variants, default360) {
         //this.data.consolelog('360Variants:'+JSON.stringify(variants))
-        let popover = this.popoverCtrl.create(View360Page,{productVariants: variants, default360: default360});
+        let popover = this.popoverCtrl.create(View360Page, { productVariants: variants, default360: default360 });
         popover.present();
-        
+
         //this.data.consolelog('try to render 3d')
         //  https://www.pincer.io/npm/libraries/circlr
 
@@ -72,28 +72,28 @@ export class ItemPage {
         let abort = false;
         let keyCount = 0;
         this.product.variants[0].slidekey = 0
-        for (let i = 0, len = this.product.variants.length; i < len && !abort; i++) { 
+        for (let i = 0, len = this.product.variants.length; i < len && !abort; i++) {
             if (i > 0) {
-                keyCount = this.product.variants[i-1].variant_images.length + keyCount;
-                this.product.variants[i].slidekey = keyCount;      
-                console.log(keyCount+':' + this.product.variants[i-1].variant_images.length);
+                keyCount = this.product.variants[i - 1].variant_images.length + keyCount;
+                this.product.variants[i].slidekey = keyCount;
+                console.log(keyCount + ':' + this.product.variants[i - 1].variant_images.length);
             }
-        } 
-        setTimeout(() => {
-            this.data.dismissLoadingSpiner();
-        }, 800);
+        }
+        // setTimeout(() => {
+        //     this.data.dismissLoadingSpiner();
+        // }, 800);
     }
 
     viewSlide(slideNo) {
         this.slides.slideTo(slideNo);
     }
-    
+
     ionViewDidEnter() {
         this.setItemQty();
     }
 
-    addToCart(product_title, colour, material, swatch, image, designer_title, variant_id, sku, price, 
-      event, designer_id, size, size_id, type, product_id) {
+    addToCart(product_title, colour, material, swatch, image, designer_title, variant_id, sku, price,
+        event, designer_id, size, size_id, type, product_id) {
         if (this.values.user_profile.seller_account_id != 0) { return false; }
         if (event == null) {
             this.qty = 0;
@@ -101,39 +101,39 @@ export class ItemPage {
             this.qty = event.target.value;
             if (this.qty == "") this.qty = 0;
         }
-        this.cartProvider.addToCart(product_title, colour, material, swatch, image, designer_title, designer_id, 
-          product_id, variant_id, size, size_id, type, this.qty, price, sku);
+        this.cartProvider.addToCart(product_title, colour, material, swatch, image, designer_title, designer_id,
+            product_id, variant_id, size, size_id, type, this.qty, price, sku);
         this.setItemQty();
         this.qty = 0;
     }
 
-    clearItem(variant_id,keepit){
-      this.cartProvider.clearSomeItem(variant_id, keepit);
-      this.setItemQty();
+    clearItem(variant_id, keepit) {
+        this.cartProvider.clearSomeItem(variant_id, keepit);
+        this.setItemQty();
     }
 
-    setItemQty(){
+    setItemQty() {
         //  set QTY field for product variant size from cart
         this.product.variants.forEach((variant, vindex) => {
-          this.product.variants[vindex].total = 0
-          variant.sizes.forEach((size,sindex) => {
-            var orderQTY = this.cartProvider.getSizeQty(this.product.variants[vindex].sizes[sindex].sku,this.data.designer.seller_account_id)         
-            this.product.variants[vindex].total = this.product.variants[vindex].total + (orderQTY * this.product.region_prices[0].wsp)
-            if (orderQTY == 0) {
-                this.product.variants[vindex].sizes[sindex].qty = '';
-            }
-            else {
-                this.product.variants[vindex].sizes[sindex].qty = orderQTY;
-            }
-          });
+            this.product.variants[vindex].total = 0
+            variant.sizes.forEach((size, sindex) => {
+                var orderQTY = this.cartProvider.getSizeQty(this.product.variants[vindex].sizes[sindex].sku, this.data.designer.seller_account_id)
+                this.product.variants[vindex].total = this.product.variants[vindex].total + (orderQTY * this.product.region_prices[0].wsp)
+                if (orderQTY == 0) {
+                    this.product.variants[vindex].sizes[sindex].qty = '';
+                }
+                else {
+                    this.product.variants[vindex].sizes[sindex].qty = orderQTY;
+                }
+            });
         });
 
     }
 
     has360() {
         let abort = false;
-        for (let i = 0, len = this.product.variants.length; i < len && !abort; i++) { 
-            for (let j = 0, len = this.product.variants[i].variant_images.length; j < len && !abort; j++) { 
+        for (let i = 0, len = this.product.variants.length; i < len && !abort; i++) {
+            for (let j = 0, len = this.product.variants[i].variant_images.length; j < len && !abort; j++) {
                 if (this.product.variants[i].variant_images[j].variant_360) {
                     abort = true;
                     this.yesThisHas360 = true;
@@ -147,7 +147,7 @@ export class ItemPage {
     scrollToTop() {
         this.content.scrollToTop();
     }
-    
+
     popView() {
         this.navCtrl.pop();
     }
@@ -156,22 +156,22 @@ export class ItemPage {
         let abort = false;
         for (let part = 0, len = this.values.cart.request.order[0].sales_order_parts.length; part < len && !abort; part++) {
             if (this.values.cart.request.order[0].sales_order_parts[part].seller_account_id == designer_id) {
-              //check line items
-              for (let line = 0, len = this.values.cart.request.order[0].sales_order_parts[part].sales_order_lines.length; 
-                line < len && !abort; line++) {
-                  if (this.values.cart.request.order[0].sales_order_parts[part].sales_order_lines[line].product_id == product_id 
-                    && this.values.cart.request.order[0].sales_order_parts[part].sales_order_lines[line].variant_id == variant_id) {
-                      abort = true;
-                  }
-              }  
+                //check line items
+                for (let line = 0, len = this.values.cart.request.order[0].sales_order_parts[part].sales_order_lines.length;
+                    line < len && !abort; line++) {
+                    if (this.values.cart.request.order[0].sales_order_parts[part].sales_order_lines[line].product_id == product_id
+                        && this.values.cart.request.order[0].sales_order_parts[part].sales_order_lines[line].variant_id == variant_id) {
+                        abort = true;
+                    }
+                }
             }
         }
         if (abort) {
-            return("assets/images/selected-icon.png");
+            return ("assets/images/selected-icon.png");
         }
-        else {  
-            return("assets/images/select-icon.png");
+        else {
+            return ("assets/images/select-icon.png");
         }
     }
-    
+
 }

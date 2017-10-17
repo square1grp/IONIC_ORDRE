@@ -46,7 +46,7 @@ export class OrdreHeader {
 
     openHomePage(page): void {
         this.data.presentLoadingSpinerSec().then(() => {
-            this.values.onescreen_total_imgages_num = 1;
+            this.values.onescreen_total_imgages_num = 3;
             this.values.onescreen_image_index = 0;
             console.log("onescreen_total_imgages_num : " + this.values.onescreen_total_imgages_num);
             console.log("onescreen_image_index : " + this.values.onescreen_image_index);

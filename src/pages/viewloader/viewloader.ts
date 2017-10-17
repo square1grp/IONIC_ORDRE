@@ -41,11 +41,11 @@ export class ViewloaderPage {
             }
             //this.data.addIsOpenedProp();
             this.viewCtrl.dismiss().then(() => {
-                console.log("loaderViewe_Dismissed!!");
-                setTimeout(() => {
-                    console.log("call_dismissSpiner");
-                    this.data.dismissLoadingSpiner();
-                }, 500);
+                // console.log("loaderViewe_Dismissed!!");
+                // setTimeout(() => {
+                //     console.log("call_dismissSpiner");
+                //     this.data.dismissLoadingSpiner();
+                // }, 500);
                 this.data.addIsOpenedProp();
             }).catch((err) => {
                 console.log('Problem with spinner:'+err);
@@ -78,11 +78,11 @@ export class ViewloaderPage {
         this.values.cancel = true;
         this.setCollectionStatus('',this.collection_id).then(() => {
             this.viewCtrl.dismiss().then(() => {
-                console.log("loaderViewe_Dismissed!!");
-                setTimeout(() => {
-                    console.log("call_dismissSpiner");
-                    this.data.dismissLoadingSpiner();
-                }, 500);
+                // console.log("loaderViewe_Dismissed!!");
+                // setTimeout(() => {
+                //     console.log("call_dismissSpiner");
+                //     this.data.dismissLoadingSpiner();
+                // }, 500);
                 this.data.addIsOpenedProp();
             }).catch((err) => {
                 console.log('Problem with spinner:' + err);

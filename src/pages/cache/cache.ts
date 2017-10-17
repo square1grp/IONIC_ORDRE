@@ -7,146 +7,147 @@ import { Data } from '../../providers/data';
 import { ViewloaderPage } from '../viewloader/viewloader'
 
 @Component({
-  selector: 'page-cache',
-  templateUrl: 'cache.html'
+    selector: 'page-cache',
+    templateUrl: 'cache.html'
 })
 
 
-  //  mode
-  //  0 = no cache
-  //  1 = just try and cache
-  //  2 = delete then cache
-  //  3 = just delete
+//  mode
+//  0 = no cache
+//  1 = just try and cache
+//  2 = delete then cache
+//  3 = just delete
 
 
 export class CachePage {
 
-  downloadedCollections: any;
-  uiState:any; 
-  viewloaderPage = ViewloaderPage; 
+    downloadedCollections: any;
+    uiState: any;
+    viewloaderPage = ViewloaderPage;
 
-  constructor(public popoverController:PopoverController, public navCtrl: NavController, public navParams: NavParams, public values:Values, private storage:Storage, public data:Data, private alertCtrl: AlertController) {}
+    constructor(public popoverController: PopoverController, public navCtrl: NavController, public navParams: NavParams, public values: Values, private storage: Storage, public data: Data, private alertCtrl: AlertController) { }
 
-  ngOnInit(){
-    this.uiState ='downloaded';
-    //this.data.presentLoadingCustom();
-    this.data.getDownloads().then(() =>{
-      this.data.getLog();
-      //this.data.loading.dismiss().catch((err) => {console.log('Problem with spinner:'+err)});
-      console.log("//-------  getDownloads() => this.values.downloadedCollections ------//");
-      console.log(this.values.downloadedCollections);
-      console.log("//-------  getDownloads() => this.values.collections  --------//");
-      console.log(this.values.collections);
+    ngOnInit() {
+        this.uiState = 'downloaded';
+        //this.data.presentLoadingCustom();
+        this.data.getDownloads().then(() => {
+            this.data.getLog();
+            //this.data.loading.dismiss().catch((err) => {console.log('Problem with spinner:'+err)});
+            console.log("//-------  getDownloads() => this.values.downloadedCollections ------//");
+            console.log(this.values.downloadedCollections);
+            console.log("//-------  getDownloads() => this.values.collections  --------//");
+            console.log(this.values.collections);
 
-      this.data.addIsOpenedProp();
-      console.log("//----- this.values.downloadedCollections ------//");
-      console.log(this.values.downloadedCollections);
-    });         
-  }
+            this.data.addIsOpenedProp();
+            console.log("//----- this.values.downloadedCollections ------//");
+            console.log(this.values.downloadedCollections);
+        });
+    }
 
-  uiChange(newstate){
-    this.uiState = newstate;
-  }  
+    uiChange(newstate) {
+        this.uiState = newstate;
+    }
 
-  toggleForceCache(){
-    this.values.user_profile.forcecache=!this.values.user_profile.forcecache;
-    console.log('Force Cache:'+this.values.user_profile.forcecache);
-  }
+    toggleForceCache() {
+        this.values.user_profile.forcecache = !this.values.user_profile.forcecache;
+        console.log('Force Cache:' + this.values.user_profile.forcecache);
+    }
 
-  clearCache(){
-    console.log('Clear Cache Clicked');
-    let alert = this.alertCtrl.create({
-      title: 'Are you sure?',
-      subTitle: 'This will clear all downloaded images and data.',
-      buttons: [
-        {
-          text: 'Cancel',
-          role: 'cancel',
-          handler: () => {
-            console.log('Cancel clicked');
-          }
-        },
-        {
-          text: 'Proceed',
-          handler: () => {
-            //clear all images and data (not orders or drafts)
-            //this.data.presentLoadingCustom();         
-            this.storage.clear().then(() =>{
-              //resave user profile
-              this.data.saveUser(this.values.user_profile);         
-              this.data.addDownlog('Remove All','',0,'',0); 
-              this.data.getDownloads().then(() =>{
-                //this.data.loading.dismiss()
-                //this.data.loading.dismiss().catch((err) => {console.log('Problem with spinner:'+err)});
-                //this.data.getLog();
-              }); 
-            })                            
-          }
+    clearCache() {
+        console.log('Clear Cache Clicked');
+        let alert = this.alertCtrl.create({
+            title: 'Are you sure?',
+            subTitle: 'This will clear all downloaded images and data.',
+            buttons: [
+                {
+                    text: 'Cancel',
+                    role: 'cancel',
+                    handler: () => {
+                        console.log('Cancel clicked');
+                    }
+                },
+                {
+                    text: 'Proceed',
+                    handler: () => {
+                        //clear all images and data (not orders or drafts)
+                        //this.data.presentLoadingCustom();         
+                        this.storage.clear().then(() => {
+                            //resave user profile
+                            this.data.saveUser(this.values.user_profile);
+                            this.data.addDownlog('Remove All', '', 0, '', 0);
+                            this.data.getDownloads().then(() => {
+                                //this.data.loading.dismiss()
+                                //this.data.loading.dismiss().catch((err) => {console.log('Problem with spinner:'+err)});
+                                //this.data.getLog();
+                            });
+                        })
+                    }
+                }
+            ]
+        });
+        alert.present();
+    }
+
+    ionViewDidLoad() {
+        console.log('ionViewDidLoad CachePage');
+        console.log("//-------  this.values.downloadedCollections ------//");
+        console.log(this.values.downloadedCollections);
+        console.log("//-------  this.values.collections  --------//");
+        console.log(this.values.collections);
+        console.log("//-------  this.values.collection_checkpoint  --------//");
+        console.log(this.values.collection_checkpoint);
+        console.log("//-------  this.values.designer_checkpoint  --------//");
+        console.log(this.values.designer_checkpoint);
+    }
+
+    downloadManager(collection_id, designer_id, designer, collection, mode) {
+        if (mode != 3) {
+            if (!this.values.online) {
+                this.data.offlineManager();
+                return false;
+            };
         }
-      ]
-    });
-    alert.present();      
-  }
+        //let record_id = 'collections_'+designer_id;
+        console.log('Getting collections for designer:' + designer_id)
+        this.data.getCollections(designer_id, this.values.device_token, this.values.user_profile.user_token, 0).then(response => {
+            console.log('Got collections for designer')
+            console.log(response);
+            this.values.collections = response;
+            if (mode != 3) {
+                if (this.values.user_profile.forcecache) {
+                    mode = 5
+                }
+                else {
+                    mode = 4
+                }
+            }
+            let popover = this.popoverController.create(this.viewloaderPage, {
+                collection_id: collection_id, designer_id: designer_id,
+                mode: mode, source: 'cache'
+            });
+            popover.present();
+            if (this.values.designer == undefined) {
+                if ((designer_id > 0) && (this.values.designers)) {
+                    let abort = false;
+                    for (let i = 0, len = this.values.designers.length; i < len && !abort; i++) {
+                        if (this.values.designers[i].seller_account_id == designer_id) {
+                            this.values.designer = this.values.designers[i];
+                            abort = true;
+                        }
+                    }
+                }
+            }
+            this.data.cacheCollection(collection_id, designer_id, designer, collection, mode);
+        });
+    }
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad CachePage');
-    console.log("//-------  this.values.downloadedCollections ------//");
-    console.log(this.values.downloadedCollections);
-    console.log("//-------  this.values.collections  --------//");
-    console.log(this.values.collections);
-    console.log("//-------  this.values.collection_checkpoint  --------//");
-    console.log(this.values.collection_checkpoint);
-    console.log("//-------  this.values.designer_checkpoint  --------//");
-    console.log(this.values.designer_checkpoint);
-  }
+    openPage(page): void {
+        this.navCtrl.push(page);
+    }
 
-  downloadManager(collection_id, designer_id, designer, collection, mode){
-     if(mode!=3){ 
-      if(!this.values.online){
-        this.data.offlineManager();
-        return false;
-      };  
-     }
-      //let record_id = 'collections_'+designer_id;
-      console.log('Getting collections for designer:'+designer_id)
-      this.data.getCollections(designer_id, this.values.device_token, this.values.user_profile.user_token, 0).then(response => {
-        console.log('Got collections for designer')
-        console.log(response);
-        this.values.collections = response;
-        if(mode!=3){
-          if(this.values.user_profile.forcecache){
-            mode=5
-          }
-          else
-          {
-            mode=4
-          }
-        }
-        let popover = this.popoverController.create(this.viewloaderPage, {collection_id:collection_id, designer_id:designer_id,
-          mode:mode, source:'cache'});
-        popover.present();
-        if(this.values.designer == undefined) {
-          if ((designer_id>0)&&(this.values.designers)){
-            let abort = false;
-            for (let i = 0, len = this.values.designers.length; i < len && !abort; i++) {
-              if (this.values.designers[i].seller_account_id == designer_id) {
-                this.values.designer = this.values.designers[i];
-                abort = true;
-              }
-            }   
-          } 
-        }
-        this.data.cacheCollection(collection_id, designer_id, designer, collection, mode);  
-     });
-  }
-
-  openPage(page): void {
-    this.navCtrl.push(page);
-  }
-
-  popView(){
-    this.navCtrl.pop();
-  }
+    popView() {
+        this.navCtrl.pop();
+    }
 
 
 }

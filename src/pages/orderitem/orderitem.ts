@@ -8,15 +8,15 @@ import { NavController, NavParams } from 'ionic-angular';
   Ionic pages and navigation.
 */
 @Component({
-  selector: 'page-orderitem',
-  templateUrl: 'orderitem.html'
+    selector: 'page-orderitem',
+    templateUrl: 'orderitem.html'
 })
 export class OrderitemPage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {}
+    constructor(public navCtrl: NavController, public navParams: NavParams) { }
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad OrderitemPage');
-  }
+    ionViewDidLoad() {
+        console.log('ionViewDidLoad OrderitemPage');
+    }
 
 }

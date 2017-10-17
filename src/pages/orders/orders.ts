@@ -18,137 +18,137 @@ import { InAppBrowser } from '@ionic-native/in-app-browser'
 declare var cordova: any;
 
 @Component({
-  selector: 'page-orders',
-  templateUrl: 'orders.html'
+    selector: 'page-orders',
+    templateUrl: 'orders.html'
 })
 export class OrdersPage {
 
-  uiState:any; 
-  vieworderPage = ViewOrderPage;
+    uiState: any;
+    vieworderPage = ViewOrderPage;
 
-  constructor(public cartProvider: CartProvider, public values: Values,public navCtrl: NavController, public navParams: NavParams, public data: Data, private alertCtrl: AlertController, private platform: Platform, private iab: InAppBrowser) {
-    platform.ready().then(() => {
-      // If we run this in the browser without this if statement we get an error
-      if (typeof cordova !== 'undefined') {
-        // Open the InAppBrowser Cordova plugin
-        // const browser = cordova.InAppBrowser.open('https://ionic.io');
-        // Add the event listener to the InAppBrowser instance
-        //browser.addEventListener('loadstart', function(){
-        //  console.log('loadstart!');
-        //});
-      }
-    });
-  }
+    constructor(public cartProvider: CartProvider, public values: Values, public navCtrl: NavController, public navParams: NavParams, public data: Data, private alertCtrl: AlertController, private platform: Platform, private iab: InAppBrowser) {
+        platform.ready().then(() => {
+            // If we run this in the browser without this if statement we get an error
+            if (typeof cordova !== 'undefined') {
+                // Open the InAppBrowser Cordova plugin
+                // const browser = cordova.InAppBrowser.open('https://ionic.io');
+                // Add the event listener to the InAppBrowser instance
+                //browser.addEventListener('loadstart', function(){
+                //  console.log('loadstart!');
+                //});
+            }
+        });
+    }
 
-  
-  ngOnInit(){
-    console.log('OrdersPage');
-    
-    this.data.getAllDraftOrders(this.values.user_profile.buyer_id,this.values.user_profile.masquarade_id);
-    this.data.getAllOrders(this.values.user_profile.buyer_id,this.values.user_profile.masquarade_id);
-    this.uiState = this.navParams.get("uistate")
-    if (this.uiState=='final'){this.uiState='requested';}
-    if (typeof(this.uiState) == "undefined"){this.uiState = 'draft';}
-    console.log('Init:'+this.uiState)
-  }
 
-  uiChange(newstate){
-    this.uiState = newstate;
-  }
+    ngOnInit() {
+        console.log('OrdersPage');
 
-  removeDraft(draft_id){
-    console.log('Remove Clicked');
-    let alert = this.alertCtrl.create({
-      title: 'Are you sure you want to remove this Draft Order?',
-      subTitle: 'Removing this order will delete it.',
-      buttons: [
-        {
-          text: 'Cancel',
-          role: 'cancel',
-          handler: () => {
-            console.log('Cancel clicked');
-          }
-        },
-        {
-          text: 'Remove',
-          handler: () => {
-            this.data.getDraftOrder(draft_id).then(data => {
-              this.data.deleteDraftOrder(data);
-              this.data.getAllDraftOrders(this.values.user_profile.buyer_id,this.values.user_profile.masquarade_id);
-              console.log('Removed order part:'+draft_id);
-            });
-          }
-        }
-      ]
-    });
-    alert.present();   
-  }
+        this.data.getAllDraftOrders(this.values.user_profile.buyer_id, this.values.user_profile.masquarade_id);
+        this.data.getAllOrders(this.values.user_profile.buyer_id, this.values.user_profile.masquarade_id);
+        this.uiState = this.navParams.get("uistate")
+        if (this.uiState == 'final') { this.uiState = 'requested'; }
+        if (typeof (this.uiState) == "undefined") { this.uiState = 'draft'; }
+        console.log('Init:' + this.uiState)
+    }
 
-  viewOrder(order_id){
-    console.log('View Clicked');
-    this.cartProvider.emptyView();
-    console.log('View:'+order_id);
-    this.data.getOrder(order_id).then(data => {
-      let orderPart = data;
-      console.log('Order Part:'+JSON.stringify(orderPart));
-      console.log('Cart:'+JSON.stringify(this.values.vieworder));
-      this.values.vieworder.request.order[0].sales_order_parts.push(orderPart);
-      //pull totals into order header here
-      this.values.vieworder.request.order[0].total_qty = this.values.vieworder.request.order[0].sales_order_parts[0].total_qty;
-      //region_currency?
-      console.log(JSON.stringify(this.values.vieworder))
-      this.navCtrl.push(ViewOrderPage);
-    });
-  }
+    uiChange(newstate) {
+        this.uiState = newstate;
+    }
 
-  webViewOrder(id){
-    const browser = this.iab.create(this.values.APIRoot + '/ordres/detail/'+id, '_blank');
-    browser.show();
-    //console.log('View linked to:'+this.values.APIRoot + '/ordres/detail/'+id)
-  }
+    removeDraft(draft_id) {
+        console.log('Remove Clicked');
+        let alert = this.alertCtrl.create({
+            title: 'Are you sure you want to remove this Draft Order?',
+            subTitle: 'Removing this order will delete it.',
+            buttons: [
+                {
+                    text: 'Cancel',
+                    role: 'cancel',
+                    handler: () => {
+                        console.log('Cancel clicked');
+                    }
+                },
+                {
+                    text: 'Remove',
+                    handler: () => {
+                        this.data.getDraftOrder(draft_id).then(data => {
+                            this.data.deleteDraftOrder(data);
+                            this.data.getAllDraftOrders(this.values.user_profile.buyer_id, this.values.user_profile.masquarade_id);
+                            console.log('Removed order part:' + draft_id);
+                        });
+                    }
+                }
+            ]
+        });
+        alert.present();
+    }
 
-  restoreDraft(draft_id){
-    console.log('Restore Clicked');
-    let alert = this.alertCtrl.create({
-      title: 'Are you sure you wish to restore this Order?',
-      subTitle: 'This will replace your Final Edit.',
-      buttons: [
-        {
-          text: 'Cancel',
-          role: 'cancel',
-          handler: () => {
-            console.log('Cancel clicked');
-          }
-        },
-        {
-          text: 'Proceed',
-          handler: () => {
-            console.log('Restore:'+draft_id);
-            this.cartProvider.emptyOrder();
-            this.data.getDraftOrder(draft_id).then(data => {
-              let orderPart = data;
-              console.log(JSON.stringify(orderPart));
-              this.values.cart.request.order[0].sales_order_parts.push(orderPart);
-              //pull totals into order header here
-              this.values.cart.request.device_token = this.values.user_profile.device_token;
-              this.values.cart.request.user_token = this.values.user_profile.user_token;
-              this.values.cart.request.order[0].total_qty = this.values.cart.request.order[0].sales_order_parts[0].total_qty;
-              this.values.cart.request.order[0].user_id = this.values.user_profile.user_id;
-              this.values.cart.request.order[0].buyer_id = this.values.user_profile.buyer_id;
-              this.data.deleteDraftOrder(data);
-              this.data.getAllDraftOrders(this.values.user_profile.buyer_id,this.values.user_profile.masquarade_id);
-              //region_currency?
-              //console.log(JSON.stringify(this.values.cart))
-              this.navCtrl.push(CartPage);  
-            })
-          }
-        }
-      ]
-    });
-    alert.present();  
-  }
+    viewOrder(order_id) {
+        console.log('View Clicked');
+        this.cartProvider.emptyView();
+        console.log('View:' + order_id);
+        this.data.getOrder(order_id).then(data => {
+            let orderPart = data;
+            console.log('Order Part:' + JSON.stringify(orderPart));
+            console.log('Cart:' + JSON.stringify(this.values.vieworder));
+            this.values.vieworder.request.order[0].sales_order_parts.push(orderPart);
+            //pull totals into order header here
+            this.values.vieworder.request.order[0].total_qty = this.values.vieworder.request.order[0].sales_order_parts[0].total_qty;
+            //region_currency?
+            console.log(JSON.stringify(this.values.vieworder))
+            this.navCtrl.push(ViewOrderPage);
+        });
+    }
 
-  popView(){
-    this.navCtrl.pop();
-  }
+    webViewOrder(id) {
+        const browser = this.iab.create(this.values.APIRoot + '/ordres/detail/' + id, '_blank');
+        browser.show();
+        //console.log('View linked to:'+this.values.APIRoot + '/ordres/detail/'+id)
+    }
+
+    restoreDraft(draft_id) {
+        console.log('Restore Clicked');
+        let alert = this.alertCtrl.create({
+            title: 'Are you sure you wish to restore this Order?',
+            subTitle: 'This will replace your Final Edit.',
+            buttons: [
+                {
+                    text: 'Cancel',
+                    role: 'cancel',
+                    handler: () => {
+                        console.log('Cancel clicked');
+                    }
+                },
+                {
+                    text: 'Proceed',
+                    handler: () => {
+                        console.log('Restore:' + draft_id);
+                        this.cartProvider.emptyOrder();
+                        this.data.getDraftOrder(draft_id).then(data => {
+                            let orderPart = data;
+                            console.log(JSON.stringify(orderPart));
+                            this.values.cart.request.order[0].sales_order_parts.push(orderPart);
+                            //pull totals into order header here
+                            this.values.cart.request.device_token = this.values.user_profile.device_token;
+                            this.values.cart.request.user_token = this.values.user_profile.user_token;
+                            this.values.cart.request.order[0].total_qty = this.values.cart.request.order[0].sales_order_parts[0].total_qty;
+                            this.values.cart.request.order[0].user_id = this.values.user_profile.user_id;
+                            this.values.cart.request.order[0].buyer_id = this.values.user_profile.buyer_id;
+                            this.data.deleteDraftOrder(data);
+                            this.data.getAllDraftOrders(this.values.user_profile.buyer_id, this.values.user_profile.masquarade_id);
+                            //region_currency?
+                            //console.log(JSON.stringify(this.values.cart))
+                            this.navCtrl.push(CartPage);
+                        })
+                    }
+                }
+            ]
+        });
+        alert.present();
+    }
+
+    popView() {
+        this.navCtrl.pop();
+    }
 }

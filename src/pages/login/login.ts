@@ -93,36 +93,43 @@ export class LoginPage {
         }
         else {
             if (this.loggingin == true) { return; }
+            this.values.isHeavyLoad = true;
             this.data.createLoader();
-            this.data.presentLoadingSpiner();
-            this.loggingin = true;
-            console.log('Form Post: Login');
+            //this.data.presentLoadingSpiner();
+            this.data.presentLoadingSpinerSec().then(() => {
+                this.values.onescreen_total_imgages_num = 3;
+                this.values.onescreen_image_index = 0;
 
-            let logindata = this.loginForm.value;
-            console.log('Credentials:' + JSON.stringify(logindata));
-            this.data.login(logindata, this.values.device_token).then((response) => {
-                console.log('Full Response:' + JSON.stringify(response));
+                this.loggingin = true;
+                console.log('Form Post: Login');
 
-                //set user profile
-                this.values.user_profile = response;
-                let currentDate = new Date();
-                this.values.user_profile.masquerade_id = 0;  //whenmasquarading, user id of masquerader
-                this.values.user_profile.forcecache = 0;  //don't force update images when recaching
+                let logindata = this.loginForm.value;
+                console.log('Credentials:' + JSON.stringify(logindata));
+                this.data.login(logindata, this.values.device_token).then((response) => {
+                    console.log('Full Response:' + JSON.stringify(response));
 
-                if (this.values.user_profile.status == 'ok') {
-                    this.logUserIn();
-                }
-                else {
-                    this.data.dismissLoadingSpiner();
-                    this.loggingin = false;
-                    let alert = this.alertCtrl.create({
-                        title: this.values.user_profile.title,
-                        subTitle: this.values.user_profile.subTitle,
-                        buttons: ['Dismiss']
-                    });
-                    alert.present();
-                }
+                    //set user profile
+                    this.values.user_profile = response;
+                    let currentDate = new Date();
+                    this.values.user_profile.masquerade_id = 0;  //whenmasquarading, user id of masquerader
+                    this.values.user_profile.forcecache = 0;  //don't force update images when recaching
+
+                    if (this.values.user_profile.status == 'ok') {
+                        this.logUserIn();
+                    }
+                    else {
+                        this.data.dismissLoadingSpiner();
+                        this.loggingin = false;
+                        let alert = this.alertCtrl.create({
+                            title: this.values.user_profile.title,
+                            subTitle: this.values.user_profile.subTitle,
+                            buttons: ['Dismiss']
+                        });
+                        alert.present();
+                    }
+                });
             });
+            
         }
     }
 
@@ -139,6 +146,7 @@ export class LoginPage {
             //  iterate through to find this one
             this.data.getDesigners(this.values.device_token, this.values.user_profile.user_token, 0).then((response) => {
                 this.designers = response;
+                this.values.onescreen_total_imgages_num = this.designers.length;
                 let abort = false;
                 for (let i = 0, len = this.designers.length; i < len && !abort; i++) {
                     if (this.designers[i].seller_account_id == this.values.user_profile.seller_account_id) {
@@ -161,6 +169,12 @@ export class LoginPage {
                     };
                     this.values.products = null;
                     this.data.getProduct(this.data.currentCollectionID, this.values.device_token, this.values.user_profile.user_token, 0, 0).then(data => {
+                        if (this.values.products.length < 9) {
+                            this.values.onescreen_total_imgages_num = this.values.products.length * 2;
+                        }
+                        else {
+                            this.values.onescreen_total_imgages_num = 18;
+                        }
                         this.data.consolelog('Set products from download after init')
                         this.data.consolelog('Got product JSON:' + this.data.currentCollectionID)
                         this.navCtrl.push(CollectionPage, { designer: this.values.designer, mode: '' });
