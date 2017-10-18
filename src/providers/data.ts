@@ -745,6 +745,16 @@ export class Data {
             this.values.cacheIndex = this.values.cacheIndex - 1;
             //this.values.numOfProdutTotalImages = this.values.numOfProdutTotalImages + 1;
         }
+        this.values.pIndexCheckPoint = Date.now();
+        setTimeout(() => {
+            let currentCheckPoint = Date.now();
+            if (currentCheckPoint - this.values.pIndexCheckPoint >= 7000) {
+                if (!this.values.online) {
+                    this.offlineManager();
+                    return false;
+                };
+            }
+        }, 7000);
         this.countProdutTotalImages(this.values.cacheProducts[this.values.pIndex], this.values.force);
         this.productCache(this.values.cacheProducts[this.values.pIndex], this.values.force);
     }
@@ -893,7 +903,7 @@ export class Data {
                         if (this.values.pIndex >= this.values.cacheProducts.length || this.values.cancel == true) {
                             if (this.values.cancel == false) {
                                 if (this.c_mode == 3) {
-                                    this.delCindex(this.c_collection_title, this.c_collection_id, this.c_designer_title, this.c_designer_id)
+                                    this.delCindex(this.c_collection_title, this.c_collection_id, this.c_designer_title, this.c_designer_id);
                                 }
                                 else {
                                     if (this.c_mode > 0) {
@@ -903,8 +913,19 @@ export class Data {
                             }
                             this.values.pIndex = 0;
                             this.values.cancel = false;
+                            this.values.pIndexCheckPoint = Date.now();
                         }
                         else {
+                            this.values.pIndexCheckPoint = Date.now();
+                            setTimeout(() => {
+                                let currentCheckPoint = Date.now();
+                                if (currentCheckPoint - this.values.pIndexCheckPoint >= 7000) {
+                                    if (!this.values.online) {
+                                        this.offlineManager();
+                                        return false;
+                                    };
+                                }
+                            }, 7000);
                             this.countProdutTotalImages(this.values.cacheProducts[this.values.pIndex], this.values.force);
                             this.productCache(this.values.cacheProducts[this.values.pIndex], this.values.force);
                         }
@@ -949,18 +970,29 @@ export class Data {
                         }
                         this.values.pIndex = 0;
                         this.values.cancel = false;
+                        this.values.pIndexCheckPoint = Date.now();
                     }
                     else {
+                        this.values.pIndexCheckPoint = Date.now();
+                        setTimeout(() => {
+                            let currentCheckPoint = Date.now();
+                            if (currentCheckPoint - this.values.pIndexCheckPoint >= 7000) {
+                                if (!this.values.online) {
+                                    this.offlineManager();
+                                    return false;
+                                };
+                            }
+                        }, 7000);
                         this.countProdutTotalImages(this.values.cacheProducts[this.values.pIndex], this.values.force);
                         this.productCache(this.values.cacheProducts[this.values.pIndex], this.values.force);
                     }
                 }
             }
             else {
-                if (!this.values.online) {
-                    this.offlineManager();
-                    return false;
-                };
+                // if (!this.values.online) {
+                //     this.offlineManager();
+                //     return false;
+                // };
                 //this.consolelog('Need to get and store:'+url);
                 this.putImage(url).then(() => {
                     this.values.downloadQueue = this.values.downloadQueue - 1;
@@ -990,8 +1022,19 @@ export class Data {
                             }
                             this.values.pIndex = 0;
                             this.values.cancel = false;
+                            this.values.pIndexCheckPoint = Date.now();
                         }
                         else {
+                            this.values.pIndexCheckPoint = Date.now();
+                            setTimeout(() => {
+                                let currentCheckPoint = Date.now();
+                                if (currentCheckPoint - this.values.pIndexCheckPoint >= 7000) {
+                                    if (!this.values.online) {
+                                        this.offlineManager();
+                                        return false;
+                                    };
+                                }
+                            }, 7000);
                             this.countProdutTotalImages(this.values.cacheProducts[this.values.pIndex], this.values.force);
                             this.productCache(this.values.cacheProducts[this.values.pIndex], this.values.force);
                         }

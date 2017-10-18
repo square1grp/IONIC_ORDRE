@@ -51,6 +51,7 @@ export class Values {
     force: any;
     pIndex: number = 0;
     cacheIndex: number = 0;
+    pIndexCheckPoint: any;
 
     spinnerCheckPoint: any;
     //  the total number of the imaged in first screen.
