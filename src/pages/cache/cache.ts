@@ -32,15 +32,8 @@ export class CachePage {
         //this.data.presentLoadingCustom();
         this.data.getDownloads().then(() => {
             this.data.getLog();
-            //this.data.loading.dismiss().catch((err) => {console.log('Problem with spinner:'+err)});
-            console.log("//-------  getDownloads() => this.values.downloadedCollections ------//");
-            console.log(this.values.downloadedCollections);
-            console.log("//-------  getDownloads() => this.values.collections  --------//");
-            console.log(this.values.collections);
 
             this.data.addIsOpenedProp();
-            console.log("//----- this.values.downloadedCollections ------//");
-            console.log(this.values.downloadedCollections);
         });
     }
 
@@ -70,15 +63,11 @@ export class CachePage {
                     text: 'Proceed',
                     handler: () => {
                         //clear all images and data (not orders or drafts)
-                        //this.data.presentLoadingCustom();         
                         this.storage.clear().then(() => {
                             //resave user profile
                             this.data.saveUser(this.values.user_profile);
                             this.data.addDownlog('Remove All', '', 0, '', 0);
                             this.data.getDownloads().then(() => {
-                                //this.data.loading.dismiss()
-                                //this.data.loading.dismiss().catch((err) => {console.log('Problem with spinner:'+err)});
-                                //this.data.getLog();
                             });
                         })
                     }
@@ -89,15 +78,6 @@ export class CachePage {
     }
 
     ionViewDidLoad() {
-        console.log('ionViewDidLoad CachePage');
-        console.log("//-------  this.values.downloadedCollections ------//");
-        console.log(this.values.downloadedCollections);
-        console.log("//-------  this.values.collections  --------//");
-        console.log(this.values.collections);
-        console.log("//-------  this.values.collection_checkpoint  --------//");
-        console.log(this.values.collection_checkpoint);
-        console.log("//-------  this.values.designer_checkpoint  --------//");
-        console.log(this.values.designer_checkpoint);
     }
 
     downloadManager(collection_id, designer_id, designer, collection, mode) {
@@ -110,8 +90,6 @@ export class CachePage {
         //let record_id = 'collections_'+designer_id;
         console.log('Getting collections for designer:' + designer_id)
         this.data.getCollections(designer_id, this.values.device_token, this.values.user_profile.user_token, 0).then(response => {
-            console.log('Got collections for designer')
-            console.log(response);
             this.values.collections = response;
             if (mode != 3) {
                 if (this.values.user_profile.forcecache) {
@@ -148,6 +126,5 @@ export class CachePage {
     popView() {
         this.navCtrl.pop();
     }
-
 
 }

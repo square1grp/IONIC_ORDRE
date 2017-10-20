@@ -30,7 +30,7 @@ import { Data } from '../providers/data';
 import { CartProvider } from '../providers/cart';
 import { Values } from '../providers/values';
 import { OrdreImageCache } from '../providers/image-cache';
-import { IonicStorageModule } from '@ionic/storage'
+import { IonicStorageModule } from '@ionic/storage';
 import { File } from '@ionic-native/file';
 import { Network } from '@ionic-native/network';
 

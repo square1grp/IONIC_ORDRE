@@ -1561,11 +1561,11 @@ export class Data {
                 if (this.values.isHeavyLoad == true) {
                     setTimeout(() => {
                         let currentCheckPoint = Date.now();
-                        if (this.loadingState == true && currentCheckPoint - this.values.spinnerCheckPoint >= 40000) {
+                        if (this.loadingState == true && currentCheckPoint - this.values.spinnerCheckPoint >= 35000) {
                             this.dismissLoadingSpiner();
                             let alert = this.alertCtrl.create({
-                                title: 'WARNING: Network Connect Error',
-                                subTitle: 'Your Network State is too bad. Please check your Network connect state.',
+                                title: 'WARNING: Internet connect problem.',
+                                subTitle: 'Please check your internet connectivity and try again.',
                                 buttons: [
                                     {
                                         text: 'OK',
@@ -1577,7 +1577,7 @@ export class Data {
                             });
                             alert.present();
                         }
-                    }, 40000);
+                    }, 35000);
                     this.values.isHeavyLoad = false;
                 }
                 else {
@@ -1586,8 +1586,8 @@ export class Data {
                         if (this.loadingState == true && currentCheckPoint - this.values.spinnerCheckPoint >= 20000) {
                             this.dismissLoadingSpiner();
                             let alert = this.alertCtrl.create({
-                                title: 'WARNING: Downloading is too Slow.',
-                                subTitle: 'Download are timeout. Please try again.',
+                                title: 'WARNING: Internet connect problem.',
+                                subTitle: 'Please check your internet connectivity and try again.',
                                 buttons: [
                                     {
                                         text: 'OK',
