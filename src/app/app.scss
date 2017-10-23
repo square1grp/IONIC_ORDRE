@@ -731,13 +731,20 @@ section.page_content:after {
 	text-transform:uppercase;
 	font-size:18px;
 	font-family:'Avenir Book';
-	line-height:1;
 	position:relative;
 	top:50%;
 	-webkit-transform:translateY(-50%);
 	transform:translateY(-50%);
-	overflow-x:hidden;
-	max-width:75%;
+    text-align: left;
+}
+
+.content_sorter .collection_title span {
+    margin-top: 10px;
+	display: inline-block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 100%;
 }
 
 .ordre_subheader .content_sorter {
@@ -3827,7 +3834,7 @@ page-cart div.scroll_content {
 }
 
 #orders_content table tr th {
-	padding:20px 0 10px 0;
+	padding:20px 10px 10px 0;
 	color:#9b9b9b;
 	text-transform:uppercase;
 	font-family:'Avenir Light';
@@ -3840,7 +3847,7 @@ page-cart div.scroll_content {
 }
 
 #orders_content table tr td {
-	padding:22px 0;
+	padding:20px 10px 20px 0;
 	font-size:16px;
 	font-family:'Avenir Medium';
 }
@@ -3854,6 +3861,10 @@ page-cart div.scroll_content {
 	font-family:'Avenir Heavy';
 	font-size:16px;
 	color:#000000;
+    max-width: 193px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 #orders_content table tr td button.remove_ordre {
@@ -3893,6 +3904,7 @@ page-cart div.scroll_content {
 
 #orders_content table tr td.actions {
 	text-align:right;
+    padding-right: 0px;
 }
 
 #orders_content table tr td button.view_ordre {
@@ -5049,6 +5061,12 @@ div.popover-viewport {
 	.open_bar #settings_section #settings_content {
 		height:1262px;
 	}
+    .content_sorter .collection_title {
+        max-width: 57%;
+    }
+    #orders_content table tr td.des_name {
+        max-width: 235px;
+    }
 }
 @media only screen and (min-width: 1025px) and (orientation: portrait) {
 	div.product_preview_image {
@@ -5072,6 +5090,12 @@ div.popover-viewport {
 	.open_bar #settings_section #settings_content {
 		height:1820px;
 	}
+    .content_sorter .collection_title {
+        max-width: 68%;
+    }
+    #orders_content table tr td.des_name {
+        max-width: 330px;
+    }
 }
 @media only screen and (min-width: 1025px) and (max-width: 1365px) and (orientation: landscape) {
 	div.product_preview_image {
@@ -5090,6 +5114,12 @@ div.popover-viewport {
 	.open_bar #settings_section #settings_content {
 		height:997px;
 	}
+    .content_sorter .collection_title {
+        max-width: 68%;
+    }
+    #orders_content table tr td.des_name {
+        max-width: 330px;
+    }
 }
 @media only screen and (min-width: 1366px) and (orientation: landscape) {
 	div.product_preview_image {
@@ -5108,6 +5138,12 @@ div.popover-viewport {
 	.open_bar #settings_section #settings_content {
 		height:1260px;
 	}
+    .content_sorter .collection_title {
+        max-width: 76%;
+    }
+    #orders_content table tr td.des_name {
+        max-width: 430px;
+    }
 }
 /*  ********** END style.css **********  */
 

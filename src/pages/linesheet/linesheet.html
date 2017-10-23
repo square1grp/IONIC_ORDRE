@@ -6,7 +6,7 @@
     <!--span class="toogle_menu" [ngClass]="{'col-md-2': navOpen, '': !navOpen}" (click)="navOpen=!navOpen">|||</span-->
   </div>
   <div class="content_sorter" [ngClass]="{'col-md-6': navOpen, 'col-md-8': !navOpen}">
-    <div class="collection_title" [innerHTML]="values.designer.title"></div>
+    <div class="collection_title"><span [innerHTML]="values.designer.title"></span></div>
     <ng-container *ngIf="data.selectedCollection?.hasOwnProperty('offline')">
       <a *ngIf="(data.selectedCollection?.offline=='Downloaded')" class="sorter_item download_button downloaded" 
         (click)="this.downloadManager(data.currentCollectionID, this.values.designer.seller_account_id,this.values.designer.title,
