@@ -7,6 +7,7 @@ import { Data } from '../../providers/data';
 import { Values } from '../../providers/values';
 import { CartProvider } from '../../providers/cart';
 import { ViewloaderPage } from '../viewloader/viewloader'
+import * as Constants from '../../providers/constants'
 
 @Component({
     selector: 'page-collection',
@@ -84,11 +85,12 @@ export class CollectionPage {
             this.values.lsproducts = this.values.products;
         }
         this.search();
-        console.log("======= products start =======");
-        console.log(this.values.products);
-        console.log("======= products end =======");
+        this.data.consoleLog("this.values.products", this.values.products);
     }
 
+    ionViewDidLoad() {
+        this.data.activityLogPost(Constants.LOG_VIEWED_COLLECTION, this.values.designer.seller_account_id, this.data.designer.currentCollectionID, '', '');
+    }
     search() {
         console.log('Search enabled');
         this.searchControl.valueChanges.debounceTime(1000).distinctUntilChanged().subscribe(searchString => {
@@ -177,6 +179,7 @@ export class CollectionPage {
                         designer_title, designer_id, product_id, variant.variant_id, variant.sizes[0].size_title,
                         variant.sizes[0].variant_size_id, type, 0, price, variant.sizes[0].sku);
                 });
+                this.data.activityLogPost(Constants.LOG_ADD_TO_RANGINGROOM, designer_id, this.data.selectedCollection.collection_id, product_id, 'all');
             }
         }
         //this.setItemQty();
@@ -229,6 +232,7 @@ export class CollectionPage {
             this.data.getProduct(collection_id, this.values.device_token, this.values.user_profile.user_token, 0, 0).then((data) => {
                 this.firstItem = 0;
                 this.addItemsToGrid('', 0);
+                this.data.activityLogPost(Constants.LOG_VIEWED_COLLECTION, this.values.designer.seller_account_id, collection_id, '', '');
             });
         });
     }

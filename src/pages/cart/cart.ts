@@ -7,6 +7,8 @@ import { OrdersPage } from '../orders/orders';
 import { DesignersPage } from '../designers/designers';
 import { CollectionPage } from '../collection/collection';
 import { Keyboard } from '@ionic-native/keyboard';
+import * as Constants from '../../providers/constants'
+
 /*
   Generated class for the Cart page.
 
@@ -207,12 +209,16 @@ export class CartPage {
         console.log('Clear line variant id:' + variant_id);
         this.cartProvider.clearItem(order_part, product_id, keepit, variant_id);
         this.setItemQty();
+
+        this.data.activityLogPost(Constants.LOG_REMOVE_FROM_RANGINGROOM, this.values.cart.request.order[0].sales_order_parts[order_part].seller_account_id, '', product_id, variant_id);
     }
 
     clearDesigner(order_part) {
         console.log("========  clear designer ======");
         console.log('Clear designer:' + order_part);
         this.cartProvider.clearItem(order_part, 0, 0, 0);
+
+        this.data.activityLogPost(Constants.LOG_REMOVE_FROM_RANGINGROOM, this.values.cart.request.order[0].sales_order_parts[order_part].seller_account_id, 'all', 'all', 'all');
     }
 
     clearOrder() {
@@ -233,6 +239,8 @@ export class CartPage {
                     text: 'OK',
                     handler: () => {
                         this.cartProvider.emptyOrder();
+
+                        this.data.activityLogPost(Constants.LOG_REMOVE_FROM_RANGINGROOM, 'all', 'all', 'all', 'all');
                         // let toast = this.toastCtrl.create({
                         //   message: "Your Order has been cleared.",
                         //   duration: 3000,
@@ -243,9 +251,9 @@ export class CartPage {
                         console.log('/----Clear Order----/');
                         console.log('/----user_profile.seller_account_id----/');
                         console.log(this.values.user_profile.seller_account_id);
-                        console.log('/----user_profile.masquarade_id----/');
-                        console.log(this.values.user_profile.masquarade_id);
-                        if (this.values.user_profile.seller_account_id > 0 || this.values.user_profile.masquarade_id > 0) {
+                        console.log('/----user_profile.masquerade_id----/');
+                        console.log(this.values.user_profile.masquerade_id);
+                        if (this.values.user_profile.seller_account_id > 0 || this.values.user_profile.masquerade_id > 0) {
                             this.navCtrl.setRoot(CollectionPage, { designer: this.values.designer });
                         }
                         else {
@@ -326,6 +334,7 @@ export class CartPage {
                 this.cartProvider.emptyOrder();
                 this.submitting = false;
                 this.navCtrl.setRoot(OrdersPage, { uistate: mode });
+                this.data.activityLogPost(Constants.LOG_ORDER_REQUESTED, '', '', '', '');
             }
         });
     }
@@ -400,7 +409,7 @@ export class CartPage {
             //console.log('Retrieved:'+JSON.stringify(orderPart));
         });
 
-        this.data.getAllDraftOrders(this.values.user_profile.buyer_id, this.values.user_profile.masquarade_id);
+        this.data.getAllDraftOrders(this.values.user_profile.buyer_id, this.values.user_profile.masquerade_id);
 
         //this.navCtrl.setPage(OrdersPage);
         if (ui == 'draft') {
@@ -410,6 +419,7 @@ export class CartPage {
                 buttons: ['Dismiss']
             });
             alert.present();
+            this.data.activityLogPost(Constants.LOG_ORDER_DRAFT_SAVED, '', '', '', '');
         }
         else {
             let alert = this.alertCtrl.create({

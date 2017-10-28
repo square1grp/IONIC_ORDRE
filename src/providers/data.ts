@@ -1212,9 +1212,7 @@ export class Data {
             console.log(designer_id);
             this.getCollections(designer_id, device_token, user_token, 0).then(response => {
                 this.values.collections = response;
-                //this.consolelog('Values.Collections:'+JSON.stringify(this.values.collections))
-                this.consolelog('Got Collections... ');
-                console.log(this.values.collections);
+                this.consoleLog('this.values.collections', this.values.collections);
                 if (this.values.hasOwnProperty('collections')) {
                     //current collection ID
                     this.currentCollectionID = this.setThisCollection();
@@ -1222,7 +1220,6 @@ export class Data {
 
                     this.selectedCollection = this.filterCollections(this.currentCollectionID)[0];
                 }
-                //this.consolelog('Getting Products for:'+designer_id);
                 resolve(response);
             }).catch(function (err) {
                 reject(err);
@@ -1466,49 +1463,91 @@ export class Data {
         //set currency string  
     }
 
+    //activity logs process functions
+    initActivityLogs() {
+        this.storage.get('activity_logs').then((response) => {
+            if (response != null) {
+                this.values.activity_logs = {
+                    "action": "post_log",
+                    "request": {
+                        "device_token": this.values.user_profile.device_token,
+                        "user_token": this.values.user_profile.user_token,
+                        "log": response
+                    }
+                };
+            }
+            else {
+                this.values.activity_logs = {
+                    "action": "post_log",
+                    "request": {
+                        "device_token": this.values.user_profile.device_token,
+                        "user_token": this.values.user_profile.user_token,
+                        "log": []
+                    }
+                };
+            }
+        });
+        
+        this.consoleLog('activity_logs', this.values.activity_logs);
+        
+    }
 
-    // presentLoadingCustom() {
-    //   //return new Promise((resolve, reject) => {
-    //     console.log('Loading spinner');
-    //     this.loading = this.loadingCtrl.create({
-    //       dismissOnPageChange: false,
-    //       spinner: 'crescent',
-    //       content: `
-    //         <div id="loading" class="loading_container">
-    //           <div class="loading_spinner"></div>
-    //         </div>`
-    //     });
+    emptyActivityLogs() {
+        this.values.activity_logs = {
+            "action": "post_log",
+            "request": {
+                "device_token": this.values.user_profile.device_token,
+                "user_token": this.values.user_profile.user_token,
+                "log": []
+            }
+        };
+        this.storage.set('activity_logs', this.values.activity_logs.request.log);
+    }
 
-    //     this.loading.onDidDismiss(() => {
-    //       this.consolelog('Dismissed loading');
-    //     })
-    //     this.loading.present();//.then(() =>{
-    //      // let nlt='';
-    //      // resolve(nlt);
-    //     //})
-    //   //})
-    // }
+    activityLogPost(activity_type, designer_id, collection_id, product_id, variant_id) {
+        let activity_log = {
+            "activity_type": activity_type,
+            "designer_id": designer_id,
+            "user_id": this.values.user_profile.user_id,
+            "buyer_id": this.values.user_profile.buyer_id,
+             
+            "collection_id": collection_id,
+            "product_id": product_id,
+            "variant_id": variant_id,
+            "activity_unixdate": Date.now()
+        };
 
-    // presentLoadingCustom() {
-    //       this.loading = this.loadingCtrl.create({
-    //             dismissOnPageChange: false,
-    //             spinner: 'crescent',
-    //             content: `
-    //                   <div id="loading" class="loading_container">
-    //                     <div class="loading_spinner"></div>
-    //                   </div>`
-    //       });
-    //       this.loadingState = true;
-    //       this.loading.present().then(() =>{
-    //             setTimeout(() => {
-    //                   if(this.loadingState == true) {
-    //                         this.loading.dismissAll();;
-    //                         this.loadingState = false;
-    //                   }
-    //             }, 20000);
-    //       })
-    // }
+        this.consoleLog('activity_log', activity_log);
 
+        this.values.activity_logs.request.log.push(activity_log);
+
+        this.storage.set('activity_logs', this.values.activity_logs.request.log);
+        this.consoleLog('activity_logs', this.values.activity_logs);
+
+        if (this.values.online) {
+            let apiURL = this.values.APIRoot + "/app/api.php";  
+            let data = encodeURIComponent(JSON.stringify(this.values.activity_logs));
+            let headers = new Headers({
+                'Content-Type': 'application/x-www-form-urlencoded'
+            });
+            let options = new RequestOptions({
+                headers: headers
+            });
+            // TODO: Encode the values using encodeURIComponent().
+            let body = 'json=' + data
+            this.http.post(apiURL, body, options)
+                .map(res => res.json())
+                .subscribe(response => {
+                    this.consoleLog('Response:', response);
+                    if(response.status == 'ok') {
+                        this.emptyActivityLogs();
+                    }
+                });
+        }
+    }
+
+
+    //Loading Spinner process functions
     createLoader() {
         this.loading = this.loadingCtrl.create({
             dismissOnPageChange: false,

@@ -98,7 +98,7 @@ export class SettingsPage {
     startMasquerade() {
 
         let account_id = this.values.user_profile.seller_account_id
-        this.values.user_profile.masquarade_id = account_id;
+        this.values.user_profile.masquerade_id = account_id;
         this.values.user_profile.seller_account_id = 0;
         this.values.user_profile.buyer_id = this.thisBuyer_id;
 
@@ -106,7 +106,7 @@ export class SettingsPage {
         let account_name = this.values.user_profile.business_display_name
         this.values.user_profile.business_display_name = this.retailer.business_name
         this.values.user_profile.masqaurade_name = account_name
-        console.log('Masquarade ID:' + this.values.user_profile.masquarade_id + ' Buyer ID:' + this.values.user_profile.buyer_id)
+        this.data.consoleLog('this.values.user_profile', this.values.user_profile);
         this.navCtrl.push(CollectionPage, { designer: this.values.designer });
     }
 

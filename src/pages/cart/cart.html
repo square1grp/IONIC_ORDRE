@@ -56,7 +56,7 @@
                   <div *ngFor="let line of designer.sales_order_lines; let lineid = index">
                       <div *ngIf="line.size">
                           <div class="fe_item">
-                              <span class="remove_item" tappable (click)="clearItem(orderPart, 0, 0, line.variant_id)">Remove</span>
+                              <span class="remove_item" tappable (click)="clearItem(orderPart, line.product_id, 0, line.variant_id)">Remove</span>
                               <div class="item_image">
                                   <lazy-img src="{{values.APIRoot}}/app/get_image.php?image=/{{line.image}}&w=110&h=165&xtype=prodimage"></lazy-img>
                                   <!--p class="item_detail">Detail</p-->
@@ -91,7 +91,7 @@
                                   <div>
                                       <p class="total_title">Products total WSP</p>
                                       <p class="product_total ">{{designer.currency_code}} {{designer.currency_symbol}}{{line.variant_total | number :'.2'}}</p>
-                                      <p class="clear_item" tappable (click)="clearItem(orderPart,0,1,line.variant_id)">Clear item</p> 
+                                      <p class="clear_item" tappable (click)="clearItem(orderPart, line.product_id, 1,line.variant_id)">Clear item</p> 
                                   </div>
                               </div>
                           </div>

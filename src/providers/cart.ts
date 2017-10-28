@@ -274,9 +274,6 @@ export class CartProvider {
               this.values.cart.request.order[0].sales_order_parts[this.order_part_item_id].total_amount = NewTotal;
           }
       }
-      //console.log('Item Added:'+JSON.stringify(this.line_item));
-      //console.log('Cart Contains:'+JSON.stringify(this.values.cart));  
-      //console.log(this.line_item.sku)
   }
 
   getSizeQty(sku, designer_id){

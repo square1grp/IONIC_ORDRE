@@ -8,6 +8,7 @@ import { Data } from '../../providers/data';
 import { CartProvider } from '../../providers/cart';
 import { Values } from '../../providers/values';
 import { ViewloaderPage } from '../viewloader/viewloader'
+import * as Constants from '../../providers/constants'
 
 @Component({
     //changeDetection: ChangeDetectionStrategy.OnPush,
@@ -62,6 +63,7 @@ export class LinesheetPage {
         //this.values.search= '';
         this.searchValue = '';
         this.searchControl = new FormControl();
+        this.collection = this.navParams.get("collection");    
         //find the order part (for sub-totals)
         this.cartProvider.order_part_item_id = null;
         let abort = false;
@@ -78,7 +80,6 @@ export class LinesheetPage {
         //this.data.designer = this.navParams.get("designer")
         //this.values.products = this.navParams.get("products");
         //this.data.consolelog(JSON.stringify(this.values.products));
-        //this.data.collection = this.navParams.get("collection");    
         //this.designer.content = this.designer.content.split(/<p>|<\/p>|¤/);
         //this.data.consolelog(this.data.designer)
         this.data.consolelog('ionViewDidLoad CollectionPage')
@@ -334,6 +335,8 @@ export class LinesheetPage {
             this.setItemQty();
             this.cd.markForCheck();
             this.qty = 0;
+
+            this.data.activityLogPost(Constants.LOG_ADD_TO_RANGINGROOM, designer_id, this.collection.collection_id, product_id, variant_id);
         });
         console.log("====== item ========");
         console.log(itemItem);

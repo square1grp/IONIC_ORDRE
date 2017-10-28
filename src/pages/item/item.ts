@@ -5,6 +5,7 @@ import { Values } from '../../providers/values';
 import { Data } from '../../providers/data';
 import { View360Page } from '../view360/view360';
 import { Slides } from 'ionic-angular';
+import * as Constants from '../../providers/constants'
 
 //import circlr from 'circlr';
 
@@ -84,6 +85,10 @@ export class ItemPage {
         // }, 800);
     }
 
+    ionViewDidLoad() {
+        this.data.activityLogPost(Constants.LOG_VIEWED_PRODUCT, this.values.designer.seller_account_id, this.collection.collection_id, this.product.product_id, '');
+    }
+
     viewSlide(slideNo) {
         this.slides.slideTo(slideNo);
     }
@@ -105,6 +110,8 @@ export class ItemPage {
             product_id, variant_id, size, size_id, type, this.qty, price, sku);
         this.setItemQty();
         this.qty = 0;
+
+        this.data.activityLogPost(Constants.LOG_ADD_TO_RANGINGROOM, designer_id, this.collection.collection_id, product_id, variant_id);
     }
 
     clearItem(variant_id, keepit) {

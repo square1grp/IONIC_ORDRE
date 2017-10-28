@@ -37,6 +37,9 @@ export class Values {
     lsproducts: any;
     downloadedCollections = [];
 
+    activity_logs: any;
+    //activity_log: any;
+
     cancel: boolean = false;
 
     cacheImageID: any;

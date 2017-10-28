@@ -110,11 +110,11 @@ export class LoginPage {
 
                     //set user profile
                     this.values.user_profile = response;
-                    let currentDate = new Date();
                     this.values.user_profile.masquerade_id = 0;  //whenmasquarading, user id of masquerader
                     this.values.user_profile.forcecache = 0;  //don't force update images when recaching
 
                     if (this.values.user_profile.status == 'ok') {
+                        this.data.consoleLog('this.values.user_profile', this.values.user_profile);
                         this.logUserIn();
                     }
                     else {
@@ -136,7 +136,8 @@ export class LoginPage {
     logUserIn() {
         this.values.device_token = this.values.user_profile.device_token
         this.cartProvider.emptyOrder();
-        this.values.user_profile.masquarade_id = 0;
+        this.data.initActivityLogs();
+        this.values.user_profile.masquerade_id = 0;
         delete this.values.user_profile._rev
         this.data.saveUser(this.values.user_profile);
 

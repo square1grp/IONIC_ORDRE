@@ -7,6 +7,8 @@ import { ViewOrderPage } from '../vieworder/vieworder';
 import { CartPage } from '../cart/cart';
 import { Platform } from 'ionic-angular';
 import { InAppBrowser } from '@ionic-native/in-app-browser'
+import * as Constants from '../../providers/constants'
+
 /*
   Generated class for the Orders page.
 
@@ -44,8 +46,8 @@ export class OrdersPage {
     ngOnInit() {
         console.log('OrdersPage');
 
-        this.data.getAllDraftOrders(this.values.user_profile.buyer_id, this.values.user_profile.masquarade_id);
-        this.data.getAllOrders(this.values.user_profile.buyer_id, this.values.user_profile.masquarade_id);
+        this.data.getAllDraftOrders(this.values.user_profile.buyer_id, this.values.user_profile.masquerade_id);
+        this.data.getAllOrders(this.values.user_profile.buyer_id, this.values.user_profile.masquerade_id);
         this.uiState = this.navParams.get("uistate")
         if (this.uiState == 'final') { this.uiState = 'requested'; }
         if (typeof (this.uiState) == "undefined") { this.uiState = 'draft'; }
@@ -74,7 +76,7 @@ export class OrdersPage {
                     handler: () => {
                         this.data.getDraftOrder(draft_id).then(data => {
                             this.data.deleteDraftOrder(data);
-                            this.data.getAllDraftOrders(this.values.user_profile.buyer_id, this.values.user_profile.masquarade_id);
+                            this.data.getAllDraftOrders(this.values.user_profile.buyer_id, this.values.user_profile.masquerade_id);
                             console.log('Removed order part:' + draft_id);
                         });
                     }
@@ -136,10 +138,11 @@ export class OrdersPage {
                             this.values.cart.request.order[0].user_id = this.values.user_profile.user_id;
                             this.values.cart.request.order[0].buyer_id = this.values.user_profile.buyer_id;
                             this.data.deleteDraftOrder(data);
-                            this.data.getAllDraftOrders(this.values.user_profile.buyer_id, this.values.user_profile.masquarade_id);
+                            this.data.getAllDraftOrders(this.values.user_profile.buyer_id, this.values.user_profile.masquerade_id);
                             //region_currency?
                             //console.log(JSON.stringify(this.values.cart))
                             this.navCtrl.push(CartPage);
+                            this.data.activityLogPost(Constants.LOG_ORDER_DRAFT_RETRIEVED, '', '', '', '');
                         })
                     }
                 }

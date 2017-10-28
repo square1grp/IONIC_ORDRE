@@ -87,9 +87,9 @@ export class OrdreHeader {
                 {
                     text: 'Logout',
                     handler: () => {
-                        this.values.user_profile.seller_account_id = this.values.user_profile.masquarade_id;
+                        this.values.user_profile.seller_account_id = this.values.user_profile.masquerade_id;
                         this.values.user_profile.business_display_name = this.values.user_profile.masqaurade_name;
-                        this.values.user_profile.masquarade_id = 0;
+                        this.values.user_profile.masquerade_id = 0;
                         this.values.user_profile.masqaurade_name = '';
                         // empty the cart
                         this.cartProvider.emptyOrder();
