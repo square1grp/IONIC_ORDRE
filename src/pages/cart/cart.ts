@@ -61,6 +61,12 @@ export class CartPage {
         //return new Promise((resolve, reject) => {
         console.log('*** Adding Sizes ***');
         this.values.cart.request.order[0].sales_order_parts.forEach((orderPart, part_index) => {
+            this.values.designers.forEach(element => {
+                if (element.seller_account_id == orderPart.seller_account_id) {
+                    this.values.designer = element;
+                }
+            });
+
             if (this.values.designer == undefined) {
                 this.values.designers.forEach(element => {
                     if (element.title == this.values.cart.request.order[0].sales_order_parts[0].designer_title) {

@@ -23,6 +23,7 @@ export class Values {
 
     //cart: Array<[{sku: string, price: number, qty: number}]>;
     cart: any;
+    post_cart: any;
     vieworder: any;
     emptyCart: any;
     orderHistory: any;

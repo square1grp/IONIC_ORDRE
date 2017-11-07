@@ -113,7 +113,7 @@ export class ItemPage {
 
         this.data.activityLogPost(Constants.LOG_ADD_TO_RANGINGROOM, designer_id, this.collection.collection_id, product_id, variant_id);
     }
-
+    
     clearItem(variant_id, keepit) {
         this.cartProvider.clearSomeItem(variant_id, keepit);
         this.setItemQty();
