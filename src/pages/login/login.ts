@@ -134,7 +134,8 @@ export class LoginPage {
     }
 
     logUserIn() {
-        this.values.device_token = this.values.user_profile.device_token
+        this.data.getCountries();
+        this.values.device_token = this.values.user_profile.device_token;
         this.cartProvider.emptyOrder();
         this.data.initActivityLogs();
         this.values.user_profile.masquerade_id = 0;

@@ -36,6 +36,18 @@ export class CartProvider {
                     "total_line_items": 0,
                     "total_qty": 0,
                     "total_amount": 0,
+                    "door": {
+                        "door_first_name": "",
+                        "door_last_name": "",
+                        "door_company": "",
+                        "door_address": "",
+                        "door_address_2": "",
+                        "door_city": "",
+                        "door_state": "",
+                        "door_postcode": "",
+                        "door_telephone": "",
+                        "door_country": "",
+                    },
                     "sales_order_parts": []
                 }]
             }
@@ -58,6 +70,18 @@ export class CartProvider {
                     "total_line_items": 0,
                     "total_qty": 0,
                     "total_amount": 0,
+                    "door": {
+                        "door_first_name": "",
+                        "door_last_name": "",
+                        "door_company": "",
+                        "door_address": "",
+                        "door_address_2": "",
+                        "door_city": "",
+                        "door_state": "",
+                        "door_postcode": "",
+                        "door_telephone": "",
+                        "door_country": "",
+                    },
                     "sales_order_parts": []
                 }]
             }
@@ -92,6 +116,7 @@ export class CartProvider {
                         "total_line_items": this.values.cart.request.order[0].total_line_items,
                         "total_qty": this.values.cart.request.order[0].total_qty,
                         "total_amount": this.values.cart.request.order[0].total_amount,
+                        "door": this.values.cart.request.order[0].door,
                         "sales_order_parts": []
                     }]
                 }
@@ -261,7 +286,10 @@ export class CartProvider {
                             'all_products': '',
                             'sales_order_lines': [this.line_item]
                         };
-                        if (qty > 0) this.order_part.total_line_items = this.order_part.total_line_items + 1;
+                        if (qty > 0) {
+                            this.order_part.total_line_items = this.order_part.total_line_items + 1;
+                            this.values.cart.request.order[0].total_line_items++;
+                        }
                         this.order_part_item_id = this.values.cart.request.order[0].sales_order_parts.push(this.order_part) - 1;
                         console.log('New Order Part Index:' + this.order_part_item_id);
                     }
@@ -269,7 +297,8 @@ export class CartProvider {
                         this.values.cart.request.order[0].sales_order_parts[this.order_part_item_id].sales_order_lines.push(this.line_item);
                         if (totalVariantQty == 0 && totalVariantQty + qty > 0) {
                             this.values.cart.request.order[0].sales_order_parts[this.order_part_item_id].total_line_items = this.values.cart.request.
-                                order[0].sales_order_parts[this.order_part_item_id].total_line_items + 1;
+                            order[0].sales_order_parts[this.order_part_item_id].total_line_items + 1;
+                            this.values.cart.request.order[0].total_line_items++;
                         }
                         // if (totalVariantQty > 0 && totalVariantQty + qty > 0) {
                         //     this.values.cart.request.order[0].sales_order_parts[this.order_part_item_id].total_line_items = this.values.cart.request.
@@ -309,12 +338,12 @@ export class CartProvider {
                     //       }  
                     //   }
                     if (totalVariantQty > 0 && (totalVariantQty - oldQty + qty) == 0) {
-                        this.values.cart.request.order[0].sales_order_parts[this.order_part_item_id].total_line_items = this.values.cart.request.order[0].
-                            sales_order_parts[this.order_part_item_id].total_line_items - 1
+                        this.values.cart.request.order[0].sales_order_parts[this.order_part_item_id].total_line_items = this.values.cart.request.order[0].                     sales_order_parts[this.order_part_item_id].total_line_items - 1
+                        this.values.cart.request.order[0].total_line_items--;
                     }
                     if (totalVariantQty == 0 && (totalVariantQty - oldQty + qty) > 0) {
-                        this.values.cart.request.order[0].sales_order_parts[this.order_part_item_id].total_line_items = this.values.cart.request.order[0].
-                            sales_order_parts[this.order_part_item_id].total_line_items + 1
+                        this.values.cart.request.order[0].sales_order_parts[this.order_part_item_id].total_line_items = this.values.cart.request.order[0].                     sales_order_parts[this.order_part_item_id].total_line_items + 1
+                        this.values.cart.request.order[0].total_line_items++;
                     }
                     this.data.consoleLog("totalVariantQty - oldQty + qty", totalVariantQty - oldQty + qty);
                 }

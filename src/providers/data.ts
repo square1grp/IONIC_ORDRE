@@ -268,6 +268,7 @@ export class Data {
         //draft._id = id;
         return new Promise((resolve, reject) => {
             draft._id = new Date().toJSON();
+            //draft.door =  this.values.cart.request.order[0].door;
             delete draft._rev;
             //this.consolelog('SAVING:' + JSON.stringify(draft));
             this.consoleLog("draft", draft);
@@ -280,6 +281,43 @@ export class Data {
         //this.dbDraft.post(draft).subscribe((data) =>{
         //  return data;  
         //});
+    }
+
+    getAllDraftOrders(buyer_id, seller_id) {
+        this.consolelog('Getting all draft orders for:' + buyer_id + ':' + seller_id)
+        return this.dbDraft.allDocs({ include_docs: true })
+            .then(docs => {
+
+                this.draftOrders = docs.rows.map(row => {
+                    //this.consolelog('Row:'+JSON.stringify(row.doc))
+                    // Dates are not automatically converted from a string.
+                    if (seller_id > 0) {
+                        this.consolelog('Filtering by seller')
+                        if ((row.doc.seller_account_id == seller_id) && (row.doc.buyer_id == buyer_id)) {
+                            row.doc.Date = new Date(row.doc.Date);
+                            //this.consolelog('Found'+JSON.stringify(row.doc));
+                            return row.doc;
+                        }
+                        else {
+                            return false;
+                        }
+                    }
+                    else {
+                        if (row.doc.buyer_id == buyer_id) {
+                            row.doc.Date = new Date(row.doc.Date);
+                            //this.consolelog('Found'+JSON.stringify(row.doc));
+                            return row.doc;
+                        }
+                        else {
+                            return false;
+                        }
+                    }
+                });
+
+                this.consoleLog("this.values.cart", this.values.cart);
+                this.consoleLog("this.draftOrders", this.draftOrders);
+                return this.draftOrders;
+            });
     }
 
     getDraftOrder(id) {
@@ -337,42 +375,6 @@ export class Data {
                 });
                 //this.consolelog(JSON.stringify(this.requestedOrders))
                 return this.requestedOrders;
-            });
-    }
-
-    getAllDraftOrders(buyer_id, seller_id) {
-        this.consolelog('Getting all draft orders for:' + buyer_id + ':' + seller_id)
-        return this.dbDraft.allDocs({ include_docs: true })
-            .then(docs => {
-
-                this.draftOrders = docs.rows.map(row => {
-                    //this.consolelog('Row:'+JSON.stringify(row.doc))
-                    // Dates are not automatically converted from a string.
-                    if (seller_id > 0) {
-                        this.consolelog('Filtering by seller')
-                        if ((row.doc.seller_account_id == seller_id) && (row.doc.buyer_id == buyer_id)) {
-                            row.doc.Date = new Date(row.doc.Date);
-                            //this.consolelog('Found'+JSON.stringify(row.doc));
-                            return row.doc;
-                        }
-                        else {
-                            return false;
-                        }
-                    }
-                    else {
-                        if (row.doc.buyer_id == buyer_id) {
-                            row.doc.Date = new Date(row.doc.Date);
-                            //this.consolelog('Found'+JSON.stringify(row.doc));
-                            return row.doc;
-                        }
-                        else {
-                            return false;
-                        }
-                    }
-                });
-
-                this.consolelog(JSON.stringify(this.draftOrders))
-                return this.draftOrders;
             });
     }
 
@@ -442,7 +444,8 @@ export class Data {
                     this.http.get(apiSource).map(res => res.json()).subscribe(data => {
                         this.consolelog('Got All Designers from API');
                         let gotdata = data.result;
-                        console.log(data.result);
+                        this.consoleLog("data", data);
+                        this.consoleLog("data.result", data.result);
                         resolve(data.result);
                         //this.consolelog("=======================");
                         //this.loading.dismiss().catch(() => {});
@@ -1461,6 +1464,29 @@ export class Data {
             }
         }
         //set currency string  
+    }
+
+    //get countries list from server for the select the country of door address form.
+    getCountries() {
+        this.storage.get('countries').then((response) => {
+            let country_count = 0;
+            if (response != null) {
+                country_count = response.length;
+                this.values.countries = response;
+                console.log("Countries are already stored in the local storage.");
+            }
+            let apiSource = this.values.APIRoot + "/app/api.php?json={%22action%22:%22countries%22,%22request%22:{%22device_token%22:%22" +
+            this.values.user_profile.device_token + "%22,%22user_token%22:%22" + this.values.user_profile.user_token + "%22,%22country_count%22:%22" + country_count + "%22}}";
+            this.consolelog(apiSource);
+            this.http.get(apiSource).map(res => res.json()).subscribe(data => {
+                this.consolelog('Got All Countries from API');
+                this.consoleLog("Countries", data);
+                if (data.result.length > 0) {
+                    this.storage.set('countries', data.result);
+                    this.values.countries = data.result;
+                }
+            })
+        });
     }
 
     //activity logs process functions

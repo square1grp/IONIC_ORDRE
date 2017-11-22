@@ -35,6 +35,8 @@ export class CachePage {
 
             this.data.addIsOpenedProp();
         });
+        this.data.consoleLog('this.data.draftOrders', this.data.draftOrders);
+        this.data.consoleLog('this.data.requestedOrders', this.data.requestedOrders);
     }
 
     uiChange(newstate) {

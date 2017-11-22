@@ -37,6 +37,7 @@ export class Values {
     products: any;
     lsproducts: any;
     downloadedCollections = [];
+    countries = [];
 
     activity_logs: any;
     //activity_log: any;

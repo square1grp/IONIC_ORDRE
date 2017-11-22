@@ -45,13 +45,14 @@ export class OrdersPage {
 
     ngOnInit() {
         console.log('OrdersPage');
-
         this.data.getAllDraftOrders(this.values.user_profile.buyer_id, this.values.user_profile.masquerade_id);
         this.data.getAllOrders(this.values.user_profile.buyer_id, this.values.user_profile.masquerade_id);
         this.uiState = this.navParams.get("uistate")
         if (this.uiState == 'final') { this.uiState = 'requested'; }
         if (typeof (this.uiState) == "undefined") { this.uiState = 'draft'; }
-        console.log('Init:' + this.uiState)
+        console.log('Init:' + this.uiState);
+        this.data.consoleLog('this.data.draftOrders', this.data.draftOrders);
+        this.data.consoleLog('this.data.requestedOrders', this.data.requestedOrders);
     }
 
     uiChange(newstate) {
@@ -109,7 +110,7 @@ export class OrdersPage {
         //console.log('View linked to:'+this.values.APIRoot + '/ordres/detail/'+id)
     }
 
-    restoreDraft(draft_id) {
+    restore(draft_id, mode) {
         console.log('Restore Clicked');
         let alert = this.alertCtrl.create({
             title: 'Are you sure you wish to restore this Order?',
@@ -128,16 +129,20 @@ export class OrdersPage {
                         console.log('Restore:' + draft_id);
                         this.cartProvider.emptyOrder();
                         this.data.getDraftOrder(draft_id).then(data => {
+                            
                             let orderPart = data;
                             console.log(JSON.stringify(orderPart));
+                            this.data.consoleLog("orderPart", orderPart);
+                            //this.values.cart.request.order[0].door = orderPart.door;
                             this.values.cart.request.order[0].sales_order_parts.push(orderPart);
+                            this.values.cart.request.order[0].door = this.values.cart.request.order[0].sales_order_parts[0].door;
                             //pull totals into order header here
                             this.values.cart.request.device_token = this.values.user_profile.device_token;
                             this.values.cart.request.user_token = this.values.user_profile.user_token;
                             this.values.cart.request.order[0].total_qty = this.values.cart.request.order[0].sales_order_parts[0].total_qty;
                             this.values.cart.request.order[0].user_id = this.values.user_profile.user_id;
                             this.values.cart.request.order[0].buyer_id = this.values.user_profile.buyer_id;
-                            this.data.deleteDraftOrder(data);
+                            if (mode == 'draft') this.data.deleteDraftOrder(data);
                             this.data.getAllDraftOrders(this.values.user_profile.buyer_id, this.values.user_profile.masquerade_id);
                             //region_currency?
                             //console.log(JSON.stringify(this.values.cart))

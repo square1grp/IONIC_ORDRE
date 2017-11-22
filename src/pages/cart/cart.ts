@@ -26,6 +26,9 @@ export class CartPage {
     cartItems: any;
     submitResponse: any;
     submitting: boolean;
+    shipping_address: any;
+    door_address_visibility: boolean = false;
+    country: string;
 
     designersPage = DesignersPage;
     collectionPage = CollectionPage;
@@ -51,6 +54,7 @@ export class CartPage {
         }
         */
         this.submitting = false;
+        this.shipping_address = this.values.user_profile.shipping;
         this.data.consoleLog("this.values.cart before addSizes()", this.values.cart);
         this.addSizes();
         this.data.consoleLog("this.values.cart", this.values.cart);
@@ -326,7 +330,7 @@ export class CartPage {
             //console.log('Order ID:'+ this.submitResponse.result.order_id);
             //apply part order ids
             this.values.cart.request.order[0].sales_order_parts.forEach((order_part, z) => {
-                if (mode == 'draft') { order_part.status = 'DRAFT' }
+                if (mode == 'draft') order_part.status = 'DRAFT';
                 order_part.order_id = this.submitResponse.result.sales_order_parts[z].order_part_id;
                 delete this.values.cart.request.order[0].sales_order_parts[z]._id;
             });
@@ -403,11 +407,14 @@ export class CartPage {
         console.log('Save Draft');
         this.data.consoleLog("this.values.cart", this.values.cart);
 
-        if (this.submitting == true) { return false; }
+        if (this.submitting == true) return false;
         this.submitting = true;
 
         this.values.cart.request.order[0].sales_order_parts.forEach((order_part, z) => {
             order_part.date = new Date();
+            order_part.door =  this.values.cart.request.order[0].door;
+            if (ui == 'copy') order_part.status = 'COPY';
+            if (ui == 'draft') order_part.status = 'LOCAL_DRAFT';
             this.data.saveDraftOrder(order_part).then(data => {
                 console.log('Order Part ID:' + JSON.stringify(data))
             })
@@ -427,15 +434,26 @@ export class CartPage {
             alert.present();
             this.data.activityLogPost(Constants.LOG_ORDER_DRAFT_SAVED, '', '', '', '');
         }
-        else {
+        else if (ui == 'server') {
             let alert = this.alertCtrl.create({
                 title: 'Draft Order sent to the server',
                 subTitle: 'Tap ‘view’ to review draft.',
                 buttons: ['Dismiss']
             });
             alert.present();
+        } 
+        else {
+            let alert = this.alertCtrl.create({
+                title: 'A Copy has been created',
+                subTitle: 'You can restore a saved copy at any time.',
+                buttons: ['Dismiss']
+            });
+            alert.present();
         }
-
+        if (ui == 'copy') {
+            this.submitting = false;
+            return false;
+        } 
         this.cartProvider.emptyOrder();
         this.submitting = false;
         this.navCtrl.setRoot(OrdersPage, { uistate: mode });
@@ -452,4 +470,13 @@ export class CartPage {
     popView() {
         this.navCtrl.pop();
     }
+
+    doorAddressToogle() {
+        if (this.door_address_visibility == true) {
+            this.door_address_visibility = false;
+        } else {
+            this.door_address_visibility = true;
+        }
+    }
+    
 }
