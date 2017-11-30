@@ -135,6 +135,7 @@ export class LoginPage {
 
     logUserIn() {
         this.data.getCountries();
+        this.data.updateOldOrders();
         this.values.device_token = this.values.user_profile.device_token;
         this.cartProvider.emptyOrder();
         this.data.initActivityLogs();

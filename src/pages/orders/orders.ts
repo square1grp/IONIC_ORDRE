@@ -50,9 +50,6 @@ export class OrdersPage {
         this.uiState = this.navParams.get("uistate")
         if (this.uiState == 'final') { this.uiState = 'requested'; }
         if (typeof (this.uiState) == "undefined") { this.uiState = 'draft'; }
-        console.log('Init:' + this.uiState);
-        this.data.consoleLog('this.data.draftOrders', this.data.draftOrders);
-        this.data.consoleLog('this.data.requestedOrders', this.data.requestedOrders);
     }
 
     uiChange(newstate) {
@@ -129,9 +126,7 @@ export class OrdersPage {
                         console.log('Restore:' + draft_id);
                         this.cartProvider.emptyOrder();
                         this.data.getDraftOrder(draft_id).then(data => {
-                            
                             let orderPart = data;
-                            console.log(JSON.stringify(orderPart));
                             this.data.consoleLog("orderPart", orderPart);
                             //this.values.cart.request.order[0].door = orderPart.door;
                             this.values.cart.request.order[0].sales_order_parts.push(orderPart);

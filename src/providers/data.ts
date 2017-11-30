@@ -39,6 +39,7 @@ export class Data {
     db: any;
     dbDraft: any;
     dbRequest: any;
+    oldOrders = [];
     imageDB: any;
     storeDesigners: any;
     storeCollection: any;
@@ -287,10 +288,7 @@ export class Data {
         this.consolelog('Getting all draft orders for:' + buyer_id + ':' + seller_id)
         return this.dbDraft.allDocs({ include_docs: true })
             .then(docs => {
-
                 this.draftOrders = docs.rows.map(row => {
-                    //this.consolelog('Row:'+JSON.stringify(row.doc))
-                    // Dates are not automatically converted from a string.
                     if (seller_id > 0) {
                         this.consolelog('Filtering by seller')
                         if ((row.doc.seller_account_id == seller_id) && (row.doc.buyer_id == buyer_id)) {
@@ -303,9 +301,10 @@ export class Data {
                         }
                     }
                     else {
+                        console.log(row.doc.buyer_id);
                         if (row.doc.buyer_id == buyer_id) {
                             row.doc.Date = new Date(row.doc.Date);
-                            //this.consolelog('Found'+JSON.stringify(row.doc));
+                            //this.consoleLog('row.doc', row.doc);
                             return row.doc;
                         }
                         else {
@@ -314,8 +313,8 @@ export class Data {
                     }
                 });
 
-                this.consoleLog("this.values.cart", this.values.cart);
-                this.consoleLog("this.draftOrders", this.draftOrders);
+                this.consoleLog("this.values.cart in getAllDraftOrders", this.values.cart);
+                this.consoleLog("this.draftOrders in getAllDraftOrders", this.draftOrders);
                 return this.draftOrders;
             });
     }
@@ -376,6 +375,56 @@ export class Data {
                 //this.consolelog(JSON.stringify(this.requestedOrders))
                 return this.requestedOrders;
             });
+    }
+
+    updateOldOrders() {
+        this.storage.get('is_updated').then((result) => {
+            if (result == true) {
+                console.log("You have already updated your old Orders.");
+            }
+            else {
+                this.dbDraft.allDocs({ include_docs: true }).then(docs => {
+                    docs.rows.map(row => {
+                        if (!row.doc.hasOwnProperty('door')) {
+                            let oldOrder = {
+                                _rev: row.doc._rev,
+                                _id: row.doc._id,
+                                status: row.doc.status
+                            }
+                            this.oldOrders.push(oldOrder);
+                        }
+                    });
+                    this.consoleLog("this.values.cart in update", this.values.cart);
+                    this.consoleLog("this.draftOrders in update", this.draftOrders);
+                }).then(() => {
+                    this.consoleLog("oldOrders", this.oldOrders);
+                    for (let cindex = 0, len = this.oldOrders.length; cindex < len; cindex++) {
+                        this.dbDraft.get(this.oldOrders[cindex]._id).then((doc) => {
+                            this.consoleLog("0_doc", doc);
+                            if (doc.status ==  "DRAFT") doc.status = "SERVER_DRAFT";
+                            if (doc.status ==  "REQUEST") doc.status = "LOCAL_DRAFT";
+                            doc.door = {
+                                "door_first_name": "",
+                                "door_last_name": "",
+                                "door_company": "",
+                                "door_address": "",
+                                "door_address_2": "",
+                                "door_city": "",
+                                "door_state": "",
+                                "door_postcode": "",
+                                "door_telephone": "",
+                                "door_country": "",
+                            };
+                            if (!doc.hasOwnProperty('purchase_order')) {
+                                doc.purchase_order = "";
+                            }
+                            return this.dbDraft.put(doc);
+                        });
+                    }
+                    this.storage.set('is_updated', true);         
+                });
+            } 
+        });
     }
 
     getDesigners(device_token, user_token, force) {

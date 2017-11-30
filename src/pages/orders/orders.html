@@ -39,24 +39,24 @@
             <tr *ngIf="draft.buyer_id == this.values.user_profile.buyer_id">
               <td>{{draft.date | date:medium}}</td>
               <td *ngIf="draft.status=='LOCAL_DRAFT'">DRAFT</td>
-              <td *ngIf="draft.status=='DRAFT'">SENT</td>
+              <td *ngIf="draft.status=='SERVER_DRAFT'">SENT</td>
               <td *ngIf="draft.status=='COPY'">DRAFT</td>
               <td [innerHTML]="draft.designer_title"></td>
               <td>{{draft.currency_code}}</td>
               <td>{{draft.currency_symbol}}{{draft.total_amount | number :'.2'}}</td>
               <!--td class="sync_status synchronized"></td-->
               <td class="actions">
-                <button *ngIf="draft.status=='LOCAL_DRAFT'" (click)="restore(draft._id, 'copy')" class="restore_ordre">Restore Copy</button>
+                <button *ngIf="draft.status=='LOCAL_DRAFT'" (click)="restore(draft._id, 'copy')" class="restore_ordre">Restore a Copy</button>
                 <button *ngIf="draft.status=='LOCAL_DRAFT'" (click)="restore(draft._id, 'draft')" class="restore_ordre">Restore</button>
                 <button *ngIf="draft.status=='LOCAL_DRAFT'" (click)="removeDraft(draft._id)" class="remove_ordre">Remove</button>
-                <button *ngIf="draft.status=='COPY'" (click)="restore(draft._id, 'copy')" class="restore_ordre">Restore Copy</button>
+                <button *ngIf="draft.status=='SERVER_DRAFT'" (click)="restore(draft._id, 'copy')" class="restore_ordre">Restore a Copy</button>
+                <button *ngIf="draft.status=='SERVER_DRAFT'" (click)="webViewOrder(draft.order_id)" class="view_ordre">View</button>
+                <button *ngIf="draft.status=='COPY'" (click)="restore(draft._id, 'copy')" class="restore_ordre">Restore a Copy</button>
                 <button *ngIf="draft.status=='COPY'" (click)="restore(draft._id, 'draft')" class="restore_ordre">Restore</button>
                 <button *ngIf="draft.status=='COPY'" (click)="removeDraft(draft._id)" class="remove_ordre">Remove</button>
-                <button *ngIf="draft.status=='DRAFT'" (click)="restore(draft._id, 'copy')" class="restore_ordre">Restore Copy</button>
-                <button *ngIf="draft.status=='DRAFT'" (click)="webViewOrder(draft.order_id)" class="view_ordre">View</button>
               </td>
             </tr>  
-          </ng-container>   
+          </ng-container>
         </ng-container>    
       </table>
     </div>

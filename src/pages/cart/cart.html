@@ -187,7 +187,7 @@
                                         <!-- <ion-item> -->
                                             <span class="country-span">Country:</span>
                                             <ion-select [(ngModel)]="this.values.cart.request.order[0].door.door_country">
-                                                <ion-option value="country.country_id" *ngFor="let country of values.countries">{{country.printable_name}}</ion-option>
+                                                <ion-option [value]="country.country_id" *ngFor="let country of values.countries">{{country.printable_name}}</ion-option>
                                             </ion-select>
                                         <!-- </ion-item> -->
                                     </div>

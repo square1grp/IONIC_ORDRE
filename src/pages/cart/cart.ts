@@ -59,6 +59,7 @@ export class CartPage {
         this.addSizes();
         this.data.consoleLog("this.values.cart", this.values.cart);
         this.data.consoleLog("values.cart.request.order[0].sales_order_parts", this.values.cart.request.order[0].sales_order_parts);
+        this.data.consoleLog("this.values.countries", this.values.countries);
     }
 
     addSizes() {
@@ -330,7 +331,7 @@ export class CartPage {
             //console.log('Order ID:'+ this.submitResponse.result.order_id);
             //apply part order ids
             this.values.cart.request.order[0].sales_order_parts.forEach((order_part, z) => {
-                if (mode == 'draft') order_part.status = 'DRAFT';
+                if (mode == 'draft') order_part.status = 'SERVER_DRAFT';
                 order_part.order_id = this.submitResponse.result.sales_order_parts[z].order_part_id;
                 delete this.values.cart.request.order[0].sales_order_parts[z]._id;
             });
