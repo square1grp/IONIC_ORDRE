@@ -125,25 +125,36 @@ export class OrdersPage {
                     handler: () => {
                         console.log('Restore:' + draft_id);
                         this.cartProvider.emptyOrder();
-                        this.data.getDraftOrder(draft_id).then(data => {
-                            let orderPart = data;
-                            this.data.consoleLog("orderPart", orderPart);
-                            //this.values.cart.request.order[0].door = orderPart.door;
-                            this.values.cart.request.order[0].sales_order_parts.push(orderPart);
-                            this.values.cart.request.order[0].door = this.values.cart.request.order[0].sales_order_parts[0].door;
-                            //pull totals into order header here
-                            this.values.cart.request.device_token = this.values.user_profile.device_token;
-                            this.values.cart.request.user_token = this.values.user_profile.user_token;
-                            this.values.cart.request.order[0].total_qty = this.values.cart.request.order[0].sales_order_parts[0].total_qty;
-                            this.values.cart.request.order[0].user_id = this.values.user_profile.user_id;
-                            this.values.cart.request.order[0].buyer_id = this.values.user_profile.buyer_id;
-                            if (mode == 'draft') this.data.deleteDraftOrder(data);
-                            this.data.getAllDraftOrders(this.values.user_profile.buyer_id, this.values.user_profile.masquerade_id);
-                            //region_currency?
-                            //console.log(JSON.stringify(this.values.cart))
-                            this.navCtrl.push(CartPage);
-                            this.data.activityLogPost(Constants.LOG_ORDER_DRAFT_RETRIEVED, '', '', '', '');
-                        })
+                        if (mode == "restore_order") {
+                            this.data.getOrder(draft_id).then(data => {
+                                let orderPart = data;
+                                this.data.consoleLog("orderPart", orderPart);
+                                this.values.cart.request.order[0].sales_order_parts.push(orderPart);
+                                this.values.cart.request.order[0].door = this.values.cart.request.order[0].sales_order_parts[0].door;
+                                this.values.cart.request.device_token = this.values.user_profile.device_token;
+                                this.values.cart.request.user_token = this.values.user_profile.user_token;
+                                this.values.cart.request.order[0].total_qty = this.values.cart.request.order[0].sales_order_parts[0].total_qty;
+                                this.values.cart.request.order[0].user_id = this.values.user_profile.user_id;
+                                this.values.cart.request.order[0].buyer_id = this.values.user_profile.buyer_id;
+                                this.navCtrl.push(CartPage);
+                            })
+                        }
+                        else {
+                            this.data.getDraftOrder(draft_id).then(data => {
+                                let orderPart = data;
+                                this.data.consoleLog("orderPart", orderPart);
+                                this.values.cart.request.order[0].sales_order_parts.push(orderPart);
+                                this.values.cart.request.order[0].door = this.values.cart.request.order[0].sales_order_parts[0].door;
+                                this.values.cart.request.device_token = this.values.user_profile.device_token;
+                                this.values.cart.request.user_token = this.values.user_profile.user_token;
+                                this.values.cart.request.order[0].total_qty = this.values.cart.request.order[0].sales_order_parts[0].total_qty;
+                                this.values.cart.request.order[0].user_id = this.values.user_profile.user_id;
+                                this.values.cart.request.order[0].buyer_id = this.values.user_profile.buyer_id;
+                                if (mode == 'draft') this.data.deleteDraftOrder(data);
+                                this.data.getAllDraftOrders(this.values.user_profile.buyer_id, this.values.user_profile.masquerade_id);
+                                this.navCtrl.push(CartPage);
+                            });
+                        }
                     }
                 }
             ]

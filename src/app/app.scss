@@ -5103,19 +5103,21 @@ div.popover-viewport {
 	}
 	page-orders {
 		tr td:nth-child(1), tr th:nth-child(1) {
-			max-width: 113px;
+			max-width: 123px;
+			padding-left: 10px !important;
 		}
 		tr td:nth-child(2), tr th:nth-child(2) {
 			max-width: 62px;
 		}
 		tr td:nth-child(3), tr th:nth-child(3) {
-			max-width: 104px;
+			max-width: 122px;
 		}
 		tr td:nth-child(4), tr th:nth-child(4) {
 			max-width: 60px;
 		}
 		tr td:nth-child(5), tr th:nth-child(5) {
 			max-width: 87px;
+			padding-right: 0px !important;
 		}
 		tr td button {
 			margin-right: 5px !important;
@@ -5230,7 +5232,7 @@ div.popover-viewport {
 			max-width: 62px;
 		}
 		tr td:nth-child(3), tr th:nth-child(3) {
-			max-width: 150px;
+			max-width: 200px;
 		}
 		tr td:nth-child(4), tr th:nth-child(4) {
 			max-width: 60px;
@@ -5243,7 +5245,7 @@ div.popover-viewport {
 			height: 40px;
 		}
 		tr td.actions {
-			width: 340px;
+			width: 100px;
 		}
 	}
 }

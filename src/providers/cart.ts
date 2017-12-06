@@ -180,8 +180,6 @@ export class CartProvider {
             // TODO: Encode the values using encodeURIComponent().
             let body = 'json=' + data
 
-            console.log('Posted Cart:' + data);
-
             this.http.post(apiURL, body, options)
                 .map(res => res.json())
                 .subscribe(data => {

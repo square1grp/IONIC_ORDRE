@@ -327,6 +327,7 @@ export class CartPage {
         //  submit to API
         this.cartProvider.submitCart(mode).then((response) => {
             this.submitResponse = response;
+            this.data.consoleLog("this.submitResponse", this.submitResponse);
             this.values.cart.request.order[0].order_id = this.submitResponse.result.order_id;
             //console.log('Order ID:'+ this.submitResponse.result.order_id);
             //apply part order ids
@@ -384,6 +385,7 @@ export class CartPage {
         console.log('Save');
         this.values.cart.request.order[0].sales_order_parts.forEach((order_part, z) => {
             order_part.date = new Date();
+            order_part.door =  this.values.cart.request.order[0].door;
             this.data.saveOrder(order_part).then(data => {
                 console.log('Order Part ID:' + JSON.stringify(data))
             })

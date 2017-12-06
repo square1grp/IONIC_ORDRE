@@ -39,7 +39,8 @@ export class Data {
     db: any;
     dbDraft: any;
     dbRequest: any;
-    oldOrders = [];
+    oldDraftOrders = [];
+    oldRequestedOrders = [];
     imageDB: any;
     storeDesigners: any;
     storeCollection: any;
@@ -372,13 +373,13 @@ export class Data {
                         }
                     }
                 });
-                //this.consolelog(JSON.stringify(this.requestedOrders))
+                this.consoleLog("this.draftOrders in getAllOrders", this.requestedOrders);
                 return this.requestedOrders;
             });
     }
 
     updateOldOrders() {
-        this.storage.get('is_updated').then((result) => {
+        this.storage.get('updated_flag').then((result) => {
             if (result == true) {
                 console.log("You have already updated your old Orders.");
             }
@@ -391,16 +392,15 @@ export class Data {
                                 _id: row.doc._id,
                                 status: row.doc.status
                             }
-                            this.oldOrders.push(oldOrder);
+                            this.oldDraftOrders.push(oldOrder);
                         }
                     });
                     this.consoleLog("this.values.cart in update", this.values.cart);
                     this.consoleLog("this.draftOrders in update", this.draftOrders);
                 }).then(() => {
-                    this.consoleLog("oldOrders", this.oldOrders);
-                    for (let cindex = 0, len = this.oldOrders.length; cindex < len; cindex++) {
-                        this.dbDraft.get(this.oldOrders[cindex]._id).then((doc) => {
-                            this.consoleLog("0_doc", doc);
+                    this.consoleLog("oldOrders", this.oldDraftOrders);
+                    for (let cindex = 0, len = this.oldDraftOrders.length; cindex < len; cindex++) {
+                        this.dbDraft.get(this.oldDraftOrders[cindex]._id).then((doc) => {
                             if (doc.status ==  "DRAFT") doc.status = "SERVER_DRAFT";
                             if (doc.status ==  "REQUEST") doc.status = "LOCAL_DRAFT";
                             doc.door = {
@@ -421,8 +421,45 @@ export class Data {
                             return this.dbDraft.put(doc);
                         });
                     }
-                    this.storage.set('is_updated', true);         
                 });
+
+                this.dbRequest.allDocs({ include_docs: true }).then(docs => {
+                    docs.rows.map(row => {
+                        if (!row.doc.hasOwnProperty('door')) {
+                            let oldOrder = {
+                                _rev: row.doc._rev,
+                                _id: row.doc._id,
+                                status: row.doc.status
+                            }
+                            this.oldRequestedOrders.push(oldOrder);
+                        }
+                    });
+                    this.consoleLog("this.values.cart in update", this.values.cart);
+                    this.consoleLog("this.draftOrders in update", this.requestedOrders);
+                }).then(() => {
+                    this.consoleLog("oldOrders", this.oldRequestedOrders);
+                    for (let cindex = 0, len = this.oldRequestedOrders.length; cindex < len; cindex++) {
+                        this.dbRequest.get(this.oldRequestedOrders[cindex]._id).then((doc) => {
+                            doc.door = {
+                                "door_first_name": "",
+                                "door_last_name": "",
+                                "door_company": "",
+                                "door_address": "",
+                                "door_address_2": "",
+                                "door_city": "",
+                                "door_state": "",
+                                "door_postcode": "",
+                                "door_telephone": "",
+                                "door_country": "",
+                            };
+                            if (!doc.hasOwnProperty('purchase_order')) {
+                                doc.purchase_order = "";
+                            }
+                            return this.dbRequest.put(doc);
+                        });
+                    }
+                });
+                this.storage.set('updated_flag', true);         
             } 
         });
     }
