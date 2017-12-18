@@ -47,14 +47,14 @@
               <td>{{draft.currency_symbol}}{{draft.total_amount | number :'.2'}}</td>
               <!--td class="sync_status synchronized"></td-->
               <td class="actions">
-                <button *ngIf="draft.status=='LOCAL_DRAFT'" (click)="restore(draft._id, 'copy')" class="restore_ordre">Restore a Copy</button>
+                <!-- <button *ngIf="draft.status=='LOCAL_DRAFT'" (click)="restore(draft._id, 'copy')" class="restore_ordre">Restore a Copy</button> -->
                 <button *ngIf="draft.status=='LOCAL_DRAFT'" (click)="restore(draft._id, 'draft')" class="restore_ordre">Restore</button>
                 <button *ngIf="draft.status=='LOCAL_DRAFT'" (click)="removeDraft(draft._id)" class="remove_ordre">Remove</button>
                 <button *ngIf="draft.status=='SERVER_DRAFT'" (click)="restore(draft._id, 'copy')" class="restore_ordre">Restore a Copy</button>
                 <button *ngIf="draft.status=='SERVER_DRAFT'" (click)="webViewOrder(draft.order_id)" class="view_ordre">View</button>
                 <button *ngIf="draft.status=='DRAFT'" (click)="restore(draft._id, 'copy')" class="restore_ordre">Restore a Copy</button>
                 <button *ngIf="draft.status=='DRAFT'" (click)="webViewOrder(draft.order_id)" class="view_ordre">View</button>
-                <button *ngIf="draft.status=='COPY'" (click)="restore(draft._id, 'copy')" class="restore_ordre">Restore a Copy</button>
+                <!-- <button *ngIf="draft.status=='COPY'" (click)="restore(draft._id, 'copy')" class="restore_ordre">Restore a Copy</button> -->
                 <button *ngIf="draft.status=='COPY'" (click)="restore(draft._id, 'draft')" class="restore_ordre">Restore</button>
                 <button *ngIf="draft.status=='COPY'" (click)="removeDraft(draft._id)" class="remove_ordre">Remove</button>
               </td>

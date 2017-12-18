@@ -17,7 +17,7 @@ export class LoginPage {
     collectionPage = CollectionPage;
     loginForm: FormGroup;
     response: any;
-    designers: any;
+    //designers: any;
     designer: any;
     errorMessage: any;
     loggingin: any;
@@ -144,16 +144,20 @@ export class LoginPage {
         this.data.saveUser(this.values.user_profile);
 
         if (this.values.user_profile.seller_account_id) {
+            this.data.getShippings(this.values.user_profile.device_token, this.values.user_profile.user_token, "ALL").then((response) => {
+                this.data.consoleLog("shipping_response", response);
+                this.values.shipping_addresses = response;
+            });                                    
             //  get the designer object from the list of designers
             //  so get all designers
             //  iterate through to find this one
             this.data.getDesigners(this.values.device_token, this.values.user_profile.user_token, 0).then((response) => {
-                this.designers = response;
-                this.values.onescreen_total_imgages_num = this.designers.length;
+                this.values.designers = response;
+                this.values.onescreen_total_imgages_num = this.values.designers.length;
                 let abort = false;
-                for (let i = 0, len = this.designers.length; i < len && !abort; i++) {
-                    if (this.designers[i].seller_account_id == this.values.user_profile.seller_account_id) {
-                        this.values.designer = this.designers[i];
+                for (let i = 0, len = this.values.designers.length; i < len && !abort; i++) {
+                    if (this.values.designers[i].seller_account_id == this.values.user_profile.seller_account_id) {
+                        this.values.designer = this.values.designers[i];
                         abort = true;
                     }
                 }
@@ -188,6 +192,9 @@ export class LoginPage {
             });
         }
         else {
+            this.data.getShippings(this.values.user_profile.device_token, this.values.user_profile.user_token, this.values.user_profile.buyer_id).then((response) => {
+                this.values.shipping_address = response[0];
+            });                  
             this.navCtrl.setRoot(DesignersPage);
         }
     }

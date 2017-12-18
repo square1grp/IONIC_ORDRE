@@ -40,6 +40,7 @@ export class CartProvider {
                         "door_first_name": "",
                         "door_last_name": "",
                         "door_company": "",
+                        "door_email": "",
                         "door_address": "",
                         "door_address_2": "",
                         "door_city": "",
@@ -74,6 +75,7 @@ export class CartProvider {
                         "door_first_name": "",
                         "door_last_name": "",
                         "door_company": "",
+                        "door_email": "",
                         "door_address": "",
                         "door_address_2": "",
                         "door_city": "",
@@ -194,7 +196,7 @@ export class CartProvider {
     addToCart(product_title, colour, material, swatch, image, designer_title, designer_id, product_id, variant_id,
         size, size_id, type, qty, price, prodsku: string) {
 
-        console.log('Start:Adding to cart');
+        //console.log('Start:Adding to cart');
 
         //new order, set buyer_id
         if (this.values.cart.request.order[0].buyer_id == 0) {
@@ -205,10 +207,10 @@ export class CartProvider {
             this.values.cart.request.order[0].masquerade_originator = this.values.user_profile.masquerade_id;
         }
 
-        console.log('Check if designer is in cart');
+        //console.log('Check if designer is in cart');
         //check for designer in cart
         this.order_part_item_id = -1;
-        console.log('Cart Parts:' + JSON.stringify(this.values.cart.request.order[0].sales_order_parts));
+        //console.log('Cart Parts:' + JSON.stringify(this.values.cart.request.order[0].sales_order_parts));
         let abort = false;
         for (let pindex = 0, len = this.values.cart.request.order[0].sales_order_parts.length; pindex < len && !abort; pindex++) {
             if (this.values.cart.request.order[0].sales_order_parts[pindex].seller_account_id == designer_id) {
@@ -302,7 +304,7 @@ export class CartProvider {
                         //     this.values.cart.request.order[0].sales_order_parts[this.order_part_item_id].total_line_items = this.values.cart.request.
                         //     order[0].sales_order_parts[this.order_part_item_id].total_line_items + 1;
                         // }
-                        this.data.consoleLog("totalVariantQty + qty", totalVariantQty + qty);
+                        //this.data.consoleLog("totalVariantQty + qty", totalVariantQty + qty);
                     }
                     this.values.cart.request.order[0].sales_order_parts[this.order_part_item_id].total_qty = this.values.cart.request.order[0].
                         sales_order_parts[this.order_part_item_id].total_qty + qty;

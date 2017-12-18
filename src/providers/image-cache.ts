@@ -55,8 +55,8 @@ export class OrdreImageCache {
                     this.hidden = false   
                     this.cd.markForCheck();             
                 }
-                console.log('this.values.onescreen_total_imgages_num :' + this.values.onescreen_total_imgages_num);
-                console.log('this.values.onescreen_image_index :' + this.values.onescreen_image_index);
+                // console.log('this.values.onescreen_total_imgages_num :' + this.values.onescreen_total_imgages_num);
+                // console.log('this.values.onescreen_image_index :' + this.values.onescreen_image_index);
                 if (this.values.onescreen_total_imgages_num > 0) {
                     this.values.onescreen_image_index ++;
                     if (this.values.onescreen_image_index >= this.values.onescreen_total_imgages_num) {
@@ -74,10 +74,10 @@ export class OrdreImageCache {
                     this.src = imageURL; //this.src;
                     this.hidden = false;
                     this.cd.markForCheck();
-                    console.log('Cache the image:' + imageURL);
+                    //console.log('Cache the image:' + imageURL);
                     this.data.putImage(imageURL).then(() => {
-                        console.log('this.values.onescreen_total_imgages_num :' + this.values.onescreen_total_imgages_num);
-                        console.log('this.values.onescreen_image_index :' + this.values.onescreen_image_index);
+                        // console.log('this.values.onescreen_total_imgages_num :' + this.values.onescreen_total_imgages_num);
+                        // console.log('this.values.onescreen_image_index :' + this.values.onescreen_image_index);
                         if (this.values.onescreen_total_imgages_num > 0) {
                             this.values.onescreen_image_index ++;
                             if (this.values.onescreen_image_index >= this.values.onescreen_total_imgages_num) {

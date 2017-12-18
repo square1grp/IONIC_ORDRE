@@ -128,39 +128,39 @@
                                     </div>
                                     <div class="shipping-address-item">
                                         <span class="shipping-address-label">Contact:</span>
-                                        <span class="shipping-address-value">{{shipping_address.shipping_first_name}}  {{shipping_address.shipping_last_name}}</span>
+                                        <span class="shipping-address-value">{{values.shipping_address.shipping_first_name}}  {{values.shipping_address.shipping_last_name}}</span>
                                     </div>
                                     <div class="shipping-address-item">
                                         <span class="shipping-address-label">Company name:</span>
-                                        <span class="shipping-address-value">{{shipping_address.shipping_company}}</span>
+                                        <span class="shipping-address-value">{{values.shipping_address.shipping_company}}</span>
                                     </div>
                                     <div class="shipping-address-item">
                                         <span class="shipping-address-label">Phone number:</span>
-                                        <span class="shipping-address-value">{{shipping_address.shipping_telephone}}</span>
+                                        <span class="shipping-address-value">{{values.shipping_address.shipping_telephone}}</span>
                                     </div>
                                     <div class="shipping-address-item">
                                         <span class="shipping-address-label">Country:</span>
-                                        <span class="shipping-address-value">{{shipping_address.shipping_country}}</span>
+                                        <span class="shipping-address-value">{{values.shipping_address.shipping_country}}</span>
                                     </div>
                                     <div class="shipping-address-item">
                                         <span class="shipping-address-label">Street Address:</span>
-                                        <span class="shipping-address-value">{{shipping_address.shipping_address}}</span>
+                                        <span class="shipping-address-value">{{values.shipping_address.shipping_address}}</span>
                                     </div>
                                     <div class="shipping-address-item">
                                         <span class="shipping-address-label">Suburb:</span>
-                                        <span class="shipping-address-value">{{shipping_address.shipping_address_2}}</span>
+                                        <span class="shipping-address-value">{{values.shipping_address.shipping_address_2}}</span>
                                     </div>
                                     <div class="shipping-address-item">
                                         <span class="shipping-address-label">City:</span>
-                                        <span class="shipping-address-value">{{shipping_address.shipping_city}}</span>
+                                        <span class="shipping-address-value">{{values.shipping_address.shipping_city}}</span>
                                     </div>
                                     <div class="shipping-address-item">
                                         <span class="shipping-address-label">State:</span>
-                                        <span class="shipping-address-value">{{shipping_address.shipping_state}}</span>
+                                        <span class="shipping-address-value">{{values.shipping_address.shipping_state}}</span>
                                     </div>
                                     <div class="shipping-address-item">
                                         <span class="shipping-address-label">Zip/Postcode:</span>
-                                        <span class="shipping-address-value">{{shipping_address.shipping_postcode}}</span>
+                                        <span class="shipping-address-value">{{values.shipping_address.shipping_postcode}}</span>
                                     </div>
                                 </div>
                                 <div class="door-address-edit col-md-7">
@@ -178,6 +178,10 @@
                                     <div class="door-address-item">
                                         <span>Company name:</span>
                                         <input type="text" [(ngModel)]="this.values.cart.request.order[0].door.door_company">
+                                    </div>
+                                    <div class="door-address-item">
+                                        <span>Email:</span>
+                                        <input type="email" [(ngModel)]="this.values.cart.request.order[0].door.door_email">
                                     </div>
                                     <div class="door-address-item">
                                         <span>Phone number:</span>

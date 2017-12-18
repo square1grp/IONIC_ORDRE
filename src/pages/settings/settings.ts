@@ -106,7 +106,18 @@ export class SettingsPage {
         let account_name = this.values.user_profile.business_display_name
         this.values.user_profile.business_display_name = this.retailer.business_name
         this.values.user_profile.masqaurade_name = account_name
+        
+        //get shipping address of the selected buyer.
+        let abort = false;
+        for (let i = 0, len = this.values.shipping_addresses.length; i < len && !abort; i++) {
+            if (this.values.shipping_addresses[i].buyer_id == this.thisBuyer_id) {
+                this.values.shipping_address = this.values.shipping_addresses[i];
+                abort = true;
+            }
+        }
+        this.data.consoleLog("this.values.shipping_address", this.values.shipping_address);
         this.data.consoleLog('this.values.user_profile', this.values.user_profile);
+        this.data.consoleLog('this.values.shipping_addresses', this.values.shipping_addresses);
         this.navCtrl.push(CollectionPage, { designer: this.values.designer });
     }
 

@@ -7,7 +7,7 @@ import { ViewOrderPage } from '../vieworder/vieworder';
 import { CartPage } from '../cart/cart';
 import { Platform } from 'ionic-angular';
 import { InAppBrowser } from '@ionic-native/in-app-browser'
-import * as Constants from '../../providers/constants'
+//import * as Constants from '../../providers/constants'
 
 /*
   Generated class for the Orders page.

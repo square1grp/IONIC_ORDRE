@@ -394,6 +394,14 @@ export class Data {
                             }
                             this.oldDraftOrders.push(oldOrder);
                         }
+                        else if (!row.doc.door.hasOwnProperty('door_email')) {
+                            let oldOrder = {
+                                _rev: row.doc._rev,
+                                _id: row.doc._id,
+                                status: row.doc.status
+                            }
+                            this.oldDraftOrders.push(oldOrder);
+                        }
                     });
                     this.consoleLog("this.values.cart in update", this.values.cart);
                     this.consoleLog("this.draftOrders in update", this.draftOrders);
@@ -407,6 +415,7 @@ export class Data {
                                 "door_first_name": "",
                                 "door_last_name": "",
                                 "door_company": "",
+                                "door_email": "",
                                 "door_address": "",
                                 "door_address_2": "",
                                 "door_city": "",
@@ -433,6 +442,14 @@ export class Data {
                             }
                             this.oldRequestedOrders.push(oldOrder);
                         }
+                        else if (!row.doc.door.hasOwnProperty('door_email')) {
+                            let oldOrder = {
+                                _rev: row.doc._rev,
+                                _id: row.doc._id,
+                                status: row.doc.status
+                            }
+                            this.oldDraftOrders.push(oldOrder);
+                        }
                     });
                     this.consoleLog("this.values.cart in update", this.values.cart);
                     this.consoleLog("this.draftOrders in update", this.requestedOrders);
@@ -444,6 +461,7 @@ export class Data {
                                 "door_first_name": "",
                                 "door_last_name": "",
                                 "door_company": "",
+                                "door_email": "",
                                 "door_address": "",
                                 "door_address_2": "",
                                 "door_city": "",
@@ -1179,7 +1197,7 @@ export class Data {
                 //     })
                 // }
                 // else {
-                console.log("/////////////====cordova====//////////////////////");
+                //console.log("/////////////====cordova====//////////////////////");
                 //console.log('Image Cache Get Blob:'+url)
                 this.getImage64(blob, filename, url, imageType).then((nr1) => {
                     let nr = '';
@@ -1496,7 +1514,6 @@ export class Data {
             this.designer.currentCollectionID = this.values.collections[0].collection_id
             return this.designer.currentCollectionID;
         }
-
     }
 
     getRetailers(device_token, user_token) {
@@ -1510,6 +1527,23 @@ export class Data {
             //this.http.get(apiSource).map(res => res.json()).subscribe(data => {
             this.http.get(gPapiSource).map(res => res.json()).subscribe(data => {
                 this.consolelog('Got retailers');
+                resolve(data.result);
+            })
+        });
+    }
+
+    getShippings(device_token, user_token, buyer_id) {
+        return new Promise((resolve, reject) => {
+            if (!this.values.online) {
+                this.offlineManager();
+                reject(null);
+            };
+            this.consolelog('Get Shipping Addresses');
+            let gPapiSource = this.values.APIRoot + "/app/api.php?json={%22action%22:%22shipping%22,%22request%22:{%22device_token%22:%22" + device_token + "%22,%22user_token%22:%22" + user_token + "%22,%22buyer_id%22:%22" + buyer_id + "%22}}";
+            this.consoleLog("shipping_api", gPapiSource);
+            this.http.get(gPapiSource).map(res => res.json()).subscribe(data => {
+                this.consolelog('Got Shipping Addresses');
+                this.consoleLog("shipping_api response", data.result);
                 resolve(data.result);
             })
         });

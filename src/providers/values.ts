@@ -40,6 +40,8 @@ export class Values {
     countries = [];
 
     activity_logs: any;
+    shipping_address: any;
+    shipping_addresses: any;
     //activity_log: any;
 
     cancel: boolean = false;
@@ -69,8 +71,8 @@ export class Values {
         '16', '17', '18', '19', '20', '21', '22', '23', '24'];
 
     //API 
-    //APIRoot = "https://ordre.kineticmedia.com.au";   //  STAGE
-    APIRoot = "https://www.ordre.com";             //  PRODUCTION
+    APIRoot = "https://ordre.kineticmedia.com.au";   //  STAGE
+    //APIRoot = "https://www.ordre.com";             //  PRODUCTION
 
 
     constructor() {

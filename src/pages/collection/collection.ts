@@ -122,9 +122,9 @@ export class CollectionPage {
         else {
             this.lastItem = this.firstItem + 18;
         }
-        console.log(this.firstItem);
-        console.log(this.lastItem - 1);
-        console.log(this.maxItems);
+        // console.log(this.firstItem);
+        // console.log(this.lastItem - 1);
+        // console.log(this.maxItems);
 
         let abort = false;
         for (var i = this.firstItem; i < this.lastItem && abort == false; i++) {
@@ -142,14 +142,14 @@ export class CollectionPage {
             }
         }
         this.firstItem = this.lastItem;
-        console.log('Render view changes');
+        //console.log('Render view changes');
         //this.cd.markForCheck();  
     }
 
 
 
     doInfinite(infiniteScroll) {
-        console.log('Begin async operation');
+        //console.log('Begin async operation');
 
         //setTimeout(() => {
         this.addItemsToGrid(this.searchValue, 2);
@@ -157,7 +157,7 @@ export class CollectionPage {
         //  this.items.push( this.values.lsproducts[i] );
         //}
         //this.cd.markForCheck();
-        console.log('Async operation has ended');
+        //console.log('Async operation has ended');
         infiniteScroll.complete();
         //}, 500);
     }
