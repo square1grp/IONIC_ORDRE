@@ -44,20 +44,6 @@ export class CartPage {
     ngOnInit() {
         this.submitting = false;
         this.data.consoleLog("this.values.user_profile", this.values.user_profile);
-        // if (!this.values.user_profile.hasOwnProperty('shipping')) {
-        //     this.values.user_profile.shipping = {
-        //         shipping_address: "Ship_Addr",
-        //         shipping_address_2: "Ship_Addr2",
-        //         shipping_city: "Ship_City",
-        //         shipping_company: "Ship_Company",
-        //         shipping_country: "Australia",
-        //         shipping_first_name: "Ship_First",
-        //         shipping_last_name: "Ship_Last",
-        //         shipping_postcode: "Ship_Postcode",
-        //         shipping_state: "Ship_State",
-        //         shipping_telephone: "Ship_Phone"
-        //     }
-        // }
         this.data.consoleLog("this.values.user_profile", this.values.user_profile);
         this.data.consoleLog("this.values.cart before addSizes()", this.values.cart);
         this.addSizes();
@@ -89,36 +75,28 @@ export class CartPage {
             orderPart.currency_code = this.values.designer.buyer_code;
             orderPart.currency_symbol = this.values.designer.buyer_symbol;
             console.log('Got' + orderPart.currency_code + ' : ' + orderPart.currency_symbol);
-
             //  get all collections for this designer
             this.data.getThisCollections(orderPart.seller_account_id, this.values.device_token, this.values.user_profile.user_token).then(data => {
-
                 //  check each product in each collections
                 console.log('Checking products to map QTY selectors for:' + orderPart.seller_account_id)
                 this.values.collections.forEach((collection, cindex) => {
-                    //if(cindex>1){
                     this.data.getProduct(collection.collection_id, this.values.device_token, this.values.user_profile.user_token, 0, 1).then(data => {
                         console.log('Got Product Data')
                         collection.products = data;
                         //  each product
-                        //console.log('** Checking for products in order part:' + part_index);
                         collection.products.forEach((product, pindex) => {
                             //  each variant
                             product.variants.forEach((variant, vindex) => {
                                 // is it in cart?
                                 let abort = false;
                                 let CurrentTotal = 0;
-                                //console.log('** Checking order for products:' + variant.variant_id);
                                 for (let sindex = 0, len = this.values.cart.request.order[0].sales_order_parts[part_index].sales_order_lines.length;
                                     sindex < len && !abort; sindex++) {
-                                    //console.log('=======  Test: Ordreline index ========');
-                                    //console.log('Test:' + this.values.cart.request.order[0].sales_order_parts[part_index].sales_order_lines[sindex].variant_id);
                                     if (this.values.cart.request.order[0].sales_order_parts[part_index].sales_order_lines[sindex].variant_id == variant.variant_id) {
                                         console.log('Found one.');
                                         //gotchya    
                                         abort = true;
                                         //build size array
-                                        //let NewTotal = 0;
                                         this.values.cart.request.order[0].sales_order_parts[part_index].sales_order_lines[sindex].size = [];
                                         let newSizes = this.values.cart.request.order[0].sales_order_parts[part_index].sales_order_lines[sindex].size;
 
@@ -132,7 +110,6 @@ export class CartPage {
                                                 'qty': 0
                                             });
                                             NewSizeID = NewSizeID - 1;
-                                            //New Code
                                             let orderQTY = this.cartProvider.getSizeQty(size.sku, orderPart.seller_account_id)
                                             let price = parseInt(this.values.cart.request.order[0].sales_order_parts[part_index].sales_order_lines[sindex].price)
                                             if (isNaN(orderQTY)) { orderQTY = 0 }
@@ -140,10 +117,6 @@ export class CartPage {
                                                 CurrentTotal = CurrentTotal + (orderQTY * price);
                                                 console.log('Added:' + orderQTY + ' x ' + price);
                                             }
-                                            else {
-                                                //NewTotal = 0
-                                            }
-                                            //console.log('New Total:' + NewTotal);
                                             this.values.cart.request.order[0].sales_order_parts[part_index].sales_order_lines[sindex].variant_total = CurrentTotal;
                                             if (orderQTY == 0) {
                                                 newSizes[NewSizeID].qty = '';
@@ -151,7 +124,6 @@ export class CartPage {
                                             else {
                                                 newSizes[NewSizeID].qty = orderQTY;
                                             }
-                                            //console.log('QTY set:' + this.values.cart.request.order[0].sales_order_parts[part_index].sales_order_lines[sindex].size[NewSizeID].qty);
                                         });
                                     }
                                 }
@@ -325,7 +297,7 @@ export class CartPage {
                 this.saveRequested();
                 this.cartProvider.emptyOrder();
                 this.submitting = false;
-                this.navCtrl.setRoot(OrdersPage, { uistate: mode });
+                this.navCtrl.push(OrdersPage, { uistate: mode });
                 this.data.activityLogPost(Constants.LOG_ORDER_REQUESTED, '', '', '', '');
             }
         });
@@ -439,7 +411,7 @@ export class CartPage {
         } 
         this.cartProvider.emptyOrder();
         this.submitting = false;
-        this.navCtrl.setRoot(OrdersPage, { uistate: mode });
+        this.navCtrl.push(OrdersPage, { uistate: mode });
     }
 
     handleCart(results) {

@@ -3,6 +3,7 @@
 <div id="pbody" class="open_bar">
   <div class="ordre_subheader">
     <div class="col-md-3  orders_page orders_sidebar_header">
+      <a (click)="popView()" class="go_back  col-md-2"></a>
       <!--a class="go_back col-md-2"></a-->
       <span class="title col-md-8"></span>
       <span class="toogle_menu col-md-2">|||</span>
@@ -22,7 +23,10 @@
     </div>
   <section id="orders_content" >
     <div class="ordres_list drafts open" *ngIf="uiState=='draft'">
-      <table >
+      <div class="no_draft_orders" *ngIf="this.data.draftOrders.length == 0 || this.data.draftOrders == undefined"> 
+        There are currently no draft Orders. 
+      </div>
+      <table *ngIf="this.data.draftOrders.length > 0">
         <tr>
           <th><span>Saved</span> date</th>
           <th>Ordre #</th>
@@ -34,7 +38,7 @@
           <!--th>Synced</th-->
           <!--th style="text-align: right;"><button class="sync_all">Sync all ordres</button></th-->
         </tr>
-        <ng-container *ngIf="this.data.draftOrders!==undefined">
+        <ng-container>
           <ng-container *ngFor="let draft of this.data.draftOrders.slice().reverse()">
             <tr *ngIf="draft.buyer_id == this.values.user_profile.buyer_id">
               <td>{{draft.date | date:medium}}</td>
@@ -64,7 +68,10 @@
       </table>
     </div>
     <div class="ordres_list requested open" *ngIf="uiState=='requested'">
-      <table>
+      <div class="no_requested_orders" *ngIf="this.data.requestedOrders.length == 0 || this.data.requestedOrders == undefined"> 
+        There are currently no requested Orders. 
+      </div>
+      <table *ngIf="this.data.requestedOrders.length > 0">
         <tr>
           <th><span>Requested</span> date</th>
           <th>Ordre #</th>

@@ -16,7 +16,6 @@ page-cart {
     }
     section #fe_content {
         height: 100%;
-        //overflow-y: scroll;
     }
     ion-content#linesheetScroolUp {
         height: 100%
@@ -87,7 +86,7 @@ page-cart {
     }
     div.fe_footer div.door-address div.shipping-address-item {
         padding-left: 15px;
-        margin-bottom: 4px;
+        margin-bottom: 14px;
     }
     div.fe_footer div.door-address div.shipping-address-item span.shipping-address-label {
         font-size: 12px;
@@ -155,6 +154,14 @@ page-cart {
     }
     div.door {
         padding-bottom: 5px;
+    }
+    div.no_cart_item {
+        font-size: 28px;
+        font-family: 'Avenir Book';
+        width: 90%;
+        margin: auto;
+        color: #000000;
+        padding-top: 10px;
     }
     @media only screen and (max-width: 1024px) {
         .fe_footer .confirm_order {

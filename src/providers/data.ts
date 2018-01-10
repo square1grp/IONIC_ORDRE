@@ -34,7 +34,7 @@ export class Data {
 
 
     //drafts and orders
-    draftOrders: any;
+    draftOrders = [];
     requestedOrders: any;
     db: any;
     dbDraft: any;

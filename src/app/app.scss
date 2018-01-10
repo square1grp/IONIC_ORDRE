@@ -2638,6 +2638,7 @@ section.page_content#collection_item_section {
 	padding:0px;
 	height:970px;
 	z-index:999;
+	border-left: 1px solid #b6b6b6;
 }
 
 #collection_item_section .navigation_holder .col-md-1 {
@@ -3713,7 +3714,7 @@ page-cart div.scroll_content {
 }
 
 #orders_section .orders_sidebar .draft_requested_list p {
-	font-size:20px;
+	font-size:19px;
 	text-transform:uppercase;
 	font-family:'Avenir Book';
 	color:#000000;
@@ -3733,11 +3734,11 @@ page-cart div.scroll_content {
 #orders_section .orders_sidebar .draft_requested_list p:after {
 	display:inline-block;
 	content:'';
-	width:45px;
-	height:45px;
+	width:40px;
+	height:40px;
 	background:url(../assets/images/svg/arrow-right-grey.svg);
 	position:absolute;
-	right:0px;
+	right:-5px;
 	top:8px;
 }
 
@@ -4199,7 +4200,7 @@ div.syncing li.active {
 }
 
 #settings_content table tr th:last-child {
-    padding: 20px 0 10px 0;
+    padding: 40px 0 10px 0;
     color: #9b9b9b;
     text-transform: uppercase;
     font-family: 'Avenir Light';
@@ -4337,7 +4338,7 @@ div.syncing li.active {
 }
 
 #settings_content .settings_item.sync_item.set_sync p.left {
-	width:93%;
+	width:90%;
 	float:left;
 }
 

@@ -19,4 +19,12 @@ page-orders {
         overflow: hidden;
         text-overflow: ellipsis;
     }
+    div.no_draft_orders, div.no_requested_orders {
+        font-size: 28px;
+        font-family: 'Avenir Book';
+        width: 90%;
+        margin: auto;
+        color: #000000;
+        padding-top: 50px;
+    }
 }

@@ -11,7 +11,6 @@ import { Values } from '../../providers/values';
 import { CartProvider } from '../../providers/cart';
 import { Data } from '../../providers/data';
 
-//import { SyncPage } from '../sync/sync';
 import { Nav, NavController, MenuController } from 'ionic-angular';
 
 @Component({
@@ -39,7 +38,6 @@ export class OrdreHeader {
     }
 
     openPage(page): void {
-        //this.navCtrl.setRoot(page);
         this.values.isDesignersPage = false;
         this.navCtrl.push(page);
     }
@@ -56,21 +54,14 @@ export class OrdreHeader {
 
     openCachePage(page): void {
         this.values.isDesignersPage = false;
-        //this.navCtrl.setRoot(page);
-        this.navCtrl.setRoot(page);
-        //this.navCtrl.push(page);
+        this.navCtrl.push(page);
     }
 
     goPage(page): void {
         this.zone.run(() => {
             this.navCtrl.setRoot(DesignersPage);
         });
-        //this.app.getRootNav().setRoot(DesignersPage);
-        //this.navCtrl.popToRoot().then(() => {
-        //this.navCtrl.remove(1);
-        //})
     }
-
 
     exitMasquarade() {
         let alert = this.alertCtrl.create({
@@ -132,7 +123,6 @@ export class OrdreHeader {
 
     openCollectionPage(page): void {
         this.values.isDesignersPage = false;
-        //this.navCtrl.setRoot(page);
         this.navCtrl.push(page, { designer: this.values.designer });
     }
 }

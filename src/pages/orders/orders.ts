@@ -131,6 +131,7 @@ export class OrdersPage {
                                 this.data.consoleLog("orderPart", orderPart);
                                 this.values.cart.request.order[0].sales_order_parts.push(orderPart);
                                 this.values.cart.request.order[0].door = this.values.cart.request.order[0].sales_order_parts[0].door;
+                                this.values.cart.request.order[0].total_line_items = this.values.cart.request.order[0].sales_order_parts[0].total_line_items;
                                 this.values.cart.request.device_token = this.values.user_profile.device_token;
                                 this.values.cart.request.user_token = this.values.user_profile.user_token;
                                 this.values.cart.request.order[0].total_qty = this.values.cart.request.order[0].sales_order_parts[0].total_qty;
@@ -145,6 +146,7 @@ export class OrdersPage {
                                 this.data.consoleLog("orderPart", orderPart);
                                 this.values.cart.request.order[0].sales_order_parts.push(orderPart);
                                 this.values.cart.request.order[0].door = this.values.cart.request.order[0].sales_order_parts[0].door;
+                                this.values.cart.request.order[0].total_line_items = this.values.cart.request.order[0].sales_order_parts[0].total_line_items;
                                 this.values.cart.request.device_token = this.values.user_profile.device_token;
                                 this.values.cart.request.user_token = this.values.user_profile.user_token;
                                 this.values.cart.request.order[0].total_qty = this.values.cart.request.order[0].sales_order_parts[0].total_qty;

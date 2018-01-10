@@ -55,7 +55,7 @@
               variant.sizes[0].variant_id, variant.sizes[0].sku, product.region_prices[this.values.user_profile.user_region_id].wsp, null,
               data.designer.seller_account_id, variant.sizes[0].size_title, variant.sizes[0].variant_size_id,'all', product.product_id)">
                 <img [src]="isProductInOrder(variant.product_id, variant.variant_id, values.designer.seller_account_id)"/></span>
-            <p class="total_title"><!-- Products total WSP--></p>
+            <p class="total_title"></p>
             <p class="product_total" [ngClass]="{'active': variant?.total>0, '': variant?.total==0}">{{this.data.designer?.buyer_code}} {{this.data.designer?.buyer_symbol}}{{variant?.total | number :'.2'}}</p> 
             
             <p class="clear_item" tappable (tap)="clearItem(variant.variant_id,0)">Clear item</p>
@@ -72,9 +72,6 @@
                 size.size_title, size.variant_size_id,'type', product.product_id)">
             </label>
           </div>
-          <!--p class="product_quantity">
-            <input type="text" name="product_quantity" placeholder="Enter product enquiry here">
-          </p-->
       </div>  
     </div>
     <div class="collection_item_divider"></div>
