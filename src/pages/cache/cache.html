@@ -37,10 +37,11 @@
 				<ul>
 					<li [ngClass]="{'': uiState!=='settings', 'active': uiState=='settings'}" block="set_sync" (click)="uiChange('settings')">Settings</li>
 					<li [ngClass]="{'': uiState!='log', 'active': uiState=='log'}" block="collect_sync" (click)="uiChange('log')">Log</li>
+					<!--li block="ord_sync">Orders Sync Log </li-->
 				</ul>
 			</div>
 			<div class="version">
-				<span>v1.07</span>
+				<span>v1.08</span>
 			</div>
 		</div>
 	</div>
@@ -91,6 +92,25 @@
 					<label for="checkbox"></label>
 				</div>
 			</div>
+			<!--div class="title"><span>Sync Settings:</span> Automatically Sync when connected to the internet</div>
+			<div class="item"><p class="left"><span>Update Collections:</span> Automatically Sync when connected to the internet</p>
+				<div class="right">
+					<input type="checkbox" class="checkbox" id="checkbox" />
+					<label for="checkbox"></label>
+				</div>
+			</div>
+			<div class="item"><p class="left"><span>Sync Draft ordres:</span> Automatically Sync when connected to the internet</p>
+				<div class="right">
+					<input type="checkbox" class="checkbox" id="checkbox2" />
+					<label for="checkbox2"></label>
+				</div>
+			</div>
+			<div class="item"><p class="left"><span>Sync Requested Ordres:</span> Automatically Sync when connected to the internet</p>
+				<div class="right">
+					<input type="checkbox" class="checkbox" id="checkbox3" />
+					<label for="checkbox3"></label>
+				</div>
+			</div-->
 		</div>		
 		<div class="settings_item sync_item collect_sync active" *ngIf="uiState=='log'">
 			<table >
@@ -102,6 +122,7 @@
 				<ng-container *ngFor="let log of this.data.dlog.slice().reverse()">
 					<tr *ngIf="((this.values.user_profile.seller_account_id>0 && log.designer_id == this.values.user_profile.seller_account_id) ||
 						(this.values.user_profile.seller_account_id == 0))">
+						
 						<td>{{log.date | date: 'dd/MM/yyyy H:mm'}}</td>
 						<td>{{log.action}}</td>
 						<td  [innerHTML]="log.designer + ' / ' + log.collection"></td>

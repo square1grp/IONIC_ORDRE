@@ -11,6 +11,7 @@ import { Values } from '../../providers/values';
 import { CartProvider } from '../../providers/cart';
 import { Data } from '../../providers/data';
 
+//import { SyncPage } from '../sync/sync';
 import { Nav, NavController, MenuController } from 'ionic-angular';
 
 @Component({
@@ -38,6 +39,7 @@ export class OrdreHeader {
     }
 
     openPage(page): void {
+        //this.navCtrl.setRoot(page);
         this.values.isDesignersPage = false;
         this.navCtrl.push(page);
     }
@@ -54,6 +56,8 @@ export class OrdreHeader {
 
     openCachePage(page): void {
         this.values.isDesignersPage = false;
+        //this.navCtrl.setRoot(page);
+        //this.navCtrl.setRoot(page);
         this.navCtrl.push(page);
     }
 
@@ -61,7 +65,12 @@ export class OrdreHeader {
         this.zone.run(() => {
             this.navCtrl.setRoot(DesignersPage);
         });
+        //this.app.getRootNav().setRoot(DesignersPage);
+        //this.navCtrl.popToRoot().then(() => {
+        //this.navCtrl.remove(1);
+        //})
     }
+
 
     exitMasquarade() {
         let alert = this.alertCtrl.create({
@@ -79,9 +88,14 @@ export class OrdreHeader {
                     text: 'Logout',
                     handler: () => {
                         this.values.user_profile.seller_account_id = this.values.user_profile.masquerade_id;
-                        this.values.user_profile.business_display_name = this.values.user_profile.masqaurade_name;
+                        this.values.user_profile.business_display_name = this.values.user_profile.masquerade_name;
+                        if (this.values.user_profile.hasOwnProperty("masquerade_region_id")) {
+                            this.values.user_profile.user_region_id = this.values.user_profile.masquerade_region_id;
+                            this.values.user_profile.masquerade_region_id = 0;
+                            this.data.getDesignerCurrency(this.values.user_profile.user_region_id, 0);
+                        }
                         this.values.user_profile.masquerade_id = 0;
-                        this.values.user_profile.masqaurade_name = '';
+                        this.values.user_profile.masquerade_name = '';
                         // empty the cart
                         this.cartProvider.emptyOrder();
                         this.navCtrl.push(SettingsPage);
@@ -123,6 +137,7 @@ export class OrdreHeader {
 
     openCollectionPage(page): void {
         this.values.isDesignersPage = false;
+        //this.navCtrl.setRoot(page);
         this.navCtrl.push(page, { designer: this.values.designer });
     }
 }

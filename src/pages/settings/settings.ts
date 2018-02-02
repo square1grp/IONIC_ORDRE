@@ -101,14 +101,31 @@ export class SettingsPage {
         this.values.user_profile.masquerade_id = account_id;
         this.values.user_profile.seller_account_id = 0;
         this.values.user_profile.buyer_id = this.thisBuyer_id;
+        this.retailer = this.getRetailer(this.retailer_id);
 
-        this.retailer = this.getRetailer(this.retailer_id)
-        let account_name = this.values.user_profile.business_display_name
-        this.values.user_profile.business_display_name = this.retailer.business_name
-        this.values.user_profile.masqaurade_name = account_name
+        // get the region id of selected buyer
+        let buyer_region_id = 0;
+        let abort = false;
+        for (let i = 0, len = this.buyers.length; i < len && !abort; i++) {
+            if (this.buyers[i].buyer_id == this.thisBuyer_id) {
+                buyer_region_id = this.buyers[i].region_id;
+                abort = true;
+            }
+        }
+        if (buyer_region_id == 0) buyer_region_id = this.retailer.region_id;
+
+        
+        let account_name = this.values.user_profile.business_display_name;
+        this.values.user_profile.business_display_name = this.retailer.business_name;
+        this.values.user_profile.masquerade_name = account_name;
+        this.values.user_profile.masquerade_region_id = this.values.user_profile.user_region_id;
+        this.values.user_profile.user_region_id = buyer_region_id;
+        this.data.consoleLog('this.values.designer', this.values.designer);
+        this.data.getDesignerCurrency(buyer_region_id, 0);
+        this.data.consoleLog('this.values.designer', this.values.designer);
         
         //get shipping address of the selected buyer.
-        let abort = false;
+        abort = false;
         for (let i = 0, len = this.values.shipping_addresses.length; i < len && !abort; i++) {
             if (this.values.shipping_addresses[i].buyer_id == this.thisBuyer_id) {
                 this.values.shipping_address = this.values.shipping_addresses[i];

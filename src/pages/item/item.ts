@@ -7,6 +7,8 @@ import { View360Page } from '../view360/view360';
 import { Slides } from 'ionic-angular';
 import * as Constants from '../../providers/constants'
 
+//import circlr from 'circlr';
+
 @Component({
     selector: 'page-item',
     templateUrl: 'item.html'
@@ -15,6 +17,7 @@ export class ItemPage {
 
     slideOptions: any;
     product: any;
+    //designer: any;
     collection: any;
     show3D: boolean = false;
     default360: any;
@@ -37,14 +40,32 @@ export class ItemPage {
     }
 
     view360(variants, default360) {
+        //this.data.consolelog('360Variants:'+JSON.stringify(variants))
         let popover = this.popoverCtrl.create(View360Page, { productVariants: variants, default360: default360 });
         popover.present();
+
+        //this.data.consolelog('try to render 3d')
+        //  https://www.pincer.io/npm/libraries/circlr
+
+        /*
+        const el = document.querySelector('#test3d');    
+        console.log('Element:'+JSON.stringify(el));
+        circlr(el)
+          .scroll(true)
+          .interval(150)
+          .play(23)
+          .reverse(true)
+          .on('show', n => {
+          });
+        */
     }
 
     ngOnInit() {
         this.product = this.navparams.get("product");
         this.collection = this.navparams.get("collection");
         this.data.designer = this.navparams.get("designer");
+        //this.data.consolelog('ionViewDidLoad ItemPage')   
+        //this.render3D();
         this.data.getDesignerCurrency(this.values.user_profile.user_region_id, -1);
         this.has360();
 
@@ -59,10 +80,16 @@ export class ItemPage {
                 console.log(keyCount + ':' + this.product.variants[i - 1].variant_images.length);
             }
         }
+        // setTimeout(() => {
+        //     this.data.dismissLoadingSpiner();
+        // }, 800);
+        this.data.consoleLog("this.data.designer", this.data.designer);
+        this.data.consoleLog("this.product", this.product);
     }
 
     ionViewDidLoad() {
         this.data.activityLogPost(Constants.LOG_VIEWED_PRODUCT, this.values.designer.seller_account_id, this.collection.collection_id, this.product.product_id, '');
+        
     }
 
     viewSlide(slideNo) {
@@ -75,6 +102,7 @@ export class ItemPage {
 
     addToCart(product_title, colour, material, swatch, image, designer_title, variant_id, sku, price,
         event, designer_id, size, size_id, type, product_id) {
+        this.data.consoleLog("price", price);
         if (this.values.user_profile.seller_account_id != 0) { return false; }
         if (event == null) {
             this.qty = 0;
@@ -100,8 +128,8 @@ export class ItemPage {
         this.product.variants.forEach((variant, vindex) => {
             this.product.variants[vindex].total = 0
             variant.sizes.forEach((size, sindex) => {
-                var orderQTY = this.cartProvider.getSizeQty(this.product.variants[vindex].sizes[sindex].sku, this.data.designer.seller_account_id)
-                this.product.variants[vindex].total = this.product.variants[vindex].total + (orderQTY * this.product.region_prices[0].wsp)
+                var orderQTY = this.cartProvider.getSizeQty(this.product.variants[vindex].sizes[sindex].sku, this.data.designer.seller_account_id);
+                this.product.variants[vindex].total = this.product.variants[vindex].total + (orderQTY * this.product.region_prices[0].wsp);
                 if (orderQTY == 0) {
                     this.product.variants[vindex].sizes[sindex].qty = '';
                 }
@@ -121,6 +149,7 @@ export class ItemPage {
                     abort = true;
                     this.yesThisHas360 = true;
                     this.default360 = this.product.variants[i].variant_images[j].variant_360;
+                    //this.data.consolelog('Yes, has 360 starting:'+this.default360);
                 }
             }
         }
@@ -155,4 +184,5 @@ export class ItemPage {
             return ("assets/images/select-icon.png");
         }
     }
+
 }

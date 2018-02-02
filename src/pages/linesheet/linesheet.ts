@@ -11,6 +11,7 @@ import { ViewloaderPage } from '../viewloader/viewloader'
 import * as Constants from '../../providers/constants'
 
 @Component({
+    //changeDetection: ChangeDetectionStrategy.OnPush,
     selector: 'page-linesheet',
     templateUrl: 'linesheet.html'
 })
@@ -52,10 +53,14 @@ export class LinesheetPage {
     qty: any = 0;
     addFlag: boolean = false;
     constructor(private zone: NgZone, private cd: ChangeDetectorRef, private popoverController: PopoverController, public navCtrl: NavController, public navParams: NavParams, public data: Data, public cartProvider: CartProvider, public values: Values, private el: ElementRef, private renderer: Renderer, private alertCtrl: AlertController, private popoverCtrl: PopoverController) {
+        //this.values.products = null;
 
+        //this.data.designer = this.navParams.get("designer");
     }
 
     ngOnInit() {
+        //this.values.lsproducts = null;
+        //this.values.search= '';
         this.searchValue = '';
         this.searchControl = new FormControl();
         this.collection = this.navParams.get("collection");    
@@ -69,13 +74,29 @@ export class LinesheetPage {
             }
         };
 
-        this.data.consolelog('ionViewDidLoad CollectionPage');
+        //this.cd.markForCheck();
+
+        //console.log(JSON.stringify(this.values.products));
+        //this.data.designer = this.navParams.get("designer")
+        //this.values.products = this.navParams.get("products");
+        //this.data.consolelog(JSON.stringify(this.values.products));
+        //this.designer.content = this.designer.content.split(/<p>|<\/p>|¤/);
+        //this.data.consolelog(this.data.designer)
+        this.data.consolelog('ionViewDidLoad CollectionPage')
+        //this.data.getThisCollections(this.data.designer.seller_account_id);
+        //this.data.getDesignerCurrency(this.values.user_profile.user_region_id,-1);
+
+        //build array for virtual scrolling (flatten product + variants)
         this.buildArray('', 0);
 
         this.addItemsToGrid();
         this.search();
 
+
+
+
         //***** Pagination code part **************//
+
         this.pageArrayLength = this.pageArray.length;
         this.pageLength = 7;
         this.currentGroupIndex = 0;
@@ -107,6 +128,10 @@ export class LinesheetPage {
                 tempGroup = [];
             }
         }
+        // console.log("dismiss_linsheet");
+        // setTimeout(() => {
+        //     this.data.dismissLoadingSpiner();
+        // }, 800);
     }
 
     prevPage() {
@@ -137,9 +162,14 @@ export class LinesheetPage {
     }
 
     ionViewDidLeave() {
+        //this.items = [];
+        //this.vArray = [];
     }
 
     buildArray(search, mode) {
+        //let thisProduct
+        //let pindex
+        //let vindex
         this.vArray = [];
         this.values.products.forEach((thisProduct, pindex) => {
             thisProduct.variants.forEach((thisVariant, vindex) => {
@@ -194,36 +224,79 @@ export class LinesheetPage {
     }
 
     addItemsToGrid() {
+        //this.maxItems = this.vArray.length
         this.items = [];
         this.maxItems = this.pageArray[this.page].items
         this.firstItem = (this.page) * this.pageItems
         this.lastItem = this.firstItem + this.maxItems
+        /*
+        if(((search.length>0)&&(mode!=2))||(mode==1)){
+          this.firstItem=0;
+          this.lastItem=0;
+          //if (this.maxItems>18){this.maxItems=18};
+          this.items = [];
+        }
+        */
+        //if(this.firstItem > this.maxItems){
+        //  return false;  
+        //}
+        //if((this.firstItem + 18)>this.maxItems){
+        //  this.lastItem = this.maxItems
+        //}
+        //else
+        //{
+        //  this.lastItem = this.firstItem+18;
+        //}
         console.log(this.firstItem);
         console.log(this.lastItem - 1);
         console.log(this.maxItems);
 
         let abort = false;
         for (var i = this.firstItem; i < this.lastItem && abort == false; i++) {
+            /*
+            if(search.length>0){
+              console.log('Search:'+this.vArray[i].variant.vsearch + ' - ' + this.vArray[i].product.product_title)
+              if(this.vArray[i].variant.vsearch.toLowerCase().indexOf(search.toLowerCase())>=0){
+                this.items.push( this.vArray[i] );  
+              }
+              else
+              {         
+                if(this.lastItem<this.maxItems){this.lastItem = this.lastItem + 1 ;} 
+              }
+            }
+            else
+            {
+            */
             this.items.push(this.vArray[i]);
+            //}
         }
+        //this.firstItem = this.lastItem
+        //console.log('Found '+this.vArray.length);
+        //this.cd.markForCheck();  
     }
 
     doInfinite(infiniteScroll) {
         console.log('Begin async operation');
+
+        //setTimeout(() => {
         this.addItemsToGrid();
+        //this.cd.markForCheck();
         console.log('Async operation has ended');
         infiniteScroll.complete();
+        //}, 500);
     }
 
     search() {
         console.log('Search enabled')
         this.searchControl.valueChanges.debounceTime(1000).distinctUntilChanged().subscribe(searchString => {
+            //if(searchString != '' && searchString){
             console.log('Search for:' + searchString);
             let mode = 0;
             this.searchValue = searchString;
             if (searchString.length == 0) mode = 1;
             this.buildArray(searchString, mode);
             this.addItemsToGrid();
+            //}
         });
     }
 
@@ -232,6 +305,20 @@ export class LinesheetPage {
         this.el.nativeElement.click();
     }
 
+    /*
+    changeCollection(collection_id){
+      this.values.lsproducts = null;
+      this.data.currentCollectionID = collection_id;
+      //  get selected collection profile
+      this.data.selectedCollection = this.data.filterCollections(this.data.currentCollectionID)[0];
+      //  get product items in the collection
+      this.data.consolelog('Getting products for collection ID:'+collection_id)
+      this.data.getProduct(collection_id,this.values.device_token,this.values.user_profile.user_token,0,0).then(data => {      
+        this.values.lsproducts = this.values.products;
+        //this.values.products = data;
+      })
+    }
+    */
     addToCart(product_title, colour, material, swatch, image, designer_title, variant_id, sku, price, event, designer_id
         , size, size_id, type, product_id, itemItem) {
         this.zone.run(() => {
@@ -251,6 +338,9 @@ export class LinesheetPage {
 
             this.data.activityLogPost(Constants.LOG_ADD_TO_RANGINGROOM, designer_id, this.collection.collection_id, product_id, variant_id);
         });
+        console.log("====== item ========");
+        console.log(itemItem);
+        console.log("====== item end ========");
     }
 
     addProductVariantToCart(product_title, colour, material, swatch, image, designer_title, variant_id, sku, price, event
@@ -263,6 +353,9 @@ export class LinesheetPage {
             this.setItemQty();
             this.cd.markForCheck();
         });
+        console.log("====== item ========");
+        console.log(itemItem);
+        console.log("====== item end ========");
     }
 
     clearItem(variant_id, keepit) {
@@ -308,6 +401,7 @@ export class LinesheetPage {
                     else {
                         this.values.products[pindex].variants[vindex].sizes[sindex].qty = orderQTY;
                     }
+                    //this.data.consolelog('Set QTY in UI:'+this.values.products[pindex].variants[vindex].sizes[sindex].qty);
                 });
             });
         });
@@ -315,6 +409,12 @@ export class LinesheetPage {
     }
 
     downloadManager(collection_id, designer_id, designer, collection_title, mode) {
+        // this.data.presentLoadingSpiner();
+        // setTimeout(() => {
+        //     if (this.data.isloadingState == true) {
+        //         this.data.dismissLoadingSpiner();
+        //     }
+        // }, 2000);
         if (!this.values.online) {
             this.data.offlineManager();
             return false;
@@ -330,15 +430,60 @@ export class LinesheetPage {
         let popover = this.popoverController.create(this.viewloaderPage, { collection_id: collection_id, designer_id: designer_id, mode: mode });
         popover.present();
         this.data.cacheCollection(collection_id, designer_id, designer, collection_title, mode).then(() => {
-            
+            // setTimeout(() => {
+            //     this.data.dismissLoadingSpiner();
+            // }, 500);
+            //this.cd.markForCheck(); 
         });
     }
+    /*
+    downloadCollection(collection_id,designer_id){
+        if(!this.values.online){
+          this.data.offlineManager();
+          return false;
+        };
+        //  set the specific collection with an offline property status
+        this.values.downloadTarget = 0;
+        this.values.downloadQueue = 0;
+        this.values.cancel=0;
+        let popover = this.popoverCtrl.create(ViewloaderPage,{collection_id:collection_id,designer_id:designer_id,mode:1});
+        popover.present();
+        
+        this.values.debug = 'Set Collection Status'
+        let abort=false;
+        for (let cindex = 0, len = this.values.collections.length; cindex < len && !abort; cindex++) {
+          if (this.values.collections[cindex].collection_id == collection_id){
+              abort = true;
+              this.values.collections[cindex].offline = 'Downloading';
+              this.values.collections[cindex].designer = this.data.designer.title;
+              this.values.collections[cindex].size = this.values.collections[cindex].app_total_bytes        
+              //this.data.consolelog('3. Status set to "downloading" - updating collections obj for this designer')
+              let record_id = 'collections_'+designer_id
+              
+              this.data.storeCollections(record_id,this.values.collections)
+                //this.data.consolelog('7. Collection Stored!')         
+                this.values.debug = 'Set Collection Status: Done'
+                this.data.getProduct(collection_id,this.values.user_profile.device_token,this.values.user_profile.user_token,1).then((data) => {
+                  this.values.products = data;
+                });  
+          }
+        } 
+    }
+    */
+
 
     gridView() {
         this.navCtrl.push(CollectionPage, { collection: this.data.selectedCollection, mode: 'fromlinesheet' });
     }
 
     productItem(product) {
+        // this.data.presentLoadingSpiner();
+        // setTimeout(() => {
+        //     if (this.data.isloadingState == true) {
+        //         this.data.dismissLoadingSpiner();
+        //     }
+        // }, 2000);
+
         this.data.presentLoadingSpinerSec().then(() => {
             this.values.onescreen_total_imgages_num = product.variants.length * 2;
             this.values.onescreen_image_index = 0;
@@ -347,6 +492,7 @@ export class LinesheetPage {
     }
 
     openPage(page): void {
+        //this.navCtrl.setRoot(page);
         this.navCtrl.push(page);
     }
 
@@ -358,5 +504,7 @@ export class LinesheetPage {
         this.items = [];
         this.vArray = [];
         this.navCtrl.pop();
+        //this.cd.markForCheck();
     }
+
 }

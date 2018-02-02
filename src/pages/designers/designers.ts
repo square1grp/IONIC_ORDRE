@@ -13,7 +13,6 @@ export class DesignersPage {
     params: any;
 
     constructor(public navCtrl: NavController, public navParams: NavParams, private data: Data, public values: Values, public loadingCtrl: LoadingController) {
-    
     }
 
     ngOnInit() {
@@ -23,13 +22,14 @@ export class DesignersPage {
     }
 
     ngAfterViewChecked() {
-
     }
 
     designerCollections(designer) {
+        //this.data.presentLoadingSpiner();
         this.data.presentLoadingSpinerSec().then(() => {
             this.values.onescreen_total_imgages_num = 3;
             this.values.onescreen_image_index = 0;
+
             this.values.designer = designer;
             this.data.getDesignerCurrency(this.values.user_profile.user_region_id, 0);
             this.data.getThisCollections(this.values.designer.seller_account_id, this.values.device_token, this.values.user_profile.user_token).then((data) => {
@@ -41,6 +41,7 @@ export class DesignersPage {
                     }
                 };
                 console.log('Online:' + this.values.online);
+
                 this.values.products = null;
                 this.data.getProduct(this.data.currentCollectionID, this.values.device_token, this.values.user_profile.user_token, 0, 0).then(data => {
                     if (this.values.products.length < 9) {
@@ -67,6 +68,8 @@ export class DesignersPage {
             force = true;
             this.data.getDesigners(this.values.device_token, this.values.user_profile.user_token, force).then((response) => {
                 this.values.designers = response;
+                console.log("this.valuse.designers---------//");
+                console.log(this.values.designers);
                 this.values.onescreen_total_imgages_num = this.values.designers.length;
                 for (let index = 0; index < this.values.designers.length; index++) {
                     let designer_id = this.values.designers[index].seller_account_id;
@@ -85,5 +88,6 @@ export class DesignersPage {
                 console.log(err);
             });
         }
+
     }
 }

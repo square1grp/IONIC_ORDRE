@@ -12,7 +12,7 @@ import { Storage } from '@ionic/storage';
   template: `
  
     <div [ngClass]="{ 'placeholder': hidden }">
-        <img [ngClass]="{ 'active': !hidden }" [src]="src" (load)="load()" (error)="error()" />
+        <img [ngClass]="{ 'active': !hidden }" [src]="img_src" (load)="load()" (error)="error()" />
     </div>
  
   `
@@ -24,6 +24,7 @@ export class OrdreImageCache {
 
     public img: HTMLImageElement;
     public hidden: boolean;
+    public img_src: string = "";
 
     constructor(private storage: Storage, private cd: ChangeDetectorRef, private platform: Platform, public el: ElementRef, private data: Data, private ds: DomSanitizer, public values:Values) {
         this.hidden = true;
@@ -44,14 +45,14 @@ export class OrdreImageCache {
                     console.log('Write Cordova File');
                     let url = URL.createObjectURL(image);
                     let fixedUrl: SafeUrl = this.ds.bypassSecurityTrustUrl(url)
-                    this.src = <string>fixedUrl;
+                    this.img_src = <string>fixedUrl;
                     this.hidden = false 
                     this.cd.markForCheck();
                 }
                 else {
                     console.log('Write Image');
                     let fixedUrl: SafeUrl = this.ds.bypassSecurityTrustUrl(<string>image)
-                    this.src = <string>fixedUrl;
+                    this.img_src = <string>fixedUrl;
                     this.hidden = false   
                     this.cd.markForCheck();             
                 }
@@ -71,7 +72,7 @@ export class OrdreImageCache {
             {
                 //console.log(imageURL + ' not found in cache')
                 if(this.values.online){
-                    this.src = imageURL; //this.src;
+                    this.img_src = imageURL; //this.src;
                     this.hidden = false;
                     this.cd.markForCheck();
                     //console.log('Cache the image:' + imageURL);
