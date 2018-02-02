@@ -9,6 +9,7 @@ import { File } from '@ionic-native/file';
 import PouchDB from 'pouchdb';
 import 'rxjs/Rx';
 import 'rxjs/add/operator/map';
+import { concat } from 'rxjs/operator/concat';
 
 declare var cordova;
 
@@ -532,50 +533,25 @@ export class Data {
                 };
 
                 if ((checkpoint == true || force == true || result == null) && (this.values.online)) {
-
-                    //if (!this.values.user_profile.seller_account_id){this.presentLoadingCustom()};
-                    //return new Promise(resolve => {
                     this.consolelog('Forced update?' + force);
                     let apiSource = this.values.APIRoot + "/app/api.php?json={%22action%22:%22designers%22,%22request%22:{%22device_token%22:%22" +
                         device_token + "%22,%22user_token%22:%22" + user_token + "%22,%22checkpoint%22:%22" + (baseDate.getTime() / 1000) + "%22}}";
                     this.consolelog(apiSource);
-                    // let loading = this.loadingCtrl.create({
-                    //   dismissOnPageChange: false,
-                    //     spinner: 'crescent',
-                    //     content: "<div id='loading' class='loading_container'><div class='loading_spinner'></div></div>"}
-                    // );
-                    //loading.present().then(() => {
                     this.http.get(apiSource).map(res => res.json()).subscribe(data => {
                         this.consolelog('Got All Designers from API');
                         let gotdata = data.result;
                         this.consoleLog("data", data);
                         this.consoleLog("data.result", data.result);
                         resolve(data.result);
-                        //this.consolelog("=======================");
-                        //this.loading.dismiss().catch(() => {});
-
-                        //this.deleteItem(record_id_get).then(() => {
-                        //this.consolelog(JSON.stringify(data.result))
                         this.values.designer_checkpoint = new Date();
                         this.consolelog('Store in pouchDB');
                         this.storeDesigners = { '_id': record_id, data: gotdata };
 
                         this.consolelog('Store Designers with wrapper.');
                         this.storage.set(record_id, JSON.stringify(this.storeDesigners)).then((new_ID) => {
-                            //this.consolelog('Designers stored in pouchDB ID:'+JSON.stringify(new_ID));
-
-                            //  cache the images
-                            //data.result.forEach((designer, dindex) => {
-                            //this.cacheMaybe(this.values.APIRoot + '/app/get_image.php?image=/'+designer.profile_image+'&w=271&h=178');                 
-                            //this.cacheMaybe(this.values.APIRoot+'/app/get_image.php?image=/'+designer.logo_image+'&w=310&h=140&zc=1');
-                            //});
-
-                            //loading.dismissAll();
                         }).catch(function (err) {
                             console.log(err);
-                            //loading.dismissAll();
                         });
-                        //})
                     })
                 }
             })
@@ -600,8 +576,7 @@ export class Data {
         }
         //  check for designers in pouch
         let record_id = 'collections_' + designer_id;
-        let record_id_get = record_id;
-        //if (force == true && checkpoint == false && this.values.online) {record_id_get = 'NOPEA'}    
+        let record_id_get = record_id;  
         if (force == true) { record_id_get = 'NOPEA' }
         return new Promise((resolve, reject) => {
             this.storage.get(record_id_get).then((result) => {
@@ -653,22 +628,12 @@ export class Data {
     //  stores collection list for a designer, record_id = 'collections_' + designer_id
 
     storeCollections(record_id, data) {
-        //return new Promise((resolve, reject) => {
         this.consolelog('4. Store in db');
         let storeCollection = { '_id': record_id, data: data };
-        this.consolelog('5. Store Collections with wrapper.'); //+ JSON.stringify(this.storeCollection));
-        //this.deleteItem(record_id).then(() => {
+        this.consolelog('5. Store Collections with wrapper.');
         this.consolelog('5d. Delete done, Posting:' + storeCollection._id);
-        this.storage.set(record_id, JSON.stringify(storeCollection));//.then((new_ID) => {
-        //this.consolelog('6. Collection stored!!!')
-        //this.consolelog('6a:'+JSON.stringify(new_ID));
-        //new_ID='';
-        //resolve(new_ID);
-        //})
-        //})
-        //})
+        this.storage.set(record_id, JSON.stringify(storeCollection));
     }
-
 
     deleteItem(id) {
         //this.consolelog('5a. Delete an ID:' + id);

@@ -27,9 +27,6 @@
                             <p class="title">Order Summary</p>
                             <div class="single_ordre_summary" *ngFor="let designer of values.cart.request.order[0].sales_order_parts">
                                 <p class="designer_name"><span>Designer</span><span [innerHTML]="designer.designer_title"></span></p>
-                                <!--p class="collection_name"><span>Collection</span><span>Spring Summer Autumn is the Collection's name</span></p>
-                                <p class="ordre"><span>Order</span><span>30 Oct 2016 - 30 Nov 2016</span></p>
-                                <p class="delivers"><span>Delivers</span><span>15 Jan 2017 - 31 Mar 2017</span></p-->
                                 <p class="number"><span>No. Products</span><span>{{designer.total_line_items}}</span></p>
                                 <p class="qty"><span>Total QTY</span><span>{{designer.total_qty}}</span></p>
                                 <p class="total"><span>Total Value</span><span>{{designer.currency_code}} {{designer.currency_symbol}}
@@ -39,11 +36,6 @@
                 </div>
             </div>
             <section id="fe_content" *ngIf="(this.values.cart.request.order[0].buyer_id==0)">
-                <!-- <article>
-                    <div>
-                        <p style="font-size: 18px; padding-left:20px;">No products have been added to your Order as yet.</p>
-                    </div>
-                </article> -->
                 <div class="no_cart_item"> No products have been added to your Order as yet. </div>
             </section>
             <section id="fe_content" *ngIf="this.values.cart.request.order[0].buyer_id!=0">
@@ -60,7 +52,6 @@
                                     <span class="remove_item" tappable (click)="clearItem(orderPart, line.product_id, 0, line.variant_id)">Remove</span>
                                     <div class="item_image">
                                         <lazy-img src="{{values.APIRoot}}/app/get_image.php?image=/{{line.image}}&w=110&h=165&xtype=prodimage"></lazy-img>
-                                        <!--p class="item_detail">Detail</p-->
                                     </div>
                                     <div class="item_meta">
                                         <p class="name" [innerHTML]="line.product_title"></p>
@@ -189,12 +180,10 @@
                                         <input type="text" [(ngModel)]="this.values.cart.request.order[0].door.door_telephone">
                                     </div>
                                     <div class="door-address-item">
-                                        <!-- <ion-item> -->
-                                            <span class="country-span">Country:</span>
-                                            <ion-select [(ngModel)]="this.values.cart.request.order[0].door.door_country">
-                                                <ion-option [value]="country.country_id" *ngFor="let country of values.countries">{{country.printable_name}}</ion-option>
-                                            </ion-select>
-                                        <!-- </ion-item> -->
+                                        <span class="country-span">Country:</span>
+                                        <ion-select [(ngModel)]="this.values.cart.request.order[0].door.door_country">
+                                            <ion-option [value]="country.country_id" *ngFor="let country of values.countries">{{country.printable_name}}</ion-option>
+                                        </ion-select>
                                     </div>
                                     <div class="door-address-item">
                                         <span>Street address:</span>

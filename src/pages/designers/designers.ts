@@ -25,7 +25,6 @@ export class DesignersPage {
     }
 
     designerCollections(designer) {
-        //this.data.presentLoadingSpiner();
         this.data.presentLoadingSpinerSec().then(() => {
             this.values.onescreen_total_imgages_num = 3;
             this.values.onescreen_image_index = 0;
@@ -88,6 +87,5 @@ export class DesignersPage {
                 console.log(err);
             });
         }
-
     }
 }

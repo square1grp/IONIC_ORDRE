@@ -44,20 +44,6 @@ export class CartPage {
     ngOnInit() {
         this.submitting = false;
         this.data.consoleLog("this.values.user_profile", this.values.user_profile);
-        // if (!this.values.user_profile.hasOwnProperty('shipping')) {
-        //     this.values.user_profile.shipping = {
-        //         shipping_address: "Ship_Addr",
-        //         shipping_address_2: "Ship_Addr2",
-        //         shipping_city: "Ship_City",
-        //         shipping_company: "Ship_Company",
-        //         shipping_country: "Australia",
-        //         shipping_first_name: "Ship_First",
-        //         shipping_last_name: "Ship_Last",
-        //         shipping_postcode: "Ship_Postcode",
-        //         shipping_state: "Ship_State",
-        //         shipping_telephone: "Ship_Phone"
-        //     }
-        // }
         this.data.consoleLog("this.values.user_profile", this.values.user_profile);
         this.data.consoleLog("this.values.cart before addSizes()", this.values.cart);
         this.addSizes();
@@ -67,9 +53,6 @@ export class CartPage {
     }
 
     addSizes() {
-        //return new Promise((resolve, reject) => {
-        console.log('*** Adding Sizes ***');
-        this.data.consoleLog("this.values.designers", this.values.designers);
         this.values.cart.request.order[0].sales_order_parts.forEach((orderPart, part_index) => {
             this.values.designers.forEach(element => {
                 if (element.seller_account_id == orderPart.seller_account_id) {
@@ -84,11 +67,9 @@ export class CartPage {
                     }
                 });
             }
-            console.log('Get currency profile');
             this.data.getDesignerCurrency(this.values.user_profile.user_region_id, orderPart.seller_account_id)
             orderPart.currency_code = this.values.designer.buyer_code;
             orderPart.currency_symbol = this.values.designer.buyer_symbol;
-            console.log('Got' + orderPart.currency_code + ' : ' + orderPart.currency_symbol);
 
             //  get all collections for this designer
             this.data.getThisCollections(orderPart.seller_account_id, this.values.device_token, this.values.user_profile.user_token).then(data => {
@@ -96,29 +77,17 @@ export class CartPage {
                 //  check each product in each collections
                 console.log('Checking products to map QTY selectors for:' + orderPart.seller_account_id)
                 this.values.collections.forEach((collection, cindex) => {
-                    //if(cindex>1){
                     this.data.getProduct(collection.collection_id, this.values.device_token, this.values.user_profile.user_token, 0, 1).then(data => {
                         console.log('Got Product Data')
                         collection.products = data;
-                        //  each product
-                        //console.log('** Checking for products in order part:' + part_index);
                         collection.products.forEach((product, pindex) => {
-                            //  each variant
                             product.variants.forEach((variant, vindex) => {
-                                // is it in cart?
                                 let abort = false;
                                 let CurrentTotal = 0;
-                                //console.log('** Checking order for products:' + variant.variant_id);
                                 for (let sindex = 0, len = this.values.cart.request.order[0].sales_order_parts[part_index].sales_order_lines.length;
                                     sindex < len && !abort; sindex++) {
-                                    //console.log('=======  Test: Ordreline index ========');
-                                    //console.log('Test:' + this.values.cart.request.order[0].sales_order_parts[part_index].sales_order_lines[sindex].variant_id);
                                     if (this.values.cart.request.order[0].sales_order_parts[part_index].sales_order_lines[sindex].variant_id == variant.variant_id) {
-                                        console.log('Found one.');
-                                        //gotchya    
                                         abort = true;
-                                        //build size array
-                                        //let NewTotal = 0;
                                         this.values.cart.request.order[0].sales_order_parts[part_index].sales_order_lines[sindex].size = [];
                                         let newSizes = this.values.cart.request.order[0].sales_order_parts[part_index].sales_order_lines[sindex].size;
 
@@ -132,7 +101,7 @@ export class CartPage {
                                                 'qty': 0
                                             });
                                             NewSizeID = NewSizeID - 1;
-                                            //New Code
+
                                             let orderQTY = this.cartProvider.getSizeQty(size.sku, orderPart.seller_account_id)
                                             let price = parseInt(this.values.cart.request.order[0].sales_order_parts[part_index].sales_order_lines[sindex].price)
                                             if (isNaN(orderQTY)) { orderQTY = 0 }
@@ -141,9 +110,7 @@ export class CartPage {
                                                 console.log('Added:' + orderQTY + ' x ' + price);
                                             }
                                             else {
-                                                //NewTotal = 0
                                             }
-                                            //console.log('New Total:' + NewTotal);
                                             this.values.cart.request.order[0].sales_order_parts[part_index].sales_order_lines[sindex].variant_total = CurrentTotal;
                                             if (orderQTY == 0) {
                                                 newSizes[NewSizeID].qty = '';
@@ -151,7 +118,6 @@ export class CartPage {
                                             else {
                                                 newSizes[NewSizeID].qty = orderQTY;
                                             }
-                                            //console.log('QTY set:' + this.values.cart.request.order[0].sales_order_parts[part_index].sales_order_lines[sindex].size[NewSizeID].qty);
                                         });
                                     }
                                 }
@@ -161,18 +127,15 @@ export class CartPage {
                 });
             });
         });
-        this.data.consoleLog("Real Cart Contains", this.values.cart);
     }
 
     addToCart(product_title, colour, material, swatch, image, designer_title, variant_id, sku, price, event, designer_id,
         size, size_id, type, product_id) {
 
         if (this.values.user_profile.seller_account_id != 0) {
-            console.log('this.values.user_profile.seller_account_id :' + this.values.user_profile.seller_account_id);
             return false;
         }
         let qty = event.target.value;
-        console.log('add to cart:' + qty);
         this.cartProvider.addToCart(product_title, colour, material, swatch, image, designer_title, designer_id, product_id, variant_id,
             size, size_id, type, qty, price, sku);
 
@@ -183,14 +146,11 @@ export class CartPage {
 
         if (this.values.user_profile.seller_account_id != 0) { return false; }
         let message = event.target.value;
-        console.log('Variant ID:' + variant_id + ':' + message);
         this.values.cart.request.order[0].sales_order_parts[part_id].sales_order_lines.forEach((line, i) => {
             if (this.values.cart.request.order[0].sales_order_parts[part_id].sales_order_lines[i].variant_id == variant_id) {
                 this.values.cart.request.order[0].sales_order_parts[part_id].sales_order_lines[i].special_request = message;
-                console.log('Set request for line:' + i)
             }
         });
-        console.log('===== addSpecial ========');
     }
 
     addPurchaseOrder(event, part_id) {
@@ -200,8 +160,6 @@ export class CartPage {
     }
 
     clearItem(order_part, product_id, keepit, variant_id) {
-        console.log("========  clear Item in Current Order page ======");
-        console.log('Clear line variant id:' + variant_id);
         this.cartProvider.clearItem(order_part, product_id, keepit, variant_id);
         this.setItemQty();
 
@@ -209,15 +167,11 @@ export class CartPage {
     }
 
     clearDesigner(order_part) {
-        this.data.consoleLog("clear designer", order_part);
         this.cartProvider.clearItem(order_part, 0, 0, 0);
         this.data.activityLogPost(Constants.LOG_REMOVE_FROM_RANGINGROOM, this.values.cart.request.order[0].sales_order_parts[order_part].seller_account_id, 'all', 'all', 'all');
     }
 
     clearOrder() {
-        console.log("========  clear Order**** in Current Order page ======");
-        //this.values.cart = Object.assign({}, this.values.emptyCart);
-        //this.navCtrl.push(LoginPage);  
         let confirm = this.alertCtrl.create({
             title: 'Confirm Clear Order',
             message: 'Are you sure?',
@@ -232,18 +186,7 @@ export class CartPage {
                     text: 'OK',
                     handler: () => {
                         this.cartProvider.emptyOrder();
-
                         this.data.activityLogPost(Constants.LOG_REMOVE_FROM_RANGINGROOM, 'all', 'all', 'all', 'all');
-                        // let toast = this.toastCtrl.create({
-                        //   message: "Your Order has been cleared.",
-                        //   duration: 3000,
-                        //   position: 'middle'
-                        // });
-                        // toast.present();
-
-                        console.log('/----Clear Order----/');
-                        this.data.consoleLog("this.values.user_profile.seller_account_id", this.values.user_profile.seller_account_id);
-                        this.data.consoleLog("this.values.user_profile.masquerade_id", this.values.user_profile.masquerade_id);
                         if (this.values.user_profile.seller_account_id > 0 || this.values.user_profile.masquerade_id > 0) {
                             this.navCtrl.setRoot(CollectionPage, { designer: this.values.designer });
                         }
@@ -277,7 +220,6 @@ export class CartPage {
                 }
             });
         });
-        //console.log('Real Cart post Qty Set Contains:'+JSON.stringify(this.values.cart));
     }
 
     checkZeroQTY() {
@@ -300,7 +242,6 @@ export class CartPage {
         //check we're online
         if (!this.values.online) {
             this.data.offlineManager();
-            //this.data.loading.dismiss().catch((err) => {console.log('Problem with spinner:'+err)});
             return false;
         };
         this.submitting = true;
@@ -368,14 +309,9 @@ export class CartPage {
             order_part.door =  this.values.cart.request.order[0].door;
             this.data.saveOrder(order_part).then(data => {
                 console.log('Order Part ID:' + JSON.stringify(data))
-            })
-            //let orderPart = this.data.getDraftOrder(draft_id);
-            //console.log('Retrieved:'+JSON.stringify(orderPart));
+            });
         });
-        //this.data.getAllOrders(this.values.user_profile.buyer_id,this.values.user_profile.seller_account_id);  
         this.submitting = false;
-        //this.cartProvider.emptyOrder();
-        //this.navCtrl.setRoot(OrdersPage);
         let alert = this.alertCtrl.create({
             title: 'Order requested.',
             subTitle: "Tap ‘view’ to review submitted orders.",
@@ -399,15 +335,11 @@ export class CartPage {
             if (ui == 'copy') order_part.status = 'COPY';
             if (ui == 'draft') order_part.status = 'LOCAL_DRAFT';
             this.data.saveDraftOrder(order_part).then(data => {
-                console.log('Order Part ID:' + JSON.stringify(data))
             })
-            //let orderPart = this.data.getDraftOrder(draft_id);
-            //console.log('Retrieved:'+JSON.stringify(orderPart));
         });
 
         this.data.getAllDraftOrders(this.values.user_profile.buyer_id, this.values.user_profile.masquerade_id);
 
-        //this.navCtrl.setPage(OrdersPage);
         if (ui == 'draft') {
             let alert = this.alertCtrl.create({
                 title: 'Order saved as draft',
