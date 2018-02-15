@@ -56,6 +56,8 @@ export class Values {
     numOfProdutTotalImages: number = 0;
     cacheProducts: any;
     force: any;
+    productCashImageUrls = [];
+    longTimeRequestUrls = [];
     pIndex: number = 0;
     cacheIndex: number = 0;
     pIndexCheckPoint: any;
@@ -71,9 +73,10 @@ export class Values {
         '16', '17', '18', '19', '20', '21', '22', '23', '24'];
 
     //API 
-    //APIRoot = "https://ordre.kineticmedia.com.au";   //  STAGE
+    APIRoot = "https://ordre.kineticmedia.com.au";   //  STAGE
     //APIRoot = "https://www.ordre.com";             //  PRODUCTION
-    APIRoot = "https://web02.ordre.com";
+    //APIRoot = "https://web01.ordre.com";
+    //APIRoot = "https://web02.ordre.com";
 
 
     constructor() {

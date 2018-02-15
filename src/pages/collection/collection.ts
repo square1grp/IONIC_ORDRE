@@ -62,6 +62,8 @@ export class CollectionPage {
         }
         this.search();
         this.data.consoleLog("this.values.products", this.values.products);
+        this.values.longTimeRequestUrls = [];
+        this.values.productCashImageUrls = [];
     }
 
     ionViewDidLoad() {

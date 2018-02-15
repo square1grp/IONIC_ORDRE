@@ -2521,6 +2521,14 @@ page-linesheet .ordre_subheader .content_sorter {
 	cursor:pointer;
 }
 
+lazy-img > div.placeholder {
+	display: block;
+}
+
+lazy-img > div {
+	display: none;
+}
+
 .st01 {
 	fill:#23c1ea;
 }

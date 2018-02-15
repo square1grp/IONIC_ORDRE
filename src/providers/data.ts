@@ -15,6 +15,7 @@ declare var cordova;
 
 @Injectable()
 export class Data {
+    abort = false;
 
     action: string;
     email: string;
@@ -802,6 +803,7 @@ export class Data {
     }
 
     productsCache(products, force) {
+        this.abort = false;
         this.values.debug = 'Processing products';
         this.countDownloadTarget(products, force);
         this.values.cacheProducts = products;
@@ -832,9 +834,7 @@ export class Data {
     }
 
     productCache(product, force) {
-        //this.consoleLog("%%%%%%%%%   ProductCache function was called %%%%%%%%%", this.values.pIndex);
         console.log("Downloading is runnig at the product number  :  " + this.values.pIndex);
-        //console.log("////---- increasing of the Product Index -----////");
         if (product.variants[0]) {
             if (product.variants[0].variant_images[0]) {
                 if (product.variants.length > 0) {
@@ -880,6 +880,7 @@ export class Data {
     }
 
     countProdutTotalImages(product, force) {
+        this.values.numOfProdutTotalImages = 0;
         if (product.variants[0]) {
             if (product.variants[0].variant_images[0]) {
                 if (product.variants.length > 0) {
@@ -919,6 +920,7 @@ export class Data {
         if (this.values.designer != undefined) {
             this.values.downloadTarget = this.values.downloadTarget + 1;
         }
+        this.values.downloadTarget = 0;
         products.forEach((product, pindex) => {
             this.values.debug = 'Processing products';
             if (product.variants[0]) {
@@ -958,20 +960,17 @@ export class Data {
         //  1 = just try and cache
         //  2 = delete then cache
         //  3 = just delete
-        //this.consolelog('Cache Maybe:'+url)  
         if (force > 1) {
             console.log('Delete from cache:' + url);
             this.deleteItem(url).then(() => {
                 if (force == 3) {
                     this.values.downloadQueue = this.values.downloadQueue - 1;
+                    if (this.values.downloadQueue < 0) this.values.downloadQueue = 0;
+
                     this.values.cacheIndex = this.values.cacheIndex + 1;
-                    // this.consoleLog("this.values.downloadQueue", this.values.downloadQueue);
-                    // this.consoleLog("this.values.cacheIndex", this.values.cacheIndex);
-                    // this.consoleLog("this.values.numOfProdutTotalImages", this.values.numOfProdutTotalImages);
                     if (this.values.cacheIndex >= this.values.numOfProdutTotalImages) {
                         this.values.pIndex = this.values.pIndex + 1;
                         this.values.cacheIndex = 0;
-                        this.values.numOfProdutTotalImages = 0;
                         if (this.values.pIndex >= this.values.cacheProducts.length || this.values.cancel == true) {
                             if (this.values.cancel == false) {
                                 if (this.c_mode == 3) {
@@ -986,6 +985,7 @@ export class Data {
                             this.values.pIndex = 0;
                             this.values.cancel = false;
                             this.values.pIndexCheckPoint = Date.now();
+                            this.abort = true;
                         }
                         else {
                             this.values.pIndexCheckPoint = Date.now();
@@ -999,7 +999,7 @@ export class Data {
                                 }
                             }, 7000);
                             this.countProdutTotalImages(this.values.cacheProducts[this.values.pIndex], this.values.force);
-                            this.productCache(this.values.cacheProducts[this.values.pIndex], this.values.force);
+                            if (this.abort == false) this.productCache(this.values.cacheProducts[this.values.pIndex], this.values.force);
                         }
                     }
                 }
@@ -1009,26 +1009,36 @@ export class Data {
             });
         }
         if (force == 1) {
-            //console.log('Cache:' + url); 
             this.cacheImage(url);
         }
     }
 
     cacheImage(url) {
+        this.values.productCashImageUrls.push(url);
         //cache if not already cached
         this.storage.get(url).then((data) => {
             if (data != null) {
-                //this.consolelog('Skipped - found in cache');
                 this.values.downloadQueue = this.values.downloadQueue - 1;
                 if (this.values.downloadQueue < 0) this.values.downloadQueue = 0;
-                this.values.cacheIndex = this.values.cacheIndex + 1;
-                // this.consoleLog("this.values.downloadQueue", this.values.downloadQueue);
-                // this.consoleLog("this.values.cacheIndex", this.values.cacheIndex);
-                // this.consoleLog("this.values.numOfProdutTotalImages", this.values.numOfProdutTotalImages);
-                if (this.values.cacheIndex >= this.values.numOfProdutTotalImages) {
+
+                let urlIndex = this.values.productCashImageUrls.indexOf(url);
+                if(urlIndex >= 0) {
+                    this.values.productCashImageUrls.splice(urlIndex, 1);
+                }
+                let longTimeUrlIndex = this.values.longTimeRequestUrls.indexOf(url);
+                if(longTimeUrlIndex == -1) {
+                    this.values.cacheIndex = this.values.cacheIndex + 1;
+                }
+                else {
+                    this.values.longTimeRequestUrls.splice(longTimeUrlIndex, 1);
+                }
+                //if (this.values.cacheIndex >= this.values.numOfProdutTotalImages - 1) {
+                if (this.values.cacheIndex >= this.values.numOfProdutTotalImages - 5) {
                     this.values.pIndex = this.values.pIndex + 1;
                     this.values.cacheIndex = 0;
-                    this.values.numOfProdutTotalImages = 0;
+                    this.values.longTimeRequestUrls = this.values.longTimeRequestUrls.concat(this.values.productCashImageUrls);
+                    this.values.productCashImageUrls = [];
+
                     if (this.values.pIndex >= this.values.cacheProducts.length || this.values.cancel == true) {
                         if (this.values.cancel == false) {
                             if (this.c_mode == 3) {
@@ -1041,8 +1051,12 @@ export class Data {
                             }
                         }
                         this.values.pIndex = 0;
+                        this.consoleLog("this.values.longTimeRequestUrls", this.values.longTimeRequestUrls);
+                        this.values.longTimeRequestUrls = [];
+                        this.values.productCashImageUrls = [];
                         this.values.cancel = false;
                         this.values.pIndexCheckPoint = Date.now();
+                        this.abort = true;
                     }
                     else {
                         this.values.pIndexCheckPoint = Date.now();
@@ -1056,28 +1070,43 @@ export class Data {
                             }
                         }, 7000);
                         this.countProdutTotalImages(this.values.cacheProducts[this.values.pIndex], this.values.force);
-                        this.productCache(this.values.cacheProducts[this.values.pIndex], this.values.force);
+
+                        if (this.abort == false) {
+                            this.productCache(this.values.cacheProducts[this.values.pIndex], this.values.force);
+                        }
+                        else {
+                            this.values.pIndex = 0;
+                            this.values.longTimeRequestUrls = [];
+                            this.values.productCashImageUrls = [];
+                        }
                     }
                 }
             }
             else {
-                // if (!this.values.online) {
-                //     this.offlineManager();
-                //     return false;
-                // };
-                //this.consolelog('Need to get and store:'+url);
                 this.putImage(url).then(() => {
                     this.values.downloadQueue = this.values.downloadQueue - 1;
                     if (this.values.downloadQueue < 0) this.values.downloadQueue = 0;
                     //this.storage.get('user_profile')
-                    this.values.cacheIndex = this.values.cacheIndex + 1;
-                    // this.consoleLog("this.values.downloadQueue", this.values.downloadQueue);
-                    // this.consoleLog("this.values.cacheIndex", this.values.cacheIndex);
-                    // this.consoleLog("this.values.numOfProdutTotalImages", this.values.numOfProdutTotalImages);
-                    if (this.values.cacheIndex >= this.values.numOfProdutTotalImages) {
+                        
+                    let urlIndex = this.values.productCashImageUrls.indexOf(url);
+                    if(urlIndex != -1) {
+                        this.values.productCashImageUrls.splice(urlIndex, 1);
+                    }
+                    let longTimeUrlIndex = this.values.longTimeRequestUrls.indexOf(url);
+                    if(longTimeUrlIndex == -1) {
+                        this.values.cacheIndex = this.values.cacheIndex + 1;
+                    }
+                    else {
+                        this.values.longTimeRequestUrls.splice(longTimeUrlIndex, 1);
+                    }
+
+                    if (this.values.cacheIndex >= this.values.numOfProdutTotalImages - 5) {
                         this.values.pIndex = this.values.pIndex + 1;
                         this.values.cacheIndex = 0;
-                        this.values.numOfProdutTotalImages = 0;
+                        //this.values.numOfProdutTotalImages = 0;
+                        this.values.longTimeRequestUrls = this.values.longTimeRequestUrls.concat(this.values.productCashImageUrls);
+                        this.values.productCashImageUrls = [];
+
                         if (this.values.pIndex >= this.values.cacheProducts.length || this.values.cancel == true) {
                             if (this.values.cancel == false) {
                                 if (this.c_mode == 3) {
@@ -1093,8 +1122,12 @@ export class Data {
                                 console.log("Downloading is canceled at the product number  :  " + this.values.pIndex);
                             }
                             this.values.pIndex = 0;
+                            this.consoleLog("this.values.longTimeRequestUrls", this.values.longTimeRequestUrls);
+                            this.values.longTimeRequestUrls = [];
+                            this.values.productCashImageUrls = [];
                             this.values.cancel = false;
                             this.values.pIndexCheckPoint = Date.now();
+                            this.abort = true;
                         }
                         else {
                             this.values.pIndexCheckPoint = Date.now();
@@ -1108,12 +1141,91 @@ export class Data {
                                 }
                             }, 7000);
                             this.countProdutTotalImages(this.values.cacheProducts[this.values.pIndex], this.values.force);
-                            this.productCache(this.values.cacheProducts[this.values.pIndex], this.values.force);
+
+                            if (this.abort == false) {
+                                this.productCache(this.values.cacheProducts[this.values.pIndex], this.values.force);
+                            }
+                            else {
+                                this.values.pIndex = 0;
+                                this.values.longTimeRequestUrls = [];
+                                this.values.productCashImageUrls = [];
+                            }
+                        }
+                    }
+                }).catch((err) => {
+                    this.consoleLog("image request error : " + url, err);
+                    this.values.downloadQueue = this.values.downloadQueue - 1;
+                    if (this.values.downloadQueue < 0) this.values.downloadQueue = 0;
+
+                    let urlIndex = this.values.productCashImageUrls.indexOf(url);
+                    if(urlIndex != -1) {
+                        this.values.productCashImageUrls.splice(urlIndex, 1);
+                    }
+                    let longTimeUrlIndex = this.values.longTimeRequestUrls.indexOf(url);
+                    if(longTimeUrlIndex == -1) {
+                        this.values.cacheIndex = this.values.cacheIndex + 1;
+                    }
+                    else {
+                        this.values.longTimeRequestUrls.splice(longTimeUrlIndex, 1);
+                    }
+
+                    if (this.values.cacheIndex >= this.values.numOfProdutTotalImages - 5) {
+                        this.values.pIndex = this.values.pIndex + 1;
+                        this.values.cacheIndex = 0;
+                        //this.values.numOfProdutTotalImages = 0;
+                        this.values.longTimeRequestUrls = this.values.longTimeRequestUrls.concat(this.values.productCashImageUrls);
+                        this.values.productCashImageUrls = [];
+
+                        if (this.values.pIndex >= this.values.cacheProducts.length || this.values.cancel == true) {
+                            if (this.values.cancel == false) {
+                                if (this.c_mode == 3) {
+                                    this.delCindex(this.c_collection_title, this.c_collection_id, this.c_designer_title, this.c_designer_id)
+                                }
+                                else {
+                                    if (this.c_mode > 0) {
+                                        this.addCindex(this.c_action, this.c_collection_title, this.c_collection_id, this.c_designer_title, this.c_designer_id, this.c_collection_total_bytes);
+                                    }
+                                }
+                            }
+                            else {
+                                console.log("Downloading is canceled at the product number  :  " + this.values.pIndex);
+                            }
+                            this.values.pIndex = 0;
+                            this.consoleLog("this.values.longTimeRequestUrls", this.values.longTimeRequestUrls);
+                            this.values.longTimeRequestUrls = [];
+                            this.values.productCashImageUrls = [];
+                            this.values.cancel = false;
+                            this.values.pIndexCheckPoint = Date.now();
+                            this.abort = true;
+                        }
+                        else {
+                            this.values.pIndexCheckPoint = Date.now();
+                            setTimeout(() => {
+                                let currentCheckPoint = Date.now();
+                                if (currentCheckPoint - this.values.pIndexCheckPoint >= 7000) {
+                                    if (!this.values.online) {
+                                        this.offlineManager();
+                                        return false;
+                                    };
+                                }
+                            }, 7000);
+                            this.countProdutTotalImages(this.values.cacheProducts[this.values.pIndex], this.values.force);
+
+                            if (this.abort == false) {
+                                this.productCache(this.values.cacheProducts[this.values.pIndex], this.values.force);
+                            }
+                            else {
+                                this.values.pIndex = 0;
+                                this.values.longTimeRequestUrls = [];
+                                this.values.productCashImageUrls = [];
+                            }
                         }
                     }
                 });
             }
 
+        }).catch((err) => {
+            console.log(err);
         });
     }
 
@@ -1122,7 +1234,6 @@ export class Data {
     //post image from URL into dB
     putImage(url) {
         return new Promise((resolve, reject) => {
-            //this.consolelog('Get to put:'+url);
             let headers = new Headers({
                 "Content-Type": "application/blob"
             });
@@ -1155,20 +1266,22 @@ export class Data {
                 let filename = 'img_' + imageID + '_' + n + suffix;
                 //file or dB storage for cache
                 // if (this.platform.is('cordova!')) {
-                //     console.log("/////////////====browser====//////////////////////");
                 //     this.getImageCordova(blob,filename,url).then((nr1) => {
                 //         let nr = '';
                 //         resolve(nr);
                 //     })
                 // }
                 // else {
-                //console.log("/////////////====cordova====//////////////////////");
                 //console.log('Image Cache Get Blob:'+url)
                 this.getImage64(blob, filename, url, imageType).then((nr1) => {
                     let nr = '';
                     resolve(nr);
                 })
                 // }
+            }, error => {
+                console.log("404 error");
+                console.log(error);
+                reject(error);
             });
         });
     }
@@ -1682,7 +1795,7 @@ export class Data {
     }
 
     dismissLoadingSpiner() {
-        console.log(this.loadingState);
+        console.log("this.loadingState :" + this.loadingState);
         if (this.loadingState == false) {
             this.isloadingState = true;
             return;
