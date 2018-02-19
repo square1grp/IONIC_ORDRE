@@ -9,11 +9,11 @@
   <div class="content_sorter" [ngClass]="{'col-md-6': navOpen, 'col-md-8': !navOpen}">
     <div class="collection_title"></div>
     <ng-container *ngIf="data.selectedCollection?.hasOwnProperty('offline')">
-    <a *ngIf="(data.selectedCollection?.offline=='Downloaded')" class="sorter_item download_button downloaded" (click)="this.downloadManager(data.currentCollectionID, this.values.designer.seller_account_id,this.values.designer.title,data.selectedCollection?.collection_title,1)">
+    <a *ngIf="(data.selectedCollection?.offline=='Downloaded'||data.selectedCollection?.offline=='Updated')" class="sorter_item download_button downloaded" (click)="this.downloadManager(data.currentCollectionID, this.values.designer.seller_account_id,this.values.designer.title,data.selectedCollection?.collection_title,1)">
         <span  class=" btn sort btn-default" >Update</span>
      </a>
     </ng-container>
-    <ng-container *ngIf="(!data.selectedCollection?.hasOwnProperty('offline')||data.selectedCollection?.offline!='Downloaded')">
+    <ng-container *ngIf="(!data.selectedCollection?.hasOwnProperty('offline')||(data.selectedCollection?.offline!='Downloaded'&&data.selectedCollection?.offline!='Updated'))">
     <a class="sorter_item download_button" (click)="this.downloadManager(data.currentCollectionID, this.values.designer.seller_account_id,this.values.designer.title,data.selectedCollection?.collection_title,1)">
         <span class=" btn sort btn-default" >Download</span>
      </a>

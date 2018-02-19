@@ -92,6 +92,9 @@ export class ViewloaderPage {
 
     setCollectionStatus(status,collection_id) {
         return new Promise((resolve, reject) => {
+            // if (collection_id == this.data.selectedCollection.collection_id) {
+            //     this.data.selectedCollection.offline = status;
+            // }
             let abort = false;
             for (let i = 0, len =  this.values.collections.length; i < len && !abort; i++) {    
                 if (this.values.collections[i].collection_id == this.collection_id) {

@@ -559,6 +559,46 @@ export class Data {
         });
     }
 
+    // all collections for the selected designer
+
+    getThisCollections(designer_id, device_token, user_token) {
+        return new Promise((resolve, reject) => {
+            console.log(this.values.designers);
+            console.log(this.values.designer);
+            console.log(designer_id);
+            
+            this.getCollections(designer_id, device_token, user_token, 0).then(response => {
+                this.values.collections = response;
+                
+                this.storage.get('download_log').then((response) => {
+                    if (response != null) {
+                        let ulog = response.data;
+                        this.consoleLog('ulog', ulog);
+                        for (let i = 0, len = ulog.length; i < len; i++) {
+                            for (let j = 0, len = this.values.collections.length; j < len; j++) {
+                                if (ulog[i].collection_id == this.values.collections[j].collection_id) {
+                                    //set collection status
+                                    this.values.collections[j].offline = ulog[i].action;
+                                }
+                            }
+                        }
+                    }
+                });
+                this.consoleLog('this.values.collections', this.values.collections);
+                if (this.values.hasOwnProperty('collections')) {
+                    //current collection ID
+                    this.currentCollectionID = this.setThisCollection();
+                    this.consolelog('Set Current Collection... ');
+
+                    this.selectedCollection = this.filterCollections(this.currentCollectionID)[0];
+                }
+                resolve(response);
+            }).catch(function (err) {
+                reject(err);
+            });
+        });
+    }
+
     getCollections(designer_id, device_token, user_token, force) {
 
         let checkpoint = false;
@@ -584,6 +624,19 @@ export class Data {
                 if (result != null) {
                     let pdata = JSON.parse(result);
                     resolve(pdata.data);
+                    // this.storage.get('download_log').then((response) => {
+                    //     if (response != null) {
+                    //         let ulog = response.data;
+                    //         for (let i = 0, len = ulog.length; i < len; i++) {
+                    //             for (let j = 0, len = this.values.collections.length; j < len; j++) {
+                    //                 if (ulog[i].collection_id == this.values.collections[j].collection_id) {
+                    //                     //set collection status
+                    //                     this.values.collections[j].offline = 'Downloaded'
+                    //                 }
+                    //             }
+                    //         }
+                    //     }
+                    // });
                 }
                 else {
                     if (checkpoint == true || force == true || result == null) {
@@ -600,19 +653,19 @@ export class Data {
                                 this.storeCollections(record_id, data.result);
 
                                 //  set download status based on collection download index
-                                this.storage.get('download_log').then((response) => {
-                                    if (response != null) {
-                                        let ulog = response.data;
-                                        for (let i = 0, len = ulog.length; i < len; i++) {
-                                            for (let j = 0, len = this.values.collections.length; j < len; j++) {
-                                                if (ulog[i].collection_id == this.values.collections[j].collection_id) {
-                                                    //set collection status
-                                                    this.values.collections[j].offline = 'Downloaded'
-                                                }
-                                            }
-                                        }
-                                    }
-                                });
+                                // this.storage.get('download_log').then((response) => {
+                                //     if (response != null) {
+                                //         let ulog = response.data;
+                                //         for (let i = 0, len = ulog.length; i < len; i++) {
+                                //             for (let j = 0, len = this.values.collections.length; j < len; j++) {
+                                //                 if (ulog[i].collection_id == this.values.collections[j].collection_id) {
+                                //                     //set collection status
+                                //                     this.values.collections[j].offline = 'Downloaded'
+                                //                 }
+                                //             }
+                                //         }
+                                //     }
+                                // });
 
                             });
                         }
@@ -1388,29 +1441,6 @@ export class Data {
         });
     }
 
-    // all collections for the selected designer
-
-    getThisCollections(designer_id, device_token, user_token) {
-        return new Promise((resolve, reject) => {
-            console.log(this.values.designers);
-            console.log(this.values.designer);
-            console.log(designer_id);
-            this.getCollections(designer_id, device_token, user_token, 0).then(response => {
-                this.values.collections = response;
-                this.consoleLog('this.values.collections', this.values.collections);
-                if (this.values.hasOwnProperty('collections')) {
-                    //current collection ID
-                    this.currentCollectionID = this.setThisCollection();
-                    this.consolelog('Set Current Collection... ');
-
-                    this.selectedCollection = this.filterCollections(this.currentCollectionID)[0];
-                }
-                resolve(response);
-            }).catch(function (err) {
-                reject(err);
-            });
-        });
-    }
 
     //  manage caching a collection (cache index / log / get products / mode)
 
@@ -1569,6 +1599,9 @@ export class Data {
             this.storage.set('download_log', newdlog);
             console.log('Log saved')
             this.dlog = ulog
+            if (this.selectedCollection.collection_id == collection_id) {
+                this.selectedCollection.offline = action;
+            }
             //console.log(JSON.stringify(this.dlog))
         });
     }

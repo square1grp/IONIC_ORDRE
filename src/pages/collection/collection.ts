@@ -64,6 +64,7 @@ export class CollectionPage {
         this.data.consoleLog("this.values.products", this.values.products);
         this.values.longTimeRequestUrls = [];
         this.values.productCashImageUrls = [];
+        this.data.consoleLog("this.data.selectedCollection", this.data.selectedCollection);
     }
 
     ionViewDidLoad() {
@@ -215,6 +216,7 @@ export class CollectionPage {
             { collection_id: collection_id, designer_id: designer_id, mode: mode, source: 'collection' });
         popover.present();
         this.data.cacheCollection(collection_id, designer_id, designer, collection_title, mode).then(() => {
+            //this.data.selectedCollection.offline = "Downloaded";
         });
     }
 

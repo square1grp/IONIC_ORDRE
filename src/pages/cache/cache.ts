@@ -94,10 +94,10 @@ export class CachePage {
             this.values.collections = response;
             if (mode != 3) {
                 if (this.values.user_profile.forcecache) {
-                    mode = 5
+                    mode = 5;
                 }
                 else {
-                    mode = 4
+                    mode = 4;
                 }
             }
             let popover = this.popoverController.create(this.viewloaderPage, {
@@ -116,7 +116,20 @@ export class CachePage {
                     }
                 }
             }
-            this.data.cacheCollection(collection_id, designer_id, designer, collection, mode);
+            this.data.cacheCollection(collection_id, designer_id, designer, collection, mode).then(() => {
+                // this.storage.get('download_log').then((response) => {
+                //     if (response != null) {
+                //         let ulog = response.data;
+                //         this.data.consoleLog('ulog', ulog);
+                //         for (let i = 0, len = ulog.length; i < len; i++) {
+                //             if (ulog[i].collection_id == this.data.selectedCollection.collection_id) {
+                //                 //set collection status
+                //                 this.data.selectedCollection.offline = ulog[i].action;
+                //             }
+                //         }
+                //     }
+                // });
+            });
         });
     }
 
