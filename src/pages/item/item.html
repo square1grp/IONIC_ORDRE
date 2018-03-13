@@ -49,7 +49,7 @@
           <div class="color-material_info" [innerHTML]="variant.colour"> </div>
         </div>
         <div class="item_price">
-        <div>
+          <div>
             <span class="add_to_cart_item" tappable (click)="addToCart(product.product_title+' : '+variant.title, variant.colour,
               product.materials, variant.swatch.swatch_image, variant.variant_images[0].variant_image, data.designer.title,
               variant.sizes[0].variant_id, variant.sizes[0].sku, product.region_prices[this.values.user_profile.user_region_id<4 ? this.values.user_profile.user_region_id - 1 : this.values.user_profile.user_region_id - 2].wsp, null,

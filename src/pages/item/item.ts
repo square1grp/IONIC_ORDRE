@@ -104,7 +104,9 @@ export class ItemPage {
         event, designer_id, size, size_id, type, product_id) {
         this.data.consoleLog("price", price);
         if (this.values.user_profile.seller_account_id != 0) { return false; }
-        if (event == null) {
+        if (event == null) {"assets/images/selected-icon.png"
+            let icon_path = this.isProductInOrder(product_id, variant_id, designer_id);
+            if (icon_path == "assets/images/selected-icon.png") return false;
             this.qty = 0;
         } else {
             this.qty = event.target.value;
@@ -129,7 +131,7 @@ export class ItemPage {
             this.product.variants[vindex].total = 0
             variant.sizes.forEach((size, sindex) => {
                 var orderQTY = this.cartProvider.getSizeQty(this.product.variants[vindex].sizes[sindex].sku, this.data.designer.seller_account_id);
-                this.product.variants[vindex].total = this.product.variants[vindex].total + (orderQTY * this.product.region_prices[0].wsp);
+                this.product.variants[vindex].total = this.product.variants[vindex].total + (orderQTY * this.product.region_prices[this.values.user_profile.user_region_id<4 ? this.values.user_profile.user_region_id - 1 : this.values.user_profile.user_region_id - 2].wsp);
                 if (orderQTY == 0) {
                     this.product.variants[vindex].sizes[sindex].qty = '';
                 }

@@ -18,6 +18,7 @@ export class Values {
     debug: any;
 
     isDesignersPage: boolean = true;
+    isCollectionPage: boolean = false;
     designer_checkpoint = new Date('01/01/1980');
     collection_checkpoint = [];
 

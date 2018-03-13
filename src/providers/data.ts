@@ -1374,15 +1374,15 @@ export class Data {
         return totalImages;
     }
 
-    getImageCordova(blob, filename, url) {
-        return new Promise((resolve, reject) => {
-            this.file.writeFile(this.values.fs + this.values.imageCacheFolder, filename, blob, true).then((nr1) => {
-                let nr = '';
-                resolve(nr);
-                this.cacheIndex(url, filename)
-            })
-        })
-    }
+    // getImageCordova(blob, filename, url) {
+    //     return new Promise((resolve, reject) => {
+    //         this.file.writeFile(this.values.fs + this.values.imageCacheFolder, filename, blob).then((nr1) => {
+    //             let nr = '';
+    //             resolve(nr);
+    //             this.cacheIndex(url, filename)
+    //         })
+    //     })
+    // }
 
     getImage64(blob, filename, url, imageType) {
         //console.log('Get As Image 64:'+url)
@@ -1441,6 +1441,12 @@ export class Data {
         });
     }
 
+    formatCollections(designer_id) {
+        for (let cindex = 0, len = this.values.collections.length; cindex < len ; cindex++) {
+            let cashe_collection_id = "products_" + this.values.collections[cindex].collection_id;
+            this.storage.remove(cashe_collection_id);
+        }
+    }
 
     //  manage caching a collection (cache index / log / get products / mode)
 

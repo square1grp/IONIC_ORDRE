@@ -24,6 +24,7 @@ import { Keyboard } from '@ionic-native/keyboard';
 import { HttpModule } from '@angular/http';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
+import { Insomnia } from '@ionic-native/insomnia'
 
 //  Providers
 import { Data } from '../providers/data';
@@ -83,6 +84,6 @@ import { Network } from '@ionic-native/network';
     ViewOrderPage,
     View360Page
   ],
-  providers: [InAppBrowser,Keyboard, StatusBar,SplashScreen,{provide: ErrorHandler, useClass: IonicErrorHandler}, CartProvider, Connectivity, Data, Values, File, Network]
+  providers: [InAppBrowser,Keyboard, StatusBar,Insomnia, SplashScreen,{provide: ErrorHandler, useClass: IonicErrorHandler}, CartProvider, Connectivity, Data, Values, File, Network]
 })
 export class AppModule {}

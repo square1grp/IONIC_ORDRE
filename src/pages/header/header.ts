@@ -41,10 +41,12 @@ export class OrdreHeader {
     openPage(page): void {
         //this.navCtrl.setRoot(page);
         this.values.isDesignersPage = false;
+        this.values.isCollectionPage = false;
         this.navCtrl.push(page);
     }
 
     openHomePage(page): void {
+        this.values.isCollectionPage = false;
         this.data.presentLoadingSpinerSec().then(() => {
             this.values.onescreen_total_imgages_num = 3;
             this.values.onescreen_image_index = 0;
@@ -56,6 +58,7 @@ export class OrdreHeader {
 
     openCachePage(page): void {
         this.values.isDesignersPage = false;
+        this.values.isCollectionPage = false;
         //this.navCtrl.setRoot(page);
         //this.navCtrl.setRoot(page);
         this.navCtrl.push(page);
@@ -98,6 +101,7 @@ export class OrdreHeader {
                         this.values.user_profile.masquerade_name = '';
                         // empty the cart
                         this.cartProvider.emptyOrder();
+                        this.values.isCollectionPage = false;
                         this.navCtrl.push(SettingsPage);
                     }
                 }
@@ -108,6 +112,7 @@ export class OrdreHeader {
 
     logOut() {
         this.values.isDesignersPage = false;
+        this.values.isCollectionPage = false;
         let alert = this.alertCtrl.create({
             title: 'Are you sure?',
             subTitle: 'Unsaved Orders will be lost.',
@@ -126,7 +131,7 @@ export class OrdreHeader {
                         this.cartProvider.emptyOrder();
                         this.values.user_profile = "";
                         this.data.removeUser('user_profile').then(data => {
-                            this.navCtrl.push(LoginPage);
+                            this.navCtrl.setRoot(LoginPage);
                         });
                     }
                 }
@@ -137,7 +142,11 @@ export class OrdreHeader {
 
     openCollectionPage(page): void {
         this.values.isDesignersPage = false;
-        //this.navCtrl.setRoot(page);
-        this.navCtrl.push(page, { designer: this.values.designer });
+        this.data.presentLoadingSpinerSec().then(() => {
+            this.values.onescreen_total_imgages_num = 3;
+            this.values.onescreen_image_index = 0;
+            this.navCtrl.setRoot(page, { designer: this.values.designer });
+
+        });
     }
 }

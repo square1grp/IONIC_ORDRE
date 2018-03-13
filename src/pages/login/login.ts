@@ -182,8 +182,8 @@ export class LoginPage {
                         else {
                             this.values.onescreen_total_imgages_num = 18;
                         }
-                        this.data.consolelog('Set products from download after init')
-                        this.data.consolelog('Got product JSON:' + this.data.currentCollectionID)
+                        this.data.consolelog('Set products from download after init');
+                        this.data.consolelog('Got product JSON:' + this.data.currentCollectionID);
                         this.navCtrl.push(CollectionPage, { designer: this.values.designer, mode: '' });
                     }).catch(function (err) {
                         console.log(err);

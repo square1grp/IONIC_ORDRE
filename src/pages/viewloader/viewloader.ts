@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { Insomnia } from '@ionic-native/insomnia'
+import { Storage } from '@ionic/storage';
 import { Values } from '../../providers/values';
 import { ViewController, NavParams } from 'ionic-angular';
 import { Data } from '../../providers/data';
@@ -14,7 +16,7 @@ export class ViewloaderPage {
     mode          : number;
     source        : any;
     
-    constructor(public values: Values, public viewCtrl: ViewController, public data: Data, public navParams: NavParams) { }
+    constructor(public values: Values, public storage: Storage, public viewCtrl: ViewController, public data: Data, public navParams: NavParams, private insomnia: Insomnia) { }
 
     ngOnInit() {
 
@@ -39,6 +41,19 @@ export class ViewloaderPage {
             if(this.source=='collection'){
               //reload collection
             }
+            this.storage.get('download_log').then((response) => {
+                if (response != null) {
+                    let ulog = response.data;
+                    for (let i = 0, len = ulog.length; i < len; i++) {
+                        for (let j = 0, len = this.values.collections.length; j < len; j++) {
+                            if (ulog[i].collection_id == this.values.collections[j].collection_id) {
+                                //set collection status
+                                this.values.collections[j].offline = ulog[i].action;
+                            }
+                        }
+                    }
+                }
+            });
             //this.data.addIsOpenedProp();
             this.viewCtrl.dismiss().then(() => {
                 // console.log("loaderViewe_Dismissed!!");
@@ -46,6 +61,10 @@ export class ViewloaderPage {
                 //     console.log("call_dismissSpiner");
                 //     this.data.dismissLoadingSpiner();
                 // }, 500);
+                this.insomnia.allowSleepAgain().then(
+                    () => console.log("allowSleepAgain success"),
+                    () => console.log("allowSleepAgain error")
+                );
                 this.data.addIsOpenedProp();
             }).catch((err) => {
                 console.log('Problem with spinner:'+err);
@@ -83,6 +102,10 @@ export class ViewloaderPage {
                 //     console.log("call_dismissSpiner");
                 //     this.data.dismissLoadingSpiner();
                 // }, 500);
+                this.insomnia.allowSleepAgain().then(
+                    () => console.log("allowSleepAgain success"),
+                    () => console.log("allowSleepAgain error")
+                );
                 this.data.addIsOpenedProp();
             }).catch((err) => {
                 console.log('Problem with spinner:' + err);

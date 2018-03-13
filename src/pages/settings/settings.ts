@@ -112,7 +112,9 @@ export class SettingsPage {
                 abort = true;
             }
         }
-        if (buyer_region_id == 0) buyer_region_id = this.retailer.region_id;
+        if (buyer_region_id == 0 || buyer_region_id == null) buyer_region_id = this.retailer.region_id;
+        if (buyer_region_id == 0 || buyer_region_id == null) buyer_region_id = this.values.user_profile.user_region_id;
+        if (buyer_region_id == 0 || buyer_region_id == null) buyer_region_id = 1;
 
         
         let account_name = this.values.user_profile.business_display_name;
@@ -152,7 +154,11 @@ export class SettingsPage {
         let abort = false;
         for (let i = 0, len = this.buyers.length; i < len && !abort; i++) {
             if (this.buyers[i].buyer_id == buyer_id) {
+                if (this.buyers[i].region_id == null) {
+                    this.buyers[i].region_id = 1;
+                }
                 abort = true;
+                console.log(this.buyers[i]);
                 return this.buyers[i]
             }
         }

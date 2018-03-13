@@ -1,5 +1,6 @@
 import { Component, ViewChild, NgZone, ChangeDetectorRef } from '@angular/core';
 import { Nav, NavController, NavParams, Content, AlertController, PopoverController } from 'ionic-angular';
+import { Insomnia } from '@ionic-native/insomnia'
 import { FormControl } from '@angular/forms';
 import { ItemPage } from '../item/item';
 import { LinesheetPage } from '../linesheet/linesheet';
@@ -44,27 +45,82 @@ export class CollectionPage {
 
     constructor(private cd: ChangeDetectorRef, public popoverController: PopoverController, private zone: NgZone, public navCtrl: NavController,
         public navParams: NavParams, public data: Data, public cartProvider: CartProvider, public values: Values, private alertCtrl: AlertController,
-        private popoverCtrl: PopoverController) {
+        private popoverCtrl: PopoverController, private insomnia: Insomnia) {
         this.searchControl = new FormControl();
     }
 
     ngOnInit() {
-        this.values.search = '';
-        this.searchValue = '';
-        this.mode = this.navParams.get("mode");
-        if (this.mode != 'fromlinesheet') {
-            this.firstItem = 0;
-            this.addItemsToGrid('', 0);
-        }
+        if (this.values.isCollectionPage == true && (this.values.user_profile.seller_account_id > 0 || this.values.user_profile.masquerade_id > 0)) {
 
-        if (this.mode == 'fromlinesheet') {
-            this.values.lsproducts = this.values.products;
+            this.values.search = '';
+            this.searchValue = '';
+
+            this.values.collection_checkpoint[this.values.designer.seller_account_id] = new Date('01/01/1980');
+            this.data.formatCollections(this.values.designer.seller_account_id);
+            this.data.getDesignerCurrency(this.values.user_profile.user_region_id, 0);
+            this.data.getThisCollections(this.values.designer.seller_account_id, this.values.device_token, this.values.user_profile.user_token).then((data) => {
+                //check collection is downloaded if we're offline
+                if (!this.values.online) {
+                    if (this.values.collections[0].offline != 'Downloaded') {
+                        this.data.offlineManager();
+                        return false;
+                    }
+                };
+                console.log('Online:' + this.values.online);
+
+                this.values.products = null;
+                this.data.getProduct(this.data.currentCollectionID, this.values.device_token, this.values.user_profile.user_token, 0, 0).then(data => {
+                    if (this.values.products.length < 9) {
+                        this.values.onescreen_total_imgages_num = this.values.products.length * 2;
+                    }
+                    else {
+                        this.values.onescreen_total_imgages_num = 18;
+                    }
+                    this.data.consoleLog('this.values.products' , this.values.products);
+                    
+
+                    this.mode = this.navParams.get("mode");
+                    if (this.mode != 'fromlinesheet') {
+                        this.firstItem = 0;
+                        this.addItemsToGrid('', 0);
+                    }
+            
+                    if (this.mode == 'fromlinesheet') {
+                        this.values.lsproducts = this.values.products;
+                    }
+                    this.search();
+                    this.data.consoleLog("this.values.products", this.values.products);
+                    this.values.longTimeRequestUrls = [];
+                    this.values.productCashImageUrls = [];
+                    this.data.consoleLog("this.data.selectedCollection", this.data.selectedCollection);
+
+                }).catch(function (err) {
+                    console.log(err);
+                });
+            }).catch(function (err) {
+                return false;
+            });
         }
-        this.search();
-        this.data.consoleLog("this.values.products", this.values.products);
-        this.values.longTimeRequestUrls = [];
-        this.values.productCashImageUrls = [];
-        this.data.consoleLog("this.data.selectedCollection", this.data.selectedCollection);
+        else {
+            this.values.search = '';
+            this.searchValue = '';
+            this.values.isCollectionPage = true;
+
+            this.mode = this.navParams.get("mode");
+            if (this.mode != 'fromlinesheet') {
+                this.firstItem = 0;
+                this.addItemsToGrid('', 0);
+            }
+    
+            if (this.mode == 'fromlinesheet') {
+                this.values.lsproducts = this.values.products;
+            }
+            this.search();
+            this.data.consoleLog("this.values.products", this.values.products);
+            this.values.longTimeRequestUrls = [];
+            this.values.productCashImageUrls = [];
+            this.data.consoleLog("this.data.selectedCollection", this.data.selectedCollection);
+        }
     }
 
     ionViewDidLoad() {
@@ -169,13 +225,15 @@ export class CollectionPage {
 
     changeCollection(collection_id, designer_id, index) {
         this.data.presentLoadingSpinerSec().then(() => {
-            if (this.values.products.length < 9) {
-                this.values.onescreen_total_imgages_num = this.values.products.length * 2;
-            }
-            else {
-                this.values.onescreen_total_imgages_num = 18;
-            }
+            this.values.onescreen_total_imgages_num = 1;
             this.values.onescreen_image_index = 0;
+            // if (this.values.products.length < 9) {
+            //     this.values.onescreen_total_imgages_num = this.values.products.length * 2;
+            // }
+            // else {
+            //     this.values.onescreen_total_imgages_num = 18;
+            // }
+            // this.values.onescreen_image_index = 0;
 
             if (!this.values.online) {
                 if (this.values.collections[index].offline != 'Downloaded') {
@@ -215,6 +273,12 @@ export class CollectionPage {
         let popover = this.popoverController.create(this.viewloaderPage,
             { collection_id: collection_id, designer_id: designer_id, mode: mode, source: 'collection' });
         popover.present();
+
+        this.insomnia.keepAwake().then(
+            () => console.log("keepAwake success !"),
+            () => console.log("keepAwake error !")
+        );
+
         this.data.cacheCollection(collection_id, designer_id, designer, collection_title, mode).then(() => {
             //this.data.selectedCollection.offline = "Downloaded";
         });
