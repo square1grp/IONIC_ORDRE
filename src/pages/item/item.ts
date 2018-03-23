@@ -40,7 +40,6 @@ export class ItemPage {
     }
 
     view360(variants, default360) {
-        //this.data.consolelog('360Variants:'+JSON.stringify(variants))
         let popover = this.popoverCtrl.create(View360Page, { productVariants: variants, default360: default360 });
         popover.present();
 
@@ -64,8 +63,6 @@ export class ItemPage {
         this.product = this.navparams.get("product");
         this.collection = this.navparams.get("collection");
         this.data.designer = this.navparams.get("designer");
-        //this.data.consolelog('ionViewDidLoad ItemPage')   
-        //this.render3D();
         this.data.getDesignerCurrency(this.values.user_profile.user_region_id, -1);
         this.has360();
 
@@ -80,9 +77,6 @@ export class ItemPage {
                 console.log(keyCount + ':' + this.product.variants[i - 1].variant_images.length);
             }
         }
-        // setTimeout(() => {
-        //     this.data.dismissLoadingSpiner();
-        // }, 800);
         this.data.consoleLog("this.data.designer", this.data.designer);
         this.data.consoleLog("this.product", this.product);
     }
@@ -151,7 +145,6 @@ export class ItemPage {
                     abort = true;
                     this.yesThisHas360 = true;
                     this.default360 = this.product.variants[i].variant_images[j].variant_360;
-                    //this.data.consolelog('Yes, has 360 starting:'+this.default360);
                 }
             }
         }
