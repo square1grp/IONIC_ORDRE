@@ -1624,28 +1624,56 @@ export class Data {
     //  set default collection on collection page on first entry
 
     setThisCollection() {
-        if (this.designer.hasOwnProperty("currentCollectionID")) {
-            return this.designer.currentCollectionID;
+        if (!this.values.online) {
+            for (let i = 0, len = this.values.collections.length; i < len; i++) {
+                if (this.values.collections[i].offline == "Downloaded") {
+                    this.designer.currentCollectionID = this.values.collections[i].collection_id
+                    return this.designer.currentCollectionID;
+                }
+            }
+            if (this.designer.hasOwnProperty("currentCollectionID")) {
+                return this.designer.currentCollectionID;
+            }
+            else {
+                this.designer.currentCollectionID = this.values.collections[0].collection_id
+                return this.designer.currentCollectionID;
+            }
         }
         else {
-            this.designer.currentCollectionID = this.values.collections[0].collection_id
-            return this.designer.currentCollectionID;
+            if (this.designer.hasOwnProperty("currentCollectionID")) {
+                return this.designer.currentCollectionID;
+            }
+            else {
+                this.designer.currentCollectionID = this.values.collections[0].collection_id
+                return this.designer.currentCollectionID;
+            }
         }
     }
 
     getRetailers(device_token, user_token) {
         return new Promise((resolve, reject) => {
-            if (!this.values.online) {
-                this.offlineManager();
-                reject(null);
-            };
-            this.consolelog('Get All Retailers');
-            let gPapiSource = this.values.APIRoot + "/app/api.php?json={%22action%22:%22retail_buyers%22,%22request%22:{%22device_token%22:%22" + device_token + "%22,%22user_token%22:%22" + user_token + "%22}}";
-            //this.http.get(apiSource).map(res => res.json()).subscribe(data => {
-            this.http.get(gPapiSource).map(res => res.json()).subscribe(data => {
-                this.consolelog('Got retailers');
-                resolve(data.result);
-            })
+            if (this.values.online) {
+                this.consolelog('Get All Retailers');
+                let gPapiSource = this.values.APIRoot + "/app/api.php?json={%22action%22:%22retail_buyers%22,%22request%22:{%22device_token%22:%22" + device_token + "%22,%22user_token%22:%22" + user_token + "%22}}";
+                this.http.get(gPapiSource).map(res => res.json()).subscribe(data => {
+                    this.consolelog('Got retailers');
+                    resolve(data.result);
+                    this.storage.set("retailers", data.result);
+                }, err => {
+                    this.storage.get("retailers").then(data => {
+                        resolve(data);
+                    }).then(error => {
+                        reject(error);
+                    });
+                });
+            }
+            else {
+                this.storage.get("retailers").then(data => {
+                    resolve(data);
+                }).then(err => {
+                    reject(err);
+                });
+            }
         });
     }
 

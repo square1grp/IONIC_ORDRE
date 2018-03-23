@@ -11,21 +11,24 @@ export class Connectivity {
 
     constructor(public platform: Platform, private network: Network) {
         this.onDevice = this.platform.is('cordova');
+        console.log("device state");
+        console.log(this.onDevice);
+        console.log(this.network.type);
     }
 
     isOnline(): boolean {
-        if (this.onDevice) // && Network.type)
+        if (this.onDevice && this.network.type)
         {
-            return true; //Network.type != 'none';
+            return this.network.type !== 'none';
         } else {
             return navigator.onLine;
         }
     }
 
     isOffline(): boolean {
-        if (this.onDevice)//&& Network.type)
+        if (this.onDevice && this.network.type)
         {
-            return true; //false //Network.type == 'none';
+            return this.network.type === 'none';
         } else {
             return !navigator.onLine;
         }

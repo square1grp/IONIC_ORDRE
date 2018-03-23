@@ -34,7 +34,15 @@ export class DesignersPage {
             this.data.getThisCollections(this.values.designer.seller_account_id, this.values.device_token, this.values.user_profile.user_token).then((data) => {
                 //check collection is downloaded if we're offline
                 if (!this.values.online) {
-                    if (this.values.collections[0].offline != 'Downloaded') {
+                    let current_collection_index = 0;
+                    let abort = false;
+                    for (let i = 0, len = this.values.collections.length; i < len && !abort; i++) {
+                        if (this.values.collections[i].collection_id == this.data.currentCollectionID) {
+                            current_collection_index = i;
+                            abort = true;
+                        }
+                    }
+                    if (this.values.collections[current_collection_index].offline != 'Downloaded') {
                         this.data.offlineManager();
                         return false;
                     }

@@ -144,10 +144,21 @@ export class LoginPage {
         this.data.saveUser(this.values.user_profile);
 
         if (this.values.user_profile.seller_account_id) {
+            
+            // get shipping addresses from server
             this.data.getShippings(this.values.user_profile.device_token, this.values.user_profile.user_token, "ALL").then((response) => {
                 this.data.consoleLog("shipping_response", response);
                 this.values.shipping_addresses = response;
-            });                                    
+            });
+
+            // get retailers from server
+            this.data.getRetailers(this.values.device_token, this.values.user_profile.user_token).then(response => {
+                this.values.retailers = response;
+                this.data.consoleLog("this Retailers", response);
+            }).catch(err => {
+                console.log(err);
+            });
+
             //  get the designer object from the list of designers
             //  so get all designers
             //  iterate through to find this one

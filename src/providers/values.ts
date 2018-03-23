@@ -39,6 +39,7 @@ export class Values {
     lsproducts: any;
     downloadedCollections = [];
     countries = [];
+    retailers: any = [];
 
     activity_logs: any;
     shipping_address: any;

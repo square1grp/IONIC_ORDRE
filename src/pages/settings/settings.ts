@@ -19,7 +19,6 @@ export class SettingsPage {
 
     retailer: any;
     thisBuyer_id: any = 0;
-    retailers: any = [];
     searchResultRetailers: any = [];
     retailer_id: any = 0;
     collectionPage = CollectionPage;
@@ -35,6 +34,7 @@ export class SettingsPage {
         this.retailersLoading = true;
         this.getThisRetailers().then(data => {
             this.retailersLoading = false;
+        }).catch(err => {
         });
     }
 
@@ -45,14 +45,17 @@ export class SettingsPage {
     getThisRetailers() {
         return new Promise((resolve, reject) => {
             this.data.getRetailers(this.values.device_token, this.values.user_profile.user_token).then(response => {
-                this.retailers = response;
+                this.values.retailers = response;
                 this.data.consoleLog("this Retailers", response);
                 resolve(true);
+            }).catch(err => {
+                console.log(err);
+                reject(false);
             });
         });
     }
     searchRetailers(event) {
-        this.searchResultRetailers = this.retailers;
+        this.searchResultRetailers = this.values.retailers;
         this.retailer_id = 0;
         this.buyers = [];
         this.thisBuyer_id = 0;
@@ -142,10 +145,10 @@ export class SettingsPage {
 
     getRetailer(retailer_id) {
         let abort = false;
-        for (let i = 0, len = this.retailers.length; i < len && !abort; i++) {
-            if (this.retailers[i].retailer_id == retailer_id) {
+        for (let i = 0, len = this.values.retailers.length; i < len && !abort; i++) {
+            if (this.values.retailers[i].retailer_id == retailer_id) {
                 abort = true;
-                return this.retailers[i]
+                return this.values.retailers[i]
             }
         }
     }
