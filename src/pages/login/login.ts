@@ -17,7 +17,6 @@ export class LoginPage {
     collectionPage = CollectionPage;
     loginForm: FormGroup;
     response: any;
-    //designers: any;
     designer: any;
     errorMessage: any;
     loggingin: any;
@@ -52,7 +51,6 @@ export class LoginPage {
                 if (this.values.hasOwnProperty('user_profile')) {
                     if (this.values.user_profile.user_id > 0) {
                         console.log('Returning user');
-                        //this.logUserIn();
                     }
                 }
             };
@@ -60,24 +58,6 @@ export class LoginPage {
     }
 
     offlineManager() {
-        /*
-        if(!this.connectivityService.isOnline()){
-          let alert = this.alertCtrl.create({
-            title: 'You are offline.',
-            subTitle: 'Please check your network settings then click Try Again.',
-            buttons: [
-              {
-                text: 'Try Again',
-                handler: () => {
-                  console.log('Warning about being offline');
-                  
-                }
-              }
-            ]
-          });
-          alert.present();  
-        } 
-        */
     }
 
     ionViewDidLoad() {

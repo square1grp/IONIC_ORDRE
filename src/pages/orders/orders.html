@@ -4,7 +4,6 @@
   <div class="ordre_subheader">
     <div class="col-md-3  orders_page orders_sidebar_header">
       <a (click)="popView()" class="go_back  col-md-2"></a>
-      <!--a class="go_back col-md-2"></a-->
       <span class="title col-md-8"></span>
       <span class="toogle_menu col-md-2">|||</span>
     </div>
@@ -35,8 +34,6 @@
           <th>Total value</th>
           <th></th>
           <th></th>
-          <!--th>Synced</th-->
-          <!--th style="text-align: right;"><button class="sync_all">Sync all ordres</button></th-->
         </tr>
         <ng-container>
           <ng-container *ngFor="let draft of this.data.draftOrders.slice().reverse()">
@@ -49,16 +46,13 @@
               <td [innerHTML]="draft.designer_title"></td>
               <td>{{draft.currency_code}}</td>
               <td>{{draft.currency_symbol}}{{draft.total_amount | number :'.2'}}</td>
-              <!--td class="sync_status synchronized"></td-->
               <td class="actions">
-                <!-- <button *ngIf="draft.status=='LOCAL_DRAFT'" (click)="restore(draft._id, 'copy')" class="restore_ordre">Restore a Copy</button> -->
                 <button *ngIf="draft.status=='LOCAL_DRAFT'" (click)="restore(draft._id, 'draft')" class="restore_ordre">Restore</button>
                 <button *ngIf="draft.status=='LOCAL_DRAFT'" (click)="removeDraft(draft._id)" class="remove_ordre">Remove</button>
                 <button *ngIf="draft.status=='SERVER_DRAFT'" (click)="restore(draft._id, 'copy')" class="restore_ordre">Restore a Copy</button>
                 <button *ngIf="draft.status=='SERVER_DRAFT'" (click)="webViewOrder(draft.order_id)" class="view_ordre">View</button>
                 <button *ngIf="draft.status=='DRAFT'" (click)="restore(draft._id, 'copy')" class="restore_ordre">Restore a Copy</button>
                 <button *ngIf="draft.status=='DRAFT'" (click)="webViewOrder(draft.order_id)" class="view_ordre">View</button>
-                <!-- <button *ngIf="draft.status=='COPY'" (click)="restore(draft._id, 'copy')" class="restore_ordre">Restore a Copy</button> -->
                 <button *ngIf="draft.status=='COPY'" (click)="restore(draft._id, 'draft')" class="restore_ordre">Restore</button>
                 <button *ngIf="draft.status=='COPY'" (click)="removeDraft(draft._id)" class="remove_ordre">Remove</button>
               </td>
@@ -78,8 +72,6 @@
           <th>Designer</th>
           <th>Curr</th>
           <th>Total value</th>
-          <!--th>Synced</th-->
-          <!--th style="text-align: right;"><button class="sync_all">Sync all ordres</button></th-->
           <th></th>
         </tr>
         <ng-container *ngIf="this.data.requestedOrders!==undefined">
@@ -90,7 +82,6 @@
               <td class="des_name" [innerHTML]="order.designer_title"></td>
               <td>{{order.currency_code}}</td>
               <td>{{order.currency_symbol}}{{order.total_amount | number :'.2'}}</td>
-              <!--td class="sync_status synchronized"></td-->
               <td class="actions">
                 <button (click)="restore(order._id, 'restore_order')" class="restore_ordre">Restore a Copy</button>
                 <button (click)="webViewOrder(order.order_id)" class="view_ordre">View</button>

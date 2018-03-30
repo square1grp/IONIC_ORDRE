@@ -27,9 +27,6 @@
           <p class="title">Order Summary</p>
           <div class="single_ordre_summary" *ngFor="let designer of values.vieworder.request.order[0].sales_order_parts">
             <p class="designer_name"><span>Designer</span><span>{{designer.designer_title}}</span></p>
-            <!--p class="collection_name"><span>Collection</span><span>Spring Summer Autumn is the Collection's name</span></p>
-            <p class="ordre"><span>Ordre</span><span>30 Oct 2016 - 30 Nov 2016</span></p>
-            <p class="delivers"><span>Delivers</span><span>15 Jan 2017 - 31 Mar 2017</span></p-->
             <p class="number"><span>No. Products</span><span>{{designer.total_line_items}}</span></p>
             <p class="qty"><span>Total QTY</span><span>{{designer.total_qty}}</span></p>
             <p class="total"><span>Total Value</span><span>{{designer.currency_code}} {{designer.currency_symbol}}{{designer.total_amount | number :'.2'}}</span></p>
@@ -47,7 +44,6 @@
               <div class="fe_item">
                 <div class="item_image">
                   <lazy-img src="{{values.APIRoot}}/app/get_image.php?image=/{{line.image}}&w=342&h=509&xtype=prodimage"></lazy-img>
-                  <!--p class="item_detail">Detail</p-->
                 </div>
                 <div class="item_meta">
                   <p class="name">{{line.product_title}}: {{line.sku}}</p>

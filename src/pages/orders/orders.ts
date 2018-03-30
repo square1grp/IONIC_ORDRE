@@ -104,7 +104,6 @@ export class OrdersPage {
     webViewOrder(id) {
         const browser = this.iab.create(this.values.APIRoot + '/ordres/detail/' + id, '_blank');
         browser.show();
-        //console.log('View linked to:'+this.values.APIRoot + '/ordres/detail/'+id)
     }
 
     restore(draft_id, mode) {

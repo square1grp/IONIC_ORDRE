@@ -54,13 +54,7 @@ export class ViewloaderPage {
                     }
                 }
             });
-            //this.data.addIsOpenedProp();
             this.viewCtrl.dismiss().then(() => {
-                // console.log("loaderViewe_Dismissed!!");
-                // setTimeout(() => {
-                //     console.log("call_dismissSpiner");
-                //     this.data.dismissLoadingSpiner();
-                // }, 500);
                 this.insomnia.allowSleepAgain().then(
                     () => console.log("allowSleepAgain success"),
                     () => console.log("allowSleepAgain error")
@@ -70,38 +64,12 @@ export class ViewloaderPage {
                 console.log('Problem with spinner:'+err);
             });
         })
-      /*
-      let abort = false;
-      for (let i = 0, len =  this.values.collections.length; i < len && !abort; i++) {    
-        if(this.values.collections[i].collection_id==this.collection_id){
-          abort=true;
-          if(this.mode==3){
-            this.values.collections[i].offline = 'Removed';
-          }
-          else
-          {
-            this.values.collections[i].offline = 'Downloaded';
-          }
-          this.values.collections[i].download_date = new Date();        
-          this.data.storeCollections('collections_'+this.designer_id,this.values.collections)//.then((data) => {
-            // console.log('Product download complete... pretty much!') 
-            this.viewCtrl.dismiss(); 
-            this.data.getDownloads();
-          //});
-        } 
-      } 
-      */     
     }
 
     abort() {
         this.values.cancel = true;
         this.setCollectionStatus('',this.collection_id).then(() => {
             this.viewCtrl.dismiss().then(() => {
-                // console.log("loaderViewe_Dismissed!!");
-                // setTimeout(() => {
-                //     console.log("call_dismissSpiner");
-                //     this.data.dismissLoadingSpiner();
-                // }, 500);
                 this.insomnia.allowSleepAgain().then(
                     () => console.log("allowSleepAgain success"),
                     () => console.log("allowSleepAgain error")
@@ -115,21 +83,16 @@ export class ViewloaderPage {
 
     setCollectionStatus(status,collection_id) {
         return new Promise((resolve, reject) => {
-            // if (collection_id == this.data.selectedCollection.collection_id) {
-            //     this.data.selectedCollection.offline = status;
-            // }
             let abort = false;
             for (let i = 0, len =  this.values.collections.length; i < len && !abort; i++) {    
                 if (this.values.collections[i].collection_id == this.collection_id) {
                     abort = true;
                     this.values.collections[i].offline = status;
                     this.values.collections[i].download_date = new Date();        
-                    this.data.storeCollections('collections_' + this.designer_id,this.values.collections)//.then((data) => {
-                        // console.log('Product download complete... pretty much!') 
-                        resolve(status);
-                        this.data.getDownloads();
-                        this.data.getLog();
-                    //});
+                    this.data.storeCollections('collections_' + this.designer_id,this.values.collections);
+                    resolve(status);
+                    this.data.getDownloads();
+                    this.data.getLog();
                 } 
             } 
         });    

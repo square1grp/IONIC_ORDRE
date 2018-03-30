@@ -6,7 +6,6 @@
     <h1 *ngIf="(this.mode!=3)">Downloading Collection <ion-spinner *ngIf="!(this.values.downloadQueue==0 && this.values.downloadTarget!=0)" name="bubbles"></ion-spinner></h1>
     <h1 *ngIf="(this.mode==3)">Removing Collection <ion-spinner *ngIf="!(this.values.downloadQueue==0 && this.values.downloadTarget!=0)" name="bubbles"></ion-spinner></h1>
     <p *ngIf="this.values.downloadTarget==0">Checking products...<p>
-    <!--p>DEBUG: {{this.values.debug}}||{{this.collection_id}}</p-->
     <h3 *ngIf="(this.values.downloadTarget!=0&&this.mode==1)">Downloading images: {{this.values.downloadTarget - this.values.downloadQueue}} of {{this.values.downloadTarget}}</h3>
     <h3 *ngIf="(this.values.downloadTarget!=0&&this.mode==2)">Downloading all images: {{this.values.downloadTarget - this.values.downloadQueue}} of {{this.values.downloadTarget}}</h3>
     <h3 *ngIf="(this.values.downloadTarget!=0&&this.mode==3)">Deleting images: {{this.values.downloadTarget - this.values.downloadQueue}} of {{this.values.downloadTarget}}</h3>

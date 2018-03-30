@@ -23,7 +23,7 @@ export class SettingsPage {
     retailer_id: any = 0;
     collectionPage = CollectionPage;
     retailersLoading: any;
-    buyers: any = [];// [{'first_name':'Select Retailer','last_name':'','buyer_id':0}];
+    buyers: any = [];
     typeahead: string = "";
 
     constructor(public navCtrl: NavController, public navParams: NavParams, public data: Data, public values: Values) {
@@ -166,15 +166,6 @@ export class SettingsPage {
             }
         }
     }
-
-    /*
-    getThisBuyers(retailer_id){
-      this.data.getBuyers(retailer_id, this.values.device_token,this.values.user_profile.user_token).subscribe(response => {     
-        this.buyers = response.result;
-        console.log('Buyers:' + JSON.stringify(this.buyers));
-      });
-    }
-    */
 
     popView() {
         this.navCtrl.pop();

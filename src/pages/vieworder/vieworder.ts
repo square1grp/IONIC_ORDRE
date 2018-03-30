@@ -28,15 +28,6 @@ export class ViewOrderPage {
     }
 
     ngOnInit() {
-
-        //   sort cart order parts by product_id
-        /*
-        for (let i = 0, len = this.values.cart.request.order[0].sales_order_parts.length; i < len; i++) { 
-          this.values.cart.request.order[0].sales_order_parts[i].sort((a,b) => {
-            return a.product_id - b.product_id;
-          });
-        }
-        */
         console.log('View Order:' + JSON.stringify(this.values.vieworder));
         this.addSizes().then(data => {
             this.setItemQty();
@@ -46,20 +37,8 @@ export class ViewOrderPage {
 
     addSizes() {
         return new Promise((resolve, reject) => {
-            //  create a shadow cart with only a single instance of each variant in each designer
-            //this.cartItems = {'sales_order_parts':[]};
             console.log('Adding Sizes');
             this.values.vieworder.request.order[0].sales_order_parts.forEach((orderPart, part_index) => {
-
-                //  copy order part to shadow without sales order lines
-                //let order_lines = orderPart.sales_order_lines;
-                //console.log('Before Delete:'+JSON.stringify(this.values.cart));
-                //delete orderPart.sales_order_lines;
-                //console.log('After Delete:'+JSON.stringify(this.values.cart));
-                //let npindex = this.cartItems.sales_order_parts.push(orderPart);
-                //this.cartItems.sales_order_parts[npindex-1].sales_order_lines = [];
-                //console.log('New Order Part Added:'+JSON.stringify(this.cartItems));
-                //let AllProducts = ''; 
 
                 console.log('Get currency profile');
                 this.data.getDesignerCurrency(this.values.user_profile.user_region_id, orderPart.seller_account_id)
@@ -95,12 +74,10 @@ export class ViewOrderPage {
                                             let NewTotal = 0;
                                             this.values.vieworder.request.order[0].sales_order_parts[part_index].sales_order_lines[sindex].size = [];
                                             let newSizes = this.values.vieworder.request.order[0].sales_order_parts[part_index].sales_order_lines[sindex].size
-                                            console.log('Before:' + JSON.stringify(this.values.vieworder.request.order[0].sales_order_parts[part_index].sales_order_lines[sindex]));
                                             let CurrentTotal = this.values.vieworder.request.order[0].sales_order_parts[part_index].sales_order_lines[sindex].variant_total;
                                             if (isNaN(CurrentTotal)) { CurrentTotal = 0 }
                                             variant.sizes.forEach((size) => {
                                                 let NewSizeID = newSizes.push({ 'sku': size.sku, 'variant_id': size.variant_id, 'title': size.size_title, 'variant_size_id': size.variant_size_id, 'qty': 0 });
-                                                console.log('After Push:' + JSON.stringify(this.values.vieworder.request.order[0].sales_order_parts[part_index].sales_order_lines[sindex]));
                                                 NewSizeID = NewSizeID - 1;
                                                 //New Code
                                                 let orderQTY = this.cartProvider.getViewSizeQty(size.sku, orderPart.seller_account_id)
@@ -125,11 +102,6 @@ export class ViewOrderPage {
                                             console.log('Added sizes w qty:' + JSON.stringify(newSizes));
                                             console.log('to order:' + JSON.stringify(this.values.vieworder));
                                             resolve(null);
-                                            //let newLine = this.values.cart.request.order[0].sales_order_parts[part_index].sales_order_lines[sindex]
-                                            //this.values.cart.request.order[0].sales_order_parts[part_index].sales_order_lines[sindex].size = newSizes;
-                                            //console.log('Added sizes:'+JSON.stringify(this.values.cart.request.order[0].sales_order_parts[part_index].sales_order_lines[sindex].size));
-                                            //this.cartItems.sales_order_parts[part_index].sales_order_lines.push(newLine);
-                                            //console.log('New Item Added to Shadow:'+JSON.stringify(this.cartItems));
                                         }
                                     }
                                 });
@@ -139,7 +111,6 @@ export class ViewOrderPage {
                 });
             });
         });
-        //console.log('Real Cart Contains:'+JSON.stringify(this.values.cart)); 
     }
 
     setItemQty() {
@@ -166,7 +137,6 @@ export class ViewOrderPage {
                 }
             });
         });
-        //console.log('Real Cart post Qty Set Contains:'+JSON.stringify(this.values.cart));
     }
 
     handleCart(results) {

@@ -1,7 +1,6 @@
 import { Component, ChangeDetectionStrategy, ChangeDetectorRef, ElementRef, ViewChild } from '@angular/core';
 import { NavParams, ViewController } from 'ionic-angular';
 import { Values } from '../../providers/values';
-//import circlr from 'circlr';
 import circlr from '../../dev/circlr';  /* based on https://github.com/andrepolischuk/circlr/  */
 
 @Component({
@@ -52,10 +51,7 @@ export class View360Page {
             this.instanceOfCirclr.format();
         }
         let currentItem360 = newitem360;
-        // if (this.currentItem360 == newitem360)
-        // {
         this.build360(currentItem360);
-        // }
         if (this.instanceOfCirclr === undefined) {
             this.init360();
         }
