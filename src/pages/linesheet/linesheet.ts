@@ -166,16 +166,16 @@ export class LinesheetPage {
             this.lastPageItems = 0;
         }
         else {
-            this.itemsCnt = this.vArray.length
-            this.pages = Math.floor(this.itemsCnt / this.pageItems)
+            this.itemsCnt = this.vArray.length;
+            this.pages = Math.floor(this.itemsCnt / this.pageItems);
 
-            var oddItems = this.itemsCnt % this.pageItems
+            var oddItems = this.itemsCnt % this.pageItems;
             if (oddItems > 0) {
                 this.pages = this.pages + 1;
                 this.lastPageItems = oddItems;
             }
             else {
-                this.lastPageItems = this.pageItems
+                this.lastPageItems = this.pageItems;
             }
         }
         if (this.pages > 0) this.pages = this.pages - 1;
