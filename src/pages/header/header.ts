@@ -129,6 +129,7 @@ export class OrdreHeader {
                     handler: () => {
 
                         this.cartProvider.emptyOrder();
+                        this.values.isDesignerLogin = false;
                         this.values.user_profile = "";
                         this.data.removeUser('user_profile').then(data => {
                             this.navCtrl.setRoot(LoginPage);

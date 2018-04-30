@@ -25,6 +25,7 @@ export class SettingsPage {
     retailersLoading: any;
     buyers: any = [];
     typeahead: string = "";
+    typeaheadTime: any;
 
     constructor(public navCtrl: NavController, public navParams: NavParams, public data: Data, public values: Values) {
         //
@@ -54,7 +55,18 @@ export class SettingsPage {
             });
         });
     }
+
     searchRetailers(event) {
+        this.typeaheadTime = Date.now();
+        setTimeout(() => {
+            let currentTime = Date.now();
+            if (currentTime >= this.typeaheadTime + 1000) {
+                this.innerSearchRetailers(event);
+            }
+        }, 1000);
+    }
+
+    innerSearchRetailers(event) {
         this.searchResultRetailers = this.values.retailers;
         this.retailer_id = 0;
         this.buyers = [];
@@ -87,6 +99,7 @@ export class SettingsPage {
             this.typeahead = "";
         }
     }
+
     setBuyers() {
         this.thisBuyer_id = 0;
         let abort = false;
@@ -103,6 +116,7 @@ export class SettingsPage {
         let account_id = this.values.user_profile.seller_account_id
         this.values.user_profile.masquerade_id = account_id;
         this.values.user_profile.seller_account_id = 0;
+        this.values.user_profile.retailer_id = this.retailer_id;
         this.values.user_profile.buyer_id = this.thisBuyer_id;
         this.retailer = this.getRetailer(this.retailer_id);
 

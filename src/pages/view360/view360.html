@@ -14,12 +14,9 @@
         </div>
         <div class="col-md-6 product_preview_image" #test3d id="test3d" style="width:50% important!;">
             <ng-container *ngIf=(ThreeSixtyFrames)>
-                <lazy-img *ngFor="let image of ThreeSixtyFrames" src="{{image}}" style="display:none" class="image360"></lazy-img>
+                <lazy-img *ngFor="let image of ThreeSixtyFrames; let i=index" src="{{image}}" [style.display]="i == 0 ? 'block' : 'none'" class="image360"></lazy-img>
             </ng-container>
         </div>
         <div class="product-details_close" (click)="close360()"></div>
     </section>
 </ion-content>
-
-
-

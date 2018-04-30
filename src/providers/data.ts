@@ -718,6 +718,7 @@ export class Data {
             this.storage.get(record_id_get).then((result) => {
                 if (result != null) {
                     let pdata = JSON.parse(result)
+                    this.consoleLog("Products from local storage", pdata);
                     if (mode == 0) {
                         this.values.products = pdata.data;
                         resolve('');
@@ -740,6 +741,7 @@ export class Data {
                         let apiSource = this.values.APIRoot + "/app/api.php?json={%22action%22:%22collection_products%22,%22request%22:{%22device_token%22:%22" + device_token + "%22,%22user_token%22:%22" + user_token + "%22,%22collection_id%22:" + collection_id + "}}";
                         this.http.get(apiSource).map(res => res.json()).subscribe(productData => {
                             this.consolelog('10. Got Products from API:' + apiSource);
+                            this.consoleLog("Products from server", productData.result);
                             if (mode == 0) {
                                 this.values.products = productData.result;
                                 resolve('');
@@ -1282,7 +1284,40 @@ export class Data {
         });
     }
 
-
+    putThreeSixtyFrames(threeSixtyFrameUrls) {
+        return new Promise((resolve, reject) => {
+            let len = threeSixtyFrameUrls.length;
+            let count = 0;
+            for (let i = 0; i < len; i++) {
+                this.storage.get(threeSixtyFrameUrls[i]).then((image) => {
+                    if (image != null)
+                    {
+                        count++;
+                        if (count == len) resolve(true);
+                    }
+                    else {
+                        if (this.values.online) {
+                            this.putImage(threeSixtyFrameUrls[i]).then((res) => {
+                                count++;
+                                if (count == len) resolve(true);
+                            }).catch((err) => {
+                                count++;
+                                if (count == len) resolve(true);
+                            });
+                        }
+                        else {
+                            count++;
+                            if (count == len) resolve(true);
+                        }
+                    }
+                }).catch((error) => {
+                    count++;
+                    if (count == len) resolve(true);
+                    console.log(error);
+                });;
+            }
+        });
+    }
 
     //post image from URL into dB
     putImage(url) {
@@ -1715,9 +1750,20 @@ export class Data {
         //this.consolelog('Designer profile:'+JSON.stringify(this.data.designer));
         //find region in designer
         console.log('Set currency')
+
+        let selected_regionId = null;
+        if (this.values.designer_pricelist.region_index == null) {
+            selected_regionId = region_id;
+        }
+        else {
+            selected_regionId = this.values.designer_pricelist.region_id;
+        }
+        console.log("called getDesignerCurrency() function!");
+        console.log(this.values.designer_pricelist);
+
         let abort = false;
         for (let i = 0, len = this.values.designer.region_currency.length; i < len && !abort; i++) {
-            if (this.values.designer.region_currency[i].region_id == region_id) {
+            if (this.values.designer.region_currency[i].region_id == selected_regionId) {
                 abort = true;
                 this.consolelog('Currency code:' + this.values.designer.region_currency[i].currency_code);
                 this.consolelog('Currency symbol:' + this.values.designer.region_currency[i].currency_symbol);
@@ -1837,6 +1883,62 @@ export class Data {
         }
     }
 
+    //Get of Designer_Retailer association
+    getDRAssociationWithDParam(designer_id, device_token, user_token) {
+        return new Promise((resolve, reject) => {
+            if (this.values.online) {
+                this.consolelog('Get Designer_Retailer association according to designer_id: ' + designer_id);
+                let gPapiSource = this.values.APIRoot + "/app/api.php?json={%22action%22:%22get_designer_retailer_association%22,%22request%22:{%22device_token%22:%22" + device_token + "%22,%22user_token%22:%22" + user_token + "%22,%22seller_account_id%22:" + designer_id + "}}";
+                this.http.get(gPapiSource).map(res => res.json()).subscribe(data => {
+                    this.consolelog('Got association with D param');
+                    resolve(data.result);
+                    this.storage.set("association_by_designer_" + designer_id, data.result);
+                }, err => {
+                    this.storage.get("association_by_designer_" + designer_id).then(data => {
+                        resolve(data);
+                    }).then(error => {
+                        reject(error);
+                    });
+                });
+            }
+            else {
+                this.storage.get("association_by_designer_" + designer_id).then(data => {
+                    resolve(data);
+                }).then(err => {
+                    reject(err);
+                });
+            }
+        });
+    }
+
+    getDRAssociationWithRParam(retailer_id, device_token, user_token) {
+        return new Promise((resolve, reject) => {
+            if (this.values.online) {
+                this.consolelog('Get Designer_Retailer association according to retailer_id: ' + retailer_id);
+                let gPapiSource = this.values.APIRoot + "/app/api.php?json={%22action%22:%22get_designer_retailer_association%22,%22request%22:{%22device_token%22:%22" + device_token + "%22,%22user_token%22:%22" + user_token + "%22,%22retailer_id%22:" + retailer_id + "}}";
+                this.http.get(gPapiSource).map(res => res.json()).subscribe(data => {
+                    this.consolelog('Got association with R param');
+                    resolve(data.result);
+                    this.storage.set("association_by_retailer_" + retailer_id, data.result);
+                }, err => {
+                    this.storage.get("association_by_retailer_" + retailer_id).then(data => {
+                        resolve(data);
+                    }).then(error => {
+                        reject(error);
+                    });
+                });
+            }
+            else {
+                this.storage.get("association_by_retailer_" + retailer_id).then(data => {
+                    resolve(data);
+                }).then(err => {
+                    reject(err);
+                });
+            }
+        });
+
+    }
+
 
     //Loading Spinner process functions
     createLoader() {
@@ -1862,21 +1964,25 @@ export class Data {
     }
 
     dismissLoadingSpiner() {
-        console.log("this.loadingState :" + this.loadingState);
-        if (this.loadingState == false) {
-            this.isloadingState = true;
-            return;
-        }
-        console.log("Spinner_dismiss() function are called");
-        this.loading.dismiss().then(() => {
-            console.log("Spinner are dismissed perfectly.");
-            this.loadingState = false;
-            this.isloadingState = false;
-            this.values.onescreen_image_index = 0;
-            this.values.onescreen_total_imgages_num = 0;
-            this.createLoader();
-        }).catch(function (err) {
-            console.log(err);
+        return new Promise((resolve, reject) => {
+            console.log("this.loadingState :" + this.loadingState);
+            if (this.loadingState == false) {
+                this.isloadingState = true;
+                return;
+            }
+            console.log("Spinner_dismiss() function are called");
+            this.loading.dismiss().then(() => {
+                console.log("Spinner are dismissed perfectly.");
+                this.loadingState = false;
+                this.isloadingState = false;
+                this.values.onescreen_image_index = 0;
+                this.values.onescreen_total_imgages_num = 0;
+                this.createLoader();
+                resolve();
+            }).catch(function (err) {
+                console.log(err);
+                reject();
+            });
         });
     }
 

@@ -1,6 +1,7 @@
 import { Component, ChangeDetectionStrategy, ChangeDetectorRef, ElementRef, ViewChild } from '@angular/core';
 import { NavParams, ViewController } from 'ionic-angular';
 import { Values } from '../../providers/values';
+//import { Data } from '../../providers/data';
 import circlr from '../../dev/circlr';  /* based on https://github.com/andrepolischuk/circlr/  */
 
 @Component({
@@ -15,6 +16,7 @@ export class View360Page {
     ThreeSixtyFrames = [];
     currentItem360: any;
     instanceOfCirclr: any;
+    data: any;
 
     @ViewChild('test3d') view3D: ElementRef;
 
@@ -23,23 +25,25 @@ export class View360Page {
     ngOnInit() {
         this.productVariants = this.navParams.get("productVariants");
         this.currentItem360 = this.navParams.get("default360");
+        console.log(this.currentItem360);
+        this.data = this.navParams.get("data");
         this.ThreeSixtyFrames = [];
         this.myImageFrames = this.values.imageFrames;
         this.change360(this.currentItem360);
     }
     init360() {
-        let delayMillis = 1000;
+        this.instanceOfCirclr = circlr(this.view3D.nativeElement)
+            .scroll(true)
+            .interval(100)
+            .reverse(true);
+        let delayMillis = 400;
         setTimeout(() => {
-            this.instanceOfCirclr = circlr(this.view3D.nativeElement)
-                .scroll(true)
-                .interval(120)
-                .reverse(true);
             this.instanceOfCirclr.setCurrent(0).play(23);
         }, delayMillis);
 
     }
     play(n: number) {
-        let delayMillis = 1;
+        let delayMillis = 400;
         setTimeout(() => {
             if (this.instanceOfCirclr) this.instanceOfCirclr.setCurrent(0).play(n);
         }, delayMillis);
@@ -52,12 +56,27 @@ export class View360Page {
         }
         let currentItem360 = newitem360;
         this.build360(currentItem360);
-        if (this.instanceOfCirclr === undefined) {
-            this.init360();
-        }
-        else {
-            this.play(23);
-        }
+
+        this.data.presentLoadingSpinerSec().then(() => {
+            this.data.putThreeSixtyFrames(this.ThreeSixtyFrames).then(res => {
+                this.data.dismissLoadingSpiner().then(() => {
+                    if (this.instanceOfCirclr === undefined) {
+                        this.init360();
+                    }
+                    else {
+                        this.play(23);
+                    }                
+                }).catch(() => {
+                    if (this.instanceOfCirclr === undefined) {
+                        this.init360();
+                    }
+                    else {
+                        this.play(23);
+                    }
+                });;
+            })
+        });
+        
     }
 
     build360(currentItem360) {

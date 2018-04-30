@@ -42,11 +42,9 @@ export class OrdreImageCache {
         let sizeStrArry = imageURL.substr(imageURL.indexOf("&w=") + 1).split("&");
 
         this.storage.get(imageURL).then((image) => {
-            if(image!=null)
-            {
+            if (image != null) {
                 //  file or dB cache 
-                if(this.platform.is('cordova!'))
-                {
+                if (this.platform.is('cordova!')) {
                     console.log('Write Cordova File');
                     let url = URL.createObjectURL(image);
                     let fixedUrl: SafeUrl = this.ds.bypassSecurityTrustUrl(url)
@@ -58,7 +56,7 @@ export class OrdreImageCache {
                     console.log('Write Image');
                     let fixedUrl: SafeUrl = this.ds.bypassSecurityTrustUrl(<string>image)
                     this.img_src = <string>fixedUrl;
-                    this.hidden = false   
+                    this.hidden = false;
                     this.cd.markForCheck();             
                 }
                 if (this.values.onescreen_total_imgages_num > 0) {
@@ -69,11 +67,9 @@ export class OrdreImageCache {
                         this.values.onescreen_total_imgages_num = 0;
                     }
                 }
-                
             }
-            else
-            {
-                if(this.values.online){
+            else {
+                if (this.values.online) {
                     this.img_src = imageURL;
                     this.cd.markForCheck();
                     this.data.putImage(imageURL).then(() => {

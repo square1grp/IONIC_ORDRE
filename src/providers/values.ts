@@ -6,6 +6,7 @@ export class Values {
     count: number = 0;
     filter: any = 10;
     isLoggedIn: boolean = false;
+    isDesignerLogin: boolean = false;
     customerName: string = "";
     customerId: number = null;
     listview: boolean = false;
@@ -16,6 +17,13 @@ export class Values {
     user_profile: any;
     designer: any;
     debug: any;
+
+    associationByDesigner: any = [];
+    associationByRetailer: any = [];
+    designer_pricelist: any = {
+        region_id: null,
+        region_index: null
+    }
 
     isDesignersPage: boolean = true;
     isCollectionPage: boolean = false;
@@ -75,12 +83,12 @@ export class Values {
         '16', '17', '18', '19', '20', '21', '22', '23', '24'];
 
     //API 
-    //APIRoot = "https://ordre.kineticmedia.com.au";   //  STAGE
+    APIRoot = "https://ordre.kineticmedia.com.au";   //  STAGE
     //APIRoot = "https://www.ordre.com";             //  PRODUCTION
     //APIRoot = "https://web01.ordre.com";
-    APIRoot = "https://web02.ordre.com";
+    //APIRoot = "https://web02.ordre.com";
 
-    version: string = "v1.10";
+    version: string = "v1.11";
 
 
     constructor() {

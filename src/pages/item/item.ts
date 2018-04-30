@@ -40,7 +40,12 @@ export class ItemPage {
     }
 
     view360(variants, default360) {
-        let popover = this.popoverCtrl.create(View360Page, { productVariants: variants, default360: default360 });
+        console.log(variants);
+        console.log(default360);
+        let popover = this.popoverCtrl.create(View360Page, {productVariants: variants, default360: default360, data: this.data});
+        console.log('popover');
+        console.log(popover);
+                
         popover.present();
 
         //this.data.consolelog('try to render 3d')
@@ -125,8 +130,20 @@ export class ItemPage {
             this.product.variants[vindex].total = 0
             variant.sizes.forEach((size, sindex) => {
                 var orderQTY = this.cartProvider.getSizeQty(this.product.variants[vindex].sizes[sindex].sku, this.data.designer.seller_account_id);
-                this.product.variants[vindex].total = this.product.variants[vindex].total + (orderQTY * this.product.region_prices[this.values.user_profile.user_region_id<4 ? this.values.user_profile.user_region_id - 1 : this.values.user_profile.user_region_id - 2].wsp);
-                if (orderQTY == 0) {
+                // if (this.values.user_profile.user_region_id > 13) {
+                //     this.product.variants[vindex].total = 0;
+                // }
+                // else {
+                //     this.product.variants[vindex].total = this.product.variants[vindex].total + (orderQTY * this.product.region_prices[this.values.user_profile.user_region_id<4 ? this.values.user_profile.user_region_id - 1 : this.values.user_profile.user_region_id - 2].wsp);
+                // }
+
+                if (this.values.designer_pricelist.region_index == null) {
+                    this.product.variants[vindex].total = this.product.variants[vindex].total + (orderQTY * this.product.region_prices[this.values.user_profile.user_region_id<4 ? this.values.user_profile.user_region_id - 1 : this.values.user_profile.user_region_id - 2].wsp);
+                }
+                else {
+                    this.product.variants[vindex].total = this.product.variants[vindex].total + (orderQTY * this.product.region_prices[this.values.designer_pricelist.region_index].wsp);
+                }
+            if (orderQTY == 0) {
                     this.product.variants[vindex].sizes[sindex].qty = '';
                 }
                 else {

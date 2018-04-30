@@ -301,7 +301,13 @@ export class LinesheetPage {
                 variant.sizes.forEach((size, sindex) => {
                     var orderQTY = this.cartProvider.getSizeQty(this.values.products[pindex].variants[vindex].sizes[sindex].sku, this.values.designer.seller_account_id)
 
-                    this.values.products[pindex].variants[vindex].total = this.values.products[pindex].variants[vindex].total + (orderQTY * this.values.products[pindex].region_prices[0].wsp)
+                    if (this.values.user_profile.user_region_id > 13) {
+                        this.values.products[pindex].variants[vindex].total = 0;
+                    }
+                    else {
+                        this.values.products[pindex].variants[vindex].total = this.values.products[pindex].variants[vindex].total + (orderQTY * this.values.products[pindex].region_prices[this.values.user_profile.user_region_id<4 ? this.values.user_profile.user_region_id - 1 : this.values.user_profile.user_region_id - 2].wsp)
+                    }
+
                     if (orderQTY == 0) {
                         this.values.products[pindex].variants[vindex].sizes[sindex].qty = '';
                     }

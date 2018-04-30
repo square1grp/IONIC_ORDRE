@@ -30,6 +30,25 @@ export class DesignersPage {
             this.values.onescreen_image_index = 0;
 
             this.values.designer = designer;
+
+            // set designer special price_list if this designer have its own special price.
+            this.values.designer_pricelist.region_id = null;
+            this.values.designer_pricelist.region_index = null;
+            let abort = false;
+            for (var i = 0; i < this.values.associationByRetailer.length && abort == false; i++) {
+                if (this.values.designer.seller_account_id == this.values.associationByRetailer[i].seller_account_id) {
+                    this.values.designer_pricelist.region_id = this.values.associationByRetailer[i].region_id;
+                    for (var j = 0; j < this.values.designer.region_currency.length; j++) {
+                        if (this.values.designer.region_currency[j].region_id == this.values.designer_pricelist.region_id) {
+                            this.values.designer_pricelist.region_index = j;
+                            abort = true;
+                            console.log("price_list have just set!");
+                            console.log(this.values.designer_pricelist);
+                        }
+                    }
+                }
+            }
+
             this.data.getDesignerCurrency(this.values.user_profile.user_region_id, 0);
             this.data.getThisCollections(this.values.designer.seller_account_id, this.values.device_token, this.values.user_profile.user_token).then((data) => {
                 //check collection is downloaded if we're offline

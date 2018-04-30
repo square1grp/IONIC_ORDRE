@@ -120,11 +120,17 @@ export class LoginPage {
         this.cartProvider.emptyOrder();
         this.data.initActivityLogs();
         this.values.user_profile.masquerade_id = 0;
-        delete this.values.user_profile._rev
+        delete this.values.user_profile._rev;
         this.data.saveUser(this.values.user_profile);
 
         if (this.values.user_profile.seller_account_id) {
-            
+            this.values.isDesignerLogin = true;
+            this.data.getDRAssociationWithDParam(this.values.user_profile.seller_account_id, this.values.user_profile.device_token, this.values.user_profile.user_token).then(data => {
+                console.log(data);
+                this.values.associationByDesigner = data;
+            }).catch(err => {
+                console.log(err);
+            });
             // get shipping addresses from server
             this.data.getShippings(this.values.user_profile.device_token, this.values.user_profile.user_token, "ALL").then((response) => {
                 this.data.consoleLog("shipping_response", response);
@@ -183,6 +189,13 @@ export class LoginPage {
             });
         }
         else {
+            this.values.isDesignerLogin = false;
+            this.data.getDRAssociationWithRParam(this.values.user_profile.retailer_id, this.values.user_profile.device_token, this.values.user_profile.user_token).then(data => {
+                console.log(data);
+                this.values.associationByRetailer = data;
+            }).catch(err => {
+                console.log(err);
+            });;
             this.data.getShippings(this.values.user_profile.device_token, this.values.user_profile.user_token, this.values.user_profile.buyer_id).then((response) => {
                 this.values.shipping_address = response[0];
             });                  

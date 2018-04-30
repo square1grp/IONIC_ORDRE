@@ -47,6 +47,34 @@ export class CollectionPage {
         public navParams: NavParams, public data: Data, public cartProvider: CartProvider, public values: Values, private alertCtrl: AlertController,
         private popoverCtrl: PopoverController, private insomnia: Insomnia) {
         this.searchControl = new FormControl();
+        
+        // set designer special price_list if this designer have its own special price.
+        if (this.values.isDesignerLogin) {
+            console.log("price_list");
+            this.values.designer_pricelist.region_id = null;
+            this.values.designer_pricelist.region_index = null;
+            for (var i = 0; i < this.values.associationByDesigner.length; i++) {
+                console.log("price_list2");
+                let abort = false;
+                for (var j = 0; j < this.values.associationByDesigner[i].retailers.length && abort == false; j++) {
+                    console.log("price_list3");
+                    if (this.values.user_profile.retailer_id == this.values.associationByDesigner[i].retailers[j]) {
+                        console.log("price_list4");
+                        this.values.designer_pricelist.region_id = this.values.associationByDesigner[i].region_id;
+                        abort = true;
+                        for (var k = 0; k < this.values.designer.region_currency.length; k++) {
+                            console.log("price_list5");
+                            if (this.values.designer.region_currency[k].region_id == this.values.designer_pricelist.region_id) {
+                                this.values.designer_pricelist.region_index = k;
+                                console.log("price_list have just set!");
+                                console.log(this.values.designer_pricelist);
+                            }
+                        }
+                    }
+                }
+            }
+            this.data.getDesignerCurrency(this.values.user_profile.user_region_id, 0);
+        }
     }
 
     ngOnInit() {
