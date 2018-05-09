@@ -4,6 +4,7 @@ import { Insomnia } from '@ionic-native/insomnia'
 import { FormControl } from '@angular/forms';
 import { ItemPage } from '../item/item';
 import { LinesheetPage } from '../linesheet/linesheet';
+import { SettingsPage } from '../settings/settings';
 import { Data } from '../../providers/data';
 import { Values } from '../../providers/values';
 import { CartProvider } from '../../providers/cart';
@@ -211,7 +212,30 @@ export class CollectionPage {
 
     addProductToCart(product_title, material, designer_title, price, designer_id, type, product_id) {
 
-        if (this.values.user_profile.seller_account_id != 0) { return false; }
+        if (this.values.user_profile.seller_account_id != 0) { 
+            let alert = this.alertCtrl.create({
+                title: 'Are you trying to add this style to your selection?',
+                subTitle: 'To create a selection begin by selecting a buyer',
+                buttons: [
+                    {
+                        text: 'Cancel',
+                        role: 'cancel',
+                        handler: () => {
+                            console.log('Cancel clicked');
+                        }
+                    },
+                    {
+                        text: 'Select buyer',
+                        handler: () => {
+                            console.log('Select buyer clicked');
+                            this.navCtrl.push(SettingsPage);
+                        }
+                    }
+                ]
+            });
+            alert.present();
+            return false; 
+        }
         //find the product
         let abort = false;
         for (let pindex = 0, len = this.values.products.length; pindex < len && !abort; pindex++) {

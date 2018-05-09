@@ -1,25 +1,74 @@
 
   <header class="ordre_header">
-    <div class="col-md-5 col-sm-5 header_left">
-      <a *ngIf="this.values.user_profile.seller_account_id > 0 || this.values.user_profile.masquerade_id > 0" (tap)="openCollectionPage(collectionPage)" class="homepage_link"></a>
-      <a *ngIf="this.values.user_profile.seller_account_id == 0 && this.values.user_profile.masquerade_id == 0" (tap)="openHomePage(designersPage)" class="homepage_link"></a>
+    <div class="header_left">
+      <div *ngIf="this.values.user_profile.seller_account_id > 0 || this.values.user_profile.masquerade_id > 0" (tap)="openCollectionPage(collectionPage)" class="homepage_link">
+        <i class="mdi mdi-home"></i>
+        <span>Home</span>
+      </div>
+      <div *ngIf="this.values.user_profile.seller_account_id == 0 && this.values.user_profile.masquerade_id == 0" (tap)="openHomePage(designersPage)" class="homepage_link">
+        <i class="mdi mdi-home"></i>
+        <span>Home</span>
+      </div>
+      <!-- <a *ngIf="this.values.user_profile.seller_account_id > 0 || this.values.user_profile.masquerade_id > 0" (tap)="openCollectionPage(collectionPage)" class="homepage_link">sss</a>
+      <a *ngIf="this.values.user_profile.seller_account_id == 0 && this.values.user_profile.masquerade_id == 0" (tap)="openHomePage(designersPage)" class="homepage_link mdi mdi-home">home</a> -->
     </div>
-    <div class="col-md-2 col-sm-2 header_sitename"><img src="assets/images/ordre_logo.png"></div>
-    <div class="col-md-5 col-sm-5 header_icons header_right">
-      <span *ngIf="(this.values.user_profile.seller_account_id != 0)" class="business_name_designer">
+    <div class="header_sitename"><img src="assets/images/ordre_logo.png"></div>
+    <div class="header_icons header_right">
+      <!-- <span *ngIf="(this.values.user_profile.seller_account_id != 0)" class="business_name_designer">
         {{this.values.user_profile.business_display_name}}
-      </span>     
-      <a *ngIf="(this.values.user_profile.seller_account_id == 0)" (tap)="openPage(cartPage)" class="header_mini_cart_link" [ngClass]="{'active': this.values.cart.request.order[0]?.sales_order_parts.length>0, '': !this.values.cart.request.order[0]?.sales_order_parts}">
-        <!--<div id="retailer-name">-->
+      </span>  -->
+      <!-- <a *ngIf="(this.values.user_profile.seller_account_id == 0)" (tap)="openPage(cartPage)" class="header_mini_cart_link" [ngClass]="{'active': this.values.cart.request.order[0]?.sales_order_parts.length>0, '': !this.values.cart.request.order[0]?.sales_order_parts}">
+        //<div id="retailer-name">
           <span [ngClass]="{'business_name_buyer': this.values.user_profile.masquerade_id == 0, 'business_name_masquerade': this.values.user_profile.masquerade_id != 0}"
             [innerHTML]="this.values.user_profile.business_display_name + '&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;' + this.values.cart.request.order[0].total_line_items">
           </span>
-        <!--</div>-->
-      </a>      
-      <a *ngIf="(this.values.user_profile.seller_account_id == 0)" (tap)="openPage(ordersPage)" class="header_drafts_link"></a>
+        //</div>
+      </a>  -->
+      <div *ngIf="(this.values.user_profile.seller_account_id != 0)" class="buyer-span">
+        <span class="business_name_designer">
+          {{this.values.user_profile.business_display_name}}
+        </span>
+      </div>
+      <div *ngIf="(this.values.user_profile.seller_account_id == 0)" class="buyer-span">
+        <span [ngClass]="{'business_name_buyer': this.values.user_profile.masquerade_id == 0, 'business_name_masquerade': this.values.user_profile.masquerade_id != 0}"
+        [innerHTML]="this.values.user_profile.business_display_name + '&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;' + this.values.cart.request.order[0].total_line_items">
+        </span>
+      </div>
+      <div *ngIf="(this.values.user_profile.seller_account_id == 0)" (tap)="openPage(cartPage)" class="header_mini_cart_link icon-link" [ngClass]="{'active': this.values.cart.request.order[0]?.sales_order_parts.length>0, '': !this.values.cart.request.order[0]?.sales_order_parts}">
+        <!-- <span [ngClass]="{'business_name_buyer': this.values.user_profile.masquerade_id == 0, 'business_name_masquerade': this.values.user_profile.masquerade_id != 0}"
+        [innerHTML]="this.values.user_profile.business_display_name + '&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;' + this.values.cart.request.order[0].total_line_items">
+        </span> -->
+        <i class="mdi mdi-shopping"></i>
+        <span>Selection</span>
+      </div>
+      <div *ngIf="this.values.user_profile.seller_account_id == 0" (tap)="openPage(ordersPage)" class="header_drafts_link icon-link">
+        <i class="mdi mdi-clipboard-check"></i>
+        <span>Orders</span>
+      </div>
+      <div *ngIf="this.values.user_profile.seller_account_id == 0 && this.values.user_profile.masquerade_id == 0" (tap)="openCachePage(cachePage)" class="headers_setting_item icon-link">
+        <i class="mdi mdi-settings"></i>
+        <span>Setting</span>
+      </div>
+      <div *ngIf="this.values.user_profile.seller_account_id > 0" (tap)="openPage(settingsPage)" class="headers_sync icon-link">
+        <i class="mdi mdi-account-plus"></i>
+        <span>Select Buyer</span>
+      </div>
+      <div *ngIf="this.values.user_profile.seller_account_id > 0" (tap)="openCachePage(cachePage)" class="headers_setting_item icon-link">
+        <i class="mdi mdi-settings"></i>
+        <span>Setting</span>
+      </div>
+      <div *ngIf="this.values.user_profile.masquerade_id > 0" (tap)="exitMasquarade()" class="headers_logout icon-link">
+        <i class="mdi mdi-power"></i>
+        <span>Sign out</span>
+      </div>
+      <div *ngIf="this.values.user_profile.masquerade_id == 0" (tap)="logOut()" class="headers_logout icon-link">
+        <i class="mdi mdi-power"></i>
+        <span>Sign out</span>
+      </div>
+      <!-- <a *ngIf="(this.values.user_profile.seller_account_id == 0)" (tap)="openPage(ordersPage)" class="header_drafts_link"></a>
       <a *ngIf="this.values.user_profile.masquerade_id == 0" (tap)="openCachePage(cachePage)" class="headers_sync"></a>
       <a *ngIf="this.values.user_profile.seller_account_id > 0" (tap)="openPage(settingsPage)" class="headers_setting_item"></a>
       <a *ngIf="this.values.user_profile.masquerade_id > 0" (tap)="exitMasquarade()" class="headers_logout"></a>
-      <a *ngIf="this.values.user_profile.masquerade_id == 0" (tap)="logOut()" class="headers_logout"></a>
+      <a *ngIf="this.values.user_profile.masquerade_id == 0" (tap)="logOut()" class="headers_logout"></a> -->
     </div>
   </header>
