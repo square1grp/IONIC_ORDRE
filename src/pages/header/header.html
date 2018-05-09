@@ -47,7 +47,7 @@
       </div>
       <div *ngIf="this.values.user_profile.seller_account_id == 0 && this.values.user_profile.masquerade_id == 0" (tap)="openCachePage(cachePage)" class="headers_setting_item icon-link">
         <i class="mdi mdi-settings"></i>
-        <span>Setting</span>
+        <span>Settings</span>
       </div>
       <div *ngIf="this.values.user_profile.seller_account_id > 0" (tap)="openPage(settingsPage)" class="headers_sync icon-link">
         <i class="mdi mdi-account-plus"></i>
@@ -55,7 +55,7 @@
       </div>
       <div *ngIf="this.values.user_profile.seller_account_id > 0" (tap)="openCachePage(cachePage)" class="headers_setting_item icon-link">
         <i class="mdi mdi-settings"></i>
-        <span>Setting</span>
+        <span>Settings</span>
       </div>
       <div *ngIf="this.values.user_profile.masquerade_id > 0" (tap)="exitMasquarade()" class="headers_logout icon-link">
         <i class="mdi mdi-power"></i>
