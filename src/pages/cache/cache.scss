@@ -1,4 +1,13 @@
 page-cache {
+    .settings_page.content_sorter .settings_title {
+        i {
+            font-size: 37px;
+            vertical-align: middle;
+        }
+        span {
+            vertical-align: middle;
+        }
+    }
     #settings_section .settings_sidebar .settings_list div.version {
         border-bottom: 0px;
         padding-left: 40px;

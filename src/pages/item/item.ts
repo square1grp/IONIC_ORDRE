@@ -99,7 +99,7 @@ export class ItemPage {
         this.setItemQty();
     }
 
-    addToCart(product_title, colour, material, swatch, image, designer_title, variant_id, sku, price,
+    addToCart(product_title, colour, material, swatch, image, designer_title, variant_id, sku, price, price_rrp,
         event, designer_id, size, size_id, type, product_id) {
         this.data.consoleLog("price", price);
         if (this.values.user_profile.seller_account_id != 0) { return false; }
@@ -112,7 +112,7 @@ export class ItemPage {
             if (this.qty == "") this.qty = 0;
         }
         this.cartProvider.addToCart(product_title, colour, material, swatch, image, designer_title, designer_id,
-            product_id, variant_id, size, size_id, type, this.qty, price, sku);
+            product_id, variant_id, size, size_id, type, this.qty, price, price_rrp, sku);
         this.setItemQty();
         this.qty = 0;
 
@@ -128,20 +128,17 @@ export class ItemPage {
         //  set QTY field for product variant size from cart
         this.product.variants.forEach((variant, vindex) => {
             this.product.variants[vindex].total = 0
+            this.product.variants[vindex].total_rrp = 0
             variant.sizes.forEach((size, sindex) => {
                 var orderQTY = this.cartProvider.getSizeQty(this.product.variants[vindex].sizes[sindex].sku, this.data.designer.seller_account_id);
-                // if (this.values.user_profile.user_region_id > 13) {
-                //     this.product.variants[vindex].total = 0;
-                // }
-                // else {
-                //     this.product.variants[vindex].total = this.product.variants[vindex].total + (orderQTY * this.product.region_prices[this.values.user_profile.user_region_id<4 ? this.values.user_profile.user_region_id - 1 : this.values.user_profile.user_region_id - 2].wsp);
-                // }
 
                 if (this.values.designer_pricelist.region_index == null) {
                     this.product.variants[vindex].total = this.product.variants[vindex].total + (orderQTY * this.product.region_prices[this.values.user_profile.user_region_id<4 ? this.values.user_profile.user_region_id - 1 : this.values.user_profile.user_region_id - 2].wsp);
+                    this.product.variants[vindex].total_rrp = this.product.variants[vindex].total_rrp + (orderQTY * this.product.region_prices[this.values.user_profile.user_region_id<4 ? this.values.user_profile.user_region_id - 1 : this.values.user_profile.user_region_id - 2].rrp);
                 }
                 else {
                     this.product.variants[vindex].total = this.product.variants[vindex].total + (orderQTY * this.product.region_prices[this.values.designer_pricelist.region_index].wsp);
+                    this.product.variants[vindex].total_rrp = this.product.variants[vindex].total_rrp + (orderQTY * this.product.region_prices[this.values.designer_pricelist.region_index].rrp);
                 }
             if (orderQTY == 0) {
                     this.product.variants[vindex].sizes[sindex].qty = '';

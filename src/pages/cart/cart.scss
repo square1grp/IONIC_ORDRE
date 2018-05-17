@@ -5,6 +5,15 @@ page-cart {
         display: inline-block;
         color: #fff;
     }
+    .fe_page.content_sorter .ordre_title {
+        i {
+            font-size: 37px;
+            vertical-align: middle;
+        }
+        span {
+            vertical-align: middle;
+        }
+    }
     .scroll-content {
         overflow-y: hidden;
     }

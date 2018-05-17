@@ -232,7 +232,7 @@ export class LinesheetPage {
         this.data.consolelog('Toggle Click');
         this.el.nativeElement.click();
     }
-    addToCart(product_title, colour, material, swatch, image, designer_title, variant_id, sku, price, event, designer_id
+    addToCart(product_title, colour, material, swatch, image, designer_title, variant_id, sku, price, price_rrp, event, designer_id
         , size, size_id, type, product_id, itemItem) {
         this.zone.run(() => {
             if (this.values.user_profile.seller_account_id != 0) { return false; }
@@ -244,7 +244,7 @@ export class LinesheetPage {
                 if (this.qty == "") this.qty = 0;
             }
             this.cartProvider.addToCart(product_title, colour, material, swatch, image, designer_title, designer_id, product_id
-                , variant_id, size, size_id, type, this.qty, price, sku);
+                , variant_id, size, size_id, type, this.qty, price, price_rrp, sku);
             this.setItemQty();
             this.cd.markForCheck();
             this.qty = 0;
@@ -253,13 +253,13 @@ export class LinesheetPage {
         });
     }
 
-    addProductVariantToCart(product_title, colour, material, swatch, image, designer_title, variant_id, sku, price, event
+    addProductVariantToCart(product_title, colour, material, swatch, image, designer_title, variant_id, sku, price, price_rrp, event
         , designer_id, size, size_id, type, product_id, itemItem) {
         this.zone.run(() => {
             if (this.values.user_profile.seller_account_id != 0) return false;
             let qty = event.target.value;
             this.data.consolelog('add to cart:' + qty);
-            this.cartProvider.addToCart(product_title, colour, material, swatch, image, designer_title, designer_id, product_id, variant_id, size, size_id, type, qty, price, sku);
+            this.cartProvider.addToCart(product_title, colour, material, swatch, image, designer_title, designer_id, product_id, variant_id, size, size_id, type, qty, price, price_rrp, sku);
             this.setItemQty();
             this.cd.markForCheck();
         });

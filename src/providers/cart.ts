@@ -194,7 +194,7 @@ export class CartProvider {
     }
 
     addToCart(product_title, colour, material, swatch, image, designer_title, designer_id, product_id, variant_id,
-        size, size_id, type, qty, price, prodsku: string) {
+        size, size_id, type, qty, price, price_rrp, prodsku: string) {
 
         //console.log('Start:Adding to cart');
 
@@ -234,6 +234,7 @@ export class CartProvider {
                 'size_title': size,
                 'quantity': qty,
                 'price': price,
+                'price_rrp': price_rrp,
                 'sku': prodsku,
                 'material': material,
                 'colour': colour,

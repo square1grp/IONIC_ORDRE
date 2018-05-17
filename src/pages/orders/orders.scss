@@ -27,4 +27,13 @@ page-orders {
         color: #000000;
         padding-top: 50px;
     }
+    .orders_page.content_sorter .orders_title {
+        i {
+            font-size: 37px;
+            vertical-align: middle;
+        }
+        span {
+            vertical-align: middle;
+        }
+    }
 }

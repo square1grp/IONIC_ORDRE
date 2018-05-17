@@ -84,6 +84,7 @@ export class CartPage {
                             product.variants.forEach((variant, vindex) => {
                                 let abort = false;
                                 let CurrentTotal = 0;
+                                let CurrentTotal_rrp = 0;
                                 for (let sindex = 0, len = this.values.cart.request.order[0].sales_order_parts[part_index].sales_order_lines.length;
                                     sindex < len && !abort; sindex++) {
                                     if (this.values.cart.request.order[0].sales_order_parts[part_index].sales_order_lines[sindex].variant_id == variant.variant_id) {
@@ -103,15 +104,19 @@ export class CartPage {
                                             NewSizeID = NewSizeID - 1;
 
                                             let orderQTY = this.cartProvider.getSizeQty(size.sku, orderPart.seller_account_id)
-                                            let price = parseInt(this.values.cart.request.order[0].sales_order_parts[part_index].sales_order_lines[sindex].price)
+                                            let price = parseInt(this.values.cart.request.order[0].sales_order_parts[part_index].sales_order_lines[sindex].price);
+                                            let price_rrp = parseInt(this.values.cart.request.order[0].sales_order_parts[part_index].sales_order_lines[sindex].price_rrp);
                                             if (isNaN(orderQTY)) { orderQTY = 0 }
                                             if (orderQTY > 0 && price > 0) {
                                                 CurrentTotal = CurrentTotal + (orderQTY * price);
                                                 console.log('Added:' + orderQTY + ' x ' + price);
                                             }
-                                            else {
+                                            if (orderQTY > 0 && price_rrp > 0) {
+                                                CurrentTotal_rrp = CurrentTotal_rrp + (orderQTY * price_rrp);
+                                                console.log('Added_rrp:' + orderQTY + ' x ' + price_rrp);
                                             }
                                             this.values.cart.request.order[0].sales_order_parts[part_index].sales_order_lines[sindex].variant_total = CurrentTotal;
+                                            this.values.cart.request.order[0].sales_order_parts[part_index].sales_order_lines[sindex].variant_total_rrp = CurrentTotal_rrp;
                                             if (orderQTY == 0) {
                                                 newSizes[NewSizeID].qty = '';
                                             }
@@ -129,7 +134,7 @@ export class CartPage {
         });
     }
 
-    addToCart(product_title, colour, material, swatch, image, designer_title, variant_id, sku, price, event, designer_id,
+    addToCart(product_title, colour, material, swatch, image, designer_title, variant_id, sku, price, price_rrp, event, designer_id,
         size, size_id, type, product_id) {
 
         if (this.values.user_profile.seller_account_id != 0) {
@@ -137,7 +142,7 @@ export class CartPage {
         }
         let qty = event.target.value;
         this.cartProvider.addToCart(product_title, colour, material, swatch, image, designer_title, designer_id, product_id, variant_id,
-            size, size_id, type, qty, price, sku);
+            size, size_id, type, qty, price, price_rrp, sku);
 
         this.setItemQty();
     }
@@ -205,11 +210,13 @@ export class CartPage {
         this.values.cart.request.order[0].sales_order_parts.forEach((order_part, z) => {
             order_part.sales_order_lines.forEach((item, y) => {
                 item.variant_total = 0;
+                item.variant_total_rrp = 0;
                 if (item.size) {
                     item.size.forEach((thisSize) => {
                         var orderQTY = this.cartProvider.getSizeQty(thisSize.sku, order_part.seller_account_id);
 
                         item.variant_total = item.variant_total + (orderQTY * item.price);
+                        item.variant_total_rrp = item.variant_total_rrp + (orderQTY * item.price_rrp);
                         if (orderQTY == 0) {
                             thisSize.qty = '';
                         }

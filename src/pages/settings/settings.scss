@@ -16,6 +16,15 @@ page-settings {
         border-width: 1px;
         border-radius: 0px !important;
     }
+    .settings_page.content_sorter .settings_title {
+        i {
+            font-size: 37px;
+            vertical-align: middle;
+        }
+        span {
+            vertical-align: middle;
+        }
+    }
     .label {
         color: #000000;
         text-align: left;

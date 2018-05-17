@@ -210,7 +210,7 @@ export class CollectionPage {
         infiniteScroll.complete();
     }
 
-    addProductToCart(product_title, material, designer_title, price, designer_id, type, product_id) {
+    addProductToCart(product_title, material, designer_title, price, price_rrp, designer_id, type, product_id) {
 
         if (this.values.user_profile.seller_account_id != 0) { 
             let alert = this.alertCtrl.create({
@@ -247,7 +247,7 @@ export class CollectionPage {
                     this.cartProvider.addToCart(product_title + ' : ' + variant.title, variant.colour,
                         material, variant.swatch.swatch_image, variant.variant_images[0].variant_image,
                         designer_title, designer_id, product_id, variant.variant_id, variant.sizes[0].size_title,
-                        variant.sizes[0].variant_size_id, type, 0, price, variant.sizes[0].sku);
+                        variant.sizes[0].variant_size_id, type, 0, price, price_rrp, variant.sizes[0].sku);
                 });
                 this.data.activityLogPost(Constants.LOG_ADD_TO_RANGINGROOM, designer_id, this.data.selectedCollection.collection_id, product_id, 'all');
             }

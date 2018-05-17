@@ -7,7 +7,10 @@
         <span class="toogle_menu col-md-2"></span>
     </div>
     <div class="col-md-9 fe_page content_sorter">
-        <div class="ordre_title">Selection</div>
+        <div class="ordre_title">
+            <i class="mdi mdi-shopping"></i>
+            <span>Selection</span>
+        </div>
     </div>
 </div>
 <ion-content>  
@@ -55,7 +58,18 @@
                                     </div>
                                     <div class="item_meta">
                                         <p class="name" [innerHTML]="line.product_title"></p>
-                                        <p class="wsp"><span>WSP</span> {{designer.currency_code}} {{designer.currency_symbol}}{{line.price  | number :'.2'}}</p>
+                                        <p class="wsp">
+                                            <span>WSP</span> 
+                                            {{designer.currency_code}} 
+                                            {{designer.currency_symbol}}
+                                            {{line.price  | number :'.2'}}
+                                        </p>
+                                        <p class="wsp">
+                                            <span>RRP</span> 
+                                            {{designer.currency_code}} 
+                                            {{designer.currency_symbol}}
+                                            {{line.price_rrp  | number :'.2'}}
+                                        </p>
                                         <div class="color-material_info">
                                             <div class="color">
                                                 <p>Color</p>
@@ -71,7 +85,7 @@
                                             <label for="{{i}}{size.variant_size_id}}" *ngFor="let size of line.size; let i = index">Size {{size.title}}
                                                 <input type="number" ng-model="qty" name="{{i}}{{size.variant_size_id}}" value="{{size.qty}}" id="{{i}}{{size.variant_size_id}}"
                                                     (blur)="addToCart(line.product_title, line.colour, line.materials, line.swatch, line.image, designer.title, size.variant_id, 
-                                                    size.sku, line.price, $event, designer.seller_account_id, size.size_title, size.variant_size_id, 'type', line.product_id)">
+                                                    size.sku, line.price, line.price_rrp, $event, designer.seller_account_id, size.size_title, size.variant_size_id, 'type', line.product_id)">
                                             </label>                  
                                         </div>
                                         <p class="product_quantity">
@@ -82,7 +96,16 @@
                                     <div class="item_price">
                                         <div>
                                             <p class="total_title">Products total WSP</p>
-                                            <p class="product_total ">{{designer.currency_code}} {{designer.currency_symbol}}{{line.variant_total | number :'.2'}}</p>
+                                            <p class="product_total ">
+                                                {{designer.currency_code}} 
+                                                {{designer.currency_symbol}}
+                                                {{line.variant_total | number :'.2'}}
+                                            </p>
+                                            <p class="product_total ">
+                                                    {{designer.currency_code}} 
+                                                    {{designer.currency_symbol}}
+                                                    {{line.variant_total_rrp | number :'.2'}}
+                                                </p>
                                             <p class="clear_item" tappable (click)="clearItem(orderPart, line.product_id, 1,line.variant_id)">Clear item</p> 
                                         </div>
                                     </div>
