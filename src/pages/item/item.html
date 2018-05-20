@@ -72,8 +72,10 @@
             data.designer.seller_account_id, variant.sizes[0].size_title, variant.sizes[0].variant_size_id,'all', product.product_id)">
               <img [src]="isProductInOrder(variant.product_id, variant.variant_id, values.designer.seller_account_id)"/></span>
             <p class="total_title"><!-- Products total WSP--></p>
-            <p class="product_total" [ngClass]="{'active': variant?.total>0, '': variant?.total==0}">{{this.data.designer?.buyer_code}} {{this.data.designer?.buyer_symbol}}{{variant?.total | number :'.2'}}</p> 
-            <p class="product_total" [ngClass]="{'active': variant?.total>0, '': variant?.total==0}">{{this.data.designer?.buyer_code}} {{this.data.designer?.buyer_symbol}}{{variant?.total_rrp | number :'.2'}}</p>
+            <!-- <p class="product_total" [ngClass]="{'active': variant?.total>0, '': variant?.total==0}">{{this.data.designer?.buyer_code}} {{this.data.designer?.buyer_symbol}}{{variant?.total | number :'.2'}}</p> 
+            <p class="product_total" [ngClass]="{'active': variant?.total>0, '': variant?.total==0}">{{this.data.designer?.buyer_code}} {{this.data.designer?.buyer_symbol}}{{variant?.total_rrp | number :'.2'}}</p> -->
+            <p class="product_total" [ngClass]="{'active': variant?.total>0, '': variant?.total==0}">TTL WSP: {{this.data.designer?.buyer_symbol}}{{variant?.total | number :'.2'}}</p> 
+            <p class="product_total" [ngClass]="{'active': variant?.total>0, '': variant?.total==0}">TTL RRP:&ensp;{{this.data.designer?.buyer_symbol}}{{variant?.total_rrp | number :'.2'}}</p>
             <p class="clear_item" tappable (tap)="clearItem(variant.variant_id,0)">Clear item</p>
           </div>
         </div>

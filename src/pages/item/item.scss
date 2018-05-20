@@ -21,8 +21,10 @@ page-item {
             border-bottom:1px solid #cccccc;
             padding:130px 0 30px;
             .wsp-rrp {
-                font-size: 26px;
-                font-weight: 900;
+                font-size: 24px;
+                span {
+                    font-weight: 700;
+                }
                 span.rrp {
                     margin-left: 50px;
                 }
@@ -251,10 +253,10 @@ page-item {
     }
     @media only screen and (min-width: 1025px) {
         #collection_item_section .line_sheet_item .item_meta {
-            width: 58%;
+            width: 47%;
         }
         #collection_item_section .line_sheet_item .item_price {
-            width: 26%;
+            width: 37%;
         }
     }
     
