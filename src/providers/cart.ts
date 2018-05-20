@@ -36,6 +36,7 @@ export class CartProvider {
                     "total_line_items": 0,
                     "total_qty": 0,
                     "total_amount": 0,
+                    "total_amount_rrp": 0,
                     "door": {
                         "door_first_name": "",
                         "door_last_name": "",
@@ -71,6 +72,7 @@ export class CartProvider {
                     "total_line_items": 0,
                     "total_qty": 0,
                     "total_amount": 0,
+                    "total_amount_rrp": 0,
                     "door": {
                         "door_first_name": "",
                         "door_last_name": "",
@@ -118,6 +120,7 @@ export class CartProvider {
                         "total_line_items": this.values.cart.request.order[0].total_line_items,
                         "total_qty": this.values.cart.request.order[0].total_qty,
                         "total_amount": this.values.cart.request.order[0].total_amount,
+                        "total_amount_rrp": this.values.cart.request.order[0].total_amount_rrp,
                         "door": this.values.cart.request.order[0].door,
                         "sales_order_parts": []
                     }]
@@ -135,6 +138,7 @@ export class CartProvider {
                     "seller_account_id": this.values.cart.request.order[0].sales_order_parts[i].seller_account_id,
                     "status": this.values.cart.request.order[0].sales_order_parts[i].status,
                     "total_amount": this.values.cart.request.order[0].sales_order_parts[i].total_amount,
+                    "total_amount_rrp": this.values.cart.request.order[0].sales_order_parts[i].total_amount_rrp,
                     "total_line_items": this.values.cart.request.order[0].sales_order_parts[i].total_line_items,
                     "purchase_order": "",
                     "sales_order_lines": []
@@ -283,6 +287,7 @@ export class CartProvider {
                             'currency_code': '',
                             'total_line_items': 0,
                             'total_amount': '0.00',
+                            'total_amount_rrp': '0.00',
                             'total_qty': 0,
                             'all_products': '',
                             'sales_order_lines': [this.line_item]
@@ -365,6 +370,9 @@ export class CartProvider {
                 let OldTotal = this.values.cart.request.order[0].sales_order_parts[this.order_part_item_id].total_amount;
                 let NewTotal = OldTotal - (oldQty * price) + (qty * price);
                 this.values.cart.request.order[0].sales_order_parts[this.order_part_item_id].total_amount = NewTotal;
+                let OldTotal_rrp = this.values.cart.request.order[0].sales_order_parts[this.order_part_item_id].total_amount_rrp;
+                let NewTotal_rrp = OldTotal_rrp - (oldQty * price_rrp) + (qty * price_rrp);
+                this.values.cart.request.order[0].sales_order_parts[this.order_part_item_id].total_amount_rrp = NewTotal_rrp;
             }
         }
     }
@@ -431,23 +439,39 @@ export class CartProvider {
             if (((variant_id == 0)) || (this.values.cart.request.order[0].sales_order_parts[i].sales_order_lines[j].variant_id == variant_id)) {
 
                 // calc revised qty and total
-                let qty = this.values.cart.request.order[0].sales_order_parts[i].sales_order_lines[j].quantity
+                let qty = this.values.cart.request.order[0].sales_order_parts[i].sales_order_lines[j].quantity;
 
-                console.log('Remove line item from order object: Variant ID:' + variant_id + ' Qty:' + qty)
+                console.log('Remove line item from order object: Variant ID:' + variant_id + ' Qty:' + qty);
 
-                let price = this.values.cart.request.order[0].sales_order_parts[i].sales_order_lines[j].price
-                let total = this.values.cart.request.order[0].sales_order_parts[i].total_amount
-                let line_total = this.values.cart.request.order[0].sales_order_parts[i].line_total
-                let order_part_qty = this.values.cart.request.order[0].sales_order_parts[i].total_qty
-                let order_part_line_items = this.values.cart.request.order[0].sales_order_parts[i].total_line_items
-                total = total - (qty * price)
-                line_total = line_total - (qty * price)
-                order_part_qty = order_part_qty - qty
+                let price = this.values.cart.request.order[0].sales_order_parts[i].sales_order_lines[j].price;
+                let total = this.values.cart.request.order[0].sales_order_parts[i].total_amount;
+                let line_total = this.values.cart.request.order[0].sales_order_parts[i].line_total;
+                let order_part_qty = this.values.cart.request.order[0].sales_order_parts[i].total_qty;
+                let order_part_line_items = this.values.cart.request.order[0].sales_order_parts[i].total_line_items;
+                total = total - (qty * price);
+                line_total = line_total - (qty * price);
+                order_part_qty = order_part_qty - qty;
                 // set revised totals and qty
-                this.values.cart.request.order[0].sales_order_parts[i].total_amount = total
-                this.values.cart.request.order[0].total_qty = this.values.cart.request.order[0].total_qty - qty
-                this.values.cart.request.order[0].sales_order_parts[i].line_total = line_total
-                this.values.cart.request.order[0].sales_order_parts[i].total_qty = order_part_qty
+                this.values.cart.request.order[0].sales_order_parts[i].total_amount = total;
+                this.values.cart.request.order[0].total_qty = this.values.cart.request.order[0].total_qty - qty;
+                this.values.cart.request.order[0].sales_order_parts[i].line_total = line_total;
+                this.values.cart.request.order[0].sales_order_parts[i].total_qty = order_part_qty;
+
+
+                let price_rrp = this.values.cart.request.order[0].sales_order_parts[i].sales_order_lines[j].price_rrp;
+                let total_rrp = this.values.cart.request.order[0].sales_order_parts[i].total_amount_rrp;
+                //let line_total = this.values.cart.request.order[0].sales_order_parts[i].line_total;
+                //let order_part_qty = this.values.cart.request.order[0].sales_order_parts[i].total_qty;
+                //let order_part_line_items = this.values.cart.request.order[0].sales_order_parts[i].total_line_items;
+                total_rrp = total_rrp - (qty * price_rrp);
+                //line_total = line_total - (qty * price);
+                //order_part_qty = order_part_qty - qty;
+                // set revised totals and qty
+                this.values.cart.request.order[0].sales_order_parts[i].total_amount_rrp = total_rrp;
+                // this.values.cart.request.order[0].total_qty = this.values.cart.request.order[0].total_qty - qty;
+                //this.values.cart.request.order[0].sales_order_parts[i].line_total = line_total;
+                //this.values.cart.request.order[0].sales_order_parts[i].total_qty = order_part_qty;
+
                 // remove the line item for this size variant 
                 if (keepit == 1) {
                     this.values.cart.request.order[0].sales_order_parts[i].sales_order_lines[j].quantity = 0;

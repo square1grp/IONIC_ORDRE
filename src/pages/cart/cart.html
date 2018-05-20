@@ -140,8 +140,8 @@
                                 <p>No. products: {{designer.total_line_items}} &nbsp;&nbsp;|&nbsp;&nbsp; TOTAL Quantity: {{designer.total_qty}}</p>
                             </div>
                             <div class="col-md-6 right">
-                                <p>Total WSP <span>{{designer.currency_code}} {{designer.currency_symbol}}{{designer.total_amount | number :'.2'}}</span> </p>
-                                <p>Total RRP <span>{{designer.currency_code}} {{designer.currency_symbol}}{{designer.total_amount | number :'.2'}}</span> </p>
+                                <p>Total WSP <span>{{designer.currency_code}} {{designer.currency_symbol}}{{designer?.total_amount | number :'.2'}}</span> </p>
+                                <p>Total RRP <span>{{designer.currency_code}} {{designer.currency_symbol}}{{designer?.total_amount_rrp | number :'.2'}}</span> </p>
                                 <p tappable (click)="clearDesigner(orderPart)" class="clear_designer_items">Clear items from this designer</p>
                             </div>
                             <div style="clear: both;" ></div>
