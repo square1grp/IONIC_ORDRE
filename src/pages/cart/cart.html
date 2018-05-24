@@ -32,8 +32,10 @@
                                 <p class="designer_name"><span>Designer</span><span [innerHTML]="designer.designer_title"></span></p>
                                 <p class="number"><span>No. Products</span><span>{{designer.total_line_items}}</span></p>
                                 <p class="qty"><span>Total QTY</span><span>{{designer.total_qty}}</span></p>
-                                <p class="total"><span>Total Value</span><span>{{designer.currency_code}} {{designer.currency_symbol}}
+                                <p class="total"><span>Total WSP</span><span>{{designer.currency_code}} {{designer.currency_symbol}}
                                     {{designer.total_amount | number :'.2'}}</span></p>
+                                <p class="total"><span>Total RRP</span><span>{{designer.currency_code}} {{designer.currency_symbol}}
+                                        {{designer.total_amount_rrp | number :'.2'}}</span></p>
                             </div>
                     </div>
                 </div>

@@ -85,8 +85,26 @@
                         <img [src]="isProductInOrder(product.product_id,values.designer.seller_account_id)"/></span>
                       <p class="collection_code">{{product?.variants[0].title}}</p>
                       <p class="single_collection_item_title" style="height: 40px;" [innerHTML]="product.product_title"></p>
-                      <p class="single_collection_item_wsp" *ngIf="values.designer_pricelist.region_index != null">Wsp <span>{{values.designer?.buyer_code}} {{values.designer?.buyer_symbol}} {{product?.region_prices[values.designer_pricelist.region_index]?.wsp}}</span></p>
-                      <p class="single_collection_item_wsp" *ngIf="values.designer_pricelist.region_index == null">Wsp <span>{{values.designer?.buyer_code}} {{values.designer?.buyer_symbol}} {{product?.region_prices[this.values.user_profile.user_region_id<4 ? this.values.user_profile.user_region_id - 1 : this.values.user_profile.user_region_id - 2]?.wsp}}</span></p>
+                      <div class="single_collection_item_wsp" *ngIf="values.designer_pricelist.region_index != null">
+                        <p>
+                          WSP <br> 
+                          <span>{{values.designer?.buyer_code}} {{values.designer?.buyer_symbol}} {{product?.region_prices[values.designer_pricelist.region_index]?.wsp}}</span>
+                        </p>
+                        <p>
+                          RRP <br>
+                          <span>{{values.designer?.buyer_code}} {{values.designer?.buyer_symbol}} {{product?.region_prices[values.designer_pricelist.region_index]?.rrp}}</span>
+                        </p>
+                      </div>
+                      <div class="single_collection_item_wsp" *ngIf="values.designer_pricelist.region_index == null">
+                        <p>
+                          WSP <br>
+                          <span>{{values.designer?.buyer_code}} {{values.designer?.buyer_symbol}} {{product?.region_prices[this.values.user_profile.user_region_id<4 ? this.values.user_profile.user_region_id - 1 : this.values.user_profile.user_region_id - 2]?.wsp}}</span>
+                        </p>
+                        <p>
+                          RRP <br>
+                          <span>{{values.designer?.buyer_code}} {{values.designer?.buyer_symbol}} {{product?.region_prices[this.values.user_profile.user_region_id<4 ? this.values.user_profile.user_region_id - 1 : this.values.user_profile.user_region_id - 2]?.rrp}}</span>
+                        </p>
+                      </div>
                       <p class="single_collection_item_sizing">Sizing <span>{{product.variants[0].sizes_list}}</span></p>
                       <p class="single_collection_colors">
                         <span *ngFor="let variant of product.variants">

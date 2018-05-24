@@ -1491,87 +1491,80 @@ page-linesheet .ordre_subheader .content_sorter {
 	left:0px;
 	background:rgba(255, 255, 255, 0.8);
 	padding:10px 15px;
-}
-
-#collection_section .collection_content .collection_item_part .single_collection_meta .collection_code {
-	color:#7c7c7c;
-	text-transform:uppercase;
-	margin-bottom:5px;
-	line-height:1;
-	font-size:12px;
-	font-family:'Avenir Book';
-}
-
-#collection_section .collection_content .collection_item_part .single_collection_meta .single_collection_item_title {
-	height:40px;
-	overflow:hidden;
-	text-transform:uppercase;
-	color:#000000;
-	font-weight:600;
-	font-size:20px;
-	line-height:1;
-	font-family:'Avenir Heavy';
-	width:87%;
-	word-wrap:break-word;
-}
-
-#collection_section .collection_content .collection_item_part .single_collection_meta .single_collection_item_wsp {
-	text-transform:uppercase;
-	color:#a7a4a4;
-	font-weight:600;
-	margin-bottom:0px;
-	font-size:16px;
-	font-family:'Avenir Medium';
-}
-
-#collection_section .collection_content .collection_item_part .single_collection_meta .single_collection_item_wsp span {
-	display:inline-block;
-	color:#000000;
-	font-weight:500;
-	margin-left:30px;
-}
-
-#collection_section .collection_content .collection_item_part .single_collection_meta .single_collection_item_sizing {
-	text-transform:uppercase;
-	color:#a7a4a4;
-	font-weight:600;
-	margin-bottom:0px;
-	font-size:16px;
-	font-family:'Avenir Medium';
-}
-
-#collection_section .collection_content .collection_item_part .single_collection_meta .single_collection_item_sizing span {
-	display:inline-block;
-	color:#000000;
-	font-weight:500;
-	margin-left:12px;
-}
-
-#collection_section .collection_content .collection_item_part .single_collection_meta .single_collection_colors {
-	margin-bottom:0px;
-	margin-top:15px;
-}
-
-#collection_section .collection_content .collection_item_part .single_collection_meta .single_collection_colors span {
-	margin-right:8px;
-	display:inline-block;
-	width:25px;
-	height:25px;
-	border:1px solid #d5d5d5;
-}
-
-#collection_section .collection_content .collection_item_part .single_collection_meta .single_collection_colors span img {
-	width:25px;
-	height:25px;
-}
-
-#collection_section .collection_content .collection_item_part .single_collection_meta .add_to_cart_item {
-	position:absolute;
-	right:15px;
-}
-
-#collection_section .collection_content .collection_item_part .single_collection_meta .add_to_cart_item img {
-	width:100%;
+	.collection_code {
+		color:#7c7c7c;
+		text-transform:uppercase;
+		margin-bottom:5px;
+		line-height:1;
+		font-size:12px;
+		font-family:'Avenir Book';
+	}
+	.single_collection_item_title {
+		height:40px;
+		overflow:hidden;
+		text-transform:uppercase;
+		color:#000000;
+		font-weight:600;
+		font-size:20px;
+		line-height:1;
+		font-family:'Avenir Heavy';
+		width:87%;
+		word-wrap:break-word;
+	}
+	.single_collection_item_wsp {
+		text-transform:uppercase;
+		//color:#a7a4a4;
+		font-weight:500;
+		margin-bottom:0px;
+		font-size:16px;
+		//font-family:'Avenir Medium';
+		p {
+			display: inline-block;
+			width: 48%;
+		}
+		span {
+			display:inline-block;
+			color:#a7a4a4;
+			font-weight:500;
+			//margin-left:30px;
+		}
+	}
+	.single_collection_item_sizing {
+		text-transform:uppercase;
+		color:#a7a4a4;
+		font-weight:600;
+		margin-bottom:0px;
+		font-size:16px;
+		font-family:'Avenir Medium';
+		span {
+			display:inline-block;
+			color:#000000;
+			font-weight:500;
+			margin-left:12px;
+		}
+	}
+	.single_collection_colors {
+		margin-bottom:0px;
+		margin-top:15px;
+		span {
+			margin-right:8px;
+			display:inline-block;
+			width:25px;
+			height:25px;
+			border:1px solid #d5d5d5;
+			img {
+				width:25px;
+				height:25px;
+			}
+		}
+	}
+	.add_to_cart_item {
+		position:absolute;
+		right:15px;
+		img {
+			width:100%;
+		}
+	}
 }
 
 #collection_section .collection_content section .collection_delivery {
@@ -2907,7 +2900,7 @@ section.page_content#collection_item_section {
 		.price-total {
 			width: 34%;
 			text-transform:uppercase;
-			font-size:24px;
+			font-size:20px;
 			font-family:'Avenir Black';
 			font-weight:bold;
 			color:#23c1ea;

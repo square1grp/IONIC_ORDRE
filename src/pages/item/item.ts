@@ -1,9 +1,10 @@
 import { Component, ViewChild } from '@angular/core';
-import { PopoverController, ViewController, NavController, NavParams, Content } from 'ionic-angular';
+import { PopoverController, ViewController, NavController, AlertController, NavParams, Content } from 'ionic-angular';
 import { CartProvider } from '../../providers/cart';
 import { Values } from '../../providers/values';
 import { Data } from '../../providers/data';
 import { View360Page } from '../view360/view360';
+import { SettingsPage } from '../settings/settings';
 import { Slides } from 'ionic-angular';
 import * as Constants from '../../providers/constants'
 
@@ -34,7 +35,7 @@ export class ItemPage {
     nb: any;
     qty: any;
 
-    constructor(public navCtrl: NavController, public viewCtrl: ViewController, public popoverCtrl: PopoverController,
+    constructor(public navCtrl: NavController, public viewCtrl: ViewController, public popoverCtrl: PopoverController, private alertCtrl: AlertController,
         public navparams: NavParams, public cartProvider: CartProvider, public values: Values, public data: Data) {
 
     }
@@ -102,7 +103,32 @@ export class ItemPage {
     addToCart(product_title, colour, material, swatch, image, designer_title, variant_id, sku, price, price_rrp,
         event, designer_id, size, size_id, type, product_id) {
         this.data.consoleLog("price", price);
-        if (this.values.user_profile.seller_account_id != 0) { return false; }
+        if (this.values.user_profile.seller_account_id != 0) { 
+            if (event == null) {
+                let alert = this.alertCtrl.create({
+                    title: 'Are you trying to add this style to your selection?',
+                    subTitle: 'To create a selection begin by selecting a buyer',
+                    buttons: [
+                        {
+                            text: 'Cancel',
+                            role: 'cancel',
+                            handler: () => {
+                                console.log('Cancel clicked');
+                            }
+                        },
+                        {
+                            text: 'Select buyer',
+                            handler: () => {
+                                console.log('Select buyer clicked');
+                                this.navCtrl.push(SettingsPage);
+                            }
+                        }
+                    ]
+                });
+                alert.present();
+            }
+            return false; 
+        }
         if (event == null) {"assets/images/selected-icon.png"
             let icon_path = this.isProductInOrder(product_id, variant_id, designer_id);
             if (icon_path == "assets/images/selected-icon.png") return false;
@@ -117,6 +143,34 @@ export class ItemPage {
         this.qty = 0;
 
         this.data.activityLogPost(Constants.LOG_ADD_TO_RANGINGROOM, designer_id, this.collection.collection_id, product_id, variant_id);
+    }
+
+    onFocusSize(event) {
+        if (this.values.user_profile.seller_account_id != 0) { 
+            let alert = this.alertCtrl.create({
+                title: 'Are you trying to add this style to your selection?',
+                subTitle: 'To create a selection begin by selecting a buyer',
+                buttons: [
+                    {
+                        text: 'Cancel',
+                        role: 'cancel',
+                        handler: () => {
+                            console.log('Cancel clicked');
+                        }
+                    },
+                    {
+                        text: 'Select buyer',
+                        handler: () => {
+                            console.log('Select buyer clicked');
+                            this.navCtrl.push(SettingsPage);
+                        }
+                    }
+                ]
+            });
+            alert.present();
+            event.target.value = "";
+            return false; 
+        }
     }
     
     clearItem(variant_id, keepit) {
