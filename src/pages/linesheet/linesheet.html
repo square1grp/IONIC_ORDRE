@@ -85,8 +85,11 @@
           </div>
           <div class="item_meta">
             <p class="name" [innerHTML]="item?.product.product_title+':  '+item?.variant.title"></p>
-            <p class="wsp"><span>WSP</span> {{this.values.designer.buyer_code}} {{this.values.designer.buyer_symbol}}
-              {{item?.product.region_prices[this.values.user_profile.user_region_id<4 ? this.values.user_profile.user_region_id - 1 : this.values.user_profile.user_region_id - 2]?.wsp | number :'.2'}}</p>
+            <p class="wsp">
+              <span>WSP</span> 
+              {{this.values.designer.buyer_code}} {{this.values.designer.buyer_symbol}}
+              {{item?.product.region_prices[this.values.user_profile.user_region_id<4 ? this.values.user_profile.user_region_id - 1 : this.values.user_profile.user_region_id - 2]?.wsp | number :'.2'}}
+            </p>
             <div class="color-material_info">
               <div class="color">
                 <p>Color</p>

@@ -244,10 +244,13 @@ export class CollectionPage {
                 //add all the variants to cart
                 this.data.consoleLog("this.values.products[pindex]", this.values.products[pindex]);
                 this.values.products[pindex].variants.forEach((variant) => {
-                    this.cartProvider.addToCart(product_title + ' : ' + variant.title, variant.colour,
-                        material, variant.swatch.swatch_image, variant.variant_images[0].variant_image,
-                        designer_title, designer_id, product_id, variant.variant_id, variant.sizes[0].size_title,
-                        variant.sizes[0].variant_size_id, type, 0, price, price_rrp, variant.sizes[0].sku);
+                    let is_variant = this.isVariantInOrder(product_id, variant.variant_id, designer_id);
+                    if (!is_variant) {
+                        this.cartProvider.addToCart(product_title + ' : ' + variant.title, variant.colour,
+                            material, variant.swatch.swatch_image, variant.variant_images[0].variant_image,
+                            designer_title, designer_id, product_id, variant.variant_id, variant.sizes[0].size_title,
+                            variant.sizes[0].variant_size_id, type, 0, price, price_rrp, variant.sizes[0].sku);
+                    }
                 });
                 this.data.activityLogPost(Constants.LOG_ADD_TO_RANGINGROOM, designer_id, this.data.selectedCollection.collection_id, product_id, 'all');
             }
@@ -273,6 +276,23 @@ export class CollectionPage {
         else {
             return ("assets/images/select-icon.png");
         }
+    }
+
+    isVariantInOrder(product_id, variant_id, designer_id) {
+        let abort = false;
+        for (let part = 0, len = this.values.cart.request.order[0].sales_order_parts.length; part < len && !abort; part++) {
+            if (this.values.cart.request.order[0].sales_order_parts[part].seller_account_id == designer_id) {
+                //check line items
+                for (let line = 0, len = this.values.cart.request.order[0].sales_order_parts[part].sales_order_lines.length;
+                    line < len && !abort; line++) {
+                    if (this.values.cart.request.order[0].sales_order_parts[part].sales_order_lines[line].product_id == product_id
+                        && this.values.cart.request.order[0].sales_order_parts[part].sales_order_lines[line].variant_id == variant_id) {
+                        abort = true;
+                    }
+                }
+            }
+        }
+        return abort;
     }
 
     changeCollection(collection_id, designer_id, index) {

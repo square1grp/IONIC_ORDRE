@@ -104,6 +104,10 @@ input[type="tel"][disabled] {
 	color: #818181;
 }
 
+.loading-wrapper {
+	display: block;
+}
+
 #pbody.logged_out.index_page {
 	background: url(../assets/images/ordre_bg_login.jpg) no-repeat center top;
 	background-size: cover;

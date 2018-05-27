@@ -126,6 +126,7 @@ export class LoginPage {
         if (this.values.user_profile.seller_account_id) {
             this.values.isDesignerLogin = true;
             this.data.getDRAssociationWithDParam(this.values.user_profile.seller_account_id, this.values.user_profile.device_token, this.values.user_profile.user_token).then(data => {
+                console.log("this.data.getDRAssociationWithDParam");
                 console.log(data);
                 this.values.associationByDesigner = data;
             }).catch(err => {
@@ -191,6 +192,7 @@ export class LoginPage {
         else {
             this.values.isDesignerLogin = false;
             this.data.getDRAssociationWithRParam(this.values.user_profile.retailer_id, this.values.user_profile.device_token, this.values.user_profile.user_token).then(data => {
+                console.log("this.data.getDRAssociationWithRParam");
                 console.log(data);
                 this.values.associationByRetailer = data;
             }).catch(err => {

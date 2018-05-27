@@ -129,7 +129,7 @@ export class ItemPage {
             }
             return false; 
         }
-        if (event == null) {"assets/images/selected-icon.png"
+        if (event == null) {
             let icon_path = this.isProductInOrder(product_id, variant_id, designer_id);
             if (icon_path == "assets/images/selected-icon.png") return false;
             this.qty = 0;

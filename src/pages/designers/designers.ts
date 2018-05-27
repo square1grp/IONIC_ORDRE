@@ -35,6 +35,7 @@ export class DesignersPage {
             this.values.designer_pricelist.region_id = null;
             this.values.designer_pricelist.region_index = null;
             let abort = false;
+            console.log("check point 1!");
             for (var i = 0; i < this.values.associationByRetailer.length && abort == false; i++) {
                 if (this.values.designer.seller_account_id == this.values.associationByRetailer[i].seller_account_id) {
                     this.values.designer_pricelist.region_id = this.values.associationByRetailer[i].region_id;
@@ -48,6 +49,7 @@ export class DesignersPage {
                     }
                 }
             }
+            console.log("check point 2!");
 
             this.data.getDesignerCurrency(this.values.user_profile.user_region_id, 0);
             this.data.getThisCollections(this.values.designer.seller_account_id, this.values.device_token, this.values.user_profile.user_token).then((data) => {
