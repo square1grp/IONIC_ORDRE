@@ -298,14 +298,18 @@ export class LinesheetPage {
         this.values.products.forEach((product, pindex) => {
             this.values.products[pindex].variants.forEach((variant, vindex) => {
                 this.values.products[pindex].variants[vindex].total = 0
+                this.values.products[pindex].variants[vindex].total_rrp = 0
                 variant.sizes.forEach((size, sindex) => {
                     var orderQTY = this.cartProvider.getSizeQty(this.values.products[pindex].variants[vindex].sizes[sindex].sku, this.values.designer.seller_account_id)
 
                     if (this.values.user_profile.user_region_id > 13) {
                         this.values.products[pindex].variants[vindex].total = 0;
+                        this.values.products[pindex].variants[vindex].total_rrp = 0;
                     }
                     else {
-                        this.values.products[pindex].variants[vindex].total = this.values.products[pindex].variants[vindex].total + (orderQTY * this.values.products[pindex].region_prices[this.values.user_profile.user_region_id<4 ? this.values.user_profile.user_region_id - 1 : this.values.user_profile.user_region_id - 2].wsp)
+                        this.values.products[pindex].variants[vindex].total = this.values.products[pindex].variants[vindex].total + (orderQTY * this.values.products[pindex].region_prices[this.values.user_profile.user_region_id<4 ? this.values.user_profile.user_region_id - 1 : this.values.user_profile.user_region_id - 2].wsp);
+
+                        this.values.products[pindex].variants[vindex].total_rrp = this.values.products[pindex].variants[vindex].total_rrp + (orderQTY * this.values.products[pindex].region_prices[this.values.user_profile.user_region_id<4 ? this.values.user_profile.user_region_id - 1 : this.values.user_profile.user_region_id - 2].rrp);
                     }
 
                     if (orderQTY == 0) {

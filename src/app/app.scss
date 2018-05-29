@@ -1864,129 +1864,124 @@ page-linesheet .ordre_subheader .content_sorter {
 	float:left;
 	min-height:220px;
 	padding-left:15px;
+	.name {
+		text-transform:uppercase;
+		color:#000000;
+		font-weight:600;
+		margin-bottom:0px;
+		font-size:20px;
+		line-height:24px;
+		font-family:'Avenir Heavy';
+	}
+	// .wsp {
+	// 	font-family:'Avenir Medium';
+	// 	font-size:20px;
+	// 	color:#a7a4a4;
+	// 	span {
+	// 		color:#000000;
+	// 		font-weight:600;
+	// 	}
+	// }
+
+	.wsp-rrp {
+		font-family:'Avenir Medium';
+		font-size: 20px;
+		color: #a7a4a4;
+		span {
+			color:#000000;
+			//font-weight: 700;
+		}
+		span.rrp {
+			margin-left: 50px;
+		}
+	}
+	.color-material_info {
+		margin-bottom:25px;
+		margin-top:25px;
+		.color {
+			width:25%;
+			float:left;
+			position:relative;
+			p {
+				padding-left:25px;
+				text-transform:uppercase;
+				color:#000000;
+				margin-bottom:0px;
+				line-height:1.2;
+				font-family:'Avenir Medium';
+			}
+			span {
+				display:block;
+				position:absolute;
+				top:0;
+				left:0;
+				img {
+					background:#ffffff;
+					border:1px solid #d5d5d5;
+				}
+			}
+			p:first-child {
+				font-family:'Avenir Heavy';
+			}
+		}
+		.material {
+			width:75%;
+			float:left;
+			p {
+				color:#000000;
+				margin-bottom:0px;
+				text-transform:uppercase;
+				line-height:1.2;
+				font-family:'Avenir Medium';
+			}
+			p:first-child {
+				font-family:'Avenir Heavy';
+			}
+		}
+	}
+	.color-material_info:after {
+		display:block;
+		content:'';
+		clear:both;
+	}
+	.product_sizes {
+		margin-bottom:15px;
+		label {
+			width:55px;
+			margin-right:8px;
+			font-family:'Avenir Medium';
+		}
+		input {
+			width:100%;
+			display:block;
+			text-align:left;
+			background:#eaeaea;
+			border:1px solid #eaeaea;
+			outline:none;
+			font-family:'Avenir Roman';
+			font-size:20px;
+			color:#525252;
+			padding:4px 8px;
+		}
+		input:focus {
+			border:1px solid #23c1ea;
+		}
+	}
+	.product_quantity input {
+		display:block;
+		background:#eaeaea;
+		border:1px solid #eaeaea;
+		outline:none;
+		font-family:'Avenir Roman';
+		width:58%;
+		padding:2px 10px;
+	}
+	.product_quantity input::-webkit-input-placeholder {
+		font-family:'Avenir Medium';
+		font-size:12px;
+	}
 }
 
-#line_sheet_section #line_sheet_content .line_sheet_item .item_meta .name {
-	text-transform:uppercase;
-	color:#000000;
-	font-weight:600;
-	margin-bottom:0px;
-	font-size:20px;
-	line-height:24px;
-	font-family:'Avenir Heavy';
-}
-
-#line_sheet_section #line_sheet_content .line_sheet_item .item_meta .wsp {
-	font-family:'Avenir Medium';
-	font-size:20px;
-	color:#000000;
-}
-
-#line_sheet_section #line_sheet_content .line_sheet_item .item_meta .wsp span {
-	color:#a7a4a4;
-	font-weight:600;
-}
-
-#line_sheet_section #line_sheet_content .line_sheet_item .item_meta .color-material_info {
-	margin-bottom:25px;
-	margin-top:25px;
-}
-
-#line_sheet_section #line_sheet_content .line_sheet_item .item_meta .color-material_info:after {
-	display:block;
-	content:'';
-	clear:both;
-}
-
-#line_sheet_section #line_sheet_content .line_sheet_item .item_meta .color-material_info .color {
-	width:25%;
-	float:left;
-	position:relative;
-}
-
-#line_sheet_section #line_sheet_content .line_sheet_item .item_meta .color-material_info .color p {
-	padding-left:25px;
-	text-transform:uppercase;
-	color:#000000;
-	margin-bottom:0px;
-	line-height:1.2;
-	font-family:'Avenir Medium';
-}
-
-#line_sheet_section #line_sheet_content .line_sheet_item .item_meta .color-material_info .color span {
-	display:block;
-	position:absolute;
-	top:0;
-	left:0;
-}
-
-#line_sheet_section #line_sheet_content .line_sheet_item .item_meta .color-material_info .color span img {
-	background:#ffffff;
-	border:1px solid #d5d5d5;
-}
-
-#line_sheet_section #line_sheet_content .line_sheet_item .item_meta .color-material_info .color p:first-child {
-	font-family:'Avenir Heavy';
-}
-
-#line_sheet_section #line_sheet_content .line_sheet_item .item_meta .color-material_info .material {
-	width:75%;
-	float:left;
-}
-
-#line_sheet_section #line_sheet_content .line_sheet_item .item_meta .color-material_info .material p {
-	color:#000000;
-	margin-bottom:0px;
-	text-transform:uppercase;
-	line-height:1.2;
-	font-family:'Avenir Medium';
-}
-
-#line_sheet_section #line_sheet_content .line_sheet_item .item_meta .color-material_info .material p:first-child {
-	font-family:'Avenir Heavy';
-}
-
-#line_sheet_section #line_sheet_content .line_sheet_item .item_meta .product_sizes {
-	margin-bottom:15px;
-}
-
-#line_sheet_section #line_sheet_content .line_sheet_item .item_meta .product_sizes label {
-	width:55px;
-	margin-right:8px;
-	font-family:'Avenir Medium';
-}
-
-#line_sheet_section #line_sheet_content .line_sheet_item .item_meta .product_sizes input {
-	width:100%;
-	display:block;
-	text-align:left;
-	background:#eaeaea;
-	border:1px solid #eaeaea;
-	outline:none;
-	font-family:'Avenir Roman';
-	font-size:20px;
-	color:#525252;
-	padding:4px 8px;
-}
-
-#line_sheet_section #line_sheet_content .line_sheet_item .item_meta .product_sizes input:focus {
-	border:1px solid #23c1ea;
-}
-
-#line_sheet_section #line_sheet_content .line_sheet_item .item_meta .product_quantity input {
-	display:block;
-	background:#eaeaea;
-	border:1px solid #eaeaea;
-	outline:none;
-	font-family:'Avenir Roman';
-	width:58%;
-	padding:2px 10px;
-}
-
-#line_sheet_section #line_sheet_content .line_sheet_item .item_meta .product_quantity input::-webkit-input-placeholder {
-	font-family:'Avenir Medium';
-	font-size:12px;
-}
 
 #line_sheet_section #line_sheet_content .line_sheet_item .item_price {
 	width:20%;
