@@ -72,17 +72,60 @@
             </div>    
           </ng-container>  
           <ion-content class="product-list" #collectionScroll>
-            <ion-list *ngFor="let product of items">
+            <ion-list *ngFor="let product of items; let i = index">
               <div class="collection_item_part">
+                <div class="overlay-wrapper" *ngIf="product.is_overlay">
+                  <div class="overlay-header">
+                    <span class="sellect-all" *ngIf="values.designer_pricelist.region_index != null" tappable (click)="addAllToCart(product.product_title, product.materials, values.designer.title, 
+                    product.region_prices[values.designer_pricelist.region_index].wsp, product.region_prices[values.designer_pricelist.region_index].rrp, values.designer.seller_account_id, 'all', product.product_id, i)">
+                      SELLECT ALL
+                    </span>
+                    <span class="sellect-all" *ngIf="values.designer_pricelist.region_index == null" tappable (click)="addAllToCart(product.product_title, product.materials, values.designer.title, 
+                    product.region_prices[this.values.user_profile.user_region_id<4 ? this.values.user_profile.user_region_id - 1 : this.values.user_profile.user_region_id - 2].wsp, product.region_prices[this.values.user_profile.user_region_id<4 ? this.values.user_profile.user_region_id - 1 : this.values.user_profile.user_region_id - 2].rrp, values.designer.seller_account_id, 'all', product.product_id, i)">
+                      SELLECT ALL
+                    </span>
+                    <span class="overlay-close">
+                      <ion-icon name="md-close" (click)="closeOverlay(i)"></ion-icon>
+                    </span>
+                  </div>
+                  <div class="overlay-body">
+                    <div *ngFor="let variant of product.variants">
+                      <span class="swatch-image">
+                          <lazy-img src="{{values.APIRoot}}/app/get_image.php?image=/{{variant.swatch.swatch_image}}&w=20&h=20&xtype=prodimage"></lazy-img>
+                      </span>
+                      <span class="variant-color">{{variant.colour}}</span>
+                      <span class="variant-to-cart" *ngIf="values.designer_pricelist.region_index != null" tappable (click)="addVariantToCart(product.product_title, product.materials, values.designer.title, 
+                          product.region_prices[values.designer_pricelist.region_index].wsp, product.region_prices[values.designer_pricelist.region_index].rrp, values.designer.seller_account_id, 'all', product.product_id, variant.variant_id)">
+                          <img [src]="isVariantInOrder(product.product_id, variant.variant_id, values.designer.seller_account_id)"/></span>
+                      <span class="variant-to-cart" *ngIf="values.designer_pricelist.region_index == null" tappable (click)="addVariantToCart(product.product_title, product.materials, values.designer.title, 
+                        product.region_prices[this.values.user_profile.user_region_id<4 ? this.values.user_profile.user_region_id - 1 : this.values.user_profile.user_region_id - 2].wsp, product.region_prices[this.values.user_profile.user_region_id<4 ? this.values.user_profile.user_region_id - 1 : this.values.user_profile.user_region_id - 2].rrp, values.designer.seller_account_id, 'all', product.product_id, variant.variant_id)">
+                        <img [src]="isVariantInOrder(product.product_id, variant.variant_id,values.designer.seller_account_id)"/></span>
+                    </div>
+                  </div>
+                  <div class="overlay-footer">
+                    <span>
+                      {{product.product_title}}
+                    </span>
+                    <span>
+                      {{this.selected_varants_count}} COLOR SELECTED
+                    </span>
+                  </div>
+                </div>
                 <ng-container>
                     <lazy-img tappable (click)="productItem(product)" src="{{values.APIRoot}}/app/get_image.php?image=/{{product.variants[0]?.variant_images[0].variant_image}}&w=342&h=509&xtype=prodimage" ></lazy-img>
                     <div class="single_collection_meta" >
-                      <span class="add_to_cart_item" *ngIf="values.designer_pricelist.region_index != null" tappable (click)="addProductToCart(product.product_title, product.materials, values.designer.title, 
-                        product.region_prices[values.designer_pricelist.region_index].wsp, product.region_prices[values.designer_pricelist.region_index].rrp, values.designer.seller_account_id, 'all', product.product_id)">
-                        <img [src]="isProductInOrder(product.product_id,values.designer.seller_account_id)"/></span>
-                      <span class="add_to_cart_item" *ngIf="values.designer_pricelist.region_index == null" tappable (click)="addProductToCart(product.product_title, product.materials, values.designer.title, 
-                        product.region_prices[this.values.user_profile.user_region_id<4 ? this.values.user_profile.user_region_id - 1 : this.values.user_profile.user_region_id - 2].wsp, product.region_prices[this.values.user_profile.user_region_id<4 ? this.values.user_profile.user_region_id - 1 : this.values.user_profile.user_region_id - 2].rrp, values.designer.seller_account_id, 'all', product.product_id)">
-                        <img [src]="isProductInOrder(product.product_id,values.designer.seller_account_id)"/></span>
+                      <span class="add_to_cart_item" tappable *ngIf="product.variants.length > 1" (click)="popupOverlay(product.product_id)">
+                        <img [src]="isProductInOrder(product.product_id,values.designer.seller_account_id)"/>
+                      </span>
+                      <span class="add_to_cart_item" tappable *ngIf="product.variants.length < 2 && values.designer_pricelist.region_index != null" (click)="addProductToCart(product.product_title, product.materials, values.designer.title, 
+                      product.region_prices[values.designer_pricelist.region_index].wsp, product.region_prices[values.designer_pricelist.region_index].rrp, values.designer.seller_account_id, 'all', product.product_id)">
+                        <img [src]="isProductInOrder(product.product_id,values.designer.seller_account_id)"/>
+                      </span>
+
+                      <span class="add_to_cart_item" tappable *ngIf="product.variants.length < 2 && values.designer_pricelist.region_index == null" (click)="addProductToCart(product.product_title, product.materials, values.designer.title, 
+                      product.region_prices[this.values.user_profile.user_region_id<4 ? this.values.user_profile.user_region_id - 1 : this.values.user_profile.user_region_id - 2].wsp, product.region_prices[this.values.user_profile.user_region_id<4 ? this.values.user_profile.user_region_id - 1 : this.values.user_profile.user_region_id - 2].rrp, values.designer.seller_account_id, 'all', product.product_id)">
+                        <img [src]="isProductInOrder(product.product_id,values.designer.seller_account_id)"/>
+                      </span>
                       <p class="collection_code">{{product?.variants[0].title}}</p>
                       <p class="single_collection_item_title" style="height: 40px;" [innerHTML]="product.product_title"></p>
                       <div class="single_collection_item_wsp" *ngIf="values.designer_pricelist.region_index != null">

@@ -43,6 +43,7 @@ export class CollectionPage {
     viewloaderPage = ViewloaderPage;
     searchControl: FormControl;
     searchValue: string;
+    selected_varants_count: number = 0;
 
     constructor(private cd: ChangeDetectorRef, public popoverController: PopoverController, private zone: NgZone, public navCtrl: NavController,
         public navParams: NavParams, public data: Data, public cartProvider: CartProvider, public values: Values, private alertCtrl: AlertController,
@@ -76,9 +77,9 @@ export class CollectionPage {
             }
             this.data.getDesignerCurrency(this.values.user_profile.user_region_id, 0);
         }
-    }
 
-    ngOnInit() {
+
+
         if (this.values.isCollectionPage == true && (this.values.user_profile.seller_account_id > 0 || this.values.user_profile.masquerade_id > 0)) {
 
             this.values.search = '';
@@ -152,6 +153,9 @@ export class CollectionPage {
         }
     }
 
+    ngOnInit() {
+    }
+
     ionViewDidLoad() {
         this.data.activityLogPost(Constants.LOG_VIEWED_COLLECTION, this.values.designer.seller_account_id, this.data.designer.currentCollectionID, '', '');
         this.data.consoleLog("user_profile", this.values.user_profile);
@@ -190,14 +194,16 @@ export class CollectionPage {
         for (var i = this.firstItem; i < this.lastItem && abort == false; i++) {
             if (search.length > 0) {
                 if (this.values.products[i].search_me.toLowerCase().indexOf(search.toLowerCase()) >= 0) {
-                    this.items.push(this.values.products[i]);
+                    let item = Object.assign({is_overlay: false}, this.values.products[i]);
+                    this.items.push(item);
                 }
                 else {
                     if (this.lastItem < this.maxItems) { this.lastItem = this.lastItem + 1; }
                 }
             }
             else {
-                this.items.push(this.values.products[i]);
+                let item = Object.assign({is_overlay: false}, this.values.products[i]);
+                this.items.push(item);
             }
         }
         this.firstItem = this.lastItem;
@@ -243,16 +249,101 @@ export class CollectionPage {
                 abort = true;
                 //add all the variants to cart
                 this.data.consoleLog("this.values.products[pindex]", this.values.products[pindex]);
-                this.values.products[pindex].variants.forEach((variant) => {
-                    let is_variant = this.isVariantInOrder(product_id, variant.variant_id, designer_id);
-                    if (!is_variant) {
-                        this.cartProvider.addToCart(product_title + ' : ' + variant.title, variant.colour,
-                            material, variant.swatch.swatch_image, variant.variant_images[0].variant_image,
-                            designer_title, designer_id, product_id, variant.variant_id, variant.sizes[0].size_title,
-                            variant.sizes[0].variant_size_id, type, 0, price, price_rrp, variant.sizes[0].sku);
-                    }
-                });
+
+                if (this.values.products[pindex].variants.length == 1) {
+                    this.addVariantToCart(product_title, material, designer_title, price, price_rrp, designer_id, type, product_id, this.values.products[pindex].variants[0].variant_id);
+                }
+                else {
+                    this.values.products[pindex].variants.forEach((variant) => {
+                        let is_variant = this.isVariantInOrder(product_id, variant.variant_id, designer_id);
+                        if (is_variant != "assets/images/selected-icon.png") {
+                            this.cartProvider.addToCart(product_title + ' : ' + variant.title, variant.colour,
+                                material, variant.swatch.swatch_image, variant.variant_images[0].variant_image,
+                                designer_title, designer_id, product_id, variant.variant_id, variant.sizes[0].size_title,
+                                variant.sizes[0].variant_size_id, type, 0, price, price_rrp, variant.sizes[0].sku);
+                        }
+                    });
+                }
+
                 this.data.activityLogPost(Constants.LOG_ADD_TO_RANGINGROOM, designer_id, this.data.selectedCollection.collection_id, product_id, 'all');
+            }
+        }
+    }
+
+    addAllToCart(product_title, material, designer_title, price, price_rrp, designer_id, type, product_id, i) {
+        this.addProductToCart(product_title, material, designer_title, price, price_rrp, designer_id, type, product_id);
+        this.items[i].is_overlay = false;
+    }
+
+    addVariantToCart(product_title, material, designer_title, price, price_rrp, designer_id, type, product_id, variant_id) {
+        let is_variant_icon = this.isVariantInOrder(product_id, variant_id, designer_id);
+        if (is_variant_icon == "assets/images/selected-icon.png") {
+            let abort = false;
+            for (let i = 0, len = this.values.cart.request.order[0].sales_order_parts.length; i < len && !abort; i++) {
+                if (this.values.cart.request.order[0].sales_order_parts[i].seller_account_id == designer_id) {
+                    abort = true;
+                    let qty_abort = false;
+                    for (let j = 0, len = this.values.cart.request.order[0].sales_order_parts[i].sales_order_lines.length; j < len && !qty_abort; j++) {
+                        let line = this.values.cart.request.order[0].sales_order_parts[i].sales_order_lines[j];
+                        if (!line.hasOwnProperty('size') && line.variant_id == variant_id && line.quantity > 0) {
+                            qty_abort = true;
+                        }
+                    }
+                    if (qty_abort) {
+                        let alert = this.alertCtrl.create({
+                            title: 'Are you sure you want to remove this item?',
+                            subTitle: 'This will remove the quantities for this item in your selection',
+                            buttons: [
+                                {
+                                    text: 'Cancel',
+                                    role: 'cancel',
+                                    handler: () => {
+                                        console.log('Cancel clicked');
+                                    }
+                                },
+                                {
+                                    text: 'Confirm',
+                                    handler: () => {                                            
+                                        this.cartProvider.clearItem(i, product_id, 0, variant_id);
+                                        if (this.selected_varants_count > 0) this.selected_varants_count --;
+                                    }
+                                }
+                            ]
+                        });
+                        alert.present();
+                    }
+                    else {
+                        this.cartProvider.clearItem(i, product_id, 0, variant_id);
+                        if (this.selected_varants_count > 0) this.selected_varants_count --;
+                    }
+                }
+            }
+        }
+        else {
+
+            if (this.values.user_profile.seller_account_id != 0) { 
+                return false; 
+            }
+            //find the product
+            let abort = false;
+            for (let pindex = 0, len = this.values.products.length; pindex < len && !abort; pindex++) {
+                if (this.values.products[pindex].product_id == product_id) {
+                    abort = true;
+                    //add all the variants to cart
+                    this.data.consoleLog("this.values.products[pindex]", this.values.products[pindex]);
+                    this.values.products[pindex].variants.forEach((variant) => {
+                        if (variant.variant_id == variant_id) {
+                            let is_variant = this.isVariantInOrder(product_id, variant.variant_id, designer_id);
+                            if (is_variant != "assets/images/selected-icon.png") {
+                                this.cartProvider.addToCart(product_title + ' : ' + variant.title, variant.colour,
+                                    material, variant.swatch.swatch_image, variant.variant_images[0].variant_image,
+                                    designer_title, designer_id, product_id, variant.variant_id, variant.sizes[0].size_title,
+                                    variant.sizes[0].variant_size_id, type, 0, price, price_rrp, variant.sizes[0].sku);
+                                this.selected_varants_count ++;
+                            }
+                        }
+                    });
+                }
             }
         }
     }
@@ -292,7 +383,13 @@ export class CollectionPage {
                 }
             }
         }
-        return abort;
+        
+        if (abort) {
+            return ("assets/images/selected-icon.png");
+        }
+        else {
+            return ("assets/images/select-icon.png");
+        }
     }
 
     changeCollection(collection_id, designer_id, index) {
@@ -326,6 +423,30 @@ export class CollectionPage {
                 this.data.activityLogPost(Constants.LOG_VIEWED_COLLECTION, this.values.designer.seller_account_id, collection_id, '', '');
             });
         });
+    }
+
+    popupOverlay(product_id) {
+        for (var i = 0; i < this.items.length; i++) {
+            if (this.items[i].product_id == product_id) {
+                this.items[i].is_overlay = true;
+
+                this.selected_varants_count = 0;
+                this.items[i].variants.forEach((variant) => {
+                    let is_variant = this.isVariantInOrder(product_id, variant.variant_id, this.items[i].seller_account_id);
+                    if (is_variant == "assets/images/selected-icon.png") {
+                        this.selected_varants_count ++;
+                    }
+                });
+            }
+            else {
+                this.items[i].is_overlay = false;
+            }
+        }
+    }
+
+    closeOverlay(i) {
+        this.items[i].is_overlay = false;
+        this.selected_varants_count = 0;
     }
 
     downloadManager(collection_id, designer_id, designer, collection_title, mode) {

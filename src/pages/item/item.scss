@@ -78,6 +78,18 @@ page-item {
                     text-transform:uppercase;
                 }
             }
+            span.view-360-button {
+                position: absolute;
+                left: 70%;
+                margin-top: -90px;
+                color: #ffffff;
+                background-color: #23c1ea;
+                width: 170px;
+                height: 45px;
+                font-size: 20px;
+                font-weight: 600;
+                text-align: center;
+            }
         }
         .line_sheet_item.last {
             border-bottom: none !important;
@@ -243,6 +255,40 @@ page-item {
         }
     }
     
+    .collection_item_slider {
+        
+        button.slide-button {
+            width: 80px;
+            height: 80px;
+            padding: 10px 16px;
+            border-radius: 50%;
+            top: 48vh;
+            z-index: 3;
+            background-color: rgba(247, 247, 247, 0.8);
+            position: fixed;
+            text-align: center;
+            ion-icon {
+                font-size: 4.2em;
+                color: #555555;
+                font-weight: 100;
+            }
+        }
+
+        .btnPrev {
+            margin-left: 10px;
+            padding-right: 22px !important;
+        }
+
+        .btnNext {
+            right: 10px;
+            padding-left: 22px !important;
+        }
+        
+        button.slide-button.activated {
+            background-color: #ddd;
+            color: black;
+        }
+    }
     @media only screen and (max-width: 1024px) {
         #collection_item_section .line_sheet_item .item_meta {
             width: 34%;

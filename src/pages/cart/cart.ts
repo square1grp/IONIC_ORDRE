@@ -172,8 +172,8 @@ export class CartPage {
     }
 
     clearDesigner(order_part) {
-        this.cartProvider.clearItem(order_part, 0, 0, 0);
         this.data.activityLogPost(Constants.LOG_REMOVE_FROM_RANGINGROOM, this.values.cart.request.order[0].sales_order_parts[order_part].seller_account_id, 'all', 'all', 'all');
+        this.cartProvider.clearItem(order_part, 0, 0, 0);
     }
 
     clearOrder() {

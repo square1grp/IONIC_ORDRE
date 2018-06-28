@@ -170,7 +170,8 @@ export class Data {
 
     login(credentials, device_token) {
         let email = credentials.user_email
-        let password = credentials.user_password
+        let password = encodeURIComponent(credentials.user_password);
+        //let password = credentials.user_password;
         return new Promise((resolve, reject) => {
             if (!this.values.online) {
                 this.offlineManager();
@@ -183,6 +184,8 @@ export class Data {
                 .subscribe(data => {
                     this.consolelog('Got Authentication Result');
                     resolve(data);
+                }, err => {
+                    reject(err);
                 });
         });
     }

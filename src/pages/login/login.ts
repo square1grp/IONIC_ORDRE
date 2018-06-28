@@ -107,6 +107,9 @@ export class LoginPage {
                         });
                         alert.present();
                     }
+                }).catch(err => {
+                    console.log(err);
+                    this.data.dismissLoadingSpiner();
                 });
             });
             

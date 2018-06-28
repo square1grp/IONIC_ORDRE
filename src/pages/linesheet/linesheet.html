@@ -36,7 +36,10 @@
     <div class="current_total_body opened"> 
       <p><span>Products</span><span>{{values.cart.request.order[0]?.sales_order_parts[this.cartProvider.order_part_item_id]?.total_line_items}}</span></p>
       <p><span>Total Qty</span><span>{{values.cart.request.order[0]?.sales_order_parts[this.cartProvider.order_part_item_id]?.total_qty}}</span></p>
-      <p><span>Designer Total {{this.values.designer.buyer_code}}</span><span>{{this.values.designer.buyer_symbol}}
+      <p>
+        <!-- <span>Designer Total {{this.values.designer.buyer_code}}</span> -->
+        <span>Total WSP Value</span>
+        <span>{{this.values.designer.buyer_symbol}}
         {{values.cart.request.order[0]?.sales_order_parts[this.cartProvider.order_part_item_id]?.total_amount | number :'.2'}}</span></p>
     </div>
 

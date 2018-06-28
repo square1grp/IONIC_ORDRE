@@ -25,7 +25,8 @@ export class ItemPage {
     currency_code: any;
     currency_symbol: any;
     yesThisHas360: any;
-    mySlideOptions = { paper: false };
+    is_multiple_images: boolean = false;
+
 
     //  keypad
     @ViewChild(Content) content: Content;
@@ -83,6 +84,12 @@ export class ItemPage {
                 console.log(keyCount + ':' + this.product.variants[i - 1].variant_images.length);
             }
         }
+        if (keyCount == 0 && this.product.variants[0].variant_images.length < 2) {
+            this.is_multiple_images = false;
+        }
+        else {
+            this.is_multiple_images = true;
+        }
         this.data.consoleLog("this.data.designer", this.data.designer);
         this.data.consoleLog("this.product", this.product);
     }
@@ -92,57 +99,110 @@ export class ItemPage {
         
     }
 
+    ionViewDidEnter() {
+        this.setItemQty();
+    }
+
     viewSlide(slideNo) {
         this.slides.slideTo(slideNo);
     }
 
-    ionViewDidEnter() {
-        this.setItemQty();
+    next() {
+        this.slides.slideNext();
+    }
+
+    prev() {
+        this.slides.slidePrev();
     }
 
     addToCart(product_title, colour, material, swatch, image, designer_title, variant_id, sku, price, price_rrp,
         event, designer_id, size, size_id, type, product_id) {
         this.data.consoleLog("price", price);
-        if (this.values.user_profile.seller_account_id != 0) { 
-            if (event == null) {
-                let alert = this.alertCtrl.create({
-                    title: 'Are you trying to add this style to your selection?',
-                    subTitle: 'To create a selection begin by selecting a buyer',
-                    buttons: [
-                        {
-                            text: 'Cancel',
-                            role: 'cancel',
-                            handler: () => {
-                                console.log('Cancel clicked');
-                            }
-                        },
-                        {
-                            text: 'Select buyer',
-                            handler: () => {
-                                console.log('Select buyer clicked');
-                                this.navCtrl.push(SettingsPage);
-                            }
-                        }
-                    ]
-                });
-                alert.present();
-            }
-            return false; 
-        }
-        if (event == null) {
-            let icon_path = this.isProductInOrder(product_id, variant_id, designer_id);
-            if (icon_path == "assets/images/selected-icon.png") return false;
-            this.qty = 0;
-        } else {
-            this.qty = event.target.value;
-            if (this.qty == "") this.qty = 0;
-        }
-        this.cartProvider.addToCart(product_title, colour, material, swatch, image, designer_title, designer_id,
-            product_id, variant_id, size, size_id, type, this.qty, price, price_rrp, sku);
-        this.setItemQty();
-        this.qty = 0;
 
-        this.data.activityLogPost(Constants.LOG_ADD_TO_RANGINGROOM, designer_id, this.collection.collection_id, product_id, variant_id);
+        let icon_path = this.isVariantInOrder(product_id, variant_id, designer_id);
+        if (icon_path == "assets/images/selected-icon.png") {
+        //if (event == null && icon_path == "assets/images/selected-icon.png") {
+                let abort = false;
+            for (let i = 0, len = this.values.cart.request.order[0].sales_order_parts.length; i < len && !abort; i++) {
+                if (this.values.cart.request.order[0].sales_order_parts[i].seller_account_id == designer_id) {
+                    abort = true;
+                    let qty_abort = false;
+                    for (let j = 0, len = this.values.cart.request.order[0].sales_order_parts[i].sales_order_lines.length; j < len && !qty_abort; j++) {
+                        let line = this.values.cart.request.order[0].sales_order_parts[i].sales_order_lines[j];
+                        if (!line.hasOwnProperty('size') && line.variant_id == variant_id && line.quantity > 0) {
+                            qty_abort = true;
+                        }
+                    }
+                    if (qty_abort) {
+                        let alert = this.alertCtrl.create({
+                            title: 'Are you sure you want to remove this item?',
+                            subTitle: 'This will remove the quantities for this item in your selection',
+                            buttons: [
+                                {
+                                    text: 'Cancel',
+                                    role: 'cancel',
+                                    handler: () => {
+                                        console.log('Cancel clicked');
+                                    }
+                                },
+                                {
+                                    text: 'Confirm',
+                                    handler: () => {                                            
+                                        this.cartProvider.clearItem(i, product_id, 0, variant_id);
+                                        this.setItemQty();
+                                        this.qty = 0;
+                                    }
+                                }
+                            ]
+                        });
+                        alert.present();
+                    }
+                    else {
+                        this.cartProvider.clearItem(i, product_id, 0, variant_id);
+                    }
+                }
+            }
+        }
+        else {
+            if (this.values.user_profile.seller_account_id != 0) { 
+                if (event == null) {
+                    let alert = this.alertCtrl.create({
+                        title: 'Are you trying to add this style to your selection?',
+                        subTitle: 'To create a selection begin by selecting a buyer',
+                        buttons: [
+                            {
+                                text: 'Cancel',
+                                role: 'cancel',
+                                handler: () => {
+                                    console.log('Cancel clicked');
+                                }
+                            },
+                            {
+                                text: 'Select buyer',
+                                handler: () => {
+                                    console.log('Select buyer clicked');
+                                    this.navCtrl.push(SettingsPage);
+                                }
+                            }
+                        ]
+                    });
+                    alert.present();
+                }
+                return false; 
+            }
+            if (event == null) {
+                this.qty = 0;
+            } else {
+                this.qty = event.target.value;
+                if (this.qty == "") this.qty = 0;
+            }
+            this.cartProvider.addToCart(product_title, colour, material, swatch, image, designer_title, designer_id,
+                product_id, variant_id, size, size_id, type, this.qty, price, price_rrp, sku);
+            this.setItemQty();
+            this.qty = 0;
+    
+            this.data.activityLogPost(Constants.LOG_ADD_TO_RANGINGROOM, designer_id, this.collection.collection_id, product_id, variant_id);
+        }
     }
 
     onFocusSize(event) {
@@ -226,7 +286,7 @@ export class ItemPage {
         this.navCtrl.pop();
     }
 
-    isProductInOrder(product_id, variant_id, designer_id) {
+    isVariantInOrder(product_id, variant_id, designer_id) {
         let abort = false;
         for (let part = 0, len = this.values.cart.request.order[0].sales_order_parts.length; part < len && !abort; part++) {
             if (this.values.cart.request.order[0].sales_order_parts[part].seller_account_id == designer_id) {
