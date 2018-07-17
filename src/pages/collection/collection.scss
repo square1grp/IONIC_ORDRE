@@ -21,9 +21,55 @@ page-collection {
         overflow: scroll;
     }
 
-    .collection_sidebar{
+    .collection_sidebar {
         height: 100%;
         overflow-y: scroll;
+
+        .download-button {
+            align-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 25px 50px;
+            text-transform: uppercase;
+
+
+            .sorter_item.download_button.downloaded .btn-default {
+                border-color:#23c1ea;
+                background-color:#23c1ea;
+            }
+            .sorter_item.download_button.downloaded > span {
+                color:#ffffff;
+                background-color:#23c1ea;
+                font-weight: 500;
+                border-radius: 0px;
+            }
+            .btn-default {
+                color: #333;
+                background-color: #fff;
+                //border-color: #ccc;
+                border-color: #333;
+                border-radius: 0px;
+                font-weight: 500;
+            }
+        }
+        .collection_item {
+            .collection-label {
+                width: 86%;
+                display: inline-block;
+                padding: 18px 0px 18px 20px;
+            }
+            .collection-icon {
+                width: 12%;
+                display: inline-block;
+                padding: 18px 8px 18px 8px;
+                i {
+                    font-size: 31px;
+                }
+            }
+        }
+        .collection-timestamp {
+            min-height: 85px;
+            padding: 18px 20px;
+        }
     }
 }
- 

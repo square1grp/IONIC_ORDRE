@@ -1,5 +1,5 @@
 import { Component, ViewChild, NgZone, ChangeDetectorRef } from '@angular/core';
-import { Nav, NavController, NavParams, Content, AlertController, PopoverController } from 'ionic-angular';
+import { Nav, NavController, NavParams, Content, AlertController, PopoverController, Events } from 'ionic-angular';
 import { Insomnia } from '@ionic-native/insomnia'
 import { FormControl } from '@angular/forms';
 import { ItemPage } from '../item/item';
@@ -44,31 +44,36 @@ export class CollectionPage {
     searchControl: FormControl;
     searchValue: string;
     selected_varants_count: number = 0;
+    popover: any = null;
 
-    constructor(private cd: ChangeDetectorRef, public popoverController: PopoverController, private zone: NgZone, public navCtrl: NavController,
-        public navParams: NavParams, public data: Data, public cartProvider: CartProvider, public values: Values, private alertCtrl: AlertController,
-        private popoverCtrl: PopoverController, private insomnia: Insomnia) {
+    constructor(private cd: ChangeDetectorRef, 
+                public popoverController: PopoverController, 
+                private zone: NgZone, 
+                public navCtrl: NavController,
+                public navParams: NavParams, 
+                public data: Data, 
+                public cartProvider: CartProvider, 
+                public values: Values, 
+                private alertCtrl: AlertController,
+                private events: Events,
+                private popoverCtrl: PopoverController, 
+                private insomnia: Insomnia) {
+        
         this.searchControl = new FormControl();
         
         // set designer special price_list if this designer have its own special price.
         if (this.values.isDesignerLogin) {
-            console.log("price_list");
             this.values.designer_pricelist.region_id = null;
             this.values.designer_pricelist.region_index = null;
             for (var i = 0; i < this.values.associationByDesigner.length; i++) {
-                console.log("price_list2");
                 let abort = false;
                 for (var j = 0; j < this.values.associationByDesigner[i].retailers.length && abort == false; j++) {
-                    console.log("price_list3");
                     if (this.values.user_profile.retailer_id == this.values.associationByDesigner[i].retailers[j]) {
-                        console.log("price_list4");
                         this.values.designer_pricelist.region_id = this.values.associationByDesigner[i].region_id;
                         abort = true;
                         for (var k = 0; k < this.values.designer.region_currency.length; k++) {
-                            console.log("price_list5");
                             if (this.values.designer.region_currency[k].region_id == this.values.designer_pricelist.region_id) {
                                 this.values.designer_pricelist.region_index = k;
-                                console.log("price_list have just set!");
                                 console.log(this.values.designer_pricelist);
                             }
                         }
@@ -416,6 +421,7 @@ export class CollectionPage {
             this.data.currentCollectionID = collection_id;
             //  get selected collection profile
             this.data.selectedCollection = this.data.filterCollections(this.data.currentCollectionID)[0];
+            console.log("selected collection", this.data.selectedCollection);
             //  get product items in the collection
             this.data.getProduct(collection_id, this.values.device_token, this.values.user_profile.user_token, 0, 0).then((data) => {
                 this.firstItem = 0;
@@ -449,6 +455,26 @@ export class CollectionPage {
         this.selected_varants_count = 0;
     }
 
+    downloadAllManager() {
+        this.data.d_collection_index = 0;
+        this.data.d_collections_all = true;
+        this.downloadManager(this.values.collections[0].collection_id, this.values.designer.seller_account_id, this.values.designer.title, this.values.collections[0].collection_title, 1);
+
+        this.events.subscribe("collection-download", () => {
+            console.log("collection-download", this.data.d_collection_index);
+            this.events.publish("set-collection-state", this.values.collections[this.data.d_collection_index].collection_id);
+            this.data.d_collection_index ++;
+            if (this.data.d_collection_index >= this.values.collections.length) {
+                this.data.d_collections_all = false;
+                this.data.d_collection_index = 0;
+                this.events.unsubscribe("collection-download");
+            }
+            else {
+                this.downloadManager(this.values.collections[this.data.d_collection_index].collection_id, this.values.designer.seller_account_id, this.values.designer.title, this.values.collections[this.data.d_collection_index].collection_title, 1);
+            }
+        });
+    }
+
     downloadManager(collection_id, designer_id, designer, collection_title, mode) {
         this.values.cancel = false;
         if (!this.values.online) {
@@ -463,9 +489,25 @@ export class CollectionPage {
                 mode = 1;
             }
         }
-        let popover = this.popoverController.create(this.viewloaderPage,
-            { collection_id: collection_id, designer_id: designer_id, mode: mode, source: 'collection' });
-        popover.present();
+        if (this.data.d_collections_all == false) {
+            this.popover = this.popoverController.create(this.viewloaderPage,
+                { collection_id: collection_id, designer_id: designer_id, mode: mode, source: 'collection' });
+            this.popover.present();
+            this.popover.onDidDismiss(() => {
+                this.popover = null;
+            })
+        }
+        else {
+            if (this.popover == null) {
+                this.popover = this.popoverController.create(this.viewloaderPage,
+                    { collection_id: 0, designer_id: designer_id, mode: mode, source: 'collection' });
+                this.popover.present();
+
+                this.popover.onDidDismiss(() => {
+                    this.popover = null;
+                })
+            }
+        }
 
         this.insomnia.keepAwake().then(
             () => console.log("keepAwake success !"),
@@ -474,6 +516,7 @@ export class CollectionPage {
 
         this.data.cacheCollection(collection_id, designer_id, designer, collection_title, mode).then(() => {
             //this.data.selectedCollection.offline = "Downloaded";
+            console.log("download have finished!");
         });
     }
 
@@ -507,5 +550,10 @@ export class CollectionPage {
     popView() {
         this.values.isDesignersPage = true;
         this.navCtrl.pop();
+    }
+
+    getTimeStamp() {
+        let time_stamp = this.data.selectedCollection.download_date;
+        return time_stamp;
     }
 }

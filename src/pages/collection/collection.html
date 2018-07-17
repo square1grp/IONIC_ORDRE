@@ -8,16 +8,6 @@
   </div>
   <div class="content_sorter" [ngClass]="{'col-md-6': navOpen, 'col-md-8': !navOpen}">
     <div class="collection_title"></div>
-    <ng-container *ngIf="data.selectedCollection?.hasOwnProperty('offline')">
-    <a *ngIf="(data.selectedCollection?.offline=='Downloaded'||data.selectedCollection?.offline=='Updated')" class="sorter_item download_button downloaded" (click)="this.downloadManager(data.currentCollectionID, this.values.designer.seller_account_id,this.values.designer.title,data.selectedCollection?.collection_title,1)">
-        <span  class=" btn sort btn-default" >Update</span>
-     </a>
-    </ng-container>
-    <ng-container *ngIf="(!data.selectedCollection?.hasOwnProperty('offline')||(data.selectedCollection?.offline!='Downloaded'&&data.selectedCollection?.offline!='Updated'))">
-    <a class="sorter_item download_button" (click)="this.downloadManager(data.currentCollectionID, this.values.designer.seller_account_id,this.values.designer.title,data.selectedCollection?.collection_title,1)">
-        <span class=" btn sort btn-default" >Download</span>
-     </a>
-    </ng-container>
    
     <a class="sorter_item line_sheet_link" (tap)="lineSheet()">
       <span class="btn filter btn-default">Line Sheet</span>
@@ -39,25 +29,52 @@
         <div class="collection_description">
           <p class="open-to-ordre-title" ><span [innerHTML]="values.designer.title"></span><br/>Collections open-to-ordre</p>
         </div>
+        <div class="download-button">
+          <ng-container>
+            <a class="sorter_item download_button" (click)="this.downloadAllManager()">
+              <span class=" btn sort btn-default" >Download All</span>
+            </a>
+          </ng-container>
+          <!-- <ng-container *ngIf="data.selectedCollection?.hasOwnProperty('offline')">
+            <a *ngIf="(data.selectedCollection?.offline=='Downloaded'||data.selectedCollection?.offline=='Updated')" class="sorter_item download_button downloaded" (click)="this.downloadManager(data.currentCollectionID, this.values.designer.seller_account_id,this.values.designer.title,data.selectedCollection?.collection_title,1)">
+              <span  class=" btn sort btn-default" >Update Assets</span>
+            </a>
+          </ng-container>
+          <ng-container *ngIf="(!data.selectedCollection?.hasOwnProperty('offline')||(data.selectedCollection?.offline!='Downloaded'&&data.selectedCollection?.offline!='Updated'))">
+            <a class="sorter_item download_button" (click)="this.downloadManager(data.currentCollectionID, this.values.designer.seller_account_id,this.values.designer.title,data.selectedCollection?.collection_title,1)">
+              <span class=" btn sort btn-default" >Download Assets</span>
+            </a>
+          </ng-container> -->
+        </div>
         <div class="collection_item collection1" tappable [ngClass]="{ 'current': collection.collection_title == data
           .selectedCollection?.collection_title, '': collection.collection_title != data.selectedCollection?.collection_title }" 
-          *ngFor="let collection of values.collections, let i = index" (click)="this.changeCollection(collection.collection_id, 
-          this.values.designer.seller_account_id, i)">
-              <a class="name" [innerHTML]="collection.collection_title"></a>
-              <ng-container *ngIf="(collection.offline!='Downloading' && collection.offline!='Downloaded')">
-                  <img src="assets/images/mini_download_icon-black.png">
-                  <a href="#" class="download_collection"></a>
-              </ng-container>
+          *ngFor="let collection of values.collections, let i = index">
+            <div class="collection-label" (click)="this.changeCollection(collection.collection_id, 
+            this.values.designer.seller_account_id, i)">
+              <span class="name">
+                {{collection.collection_title}}
+              </span>
               <ng-container *ngIf="collection.hasOwnProperty('offline')">
                   <ng-container *ngIf="collection?.offline=='Downloading'">
                       <a href="#" class="download_collection">Downloading</a>
-                      <img src="assets/images/mini_download_icon-grey.png">
                   </ng-container>
                   <ng-container *ngIf="collection?.offline=='Downloaded' || collection?.offline=='Updated'">
                       <a href="#" class="download_collection">Downloaded</a>
-                      <img src="assets/images/mini_download_icon-blue.png">
                   </ng-container>
               </ng-container>
+            </div>
+            <div class="collection-icon" (click)="this.downloadManager(collection.collection_id, collection.seller_account_id, this.values.designer.title, collection?.collection_title,1)">
+              <i class="mdi mdi-download"></i>
+            </div>
+            <!-- <ng-container *ngIf="(collection.offline!='Downloading' && collection.offline!='Downloaded')">
+                <img src="assets/images/mini_download_icon-black.png">
+                <a href="#" class="download_collection"></a>
+            </ng-container> -->
+        </div>
+        <div class="collection-timestamp" *ngIf="this.data.selectedCollection?.offline=='Downloaded' || collection?.offline=='Updated'">
+          <span>
+            LAST UPDATED {{this.getTimeStamp()}}
+          </span>
         </div>
       </div>
       <div class="collection_content" >

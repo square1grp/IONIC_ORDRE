@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Platform, AlertController, LoadingController } from 'ionic-angular';
+import { Platform, AlertController, LoadingController, Events } from 'ionic-angular';
 import { Http, Headers, RequestOptions, ResponseContentType } from '@angular/http';
 import { Values } from './values';
 import { Connectivity } from './connectivity';
@@ -61,9 +61,21 @@ export class Data {
     c_action: string;
     c_collection_total_bytes: any;
 
+    //collections download variables
+    d_collections_all: boolean = false;
+    d_collection_index: number = 0;
 
-    constructor(private file: File, public storage: Storage, public loadingCtrl: LoadingController, public http: Http,
-        public platform: Platform, public values: Values, private alertCtrl: AlertController, private connectivity: Connectivity) { }
+
+    constructor(private file: File, 
+                public storage: Storage, 
+                public loadingCtrl: LoadingController, 
+                public http: Http,
+                public platform: Platform, 
+                public values: Values, 
+                private alertCtrl: AlertController, 
+                private events: Events, 
+                private connectivity: Connectivity) {     
+    }
 
 
     ngOnInit() {
@@ -149,9 +161,22 @@ export class Data {
     offlineManager() {
 
         if (!this.values.online) {
+            // let alert = this.alertCtrl.create({
+            //     title: 'You are offline.',
+            //     subTitle: 'You need to be online to do this. Check your settings and try again.',
+            //     buttons: [
+            //         {
+            //             text: 'OK',
+            //             handler: () => {
+            //                 this.consolelog('Warning about being offline');
+            //                 this.dismissLoadingSpiner();
+            //             }
+            //         }
+            //     ]
+            // });
             let alert = this.alertCtrl.create({
-                title: 'You are offline.',
-                subTitle: 'You need to be online to do this. Check your settings and try again.',
+                title: 'No Internet connection found.',
+                subTitle: 'Check your connection',
                 buttons: [
                     {
                         text: 'OK',
@@ -582,6 +607,7 @@ export class Data {
                                 if (ulog[i].collection_id == this.values.collections[j].collection_id) {
                                     //set collection status
                                     this.values.collections[j].offline = ulog[i].action;
+                                    this.values.collections[j].download_date = ulog[i].date;
                                 }
                             }
                         }
@@ -1115,6 +1141,13 @@ export class Data {
                         this.values.cancel = false;
                         this.values.pIndexCheckPoint = Date.now();
                         this.abort = true;
+
+                        if (this.d_collections_all == true) {
+                            if (this.values.cancel != false) {
+                                this.d_collection_index = this.values.collections.length;
+                            }
+                            this.events.publish("collection-download");
+                        }
                     }
                     else {
                         this.values.pIndexCheckPoint = Date.now();
@@ -1186,6 +1219,13 @@ export class Data {
                             this.values.cancel = false;
                             this.values.pIndexCheckPoint = Date.now();
                             this.abort = true;
+
+                            if (this.d_collections_all == true) {
+                                if (this.values.cancel != false) {
+                                    this.d_collection_index = this.values.collections.length;
+                                }
+                                this.events.publish("collection-download");
+                            }
                         }
                         else {
                             this.values.pIndexCheckPoint = Date.now();
@@ -1255,6 +1295,13 @@ export class Data {
                             this.values.cancel = false;
                             this.values.pIndexCheckPoint = Date.now();
                             this.abort = true;
+
+                            if (this.d_collections_all == true) {
+                                if (this.values.cancel != false) {
+                                    this.d_collection_index = this.values.collections.length;
+                                }
+                                this.events.publish("collection-download");
+                            }
                         }
                         else {
                             this.values.pIndexCheckPoint = Date.now();
@@ -1472,6 +1519,7 @@ export class Data {
             this.storage.get('collection_index').then((response) => {
                 if (response != null) {
                     this.values.downloadedCollections = response.data;
+                    console.log("downloaded collections", this.values.downloadedCollections);
                 }
                 let nv = '';
                 resolve(nv);
@@ -1560,7 +1608,7 @@ export class Data {
     addCindex(action, collection_title, collection_id, designer_title, designer_id, sizebytes) {
         console.log('Add to cache index');
         let sizeMb = Math.round(parseInt(sizebytes) / 1024 / 1000);
-        let entry_date = new Date();
+        let entry_date = new Date().toISOString();
         let index_entry = {
             'collection_id': collection_id, 'designer': designer_title, 'designer_id': designer_id, 'collection': collection_title,
             'download_date': entry_date, 'size': sizeMb
@@ -1630,7 +1678,7 @@ export class Data {
 
     addDownlog(action, collection_title, collection_id, designer_title, designer_id) {
         console.log('Add to log');
-        let log_date = new Date();
+        let log_date = new Date().toISOString();
         let log_entry = { 'action': action, 'collection_id': collection_id, 'designer': designer_title, 'designer_id': designer_id, 'collection': collection_title, 'date': log_date }
         this.storage.get('download_log').then((response) => {
             let ulog = [];
@@ -1643,7 +1691,8 @@ export class Data {
             this.storage.set('download_log', newdlog);
             console.log('Log saved')
             this.dlog = ulog
-            if (this.selectedCollection.collection_id == collection_id) {
+            console.log('this.selectedCollection', this.selectedCollection);
+            if (this.selectedCollection != undefined && this.selectedCollection.collection_id == collection_id) {
                 this.selectedCollection.offline = action;
             }
             //console.log(JSON.stringify(this.dlog))

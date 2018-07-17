@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { Insomnia } from '@ionic-native/insomnia'
 import { Storage } from '@ionic/storage';
 import { Values } from '../../providers/values';
-import { ViewController, NavParams } from 'ionic-angular';
+import { ViewController, NavParams, Events } from 'ionic-angular';
 import { Data } from '../../providers/data';
 
 @Component({
@@ -16,45 +16,95 @@ export class ViewloaderPage {
     mode          : number;
     source        : any;
     
-    constructor(public values: Values, public storage: Storage, public viewCtrl: ViewController, public data: Data, public navParams: NavParams, private insomnia: Insomnia) { }
+    constructor(public values: Values, 
+                public storage: Storage, 
+                public viewCtrl: ViewController, 
+                public data: Data, 
+                public events: Events, 
+                public navParams: NavParams, 
+                private insomnia: Insomnia) { }
 
     ngOnInit() {
-
         this.collection_id = this.navParams.get("collection_id")
         this.designer_id = this.navParams.get("designer_id")
         this.mode = this.navParams.get('mode');
         this.source = this.navParams.get('source');
         if(this.mode==4){this.mode=1}; 
         if(this.mode==5){this.mode=2};  
+
+        this.events.subscribe("set-collection-state", (collection_id) => {
+            console.log("subscribe : ", collection_id);
+            if (this.values.cancel == false) {
+                let status = 'Downloaded';
+                console.log("Downloaded", collection_id);
+                this.setCollectionStatus(status, collection_id).then(() => {
+                    // if(this.source=='collection'){
+                    //   //reload collection
+                    // }
+                    // this.storage.get('download_log').then((response) => {
+                    //     if (response != null) {
+                    //         let ulog = response.data;
+                    //         for (let i = 0, len = ulog.length; i < len; i++) {
+                    //             for (let j = 0, len = this.values.collections.length; j < len; j++) {
+                    //                 if (ulog[i].collection_id == this.values.collections[j].collection_id) {
+                    //                     //set collection status
+                    //                     this.values.collections[j].offline = ulog[i].action;
+                    //                 }
+                    //             }
+                    //         }
+                    //     }
+                    // });
+                });
+            }
+            else {
+                this.setCollectionStatus('', collection_id).then(() => {
+                });
+            }
+        })
     }
 
     close() {
-        let status='';
-        if(this.mode==3){
-            status = 'Removed';
-        }
-        else
-        {
-            status = 'Downloaded';
-        }   
-        this.setCollectionStatus(status,this.collection_id).then(() => {
-            if(this.source=='collection'){
-              //reload collection
+        if (this.collection_id != 0) {
+            let status = '';
+            if(this.mode == 3){
+                status = 'Removed';
             }
-            this.storage.get('download_log').then((response) => {
-                if (response != null) {
-                    let ulog = response.data;
-                    for (let i = 0, len = ulog.length; i < len; i++) {
-                        for (let j = 0, len = this.values.collections.length; j < len; j++) {
-                            if (ulog[i].collection_id == this.values.collections[j].collection_id) {
-                                //set collection status
-                                this.values.collections[j].offline = ulog[i].action;
-                            }
-                        }
-                    }
-                }
-            });
+            else
+            {
+                status = 'Downloaded';
+            }   
+            this.setCollectionStatus(status, this.collection_id).then(() => {
+                // if(this.source=='collection'){
+                //   //reload collection
+                // }
+                // this.storage.get('download_log').then((response) => {
+                //     if (response != null) {
+                //         let ulog = response.data;
+                //         for (let i = 0, len = ulog.length; i < len; i++) {
+                //             for (let j = 0, len = this.values.collections.length; j < len; j++) {
+                //                 if (ulog[i].collection_id == this.values.collections[j].collection_id) {
+                //                     //set collection status
+                //                     this.values.collections[j].offline = ulog[i].action;
+                //                 }
+                //             }
+                //         }
+                //     }
+                // });
+                this.viewCtrl.dismiss().then(() => {
+                    this.events.unsubscribe("set-collection-state");
+                    this.insomnia.allowSleepAgain().then(
+                        () => console.log("allowSleepAgain success"),
+                        () => console.log("allowSleepAgain error")
+                    );
+                    this.data.addIsOpenedProp();
+                }).catch((err) => {
+                    console.log('Problem with spinner:'+err);
+                });
+            })
+        }
+        else {
             this.viewCtrl.dismiss().then(() => {
+                this.events.unsubscribe("set-collection-state");
                 this.insomnia.allowSleepAgain().then(
                     () => console.log("allowSleepAgain success"),
                     () => console.log("allowSleepAgain error")
@@ -63,13 +113,30 @@ export class ViewloaderPage {
             }).catch((err) => {
                 console.log('Problem with spinner:'+err);
             });
-        })
+        }
     }
 
     abort() {
-        this.values.cancel = true;
-        this.setCollectionStatus('',this.collection_id).then(() => {
+        if (this.collection_id != 0) {
+            this.values.cancel = true;
+            this.setCollectionStatus('',this.collection_id).then(() => {
+                this.viewCtrl.dismiss().then(() => {
+                    this.events.unsubscribe("set-collection-state");
+                    this.insomnia.allowSleepAgain().then(
+                        () => console.log("allowSleepAgain success"),
+                        () => console.log("allowSleepAgain error")
+                    );
+                    this.data.addIsOpenedProp();
+                }).catch((err) => {
+                    console.log('Problem with spinner:' + err);
+                });
+            });
+        }
+        else {
             this.viewCtrl.dismiss().then(() => {
+                setTimeout(() => {
+                    this.events.unsubscribe("set-collection-state");
+                }, 2000);
                 this.insomnia.allowSleepAgain().then(
                     () => console.log("allowSleepAgain success"),
                     () => console.log("allowSleepAgain error")
@@ -78,18 +145,18 @@ export class ViewloaderPage {
             }).catch((err) => {
                 console.log('Problem with spinner:' + err);
             });
-        });
+        }
     }
 
-    setCollectionStatus(status,collection_id) {
+    setCollectionStatus(status, collection_id) {
         return new Promise((resolve, reject) => {
             let abort = false;
             for (let i = 0, len =  this.values.collections.length; i < len && !abort; i++) {    
-                if (this.values.collections[i].collection_id == this.collection_id) {
+                if (this.values.collections[i].collection_id == collection_id) {
                     abort = true;
                     this.values.collections[i].offline = status;
-                    this.values.collections[i].download_date = new Date();        
-                    this.data.storeCollections('collections_' + this.designer_id,this.values.collections);
+                    this.values.collections[i].download_date = new Date().toISOString();        
+                    this.data.storeCollections('collections_' + this.designer_id, this.values.collections);
                     resolve(status);
                     this.data.getDownloads();
                     this.data.getLog();
@@ -97,6 +164,5 @@ export class ViewloaderPage {
             } 
         });    
     }
-
 
 }
