@@ -6,7 +6,16 @@
   </div>
   <div class="content_sorter" [ngClass]="{'col-md-6': navOpen, 'col-md-8': !navOpen}">
     <div class="collection_title"><span [innerHTML]="values.designer.title"></span></div>
-    <ng-container *ngIf="data.selectedCollection?.hasOwnProperty('offline')">
+
+    <ion-segment [(ngModel)]="values.view_mode">
+      <ion-segment-button value="grid view" (click)="popView()">
+        GRID VIEW
+      </ion-segment-button>
+      <ion-segment-button value="linesheet view">
+        LINESHEET VIEW
+      </ion-segment-button>
+    </ion-segment>
+    <!-- <ng-container *ngIf="data.selectedCollection?.hasOwnProperty('offline')">
       <a *ngIf="(data.selectedCollection?.offline=='Downloaded')" class="sorter_item download_button downloaded" 
         (click)="this.downloadManager(data.currentCollectionID, this.values.designer.seller_account_id,this.values.designer.title,
         data.selectedCollection?.collection_title,1)">
@@ -21,7 +30,7 @@
     </ng-container>
     <a class="sorter_item line_sheet_link" (click)="popView()">
       <span class="btn filter btn-default">Grid view</span>
-    </a>
+    </a> -->
   </div>
   <div class="col-md-3 page_serch_wrapper">
     <input type="text" name="search" [formControl]="searchControl" [(ngModel)]="searchValue" class="page_search" placeholder="Search">

@@ -51,11 +51,13 @@ export class LinesheetPage {
     vArray: any;
     qty: any = 0;
     addFlag: boolean = false;
+
     constructor(private zone: NgZone, private cd: ChangeDetectorRef, private popoverController: PopoverController, public navCtrl: NavController, public navParams: NavParams, public data: Data, public cartProvider: CartProvider, public values: Values, private el: ElementRef, private renderer: Renderer, private alertCtrl: AlertController, private popoverCtrl: PopoverController) {
 
     }
 
     ngOnInit() {
+        this.values.view_mode = "linesheet view";
         this.searchValue = '';
         this.searchControl = new FormControl();
         this.collection = this.navParams.get("collection");    

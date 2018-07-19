@@ -8,10 +8,17 @@
   </div>
   <div class="content_sorter" [ngClass]="{'col-md-6': navOpen, 'col-md-8': !navOpen}">
     <div class="collection_title"></div>
-   
-    <a class="sorter_item line_sheet_link" (tap)="lineSheet()">
+    <ion-segment [(ngModel)]="values.view_mode">
+      <ion-segment-button value="grid view">
+        GRID VIEW
+      </ion-segment-button>
+      <ion-segment-button value="linesheet view" (click)="lineSheet()">
+        LINESHEET VIEW
+      </ion-segment-button>
+    </ion-segment>
+    <!-- <a class="sorter_item line_sheet_link" (tap)="lineSheet()">
       <span class="btn filter btn-default">Line Sheet</span>
-    </a>
+    </a> -->
   </div>
   <div class="col-md-3 page_serch_wrapper">
     <input type="text" name="search" [formControl]="searchControl" [(ngModel)]="searchValue" class="page_search" placeholder="Search">
@@ -95,11 +102,11 @@
                   <div class="overlay-header">
                     <span class="sellect-all" *ngIf="values.designer_pricelist.region_index != null" tappable (click)="addAllToCart(product.product_title, product.materials, values.designer.title, 
                     product.region_prices[values.designer_pricelist.region_index].wsp, product.region_prices[values.designer_pricelist.region_index].rrp, values.designer.seller_account_id, 'all', product.product_id, i)">
-                      SELLECT ALL
+                      SELECT ALL
                     </span>
                     <span class="sellect-all" *ngIf="values.designer_pricelist.region_index == null" tappable (click)="addAllToCart(product.product_title, product.materials, values.designer.title, 
                     product.region_prices[this.values.user_profile.user_region_id<4 ? this.values.user_profile.user_region_id - 1 : this.values.user_profile.user_region_id - 2].wsp, product.region_prices[this.values.user_profile.user_region_id<4 ? this.values.user_profile.user_region_id - 1 : this.values.user_profile.user_region_id - 2].rrp, values.designer.seller_account_id, 'all', product.product_id, i)">
-                      SELLECT ALL
+                      SELECT ALL
                     </span>
                     <span class="overlay-close">
                       <ion-icon name="md-close" (click)="closeOverlay(i)"></ion-icon>

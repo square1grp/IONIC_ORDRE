@@ -4884,7 +4884,9 @@ div.popover-viewport {
     color: #007AFF;
     font-weight: 400;
 }
-
+.segment-ios .segment-button {
+    border-width: 2px;
+}
 @media only screen and (max-width: 1024px) and (orientation: portrait) {
 	div.product_preview_image {
 		position: relative;

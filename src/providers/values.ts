@@ -30,6 +30,8 @@ export class Values {
     designer_checkpoint = new Date('01/01/1980');
     collection_checkpoint = [];
 
+
+    view_mode = "grid view";
     //cart: Array<[{sku: string, price: number, qty: number}]>;
     cart: any;
     post_cart: any;

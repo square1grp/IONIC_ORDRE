@@ -159,6 +159,7 @@ export class CollectionPage {
     }
 
     ngOnInit() {
+        this.values.view_mode = "grid view";
     }
 
     ionViewDidLoad() {
