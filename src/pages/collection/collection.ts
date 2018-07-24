@@ -328,6 +328,27 @@ export class CollectionPage {
         else {
 
             if (this.values.user_profile.seller_account_id != 0) { 
+                let alert = this.alertCtrl.create({
+                    title: 'Are you trying to add this style to your selection?',
+                    subTitle: 'To create a selection begin by selecting a buyer',
+                    buttons: [
+                        {
+                            text: 'Cancel',
+                            role: 'cancel',
+                            handler: () => {
+                                console.log('Cancel clicked');
+                            }
+                        },
+                        {
+                            text: 'Select buyer',
+                            handler: () => {
+                                console.log('Select buyer clicked');
+                                this.navCtrl.push(SettingsPage);
+                            }
+                        }
+                    ]
+                });
+                alert.present();
                 return false; 
             }
             //find the product

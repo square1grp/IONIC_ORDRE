@@ -1472,6 +1472,16 @@ page-linesheet .ordre_subheader .content_sorter {
 		height: 100%;
 		background-color: rgba(255, 255, 255, 0.93);
 		z-index: 10;
+
+		::-webkit-scrollbar {
+			-webkit-appearance: none;
+			width: 7px;
+		}   
+		::-webkit-scrollbar-thumb {
+			border-radius: 4px;
+			background-color: rgba(0,0,0,.5);
+			box-shadow: 0 0 1px rgba(255,255,255,.5);
+		}
 		.swatch-image img {
 			border: 2px solid #cccccc;
 		}
@@ -1496,7 +1506,8 @@ page-linesheet .ordre_subheader .content_sorter {
 		}
 		div.overlay-body {
 			height: 67%;
-			overflow-y: scroll;
+			overflow-y: auto;
+			-webkit-overflow-scrolling: auto;
 		}
 		div.overlay-footer {
 			height: 17%;
@@ -1505,7 +1516,7 @@ page-linesheet .ordre_subheader .content_sorter {
 				line-height: 46px;
 				height: 46%;
 				padding-left:  6%;
-				background-color: white;
+				background-color: #f8f8f8;
 				text-transform: uppercase;
 			}
 			span:nth-child(2) {
