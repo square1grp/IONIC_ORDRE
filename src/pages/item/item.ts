@@ -120,8 +120,7 @@ export class ItemPage {
         this.data.consoleLog("price", price);
 
         let icon_path = this.isVariantInOrder(product_id, variant_id, designer_id);
-        if (icon_path == "assets/images/selected-icon.png") {
-        //if (event == null && icon_path == "assets/images/selected-icon.png") {
+        if (event == null && icon_path == "assets/images/selected-icon.png") {
                 let abort = false;
             for (let i = 0, len = this.values.cart.request.order[0].sales_order_parts.length; i < len && !abort; i++) {
                 if (this.values.cart.request.order[0].sales_order_parts[i].seller_account_id == designer_id) {
