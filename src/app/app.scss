@@ -3372,27 +3372,29 @@ section#fe_content {
 	padding:25px 0px;
 	border-bottom:1px solid #b6b6b6;
 	margin:0 20px;
-}
-
-.fe_sidebar .order_summary .single_ordre_summary p:after {
-	display:block;
-	content:'';
-	clear:both;
-}
-
-.fe_sidebar .order_summary .single_ordre_summary p span:nth-child(1) {
-	font-family:'Avenir Heavy';
-	font-size:13px;
-	float:left;
-	text-transform:uppercase;
-}
-
-.fe_sidebar .order_summary .single_ordre_summary p span:nth-child(2) {
-	font-family:'Avenir Medium';
-	font-size:13px;
-	float:right;
-	width:50%;
-}
+	p:after {
+		display:block;
+		content:'';
+		clear:both;
+	}
+	p {
+		span:nth-child(1) {
+			font-family:'Avenir Heavy';
+			font-size:13px;
+			float:left;
+			text-transform:uppercase;
+		}
+		span:nth-child(2) {
+			font-family:'Avenir Medium';
+			font-size:13px;
+			float:right;
+			width:50%;
+		}
+	}
+	p.total span:nth-child(2) {
+		color: #23c1ea;
+	}
+} 
 
 .fe_sidebar_overlay {
 	position: relative;
