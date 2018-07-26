@@ -76,4 +76,116 @@ page-collection {
         width: 70%;
         float: right;
     }
+
+    .page_content .collection_content .collection_item_part {
+        div.overlay-wrapper {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(255, 255, 255, 0.93);
+            z-index: 10;
+    
+            ::-webkit-scrollbar {
+                -webkit-appearance: none;
+                width: 7px;
+            }   
+            ::-webkit-scrollbar-thumb {
+                border-radius: 4px;
+                background-color: rgba(0,0,0,.5);
+                box-shadow: 0 0 1px rgba(255,255,255,.5);
+            }
+            .swatch-image img {
+                border: 2px solid #cccccc;
+            }
+            lazy-img > div.placeholder {
+                display: inline-block;
+            }
+            div.overlay-header {
+                height: 16%;
+                vertical-align: middle;
+                line-height: 80px;
+                padding-left:  10%;
+                background-color: white;
+                font-size: 18px;
+                font-weight: 500;
+                span.sellect-all {
+                    width: 78%;
+                }
+                span.overlay-close {
+                    text-align: center;
+                    width: 16%;
+                }
+            }
+            div.overlay-body {
+                height: 67%;
+                overflow-y: auto;
+                -webkit-overflow-scrolling: auto;
+            }
+            div.overlay-footer {
+                height: 17%;
+                span {
+                    display: block;
+                    line-height: 46px;
+                    height: 46%;
+                    padding-left:  6%;
+                    background-color: #f8f8f8;
+                    text-transform: uppercase;
+                }
+                span:nth-child(2) {
+                    background-color: #f0f0f0;
+                    height: 54%;
+                    line-height: 44px;
+                }
+            }
+            span {
+                display: inline-block;
+                height: 65px;
+                line-height: 65px;
+                font-size: 18px;
+                overflow: hidden;
+                word-wrap: break-word;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+            }
+            span.swatch-image {
+                width: 25%;
+                text-align: center;
+            }
+            span.variant-color {
+                width: 50%;
+            }
+            span.variant-to-cart {
+                width: 20%;
+                text-align: center;
+            }
+        }
+    
+        img {
+            max-width: 100%;
+        }
+    }
+    
+    .open_bar .page_content .collection_content .collection_item_part {
+        display: inline-block;
+        float: left;
+        width: 33.33%;
+        position: relative;
+        min-height: 502px;
+        img {
+            max-width: 100%;
+        }
+    }
+    
+    .closed_bar .page_content .collection_content .collection_item_part {
+        display: inline-block;
+        float: left;
+        width: auto;
+        position: relative;
+        max-width: 25%;
+        min-height: 502px;
+        // img {
+        // 	width: 100%;
+        // 	max-height: 507px;
+        // }
+    }
 }

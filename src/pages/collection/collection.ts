@@ -45,6 +45,7 @@ export class CollectionPage {
     searchValue: string;
     selected_varants_count: number = 0;
     popover: any = null;
+    popover_index: number = 0;
 
     constructor(private cd: ChangeDetectorRef, 
                 public popoverController: PopoverController, 
@@ -160,6 +161,12 @@ export class CollectionPage {
 
     ngOnInit() {
         this.values.view_mode = "grid view";
+    }
+
+    ngAfterViewInit() {
+        this.scrollContent.ionScrollStart.subscribe(() => {
+            this.closeOverlay(this.popover_index);
+        });
     }
 
     ionViewDidLoad() {
@@ -457,6 +464,7 @@ export class CollectionPage {
         for (var i = 0; i < this.items.length; i++) {
             if (this.items[i].product_id == product_id) {
                 this.items[i].is_overlay = true;
+                this.popover_index = i;
 
                 this.selected_varants_count = 0;
                 this.items[i].variants.forEach((variant) => {
@@ -575,7 +583,21 @@ export class CollectionPage {
     }
 
     getTimeStamp() {
-        let time_stamp = this.data.selectedCollection.download_date;
+        let date_str = this.data.selectedCollection.download_date;
+        let date = new Date(date_str);
+        let m = date.getMonth() + 1;
+        let mm = m.toString();
+        if (m < 10) mm = "0" + mm;
+        let dd = date.getDate();
+        let yy = date.getFullYear();
+        let time = date.toLocaleTimeString();
+        let time_str = date.toTimeString();
+        let offset = date.getTimezoneOffset();
+        let time_zone = time_str.substr(19, 3);
+        if (offset == -60) {
+            time_zone = "BST";
+        }
+        let time_stamp = dd + "." + mm + "." + yy + " " + time + " " + time_zone;
         return time_stamp;
     }
 }

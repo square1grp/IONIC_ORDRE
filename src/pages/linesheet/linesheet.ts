@@ -370,6 +370,7 @@ export class LinesheetPage {
     popView() {
         this.items = [];
         this.vArray = [];
+        this.values.view_mode = "grid view";
         this.navCtrl.pop();
     }
 }
