@@ -54,7 +54,7 @@ page-collection {
         }
         .collection_item {
             .collection-label {
-                width: 86%;
+                width: 85%;
                 display: inline-block;
                 padding: 18px 0px 18px 20px;
             }
@@ -96,9 +96,6 @@ page-collection {
             }
             .swatch-image img {
                 border: 2px solid #cccccc;
-            }
-            lazy-img > div.placeholder {
-                display: inline-block;
             }
             div.overlay-header {
                 height: 16%;
@@ -146,6 +143,9 @@ page-collection {
                 word-wrap: break-word;
                 text-overflow: ellipsis;
                 white-space: nowrap;
+            }
+            lazy-img > div.placeholder {
+                display: block;
             }
             span.swatch-image {
                 width: 25%;

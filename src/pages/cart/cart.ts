@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild, NgZone } from '@angular/core';
 import { NavController, NavParams, AlertController, ToastController, Content } from 'ionic-angular';
 import { CartProvider } from '../../providers/cart';
 import { Values } from '../../providers/values';
@@ -36,7 +36,7 @@ export class CartPage {
     @ViewChild("linesheetScroolUp") scrollContent: Content;
     @ViewChild('focusInput') forcusInput;
 
-    constructor(public navCtrl: NavController, public toastCtrl: ToastController, public navParams: NavParams, public cartProvider: CartProvider,
+    constructor(private zone: NgZone, public navCtrl: NavController, public toastCtrl: ToastController, public navParams: NavParams, public cartProvider: CartProvider,
         public values: Values, public data: Data, private alertCtrl: AlertController, public keyboard: Keyboard) {
 
     }
@@ -165,13 +165,11 @@ export class CartPage {
     }
 
     clearItem(order_part, product_id, keepit, variant_id) {
-        console.log('this.values.cart.request.order[0].sales_order_parts[order_part]', this.values.cart.request.order[0].sales_order_parts[order_part]);
-        console.log("order_parts:", this.values.cart.request.order[0].sales_order_parts);
-        this.cartProvider.clearItem(order_part, product_id, keepit, variant_id);
-        this.setItemQty();
-
-        console.log("order_parts:", this.values.cart.request.order[0].sales_order_parts);
-        this.data.activityLogPost(Constants.LOG_REMOVE_FROM_RANGINGROOM, this.values.cart.request.order[0].sales_order_parts[order_part].seller_account_id, '', product_id, variant_id);
+        this.zone.run(() => {
+            this.data.activityLogPost(Constants.LOG_REMOVE_FROM_RANGINGROOM, this.values.cart.request.order[0].sales_order_parts[order_part].seller_account_id, '', product_id, variant_id);
+            this.cartProvider.clearItem(order_part, product_id, keepit, variant_id);
+            this.setItemQty();
+        });
     }
 
     clearItemWithConform(order_part, product_id, keepit, variant_id) {
