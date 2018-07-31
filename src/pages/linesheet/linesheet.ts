@@ -236,23 +236,69 @@ export class LinesheetPage {
     }
     addToCart(product_title, colour, material, swatch, image, designer_title, variant_id, sku, price, price_rrp, event, designer_id
         , size, size_id, type, product_id, itemItem) {
-        this.zone.run(() => {
-            if (this.values.user_profile.seller_account_id != 0) { return false; }
-            if (event == null) {
-                this.qty = 0;
-                this.addFlag = true;
-            } else {
-                this.qty = event.target.value;
-                if (this.qty == "") this.qty = 0;
-            }
-            this.cartProvider.addToCart(product_title, colour, material, swatch, image, designer_title, designer_id, product_id
-                , variant_id, size, size_id, type, this.qty, price, price_rrp, sku);
-            this.setItemQty();
-            this.cd.markForCheck();
-            this.qty = 0;
 
-            this.data.activityLogPost(Constants.LOG_ADD_TO_RANGINGROOM, designer_id, this.collection.collection_id, product_id, variant_id);
-        });
+        let icon_path = this.isProductInOrder(product_id, variant_id, designer_id);
+        if (event == null && icon_path == "assets/images/selected-icon.png") {
+            let abort = false;
+            for (let i = 0, len = this.values.cart.request.order[0].sales_order_parts.length; i < len && !abort; i++) {
+                if (this.values.cart.request.order[0].sales_order_parts[i].seller_account_id == designer_id) {
+                    abort = true;
+                    let qty_abort = false;
+                    for (let j = 0, len = this.values.cart.request.order[0].sales_order_parts[i].sales_order_lines.length; j < len && !qty_abort; j++) {
+                        let line = this.values.cart.request.order[0].sales_order_parts[i].sales_order_lines[j];
+                        if (!line.hasOwnProperty('size') && line.variant_id == variant_id && line.quantity > 0) {
+                            qty_abort = true;
+                        }
+                    }
+                    if (qty_abort) {
+                        let alert = this.alertCtrl.create({
+                            title: 'Are you sure you want to remove this item?',
+                            subTitle: 'This will remove the quantities for this item in your selection',
+                            buttons: [
+                                {
+                                    text: 'Cancel',
+                                    role: 'cancel',
+                                    handler: () => {
+                                        console.log('Cancel clicked');
+                                    }
+                                },
+                                {
+                                    text: 'Confirm',
+                                    handler: () => {                                            
+                                        this.cartProvider.clearItem(i, product_id, 0, variant_id);
+                                        this.setItemQty();
+                                        this.qty = 0;
+                                    }
+                                }
+                            ]
+                        });
+                        alert.present();
+                    }
+                    else {
+                        this.cartProvider.clearItem(i, product_id, 0, variant_id);
+                    }
+                }
+            }
+        }
+        else {
+            this.zone.run(() => {
+                if (this.values.user_profile.seller_account_id != 0) { return false; }
+                if (event == null) {
+                    this.qty = 0;
+                    this.addFlag = true;
+                } else {
+                    this.qty = event.target.value;
+                    if (this.qty == "") this.qty = 0;
+                }
+                this.cartProvider.addToCart(product_title, colour, material, swatch, image, designer_title, designer_id, product_id
+                    , variant_id, size, size_id, type, this.qty, price, price_rrp, sku);
+                this.setItemQty();
+                this.cd.markForCheck();
+                this.qty = 0;
+    
+                this.data.activityLogPost(Constants.LOG_ADD_TO_RANGINGROOM, designer_id, this.collection.collection_id, product_id, variant_id);
+            });
+        }
     }
 
     addProductVariantToCart(product_title, colour, material, swatch, image, designer_title, variant_id, sku, price, price_rrp, event

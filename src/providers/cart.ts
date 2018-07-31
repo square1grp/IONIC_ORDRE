@@ -484,7 +484,9 @@ export class CartProvider {
                     if (this.values.cart.request.order[0].sales_order_parts[i].sales_order_lines.length == 0) {
                         this.values.cart.request.order[0].sales_order_parts.splice(i, 1);
                         if (this.values.cart.request.order[0].sales_order_parts.length == 0) {
+                            console.log("aaaaa");
                             this.emptyOrder();
+                            console.log("aaaaabbbbb", this.values.cart);
                         }
                     }
                 }

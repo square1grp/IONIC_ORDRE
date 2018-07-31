@@ -165,10 +165,48 @@ export class CartPage {
     }
 
     clearItem(order_part, product_id, keepit, variant_id) {
+        console.log('this.values.cart.request.order[0].sales_order_parts[order_part]', this.values.cart.request.order[0].sales_order_parts[order_part]);
+        console.log("order_parts:", this.values.cart.request.order[0].sales_order_parts);
         this.cartProvider.clearItem(order_part, product_id, keepit, variant_id);
         this.setItemQty();
 
+        console.log("order_parts:", this.values.cart.request.order[0].sales_order_parts);
         this.data.activityLogPost(Constants.LOG_REMOVE_FROM_RANGINGROOM, this.values.cart.request.order[0].sales_order_parts[order_part].seller_account_id, '', product_id, variant_id);
+    }
+
+    clearItemWithConform(order_part, product_id, keepit, variant_id) {
+        let qty_abort = false;
+        for (let j = 0, len = this.values.cart.request.order[0].sales_order_parts[order_part].sales_order_lines.length; j < len && !qty_abort; j++) {
+            let line = this.values.cart.request.order[0].sales_order_parts[order_part].sales_order_lines[j];
+            if (!line.hasOwnProperty('size') && line.variant_id == variant_id && line.quantity > 0) {
+                qty_abort = true;
+            }
+        }
+        if (qty_abort) {
+            let alert = this.alertCtrl.create({
+                title: 'Are you sure you want to remove this item?',
+                subTitle: 'This will remove the quantities for this item in your selection',
+                buttons: [
+                    {
+                        text: 'Cancel',
+                        role: 'cancel',
+                        handler: () => {
+                            console.log('Cancel clicked');
+                        }
+                    },
+                    {
+                        text: 'Confirm',
+                        handler: () => {     
+                            this.clearItem(order_part, product_id, keepit, variant_id)
+                        }
+                    }
+                ]
+            });
+            alert.present();
+        }
+        else {
+            this.clearItem(order_part, product_id, keepit, variant_id)
+        }
     }
 
     clearDesigner(order_part) {
