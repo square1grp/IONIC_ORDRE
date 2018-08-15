@@ -246,7 +246,8 @@ export class LinesheetPage {
                     let qty_abort = false;
                     for (let j = 0, len = this.values.cart.request.order[0].sales_order_parts[i].sales_order_lines.length; j < len && !qty_abort; j++) {
                         let line = this.values.cart.request.order[0].sales_order_parts[i].sales_order_lines[j];
-                        if (!line.hasOwnProperty('size') && line.variant_id == variant_id && line.quantity > 0) {
+                        //if (!line.hasOwnProperty('size') && line.variant_id == variant_id && line.quantity > 0) {
+                        if (line.variant_id == variant_id && line.quantity > 0) {
                             qty_abort = true;
                         }
                     }
@@ -266,6 +267,8 @@ export class LinesheetPage {
                                     text: 'Confirm',
                                     handler: () => {                                            
                                         this.cartProvider.clearItem(i, product_id, 0, variant_id);
+                                        this.values.cart.request.order[0].total_line_items --;
+                                        this.values.cart.request.order[0].sales_order_parts[i].total_line_items --;
                                         this.setItemQty();
                                         this.qty = 0;
                                     }

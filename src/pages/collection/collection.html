@@ -101,7 +101,7 @@
                 <div class="overlay-wrapper" *ngIf="product.is_overlay">
                   <div class="overlay-header">
                     <span class="sellect-all" *ngIf="values.designer_pricelist.region_index != null" tappable (click)="addAllToCart(product.product_title, product.materials, values.designer.title, 
-                    product.region_prices[values.designer_pricelist.region_index].wsp, product.region_prices[values.designer_pricelist.region_index].rrp, values.designer.seller_account_id, 'all', product.product_id, i)">
+                    product.region_prices[values.designer_pricelist.region_index] == undefined ? 0.00 : product.region_prices[values.designer_pricelist.region_index].wsp, product.region_prices[values.designer_pricelist.region_index] == undefined ? 0.00 : product.region_prices[values.designer_pricelist.region_index].rrp, values.designer.seller_account_id, 'all', product.product_id, i)">
                       SELECT ALL
                     </span>
                     <span class="sellect-all" *ngIf="values.designer_pricelist.region_index == null" tappable (click)="addAllToCart(product.product_title, product.materials, values.designer.title, 
@@ -119,7 +119,7 @@
                       </span>
                       <span class="variant-color">{{variant.colour}}</span>
                       <span class="variant-to-cart" *ngIf="values.designer_pricelist.region_index != null" tappable (click)="addVariantToCart(product.product_title, product.materials, values.designer.title, 
-                          product.region_prices[values.designer_pricelist.region_index].wsp, product.region_prices[values.designer_pricelist.region_index].rrp, values.designer.seller_account_id, 'all', product.product_id, variant.variant_id)">
+                      product.region_prices[values.designer_pricelist.region_index] == undefined ? 0.00 : product.region_prices[values.designer_pricelist.region_index].wsp, product.region_prices[values.designer_pricelist.region_index] == undefined ? 0.00 : product.region_prices[values.designer_pricelist.region_index].rrp, values.designer.seller_account_id, 'all', product.product_id, variant.variant_id)">
                           <img [src]="isVariantInOrder(product.product_id, variant.variant_id, values.designer.seller_account_id)"/></span>
                       <span class="variant-to-cart" *ngIf="values.designer_pricelist.region_index == null" tappable (click)="addVariantToCart(product.product_title, product.materials, values.designer.title, 
                         product.region_prices[this.values.user_profile.user_region_id<4 ? this.values.user_profile.user_region_id - 1 : this.values.user_profile.user_region_id - 2].wsp, product.region_prices[this.values.user_profile.user_region_id<4 ? this.values.user_profile.user_region_id - 1 : this.values.user_profile.user_region_id - 2].rrp, values.designer.seller_account_id, 'all', product.product_id, variant.variant_id)">
@@ -155,11 +155,11 @@
                       <div class="single_collection_item_wsp" *ngIf="values.designer_pricelist.region_index != null">
                         <p>
                           WSP <br> 
-                          <span>{{values.designer?.buyer_code}} {{values.designer?.buyer_symbol}} {{product?.region_prices[values.designer_pricelist.region_index]?.wsp}}</span>
+                          <span>{{values.designer?.buyer_code}} {{values.designer?.buyer_symbol}} {{product.region_prices[values.designer_pricelist.region_index] == undefined ? '0.00' : product.region_prices[values.designer_pricelist.region_index]?.wsp}}</span>
                         </p>
                         <p>
                           RRP <br>
-                          <span>{{values.designer?.buyer_code}} {{values.designer?.buyer_symbol}} {{product?.region_prices[values.designer_pricelist.region_index]?.rrp}}</span>
+                          <span>{{values.designer?.buyer_code}} {{values.designer?.buyer_symbol}} {{product.region_prices[values.designer_pricelist.region_index] == undefined ? '0.00' : product.region_prices[values.designer_pricelist.region_index]?.rrp}}</span>
                         </p>
                       </div>
                       <div class="single_collection_item_wsp" *ngIf="values.designer_pricelist.region_index == null">

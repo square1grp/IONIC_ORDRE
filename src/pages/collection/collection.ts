@@ -290,6 +290,7 @@ export class CollectionPage {
 
     addVariantToCart(product_title, material, designer_title, price, price_rrp, designer_id, type, product_id, variant_id) {
         let is_variant_icon = this.isVariantInOrder(product_id, variant_id, designer_id);
+        console.log("is_variant_icon", is_variant_icon);
         if (is_variant_icon == "assets/images/selected-icon.png") {
             let abort = false;
             for (let i = 0, len = this.values.cart.request.order[0].sales_order_parts.length; i < len && !abort; i++) {
@@ -298,10 +299,12 @@ export class CollectionPage {
                     let qty_abort = false;
                     for (let j = 0, len = this.values.cart.request.order[0].sales_order_parts[i].sales_order_lines.length; j < len && !qty_abort; j++) {
                         let line = this.values.cart.request.order[0].sales_order_parts[i].sales_order_lines[j];
-                        if (!line.hasOwnProperty('size') && line.variant_id == variant_id && line.quantity > 0) {
-                            qty_abort = true;
+                        //if (!line.hasOwnProperty('size') && line.variant_id == variant_id && line.quantity > 0) {
+                        if (line.variant_id == variant_id && line.quantity > 0) {
+                                qty_abort = true;
                         }
                     }
+                    console.log("qty_abort", qty_abort);
                     if (qty_abort) {
                         let alert = this.alertCtrl.create({
                             title: 'Are you sure you want to remove this item?',
@@ -319,6 +322,8 @@ export class CollectionPage {
                                     handler: () => {                                            
                                         this.cartProvider.clearItem(i, product_id, 0, variant_id);
                                         if (this.selected_varants_count > 0) this.selected_varants_count --;
+                                        this.values.cart.request.order[0].total_line_items --;
+                                        this.values.cart.request.order[0].sales_order_parts[i].total_line_items --;
                                     }
                                 }
                             ]
@@ -380,6 +385,7 @@ export class CollectionPage {
                 }
             }
         }
+        console.log("this.values.cart.request.order[0].sales_order_parts[i]", this.values.cart.request.order[0].sales_order_parts[0]);
     }
 
     isProductInOrder(product_id, designer_id) {
@@ -450,6 +456,9 @@ export class CollectionPage {
             this.data.currentCollectionID = collection_id;
             //  get selected collection profile
             this.data.selectedCollection = this.data.filterCollections(this.data.currentCollectionID)[0];
+            if (this.data.designer) {
+                this.data.designer.currentCollectionID = collection_id;
+            }
             console.log("selected collection", this.data.selectedCollection);
             //  get product items in the collection
             this.data.getProduct(collection_id, this.values.device_token, this.values.user_profile.user_token, 0, 0).then((data) => {

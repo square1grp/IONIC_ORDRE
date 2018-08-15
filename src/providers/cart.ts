@@ -478,7 +478,8 @@ export class CartProvider {
                 }
                 else {
                     this.values.cart.request.order[0].sales_order_parts[i].sales_order_lines.splice(j, 1);
-                    if (variant_removed == false && qty > 0) { this.values.cart.request.order[0].sales_order_parts[i].total_line_items = order_part_line_items - 1 };
+                    // if (variant_removed == false && qty > 0) { this.values.cart.request.order[0].sales_order_parts[i].total_line_items = order_part_line_items - 1 };
+                    
                     variant_removed = true;
                     //check if this was line in order part
                     if (this.values.cart.request.order[0].sales_order_parts[i].sales_order_lines.length == 0) {

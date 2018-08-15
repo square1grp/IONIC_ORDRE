@@ -107,7 +107,9 @@
                                                     {{line.variant_total_rrp | number :'.2'}}
                                                 </p>
                                             </div>
-                                            <p class="clear_item" tappable (click)="clearItem(orderPart, line.product_id, 1,line.variant_id)">Clear item</p> 
+                                            <p class="clear_item">
+                                                <span tappable (click)="clearItem(orderPart, line.product_id, 1,line.variant_id)">Clear item</span>
+                                            </p> 
                                         </div>
                                         <div class="product_sizes">
                                             <label for="{{i}}{size.variant_size_id}}" *ngFor="let size of line.size; let i = index">Size {{size.title}}

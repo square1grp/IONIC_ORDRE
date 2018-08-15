@@ -85,8 +85,9 @@ export class CartPage {
                                 let abort = false;
                                 let CurrentTotal = 0;
                                 let CurrentTotal_rrp = 0;
-                                for (let sindex = 0, len = this.values.cart.request.order[0].sales_order_parts[part_index].sales_order_lines.length;
-                                    sindex < len && !abort; sindex++) {
+                                let length = this.values.cart.request.order[0].sales_order_parts[part_index].sales_order_lines.length;
+                                for (let sindex = 0;
+                                    sindex < length && !abort; sindex++) {
                                     if (this.values.cart.request.order[0].sales_order_parts[part_index].sales_order_lines[sindex].variant_id == variant.variant_id) {
                                         abort = true;
                                         this.values.cart.request.order[0].sales_order_parts[part_index].sales_order_lines[sindex].size = [];
@@ -176,7 +177,8 @@ export class CartPage {
         let qty_abort = false;
         for (let j = 0, len = this.values.cart.request.order[0].sales_order_parts[order_part].sales_order_lines.length; j < len && !qty_abort; j++) {
             let line = this.values.cart.request.order[0].sales_order_parts[order_part].sales_order_lines[j];
-            if (!line.hasOwnProperty('size') && line.variant_id == variant_id && line.quantity > 0) {
+            //if (!line.hasOwnProperty('size') && line.variant_id == variant_id && line.quantity > 0) {
+            if (line.variant_id == variant_id && line.quantity > 0) {
                 qty_abort = true;
             }
         }
@@ -195,7 +197,11 @@ export class CartPage {
                     {
                         text: 'Confirm',
                         handler: () => {     
-                            this.clearItem(order_part, product_id, keepit, variant_id)
+                            this.clearItem(order_part, product_id, keepit, variant_id);
+                            if (this.values.cart.request.order[0].sales_order_parts[order_part] && this.values.cart.request.order[0].sales_order_parts[order_part].total_line_items > 0) {
+                                this.values.cart.request.order[0].total_line_items --;
+                                this.values.cart.request.order[0].sales_order_parts[order_part].total_line_items --;
+                            }
                         }
                     }
                 ]
@@ -228,12 +234,13 @@ export class CartPage {
                     handler: () => {
                         this.cartProvider.emptyOrder();
                         this.data.activityLogPost(Constants.LOG_REMOVE_FROM_RANGINGROOM, 'all', 'all', 'all', 'all');
-                        if (this.values.user_profile.seller_account_id > 0 || this.values.user_profile.masquerade_id > 0) {
-                            this.navCtrl.setRoot(CollectionPage, { designer: this.values.designer });
-                        }
-                        else {
-                            this.navCtrl.setRoot(DesignersPage);
-                        }
+                        // if (this.values.user_profile.seller_account_id > 0 || this.values.user_profile.masquerade_id > 0) {
+                        //     this.navCtrl.setRoot(CollectionPage, { designer: this.values.designer });
+                        // }
+                        // else {
+                        //     this.navCtrl.setRoot(DesignersPage);
+                        // }
+                        this.navCtrl.pop();
                     }
                 }
             ]
