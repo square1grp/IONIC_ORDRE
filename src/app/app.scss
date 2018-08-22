@@ -2967,9 +2967,27 @@ section.page_content#collection_item_section {
 		margin-bottom:15px;
 
 		label {
+			text-align: center;
 			width:60px;
 			margin-right:8px;
 			font-family:'Avenir Medium';
+			vertical-align: bottom;
+			span {
+				display: block;
+				text-align: center;
+				margin: 10px 0;
+				min-height: 17px;
+			}
+			p {
+				height: 34px;
+				line-height: 34px;
+				margin: 0;
+				color: #000000;
+				font-size: 15px;
+			}
+		}
+		label:first-child {
+			color: #adadad;
 		}
 
 		input {
