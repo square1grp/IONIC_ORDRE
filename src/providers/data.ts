@@ -192,11 +192,12 @@ export class Data {
 
     }
     // login method for kinetic API
-
+    
     login(credentials, device_token) {
         let email = credentials.user_email
-        let password = encodeURIComponent(credentials.user_password);
-        //let password = credentials.user_password;
+        //let password = encodeURIComponent(credentials.user_password);
+        
+        let password = credentials.user_password;
         return new Promise((resolve, reject) => {
             if (!this.values.online) {
                 this.offlineManager();
