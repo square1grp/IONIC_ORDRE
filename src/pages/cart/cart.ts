@@ -165,6 +165,7 @@ export class CartPage {
         }
         else {
             qty ++;
+            event.target.parentElement.children[1].value = qty;
         }
         this.cartProvider.addToCart(product_title, colour, material, swatch, image, designer_title, designer_id, product_id, variant_id,
             size, size_id, type, qty, price, price_rrp, sku);
@@ -187,6 +188,7 @@ export class CartPage {
         }
         else {
             qty --;
+            event.target.parentElement.children[1].value = qty;
         }
         this.cartProvider.addToCart(product_title, colour, material, swatch, image, designer_title, designer_id, product_id, variant_id,
             size, size_id, type, qty, price, price_rrp, sku);
@@ -195,13 +197,12 @@ export class CartPage {
     }
 
 
-    onPressWithPlus(product_title, colour, material, swatch, image, designer_title, variant_id, sku, price, price_rrp, event, designer_id,
-        size, size_id, type, product_id) {
+    onPressWithPlus() {
 
         if (this.values.user_profile.seller_account_id != 0) {
             return false;
         }
-
+        if(!this.size_add_event) return false;
         let qty = this.size_add_event.target.parentElement.children[1].value;
         if (qty != "" && qty >= 50) return false;
         if (qty == "") {
@@ -210,28 +211,16 @@ export class CartPage {
         }
         else {
             qty ++;
+            this.size_add_event.target.parentElement.children[1].value = qty;
         }
-        this.cartProvider.addToCart(product_title, colour, material, swatch, image, designer_title, designer_id, product_id, variant_id,
-            size, size_id, type, qty, price, price_rrp, sku);
-
-        this.setItemQty();
-    }
-    pressed(event) {
-        this.size_add_event = event;
-        console.log("this.size_add_event", this.size_add_event);
-    }
-    released(event) {
-        //this.size_add_event = null;
-        console.log("this.size_add_event in released", this.size_add_event);
     }
 
-    onPressWithMinus(product_title, colour, material, swatch, image, designer_title, variant_id, sku, price, price_rrp, event, designer_id,
-        size, size_id, type, product_id) {
+    onPressWithMinus() {
     
         if (this.values.user_profile.seller_account_id != 0) {
             return false;
         }
-
+        if(!this.size_add_event) return false;
         let qty = this.size_add_event.target.parentElement.children[1].value;
         if (qty == "") return false;
         if (qty == 1) {
@@ -240,11 +229,24 @@ export class CartPage {
         }
         else {
             qty --;
+            this.size_add_event.target.parentElement.children[1].value = qty;
         }
-        this.cartProvider.addToCart(product_title, colour, material, swatch, image, designer_title, designer_id, product_id, variant_id,
-            size, size_id, type, qty, price, price_rrp, sku);
+    }
 
-        this.setItemQty();
+    pressed(event) {
+        console.log("pressed event triggered!");
+        this.size_add_event = event;
+    }
+    released(product_title, colour, material, swatch, image, designer_title, variant_id, sku, price, price_rrp, event, designer_id, size, size_id, type, product_id) {
+        if (this.size_add_event != undefined) {
+            console.log("released event triggered!"); 
+            let qty = this.size_add_event.target.parentElement.children[1].value;
+            this.cartProvider.addToCart(product_title, colour, material, swatch, image, designer_title, designer_id, product_id, variant_id,
+                size, size_id, type, qty, price, price_rrp, sku);
+    
+            this.setItemQty(); 
+            this.size_add_event = undefined;
+        }
     }
 
     addSpecial(event, variant_id, part_id) {
