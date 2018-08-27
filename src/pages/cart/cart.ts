@@ -32,6 +32,8 @@ export class CartPage {
     designersPage = DesignersPage;
     collectionPage = CollectionPage;
 
+    size_add_event: any;
+
     @ViewChild(Content) content: Content;
     @ViewChild("linesheetScroolUp") scrollContent: Content;
     @ViewChild('focusInput') forcusInput;
@@ -181,6 +183,59 @@ export class CartPage {
         if (qty == "") return false;
         if (qty == 1) {
             event.target.parentElement.children[1].value = "";
+            qty = "";
+        }
+        else {
+            qty --;
+        }
+        this.cartProvider.addToCart(product_title, colour, material, swatch, image, designer_title, designer_id, product_id, variant_id,
+            size, size_id, type, qty, price, price_rrp, sku);
+
+        this.setItemQty();
+    }
+
+
+    onPressWithPlus(product_title, colour, material, swatch, image, designer_title, variant_id, sku, price, price_rrp, event, designer_id,
+        size, size_id, type, product_id) {
+
+        if (this.values.user_profile.seller_account_id != 0) {
+            return false;
+        }
+
+        let qty = this.size_add_event.target.parentElement.children[1].value;
+        if (qty != "" && qty >= 50) return false;
+        if (qty == "") {
+            this.size_add_event.target.parentElement.children[1].value = 1;
+            qty = 1;
+        }
+        else {
+            qty ++;
+        }
+        this.cartProvider.addToCart(product_title, colour, material, swatch, image, designer_title, designer_id, product_id, variant_id,
+            size, size_id, type, qty, price, price_rrp, sku);
+
+        this.setItemQty();
+    }
+    pressed(event) {
+        this.size_add_event = event;
+        console.log("this.size_add_event", this.size_add_event);
+    }
+    released(event) {
+        //this.size_add_event = null;
+        console.log("this.size_add_event in released", this.size_add_event);
+    }
+
+    onPressWithMinus(product_title, colour, material, swatch, image, designer_title, variant_id, sku, price, price_rrp, event, designer_id,
+        size, size_id, type, product_id) {
+    
+        if (this.values.user_profile.seller_account_id != 0) {
+            return false;
+        }
+
+        let qty = this.size_add_event.target.parentElement.children[1].value;
+        if (qty == "") return false;
+        if (qty == 1) {
+            this.size_add_event.target.parentElement.children[1].value = "";
             qty = "";
         }
         else {

@@ -19,6 +19,7 @@ import { Connectivity } from '../providers/connectivity';
 import { BrowserModule } from '@angular/platform-browser';
 import { InAppBrowser } from '@ionic-native/in-app-browser';
 import { Keyboard } from '@ionic-native/keyboard';
+import { LongPressModule } from 'ionic-long-press';
 
 //import { Storage } from '@ionic/storage';
 import { HttpModule } from '@angular/http';
@@ -57,6 +58,7 @@ import { Network } from '@ionic-native/network';
   imports: [
     BrowserModule,
     HttpModule,
+    LongPressModule,
     IonicStorageModule.forRoot(),
     IonicModule.forRoot(MyApp, {
         platforms: {
