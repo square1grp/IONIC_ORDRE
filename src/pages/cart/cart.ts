@@ -148,6 +148,50 @@ export class CartPage {
         this.setItemQty();
     }
 
+    addToCartWithPlus(product_title, colour, material, swatch, image, designer_title, variant_id, sku, price, price_rrp, event, designer_id,
+        size, size_id, type, product_id) {
+    
+        if (this.values.user_profile.seller_account_id != 0) {
+            return false;
+        }
+
+        let qty = event.target.parentElement.children[1].value;
+        if (qty != "" && qty >= 50) return false;
+        if (qty == "") {
+            event.target.parentElement.children[1].value = 1;
+            qty = 1;
+        }
+        else {
+            qty ++;
+        }
+        this.cartProvider.addToCart(product_title, colour, material, swatch, image, designer_title, designer_id, product_id, variant_id,
+            size, size_id, type, qty, price, price_rrp, sku);
+
+        this.setItemQty();
+    }
+
+    addToCartWithMinus(product_title, colour, material, swatch, image, designer_title, variant_id, sku, price, price_rrp, event, designer_id,
+        size, size_id, type, product_id) {
+    
+        if (this.values.user_profile.seller_account_id != 0) {
+            return false;
+        }
+
+        let qty = event.target.parentElement.children[1].value;
+        if (qty == "") return false;
+        if (qty == 1) {
+            event.target.parentElement.children[1].value = "";
+            qty = "";
+        }
+        else {
+            qty --;
+        }
+        this.cartProvider.addToCart(product_title, colour, material, swatch, image, designer_title, designer_id, product_id, variant_id,
+            size, size_id, type, qty, price, price_rrp, sku);
+
+        this.setItemQty();
+    }
+
     addSpecial(event, variant_id, part_id) {
 
         if (this.values.user_profile.seller_account_id != 0) { return false; }

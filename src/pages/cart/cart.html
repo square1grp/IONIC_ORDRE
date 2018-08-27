@@ -119,11 +119,13 @@
                                                 <span></span>
                                             </label>
                                             <label for="{{i}}{size.variant_size_id}}" *ngFor="let size of line.size; let i = index">{{size.title}}
-                                                <span>+</span>
+                                                <span (click)="addToCartWithPlus(line.product_title, line.colour, line.materials, line.swatch, line.image, designer.title, size.variant_id, 
+                                                size.sku, line.price, line.price_rrp, $event, designer.seller_account_id, size.size_title, size.variant_size_id, 'type', line.product_id)">+</span>
                                                 <input type="number" ng-model="qty" name="{{i}}{{size.variant_size_id}}" value="{{size.qty}}" id="{{i}}{{size.variant_size_id}}"
                                                     (blur)="addToCart(line.product_title, line.colour, line.materials, line.swatch, line.image, designer.title, size.variant_id, 
                                                     size.sku, line.price, line.price_rrp, $event, designer.seller_account_id, size.size_title, size.variant_size_id, 'type', line.product_id)">
-                                                <span>-</span>
+                                                <span (click)="addToCartWithMinus(line.product_title, line.colour, line.materials, line.swatch, line.image, designer.title, size.variant_id, 
+                                                size.sku, line.price, line.price_rrp, $event, designer.seller_account_id, size.size_title, size.variant_size_id, 'type', line.product_id)">-</span>
                                             </label>                  
                                         </div>
                                         <p class="product_quantity">
