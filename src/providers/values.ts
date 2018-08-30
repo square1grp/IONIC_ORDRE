@@ -90,7 +90,7 @@ export class Values {
     //APIRoot = "https://web01.ordre.com";
     //APIRoot = "https://web02.ordre.com";
 
-    version: string = "v1.13";
+    version: string = "v1.14";
 
 
     constructor() {
