@@ -49,6 +49,16 @@
                 <div class="no_cart_item"> No products have been added to your Order as yet. </div>
             </section>
             <section id="fe_content" *ngIf="this.values.cart.request.order[0].sales_order_parts.length > 0">
+                <div class="view_mode">
+                    <ion-segment [(ngModel)]="values.cart_view_mode">
+                        <ion-segment-button value="note view">
+                            NOTE VIEW
+                        </ion-segment-button>
+                        <ion-segment-button value="linesheet view">
+                            LINESHEET VIEW
+                        </ion-segment-button>
+                    </ion-segment>
+                </div>
                 <ion-content id="linesheetScroolUp" #linesheetScroolUp>  
                     <p class="clear_all_ordres" tappable (click)="clearOrder()">Clear Order</p>
                     <article class="designer_order" *ngFor="let designer of this.values.cart.request.order[0].sales_order_parts; let orderPart = index;">
@@ -111,7 +121,7 @@
                                                 <span tappable (click)="clearItem(orderPart, line.product_id, 1,line.variant_id)">Clear item</span>
                                             </p> 
                                         </div>
-                                        <div class="product_sizes">
+                                        <div class="product_sizes" *ngIf="values.cart_view_mode == 'linesheet view'">
                                             <label>
                                                 Sizes
                                                 <span></span>
@@ -130,7 +140,7 @@
                                                 size.sku, line.price, line.price_rrp, $event, designer.seller_account_id, size.size_title, size.variant_size_id, 'type', line.product_id)">-</span>
                                             </label>                  
                                         </div>
-                                        <p class="product_quantity">
+                                        <p class="product_quantity" *ngIf="values.cart_view_mode == 'linesheet view'">
                                             <input type="text" name="special_request" maxlength="255" value="{{line.special_request}}" placeholder="Enter product enquiry here" 
                                                 (blur)="addSpecial($event, line.variant_id, orderPart)">
                                         </p>

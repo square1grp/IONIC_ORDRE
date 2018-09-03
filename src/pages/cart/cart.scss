@@ -25,6 +25,13 @@ page-cart {
     }
     section #fe_content {
         height: 100%;
+        .view_mode {
+            text-align: center;
+            ion-segment {
+                display: inline-flex;
+                width: 50%;
+            }
+        }
     }
     ion-content#linesheetScroolUp {
         height: 100%

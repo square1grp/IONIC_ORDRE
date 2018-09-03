@@ -32,6 +32,7 @@ export class Values {
 
 
     view_mode = "grid view";
+    cart_view_mode = "note view";
     //cart: Array<[{sku: string, price: number, qty: number}]>;
     cart: any;
     post_cart: any;
