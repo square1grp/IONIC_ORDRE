@@ -86,6 +86,22 @@ import { Network } from '@ionic-native/network';
     ViewOrderPage,
     View360Page
   ],
-  providers: [InAppBrowser,Keyboard, StatusBar,Insomnia, SplashScreen,{provide: ErrorHandler, useClass: IonicErrorHandler}, CartProvider, Connectivity, Data, Values, File, Network]
+  providers: [
+    InAppBrowser,
+    Keyboard, 
+    StatusBar,
+    Insomnia, 
+    SplashScreen,
+    {
+      provide: ErrorHandler, 
+      useClass: IonicErrorHandler
+    }, 
+    CartProvider, 
+    Connectivity, 
+    Data, 
+    Values, 
+    File, 
+    Network
+  ]
 })
 export class AppModule {}

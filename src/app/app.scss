@@ -141,14 +141,9 @@ section.welcome_section {
 
 section.welcome_section .logo_wrapper {
 	margin-bottom: 80px;
-}
-
-section.welcome_section .logo_wrapper img {
-	width: 100%;
-}
-
-section.welcome_section .sitename_wrapper {
-	position: relative;
+	img {
+		width: 100%;
+	}
 }
 
 section.welcome_section .sitename_wrapper:after {
@@ -157,49 +152,51 @@ section.welcome_section .sitename_wrapper:after {
 	clear: both;
 }
 
-section.welcome_section .sitename_wrapper .sitename {
-	text-align: center;
-	color: #ffffff;
-	text-transform: uppercase;
-	font-size: 50pt;
-	display: inline-block;
-	margin: auto;
-	width: 28%;
-	float: left;
-	z-index: 99;
-	letter-spacing: 20px;
-}
-
-section.welcome_section .sitename_wrapper .site_subtitle {
-	text-align: center;
-}
-
 section.welcome_section .site_subtitle {
 	width: 34%;
 	margin: auto;
+	p {
+		text-align: center;
+		color: #ffffff;
+		text-transform: uppercase;
+		font-size: 36px;
+		margin-top: 20px;
+		font-family: 'Avenir Light';
+		line-height: 1.2;
+		margin-bottom: 20px;
+		letter-spacing: 2px;
+	}
 }
 
-section.welcome_section .site_subtitle p {
-	text-align: center;
-	color: #ffffff;
-	text-transform: uppercase;
-	font-size: 36px;
-	margin-top: 20px;
-	font-family: 'Avenir Light';
-	line-height: 1.2;
-	margin-bottom: 20px;
-	letter-spacing: 2px;
-}
+section.welcome_section .site_subtitle 
 
-section.welcome_section .sitename_wrapper .line_divider {
-	margin: 0px;
-	height: 1px;
-	background-color: #5b5d5c;
+section.welcome_section .sitename_wrapper {
 	position: relative;
-	width: 36%;
-	top: 25px;
-	z-index: 9;
-	float: left;
+	.sitename {
+		text-align: center;
+		color: #ffffff;
+		text-transform: uppercase;
+		font-size: 50pt;
+		display: inline-block;
+		margin: auto;
+		width: 28%;
+		float: left;
+		z-index: 99;
+		letter-spacing: 20px;
+	}
+	.site_subtitle {
+		text-align: center;
+	}
+	.line_divider {
+		margin: 0px;
+		height: 1px;
+		background-color: #5b5d5c;
+		position: relative;
+		width: 36%;
+		top: 25px;
+		z-index: 9;
+		float: left;
+	}
 }
 
 #pbody.logged_out .welcome_footer {
@@ -207,22 +204,21 @@ section.welcome_section .sitename_wrapper .line_divider {
 	bottom: 100px;
 	width: 100%;
 	text-align: center;
+	p {
+		display: inline-block;
+		margin-bottom: 0px;
+		color: #ffffff;
+		font-family: 'Avenir Light';
+		font-size: 16px;
+		border: 1px solid #808080;
+		line-height: 1.2;
+		letter-spacing: 1px;
+		padding: 16px;
+	}
 }
 
-#pbody.logged_out .welcome_footer p {
-	display: inline-block;
-	margin-bottom: 0px;
-	color: #ffffff;
-	font-family: 'Avenir Light';
-	font-size: 16px;
-	border: 1px solid #808080;
-	line-height: 1.2;
-	letter-spacing: 1px;
-	padding: 16px;
-}
 
 #pbody.logged_out.login_page {
-	/* background: url(../assets/images/ordre_bg_login.jpg) no-repeat center top; */
 	background: url(https://www.ordre.com/css/images/ordre-home-image_center.jpg) no-repeat center top;
 	background-size: cover;
 	display: block;
