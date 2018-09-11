@@ -2323,142 +2323,110 @@ page-linesheet .ordre_subheader .content_sorter {
 
 #fe_section #fe_content .fe_item .item_overview_block {
 	display:none;
-}
-
-#fe_section #fe_content .fe_item .item_overview_block {
-	position:absolute;
-	width:80%;
-	height:100%;
-	top:0px;
 	z-index:99;
 	padding:8px 0;
-	background:#ffffff;
-	border-right:1px solid #cccccc;
-}
-
-#fe_section #fe_content .fe_item .item_overview_block {
 	position:absolute;
 	width:80%;
 	height:100%;
 	top:0px;
-	z-index:99;
 	padding:5px 0;
 	background:#ffffff;
 	border-right:1px solid #cccccc;
 	border-top:1px solid #cccccc;
-	display:none;
-}
 
-#fe_section #fe_content .fe_item .item_overview_block .item_overview_image {
-	width:21%;
-	float:left;
-	height:100%;
-}
+	.item_overview_image {
+		width:21%;
+		float:left;
+		height:100%;
+		
+		img {
+			width:100%;
+			border:1px solid #cccccc;
+		}
+	}
 
-#fe_section #fe_content .fe_item .item_overview_block .item_overview_image {
-	width:16%;
-	float:left;
-}
+	.item_overview_info {
+		width:79%;
+		float:left;
+		padding:10px 0 20px 15px;
 
-#fe_section #fe_content .fe_item .item_overview_block .item_overview_image img {
-	width:100%;
-	border:1px solid #cccccc;
-}
-
-#fe_section #fe_content .fe_item .item_overview_block .item_overview_info {
-	width:79%;
-	float:left;
-	padding:10px 0 20px 15px;
-}
-
-#fe_section #fe_content .fe_item .item_overview_block .item_overview_info .name {
-	text-transform:uppercase;
-	color:#000000;
-	font-weight:600;
-	margin-bottom:0px;
-	font-size:20px;
-	font-family:'Avenir Heavy';
-}
-
-#fe_section #fe_content .fe_item .item_overview_block .item_overview_info .wsp {
-	font-family:'Avenir Medium';
-	font-size:20px;
-	color:#000000;
-}
-
-#fe_section #fe_content .fe_item .item_overview_block .item_overview_info .wsp span {
-	color:#a7a4a4;
-	font-weight:600;
-}
-
-#fe_section #fe_content .fe_item .item_overview_block .item_overview_info .color-material_info {
-	margin-bottom:25px;
-	margin-top:25px;
-}
-
-#fe_section #fe_content .fe_item .item_overview_block .item_overview_info .color-material_info:after {
-	display:block;
-	content:'';
-	clear:both;
-}
-
-#fe_section #fe_content .fe_item .item_overview_block .item_overview_info .color-material_info .color {
-	width:25%;
-	float:left;
-	position:relative;
-}
-
-#fe_section #fe_content .fe_item .item_overview_block .item_overview_info .color-material_info .color p {
-	padding-left:25px;
-	text-transform:uppercase;
-	color:#000000;
-	margin-bottom:0px;
-	line-height:1.2;
-}
-
-#fe_section #fe_content .fe_item .item_overview_block .item_overview_info .color-material_info .color p:first-child {
-	font-family:'Avenir Heavy';
-}
-
-#fe_section #fe_content .fe_item .item_overview_block .item_overview_info .color-material_info .color span {
-	display:block;
-	position:absolute;
-	background:#c3ece3;
-	width:18px;
-	height:18px;
-	top:3px;
-	left:0;
-	border:1px solid #000000;
-}
-
-#fe_section #fe_content .fe_item .item_overview_block .item_overview_info .color-material_info .material {
-	width:75%;
-	float:left;
-}
-
-#fe_section #fe_content .fe_item .item_overview_block .item_overview_info .color-material_info .material p {
-	color:#000000;
-	margin-bottom:0px;
-	text-transform:uppercase;
-	line-height:1.2;
-}
-
-#fe_section #fe_content .fe_item .item_overview_block .item_overview_info .color-material_info .material p:first-child {
-	font-family:'Avenir Heavy';
-}
-
-#fe_section #fe_content .fe_item .item_overview_block .item_overview_info .item_overview_description {
-	font-family:'Avenir Book';
-	color:#000000;
-}
-
-#fe_section #fe_content .fe_item .item_overview_block .close_overview {
-	color:#6f6a6a;
-	position:absolute;
-	display:block;
-	right:10px;
-	top:10px;
-	cursor:pointer;
+		.name {
+			text-transform:uppercase;
+			color:#000000;
+			font-weight:600;
+			margin-bottom:0px;
+			font-size:20px;
+			font-family:'Avenir Heavy';
+		}
+		.wsp {
+			font-family:'Avenir Medium';
+			font-size:20px;
+			color:#000000;
+			span {
+				color:#a7a4a4;
+				font-weight:600;
+			}
+		}
+		.color-material_info {
+			margin-bottom:25px;
+			margin-top:25px;
+			.color {
+				width:25%;
+				float:left;
+				position:relative;
+				p {
+					padding-left:25px;
+					text-transform:uppercase;
+					color:#000000;
+					margin-bottom:0px;
+					line-height:1.2;
+				}
+				p:first-child {
+					font-family:'Avenir Heavy';
+				}
+				span {
+					display:block;
+					position:absolute;
+					background:#c3ece3;
+					width:18px;
+					height:18px;
+					top:3px;
+					left:0;
+					border:1px solid #000000;
+				}
+			}
+			.material {
+				width:75%;
+				float:left;
+				p {
+					color:#000000;
+					margin-bottom:0px;
+					text-transform:uppercase;
+					line-height:1.2;
+				}
+				p:first-child {
+					font-family:'Avenir Heavy';
+				}
+			}
+		}
+		.color-material_info:after {
+			display:block;
+			content:'';
+			clear:both;
+		}
+		.item_overview_description {
+			font-family:'Avenir Book';
+			color:#000000;
+		}
+	}
+	.close_overview {
+		color:#6f6a6a;
+		position:absolute;
+		display:block;
+		right:10px;
+		top:10px;
+		cursor:pointer;
+	}
 }
 
 lazy-img > div.placeholder {
