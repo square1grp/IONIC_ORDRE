@@ -13,65 +13,57 @@ page-login {
         left: 0px;
         right: 0px;
         height: 100%;
-    }
-
-    section.login_section .login_form_wrapper {
-        position: relative;
-        top: 50%;
-        -webkit-transform: translateY(-50%);
-        transform: translateY(-50%);
-    }
-
-    section.login_section .login_form_wrapper .sitename_wrapper {
-        margin-bottom: 96px;
-    }
-
-    section.login_section .login_form_wrapper .sitename_wrapper img {
-        width: 100%;
-    }
-
-    section.login_section .login_form_wrapper .sitename_wrapper:after {
-        display: block;
-        content: '';
-        clear: both;
-    }
-
-    section.login_section .login_form_wrapper .sitename_wrapper .sitename {
-        text-align: right;
-        color: #ffffff;
-        text-transform: uppercase;
-        font-size: 40pt;
-        display: inline-block;
-        margin: auto;
-        width: 30%;
-        float: left;
-        z-index: 99;
-        letter-spacing: 20px;
-    }
-
-    section.login_section .login_form_wrapper .sitename_wrapper .line_divider {
-        margin: 0px;
-        height: 1px;
-        background-color: #5b5d5c;
-        position: relative;
-        width: 35%;
-        top: 35px;
-        z-index: 9;
-        float: left;
-    }
-
-    section.login_section .login_form_wrapper .login_form {
-        text-align: justify;
-        width: 365px;
-        margin: auto;
-    }
-
-    section.login_section .login_form_wrapper .login_form input {
-        padding: 10px 5px;
-        width: 100%;
-        margin-bottom: 35px;
-        outline: 0px;
-        border: 1px solid #cacaca;
+        .login_form_wrapper {
+            position: relative;
+            top: 50%;
+            -webkit-transform: translateY(-50%);
+            transform: translateY(-50%);
+            .sitename_wrapper {
+                margin-bottom: 96px;
+            }
+            .sitename_wrapper img {
+                width: 100%;
+            }
+            .sitename_wrapper:after {
+                display: block;
+                content: '';
+                clear: both;
+            }
+            .sitename_wrapper .sitename {
+                text-align: right;
+                color: #ffffff;
+                text-transform: uppercase;
+                font-size: 40pt;
+                display: inline-block;
+                margin: auto;
+                width: 30%;
+                float: left;
+                z-index: 99;
+                letter-spacing: 20px;
+            }
+            .sitename_wrapper .line_divider {
+                margin: 0px;
+                height: 1px;
+                background-color: #5b5d5c;
+                position: relative;
+                width: 35%;
+                top: 35px;
+                z-index: 9;
+                float: left;
+            }
+            .login_form {
+                text-align: justify;
+                width: 365px;
+                margin: auto;
+            }
+            .login_form input {
+                padding: 10px 5px;
+                width: 100%;
+                margin-bottom: 35px;
+                outline: 0px;
+                border: 1px solid #cacaca;
+            }
+        }
     }
 
     .login_submit {
