@@ -40,10 +40,10 @@ export class ImageCacheComponent implements OnInit {
                   this.img_src = <string>fixedUrl;
                   this.hidden = false 
                   this.cd.markForCheck();
-              }
-              else {
+              } else {
                   console.log('Write Image');
-                  let fixedUrl: SafeUrl = this.ds.bypassSecurityTrustUrl(<string>image)
+                  let fixedUrl: SafeUrl = this.ds.bypassSecurityTrustUrl(<string>image);
+                  console.log('fixedUrl', fixedUrl);
                   this.img_src = <string>fixedUrl;
                   this.hidden = false;
                   this.cd.markForCheck();             

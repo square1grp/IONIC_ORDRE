@@ -12,7 +12,7 @@
             <div class="col-md-12 designer_list">
                 <div class="col-md-3 designer_item" *ngFor="let designer of values.designers">
                     <div class="designer_item_image_wrapper">
-                        <a (tap)="designerCollections(designer)">
+                        <a (click)="designerCollections(designer)">
                             <lazy-img src="{{values.APIRoot}}/app/get_image.php?image=/{{designer.profile_image}}&w=271&h=178&xtype=designer"></lazy-img>
                         </a>
                         <p class="designer_item_meta">open-to-ordre until {{designer.display_end_date}}</p>

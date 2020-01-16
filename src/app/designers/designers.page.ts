@@ -30,6 +30,7 @@ export class DesignersPage implements OnInit {
     }
 
     designerCollections(designer) {
+        console.log('designerCollections', designer);
         this.data.presentLoadingSpinerSec().then(() => {
             this.values.onescreen_total_imgages_num = 3;
             this.values.onescreen_image_index = 0;
@@ -85,7 +86,7 @@ export class DesignersPage implements OnInit {
                     }
                     this.data.consoleLog('this.values.products' , this.values.products);
                     this.values.isDesignersPage = false;
-                    this.router.navigate(['/home', { designer: designer, mode: '' }]);
+                    this.router.navigate(['/collection', { designer: designer, mode: '' }]);
                 }).catch(function (err) {
                     console.log(err);
                 });
