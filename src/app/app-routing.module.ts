@@ -8,7 +8,6 @@ const routes: Routes = [
   { path: 'cart', loadChildren: './cart/cart.module#CartPageModule' },
   { path: 'collection', loadChildren: './collection/collection.module#CollectionPageModule' },
   { path: 'designers', loadChildren: './designers/designers.module#DesignersPageModule' },
-  { path: 'header', loadChildren: './header/header.module#HeaderPageModule' },
   { path: 'item', loadChildren: './item/item.module#ItemPageModule' },
   { path: 'linesheet', loadChildren: './linesheet/linesheet.module#LinesheetPageModule' },
   { path: 'login', loadChildren: './login/login.module#LoginPageModule' },
@@ -17,7 +16,6 @@ const routes: Routes = [
   { path: 'settings', loadChildren: './settings/settings.module#SettingsPageModule' },
   { path: 'view360', loadChildren: './view360/view360.module#View360PageModule' },
   { path: 'viewloader', loadChildren: './viewloader/viewloader.module#ViewloaderPageModule' },
-  { path: 'image-cache', loadChildren: './image-cache/image-cache.module#ImageCachePageModule' },
 ];
 
 @NgModule({

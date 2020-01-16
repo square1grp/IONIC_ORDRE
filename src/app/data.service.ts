@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Platform, AlertController, LoadingController, Events } from '@ionic/angular';
-import { HttpClient, HttpResponse } from '@angular/common/http';
+import { HttpClient, HttpResponse, HttpHeaders } from '@angular/common/http';
 import { Values } from './values.service';
 import { Connectivity } from './connectivity.service';
 import { Storage } from '@ionic/storage';
@@ -83,7 +83,7 @@ export class Data {
     setTimeout(() => {
         this.initDB();
     }, 3000);
-    this.createLoader();
+    // this.createLoader();
   }
 
   initDB() {
@@ -1375,61 +1375,49 @@ export class Data {
   //post image from URL into dB
   putImage(url) {
       return new Promise((resolve, reject) => {
-          let headers = new Headers({
-              "Content-Type": "application/blob"
-          });
+          const headers = new HttpHeaders().set('Content-Type', 'application/blob');
           /*
           let contentType = 'image/png';
           if(url.includes('.jpg')){
           contentType = 'image/jpeg'
           }
-          get(url: string, options: {
-              headers?: HttpHeaders | {
-                  [header: string]: string | string[];
-              };
-              observe?: 'body';
-              params?: HttpParams | {
-                  [param: string]: string | string[];
-              };
-              reportProgress?: boolean;
-              responseType: 'blob';
-              withCredentials?: boolean;
-          }): Observable<Blob>;
           */
-          let options = {
-              responseType: 'blob'
-          };
-          this.http.get(url).subscribe(response => {
-              // let blob = new Blob([response.blob()]);
-              // //  image id
-              // let imageID = this.values.cacheImageID;
-              // this.values.cacheImageID = this.values.cacheImageID + 1;
+            console.log('Image url:', url);
+          this.http.get(url, {
+            headers: headers,
+            responseType: 'blob'
+        }).subscribe((response: any) => {
+            console.log('response', response);
+              let blob = new Blob([response]);
+              console.log('blob', blob);
+              //  image id
+              let imageID = this.values.cacheImageID;
+              this.values.cacheImageID = this.values.cacheImageID + 1;
 
-              // //  image type
-              // let suffix = '.jpg';
-              // let imageType = 'jpeg';
-              // if (url.indexOf('png')) {
-              //     suffix = '.png';
-              //     imageType = 'png';
+              //  image type
+              let suffix = '.jpg';
+              let imageType = 'jpeg';
+              if (url.indexOf('png')) {
+                  suffix = '.png';
+                  imageType = 'png';
+              }
+              // date 
+              let d = new Date();
+              let n = d.getTime();
+              let filename = 'img_' + imageID + '_' + n + suffix;
+              //file or dB storage for cache
+              // if (this.platform.is('cordova!')) {
+              //     this.getImageCordova(blob,filename,url).then((nr1) => {
+              //         let nr = '';
+              //         resolve(nr);
+              //     })
               // }
-              // // date 
-              // let d = new Date();
-              // let n = d.getTime();
-              // let filename = 'img_' + imageID + '_' + n + suffix;
-              // //file or dB storage for cache
-              // // if (this.platform.is('cordova!')) {
-              // //     this.getImageCordova(blob,filename,url).then((nr1) => {
-              // //         let nr = '';
-              // //         resolve(nr);
-              // //     })
-              // // }
-              // // else {
-              // //console.log('Image Cache Get Blob:'+url)
-              // this.getImage64(blob, filename, url, imageType).then((nr1) => {
-              //     let nr = '';
-              //     resolve(nr);
-              // })
-              // }
+              // else {
+              console.log('Image Cache Get Blob:'+url)
+              this.getImage64(blob, filename, url, imageType).then((nr1) => {
+                  let nr = '';
+                  resolve(nr);
+              })
           }, error => {
               console.log("404 error");
               console.log(error);
@@ -2005,22 +1993,37 @@ export class Data {
 
   }
 
-
-  //Loading Spinner process functions
-  async createLoader() {
-      this.loading = await this.loadingCtrl.create({
-          backdropDismiss: false,
-          spinner: 'crescent',
-          // content: `
-          //         <div id="loading" class="loading_container">
-          //         <div class="loading_spinner"></div>
-          //         </div>`
+  async presentLoadingSpinerSec() {
+    this.loadingState = true;
+    return await this.loadingCtrl.create({
+      duration: 5000,
+    }).then(a => {
+      a.present().then(() => {
+        console.log('presented');
+        if (!this.loadingState) {
+          a.dismiss().then(() => console.log('abort presenting'));
+        }
       });
-      await console.log('this.loading', this.loading);
+    });
   }
 
+  async dismissLoadingSpiner() {
+    this.loadingState = false;
+    return await this.loadingCtrl.dismiss().then(() => console.log('dismissed'));
+  }
+  //Loading Spinner process functions
+//   async createLoader() {
+//       this.loading = await this.loadingCtrl.create({
+//           backdropDismiss: false,
+//           spinner: 'crescent',
+//           // content: `
+//           //         <div id="loading" class="loading_container">
+//           //         <div class="loading_spinner"></div>
+//           //         </div>`
+//       });
+//   }
+
   presentLoadingSpiner() {
-      console.log(this.loadingState);
       if (this.loadingState == true) return;
       this.loading.present().then(() => {
           console.log("presented");
@@ -2030,87 +2033,88 @@ export class Data {
       });
   }
 
-  dismissLoadingSpiner() {
-      return new Promise((resolve, reject) => {
-          console.log("this.loadingState :" + this.loadingState);
-          if (this.loadingState == false) {
-              this.isloadingState = true;
-              return;
-          }
-          console.log("Spinner_dismiss() function are called");
-          this.loading.dismiss().then(() => {
-              console.log("Spinner are dismissed perfectly.");
-              this.loadingState = false;
-              this.isloadingState = false;
-              this.values.onescreen_image_index = 0;
-              this.values.onescreen_total_imgages_num = 0;
-              this.createLoader();
-              resolve();
-          }).catch(function (err) {
-              console.log(err);
-              reject();
-          });
-      });
-  }
+//   dismissLoadingSpiner() {
+//       return new Promise((resolve, reject) => {
+//           console.log("this.loadingState :", this.loadingState, this.loading);
+//           if (this.loadingState == false) {
+//               this.isloadingState = true;
+//               return;
+//           }
+//           console.log("Spinner_dismiss() function are called");
+//           this.loading.dismiss().then(() => {
+//               console.log("Spinner are dismissed perfectly.");
+//               this.loadingState = false;
+//               this.isloadingState = false;
+//               this.values.onescreen_image_index = 0;
+//               this.values.onescreen_total_imgages_num = 0;
+//               this.createLoader();
+//               resolve();
+//           }).catch(function (err) {
+//               console.log(err);
+//               reject();
+//           });
+//       });
+//   }
 
-  presentLoadingSpinerSec() {
-      return new Promise((resolve, reject) => {
-          console.log(this.loadingState);
-          if (this.loadingState == true) return;
-          this.loading.present().then(() => {
-              console.log("presented");
-              this.loadingState = true;
-              this.values.spinnerCheckPoint = Date.now();
-              if (this.values.isHeavyLoad == true) {
-                  setTimeout(async () => {
-                      let currentCheckPoint = Date.now();
-                      if (this.loadingState == true && currentCheckPoint - this.values.spinnerCheckPoint >= 35000) {
-                          this.dismissLoadingSpiner();
-                          let alert = await this.alertCtrl.create({
-                              header: 'WARNING: Internet connect problem.',
-                              subHeader: 'Please check your internet connectivity and try again.',
-                              buttons: [
-                                  {
-                                      text: 'OK',
-                                      handler: () => {
-                                          console.log('Network is too bad.');
-                                      }
-                                  }
-                              ]
-                          });
-                          await alert.present();
-                      }
-                  }, 35000);
-                  this.values.isHeavyLoad = false;
-              }
-              else {
-                  setTimeout(async () => {
-                      let currentCheckPoint = Date.now();
-                      if (this.loadingState == true && currentCheckPoint - this.values.spinnerCheckPoint >= 20000) {
-                          this.dismissLoadingSpiner();
-                          let alert = await this.alertCtrl.create({
-                              header: 'WARNING: Internet connect problem.',
-                              subHeader: 'Please check your internet connectivity and try again.',
-                              buttons: [
-                                  {
-                                      text: 'OK',
-                                      handler: () => {
-                                          console.log('Downloading is too Slow.');
-                                      }
-                                  }
-                              ]
-                          });
-                          await alert.present();
-                      }
-                  }, 20000);
-              }
-              resolve();
-          }).catch(function (err) {
-              console.log(err);
-              reject();
-          });
-      });
-  }
+//   presentLoadingSpinerSec() {
+//       return new Promise((resolve, reject) => {
+//           console.log(this.loadingState);
+//           if (this.loadingState == true) return;
+//           this.loading.present().then(() => {
+//               console.log("presented");
+//               this.loadingState = true;
+//               this.values.spinnerCheckPoint = Date.now();
+//               if (this.values.isHeavyLoad == true) {
+//                   setTimeout(async () => {
+//                       let currentCheckPoint = Date.now();
+//                       if (this.loadingState == true && currentCheckPoint - this.values.spinnerCheckPoint >= 35000) {
+//                           this.dismissLoadingSpiner();
+//                           let alert = await this.alertCtrl.create({
+//                               header: 'WARNING: Internet connect problem.',
+//                               subHeader: 'Please check your internet connectivity and try again.',
+//                               buttons: [
+//                                   {
+//                                       text: 'OK',
+//                                       handler: () => {
+//                                           console.log('Network is too bad.');
+//                                       }
+//                                   }
+//                               ]
+//                           });
+//                           await alert.present();
+//                       }
+//                   }, 35000);
+//                   this.values.isHeavyLoad = false;
+//               }
+//               else {
+//                   setTimeout(async () => {
+//                       let currentCheckPoint = Date.now();
+//                       if (this.loadingState == true && currentCheckPoint - this.values.spinnerCheckPoint >= 20000) {
+//                             console.log("dismissLoadingSpiner presented");
+//                             this.dismissLoadingSpiner();
+//                             let alert = await this.alertCtrl.create({
+//                                 header: 'WARNING: Internet connect problem.',
+//                                 subHeader: 'Please check your internet connectivity and try again.',
+//                                 buttons: [
+//                                     {
+//                                         text: 'OK',
+//                                         handler: () => {
+//                                             console.log('Downloading is too Slow.');
+//                                         }
+//                                     }
+//                                 ]
+//                             });
+//                             await alert.present();
+//                       }
+//                   }, 20000);
+//               }
+//               resolve();
+//           }).catch(function (err) {
+//               console.log(err);
+//               reject();
+//           });
+//       });
+//   }
 
   consolelog(str) {
       if (this.values.debug) {

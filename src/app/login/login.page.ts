@@ -82,7 +82,7 @@ export class LoginPage implements OnInit {
         else {
             if (this.loggingin == true) { return; }
             this.values.isHeavyLoad = true;
-            this.data.createLoader();
+            // this.data.createLoader();
             //this.data.presentLoadingSpiner();
             this.data.presentLoadingSpinerSec().then(() => {
                 this.values.onescreen_total_imgages_num = 3;
@@ -94,19 +94,17 @@ export class LoginPage implements OnInit {
                 let logindata = this.loginForm.value;
                 console.log('Credentials:' + JSON.stringify(logindata));
                 this.data.login(logindata, this.values.device_token).then(async (response) => {
-                    console.log('Response:', response);
-                    console.log('Full Response:' + JSON.stringify(response));
 
                     //set user profile
-                    this.values.user_profile = response;
+                    this.values.user_profile = response['body'];
+                    console.log('response', response);
                     this.values.user_profile.masquerade_id = 0;  //whenmasquarading, user id of masquerader
                     this.values.user_profile.forcecache = 0;  //don't force update images when recaching
 
-                    if (this.values.user_profile.statusText === 'OK') {
+                    if (this.values.user_profile.status === 'ok') {
                         this.data.consoleLog('this.values.user_profile', this.values.user_profile);
                         this.logUserIn();
-                    }
-                    else {
+                    } else {
                         this.data.dismissLoadingSpiner();
                         this.loggingin = false;
                         let alert = await this.alertCtrl.create({
@@ -134,8 +132,6 @@ export class LoginPage implements OnInit {
         this.values.user_profile.masquerade_id = 0;
         delete this.values.user_profile._rev;
         this.data.saveUser(this.values.user_profile);
-        console.log("logUserIn");
-        return;
 
         if (this.values.user_profile.seller_account_id) {
             this.values.isDesignerLogin = true;
@@ -212,6 +208,7 @@ export class LoginPage implements OnInit {
             }).catch(err => {
                 console.log(err);
             });;
+            console.log('this.values.user_profile', this.values.user_profile);
             this.data.getShippings(this.values.user_profile.device_token, this.values.user_profile.user_token, this.values.user_profile.buyer_id).then((response) => {
                 this.values.shipping_address = response[0];
             });

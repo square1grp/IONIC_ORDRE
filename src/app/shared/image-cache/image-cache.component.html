@@ -1,0 +1,7 @@
+
+  <div [ngClass]="{ 'placeholder': !hidden }">
+      <img [src]="img_src" [src]="img_src" (load)="load()" (error)="error()"/>
+  </div>
+  <div [ngClass]="{ 'placeholder': hidden }">
+      <div [style.width]="w_value" [style.height]="h_value"></div>
+  </div>
