@@ -1,107 +1,40 @@
-import { NgModule, ErrorHandler } from '@angular/core';
-import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
-import { MyApp } from './app.component';
-import { ViewloaderPage } from '../pages/viewloader/viewloader';
-import { LoginPage } from '../pages/login/login';
-import { ItemPage } from '../pages/item/item';
-import { LinesheetPage } from '../pages/linesheet/linesheet';
-import { OrderitemPage } from '../pages/orderitem/orderitem';
-import { OrdersPage } from '../pages/orders/orders';
-import { SettingsPage } from '../pages/settings/settings';
-import { CachePage } from '../pages/cache/cache';
-import { CollectionPage } from '../pages/collection/collection';
-import { DesignersPage } from '../pages/designers/designers';
-import { OrdreHeader } from '../pages/header/header';
-import { CartPage } from '../pages/cart/cart';
-import { ViewOrderPage } from '../pages/vieworder/vieworder';
-import { View360Page } from '../pages/view360/view360';
-import { Connectivity } from '../providers/connectivity';
+import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { InAppBrowser } from '@ionic-native/in-app-browser';
-import { Keyboard } from '@ionic-native/keyboard';
-import { LongPressModule } from 'ionic-long-press';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { RouteReuseStrategy } from '@angular/router';
+import { HttpClientModule } from '@angular/common/http';
 
-//import { Storage } from '@ionic/storage';
-import { HttpModule } from '@angular/http';
-import { StatusBar } from '@ionic-native/status-bar';
-import { SplashScreen } from '@ionic-native/splash-screen';
-import { Insomnia } from '@ionic-native/insomnia'
-
-//  Providers
-import { Data } from '../providers/data';
-import { CartProvider } from '../providers/cart';
-import { Values } from '../providers/values';
-import { OrdreImageCache } from '../providers/image-cache';
+import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
+import { SplashScreen } from '@ionic-native/splash-screen/ngx';
+import { StatusBar } from '@ionic-native/status-bar/ngx';
+import { File } from '@ionic-native/file/ngx';
+import { HTTP } from '@ionic-native/http/ngx';
+import { Network } from '@ionic-native/network/ngx';
 import { IonicStorageModule } from '@ionic/storage';
-import { File } from '@ionic-native/file';
-import { Network } from '@ionic-native/network';
+
+import { AppComponent } from './app.component';
+import { AppRoutingModule } from './app-routing.module';
 
 @NgModule({
-  declarations: [
-    MyApp,
-    ViewloaderPage,
-    LoginPage,
-    ItemPage,
-    LinesheetPage,
-    OrderitemPage,
-    OrdersPage,
-    SettingsPage,
-    CachePage,
-    CollectionPage,
-    DesignersPage,
-    OrdreHeader,
-    CartPage,
-    ViewOrderPage,
-    View360Page,
-    OrdreImageCache
-  ],
+  declarations: [AppComponent],
+  entryComponents: [],
   imports: [
     BrowserModule,
-    HttpModule,
-    LongPressModule,
+    FormsModule,
+    ReactiveFormsModule,
+    IonicModule.forRoot(),
     IonicStorageModule.forRoot(),
-    IonicModule.forRoot(MyApp, {
-        platforms: {
-          ios: {
-              statusbarPadding: true
-          }
-        }
-    })
-  ],
-  bootstrap: [IonicApp],
-  entryComponents: [
-    MyApp,
-    ViewloaderPage,
-    LoginPage,
-    ItemPage,
-    LinesheetPage,
-    OrderitemPage,
-    OrdersPage,
-    SettingsPage,
-    CachePage,
-    CollectionPage,
-    DesignersPage,
-    OrdreHeader,
-    CartPage,
-    ViewOrderPage,
-    View360Page
+    AppRoutingModule,
+    HttpClientModule,
   ],
   providers: [
-    InAppBrowser,
-    Keyboard, 
     StatusBar,
-    Insomnia, 
     SplashScreen,
-    {
-      provide: ErrorHandler, 
-      useClass: IonicErrorHandler
-    }, 
-    CartProvider, 
-    Connectivity, 
-    Data, 
-    Values, 
-    File, 
-    Network
-  ]
+    File,
+    HTTP,
+    Network,
+    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
+  ],
+  bootstrap: [AppComponent]
 })
 export class AppModule {}

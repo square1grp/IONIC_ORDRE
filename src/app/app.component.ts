@@ -1,32 +1,26 @@
-import { Component} from '@angular/core';
-import { LoginPage } from '../pages/login/login';
-import { MenuController, Platform, Events } from 'ionic-angular'; 
-import { Data } from '../providers/data';
-import { Values } from '../providers/values';
-import { Connectivity } from '../providers/connectivity';
-import { Keyboard } from '@ionic-native/keyboard';
-import { StatusBar } from '@ionic-native/status-bar';
-import { SplashScreen } from '@ionic-native/splash-screen';
+import { Component } from '@angular/core';
+
+import { Platform } from '@ionic/angular';
+import { SplashScreen } from '@ionic-native/splash-screen/ngx';
+import { StatusBar } from '@ionic-native/status-bar/ngx';
 
 @Component({
-  templateUrl: 'app.html',
-  providers: [Data]
+  selector: 'app-root',
+  templateUrl: 'app.component.html'
 })
-export class MyApp {
+export class AppComponent {
+  constructor(
+    private platform: Platform,
+    private splashScreen: SplashScreen,
+    private statusBar: StatusBar
+  ) {
+    this.initializeApp();
+  }
 
-  rootPage: any = LoginPage;
-
-  constructor(private statusBar: StatusBar,public keyboard: Keyboard, private splashScreen: SplashScreen, public platform: Platform, public menu: MenuController, public dataService: Data, public events: Events, public connectivity: Connectivity, public values: Values) {
-    platform.ready().then(() => {
-      // console.log("====== platform width and hight =====");
-      // console.log(platform.width());
-      // console.log(platform.height());
-      // console.log("======================================");
-      this.splashScreen.show();
-      this.statusBar.hide();
-      this.statusBar.overlaysWebView(false);
-      this.statusBar.backgroundColorByHexString('#000000');
-      this.keyboard.hideKeyboardAccessoryBar(false);
+  initializeApp() {
+    this.platform.ready().then(() => {
+      this.statusBar.styleDefault();
+      this.splashScreen.hide();
     });
   }
 }
