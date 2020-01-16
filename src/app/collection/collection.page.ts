@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild, NgZone, ChangeDetectorRef } from '@angular/core';
-import { NavController, NavParams, AlertController, PopoverController, Events } from '@ionic/angular';
-import { Router } from '@angular/router';
+import { NavController, AlertController, PopoverController, Events } from '@ionic/angular';
+import { Router, ActivatedRoute } from '@angular/router';
 import { Insomnia } from '@ionic-native/insomnia/ngx';
 import { FormControl } from '@angular/forms';
 import { Values } from '../values.service';
@@ -43,7 +43,7 @@ export class CollectionPage implements OnInit {
                 public popoverController: PopoverController, 
                 private zone: NgZone, 
                 private router: Router,
-                public navParams: NavParams, 
+                private activatedRoute: ActivatedRoute,
                 public data: Data, 
                 public cartProvider: CartProvider, 
                 public values: Values, 
@@ -107,7 +107,7 @@ export class CollectionPage implements OnInit {
                     this.data.consoleLog('this.values.products' , this.values.products);
                     
 
-                    this.mode = this.navParams.get("mode");
+                    this.mode = this.activatedRoute.snapshot.paramMap.get('mode');
                     if (this.mode != 'fromlinesheet') {
                         this.firstItem = 0;
                         this.addItemsToGrid('', 0);
@@ -116,7 +116,7 @@ export class CollectionPage implements OnInit {
                     if (this.mode == 'fromlinesheet') {
                         this.values.lsproducts = this.values.products;
                     }
-                    this.search();
+                    // this.search();
                     this.data.consoleLog("this.values.products", this.values.products);
                     this.values.longTimeRequestUrls = [];
                     this.values.productCashImageUrls = [];
@@ -134,7 +134,7 @@ export class CollectionPage implements OnInit {
             this.searchValue = '';
             this.values.isCollectionPage = true;
 
-            this.mode = this.navParams.get("mode");
+            this.mode = this.activatedRoute.snapshot.paramMap.get('mode');
             if (this.mode != 'fromlinesheet') {
                 this.firstItem = 0;
                 this.addItemsToGrid('', 0);

@@ -96,8 +96,8 @@
             </div>    
           </ng-container>  
           <ion-content class="product-list" #collectionScroll>
-            <ion-list *ngFor="let product of items; let i = index">
-              <div class="collection_item_part">
+            <ion-list>
+              <div class="collection_item_part" *ngFor="let product of items; let i = index">
                 <div class="overlay-wrapper" *ngIf="product.is_overlay">
                   <div class="overlay-header">
                     <span class="sellect-all" *ngIf="values.designer_pricelist.region_index != null" tappable (click)="addAllToCart(product.product_title, product.materials, values.designer.title, 
