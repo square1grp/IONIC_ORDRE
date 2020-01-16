@@ -1473,7 +1473,7 @@ export class Data {
     getImage64(blob, filename, url, imageType) {
         //console.log('Get As Image 64:'+url)
         return new Promise((resolve, reject) => {
-            let image64 = '';
+            let image64;
             var myReader: FileReader = new FileReader();
             myReader.onloadend = (e) => {
                 image64 = myReader.result;
