@@ -101,6 +101,9 @@ ORDRE APP STYLE, 2017-07-05 21:00
 	src: url(./assets/fonts/SanFranciscoText-Medium.otf);
 }
 //-----------------------------------------------------//
+.ion-page > ion-content {
+    position: absolute;
+}
 
 a {
 	color: #23c1ea;
@@ -4683,6 +4686,10 @@ div.popover-viewport {
 .segment-ios .segment-button {
     border-width: 2px;
 }
+page-header {
+	height: 70px;
+	display: block;
+}
 @media only screen and (max-width: 1024px) and (orientation: portrait) {
 	div.product_preview_image {
 		position: relative;
@@ -4810,6 +4817,7 @@ div.popover-viewport {
 		}
 	}
 	page-header {
+
 		.ordre_header .header_right div.icon-link {
 			width: 88px !important;
 			span {
