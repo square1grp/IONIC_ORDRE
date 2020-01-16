@@ -8,19 +8,19 @@ import { IonicModule } from '@ionic/angular';
 import { CollectionPage } from './collection.page';
 
 const routes: Routes = [
-  {
-    path: '',
-    component: CollectionPage
-  }
+    {
+        path: '',
+        component: CollectionPage
+    }
 ];
 
 @NgModule({
-  imports: [
-    CommonModule,
-    FormsModule,
-    IonicModule,
-    RouterModule.forChild(routes)
-  ],
-  declarations: [CollectionPage]
+    imports: [
+        CommonModule,
+        FormsModule,
+        IonicModule,
+        RouterModule.forChild(routes)
+    ],
+    declarations: [CollectionPage]
 })
 export class CollectionPageModule {}

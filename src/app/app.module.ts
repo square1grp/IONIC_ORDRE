@@ -16,25 +16,25 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 
 @NgModule({
-  declarations: [AppComponent],
-  entryComponents: [],
-  imports: [
-    BrowserModule,
-    FormsModule,
-    ReactiveFormsModule,
-    IonicModule.forRoot(),
-    IonicStorageModule.forRoot(),
-    AppRoutingModule,
-    HttpClientModule,
-  ],
-  providers: [
-    StatusBar,
-    SplashScreen,
-    File,
-    HTTP,
-    Network,
-    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
-  ],
-  bootstrap: [AppComponent]
+    declarations: [AppComponent],
+    entryComponents: [],
+    imports: [
+        BrowserModule,
+        FormsModule,
+        ReactiveFormsModule,
+        IonicModule.forRoot(),
+        IonicStorageModule.forRoot(),
+        AppRoutingModule,
+        HttpClientModule,
+    ],
+    providers: [
+        StatusBar,
+        SplashScreen,
+        File,
+        HTTP,
+        Network,
+        { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
+    ],
+    bootstrap: [AppComponent]
 })
 export class AppModule {}

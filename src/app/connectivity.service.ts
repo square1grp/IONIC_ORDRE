@@ -4,7 +4,7 @@ import { Network } from '@ionic-native/network/ngx';
 
 
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root'
 })
 export class Connectivity {
 

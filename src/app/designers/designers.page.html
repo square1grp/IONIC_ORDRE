@@ -1,26 +1,25 @@
 <page-header></page-header>
 <div class="ordre_subheader" ion-fixed>
-  <div class="col-md-3 page_title">designer showrooms</div>
-  <div class="col-md-6 content_sorter">
-  </div>
-  <div class="col-md-3 page_serch_wrapper">
-    <!--input type="text" name="search" class="page_search" placeholder="Search"-->
-  </div>
+    <div class="col-md-3 page_title">designer showrooms</div>
+    <div class="col-md-6 content_sorter"></div>
+    <div class="col-md-3 page_serch_wrapper">
+        <!--input type="text" name="search" class="page_search" placeholder="Search"-->
+    </div>
 </div>
 <ion-content>
-<div id="pbody" class=""> 
-  <section class="page_content" id="designer_list_section1">
-    <div class="col-md-12 designer_list">
-      <div class="col-md-3 designer_item" *ngFor="let designer of values.designers">
-        <div class="designer_item_image_wrapper">
-          <a (tap)="designerCollections(designer)">
-            <lazy-img src="{{values.APIRoot}}/app/get_image.php?image=/{{designer.profile_image}}&w=271&h=178&xtype=designer"></lazy-img>
-          </a>
-          <p class="designer_item_meta">open-to-ordre until {{designer.display_end_date}}</p>
-        </div>
-        <p class="designer_item_name" [innerHTML]="designer.trade_name"></p>
-      </div>
+    <div id="pbody" class=""> 
+        <section class="page_content" id="designer_list_section1">
+            <div class="col-md-12 designer_list">
+                <div class="col-md-3 designer_item" *ngFor="let designer of values.designers">
+                    <div class="designer_item_image_wrapper">
+                        <a (tap)="designerCollections(designer)">
+                            <lazy-img src="{{values.APIRoot}}/app/get_image.php?image=/{{designer.profile_image}}&w=271&h=178&xtype=designer"></lazy-img>
+                        </a>
+                        <p class="designer_item_meta">open-to-ordre until {{designer.display_end_date}}</p>
+                    </div>
+                    <p class="designer_item_name" [innerHTML]="designer.trade_name"></p>
+                </div>
+            </div>
+        </section>
     </div>
-  </section>
-</div>
 </ion-content>

@@ -10,20 +10,20 @@ import { DesignersPage } from './designers.page';
 // import { OrdreHeader } from '../pages/header/header';
 
 const routes: Routes = [
-  {
-    path: '',
-    component: DesignersPage
-  }
+    {
+        path: '',
+        component: DesignersPage
+    }
 ];
 
 @NgModule({
-  imports: [
-    CommonModule,
-    SharedModule,
-    FormsModule,
-    IonicModule,
-    RouterModule.forChild(routes)
-  ],
-  declarations: [DesignersPage]
+    imports: [
+        CommonModule,
+        SharedModule,
+        FormsModule,
+        IonicModule,
+        RouterModule.forChild(routes)
+    ],
+    declarations: [DesignersPage]
 })
 export class DesignersPageModule {}

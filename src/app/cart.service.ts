@@ -7,7 +7,7 @@ import { Values } from './values.service';
 import 'rxjs/add/operator/map';
 
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root'
 })
 export class CartProvider {
 
