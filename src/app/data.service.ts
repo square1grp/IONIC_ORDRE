@@ -91,14 +91,9 @@ export class Data {
         //this.SQLLite = true;
 
         return new Promise((resolve, reject) => {
-            this.consolelog('Waiting for platform...');
             this.platform.ready()
                 .then(() => {
                     this.storage.ready().then(() => {
-
-                        // Init dB
-                        this.consolelog('PouchdB Init');
-                        //PouchDB.debug.disable()
 
                         this.dbDraft = new PouchDB('ordreDraft01');
                         this.dbRequest = new PouchDB('ordreRequested01');
@@ -119,7 +114,6 @@ export class Data {
                         //         this.file.createDir(this.values.fs, this.values.imageCacheFolder, true)
                         //     });
                         //     this.values.freeSpace = this.file.getFreeDiskSpace()
-                        //     console.log('Freespace:' + JSON.stringify(this.values.freeSpace))
                         //     //this.storage.clear();
                         // }
                         // else {
@@ -148,12 +142,10 @@ export class Data {
 
         //force online + watch for change
         this.connectivity.watchOnline().subscribe(() => {
-            console.log("online");
             this.values.online = true;
         });
 
         this.connectivity.watchOffline().subscribe(() => {
-            console.log("offline");
             this.values.online = false;
         });
 
@@ -169,7 +161,6 @@ export class Data {
             //         {
             //             text: 'OK',
             //             handler: () => {
-            //                 this.consolelog('Warning about being offline');
             //                 this.dismissLoadingSpiner();
             //             }
             //         }
@@ -182,7 +173,6 @@ export class Data {
                     {
                         text: 'OK',
                         handler: () => {
-                            this.consolelog('Warning about being offline');
                             this.dismissLoadingSpiner();
                         }
                     }
@@ -222,9 +212,7 @@ export class Data {
 
     saveUser(profile) {
         return new Promise((resolve, reject) => {
-            this.consolelog('Delete then save user')
             this.deleteItem('user_profile').then(() => {
-                //this.consolelog('SAVE USER:'+JSON.stringify(profile))
                 profile._id = 'user_profile';
                 resolve(this.storage.set('user_profile', profile));
             });
@@ -234,7 +222,6 @@ export class Data {
 
     getUser() {
         return new Promise((resolve, reject) => {
-            this.consolelog('Get user')
             this.storage.get('user_profile').then((data) => {
                 resolve(data);
             }).catch(error => {
@@ -264,7 +251,6 @@ export class Data {
             this.dlog = [];
             if (response != null) {
                 this.dlog = response.data;
-                console.log('Got log')
             }
         })
     }
@@ -275,7 +261,6 @@ export class Data {
         //draft._id = id;
         delete order._id;
         delete order._rev;
-        //this.consolelog('SAVE:'+JSON.stringify(order))
         return new Promise((resolve, reject) => {
             order._id = new Date().toJSON();
             this.dbRequest.post(order).then((new_id) => {
@@ -305,8 +290,6 @@ export class Data {
             draft._id = new Date().toJSON();
             //draft.door =  this.values.cart.request.order[0].door;
             delete draft._rev;
-            //this.consolelog('SAVING:' + JSON.stringify(draft));
-            this.consoleLog("draft", draft);
             this.dbDraft.post(draft).then((new_id) => {
                 resolve(new_id);
             }).catch(error => {
@@ -319,15 +302,12 @@ export class Data {
     }
 
     getAllDraftOrders(buyer_id, seller_id) {
-        this.consolelog('Getting all draft orders for:' + buyer_id + ':' + seller_id)
         return this.dbDraft.allDocs({ include_docs: true })
             .then(docs => {
                 this.draftOrders = docs.rows.map(row => {
                     if (seller_id > 0) {
-                        this.consolelog('Filtering by seller')
                         if ((row.doc.seller_account_id == seller_id) && (row.doc.buyer_id == buyer_id)) {
                             row.doc.Date = new Date(row.doc.Date);
-                            //this.consolelog('Found'+JSON.stringify(row.doc));
                             return row.doc;
                         }
                         else {
@@ -335,10 +315,8 @@ export class Data {
                         }
                     }
                     else {
-                        console.log(row.doc.buyer_id);
                         if (row.doc.buyer_id == buyer_id) {
                             row.doc.Date = new Date(row.doc.Date);
-                            //this.consoleLog('row.doc', row.doc);
                             return row.doc;
                         }
                         else {
@@ -347,8 +325,6 @@ export class Data {
                     }
                 });
 
-                this.consoleLog("this.values.cart in getAllDraftOrders", this.values.cart);
-                this.consoleLog("this.draftOrders in getAllDraftOrders", this.draftOrders);
                 return this.draftOrders;
             });
     }
@@ -368,7 +344,6 @@ export class Data {
 
     deleteDraftOrder(doc) {
         return new Promise((resolve, reject) => {
-            //this.consolelog('Delete DRAFT _id:'+doc._id);
             this.dbDraft.remove(doc).catch(function (err) {
                 this.consolelog(err);
                 return Promise.resolve(null);
@@ -378,17 +353,14 @@ export class Data {
 
     getAllOrders(buyer_id, seller_id) {
 
-        this.consolelog('Getting all orders for:' + buyer_id + ':' + seller_id)
         return this.dbRequest.allDocs({ include_docs: true })
             .then(docs => {
 
                 this.requestedOrders = docs.rows.map(row => {
                     // Dates are not automatically converted from a string.
-                    //this.consolelog('Row:'+JSON.stringify(row.doc))
                     if (seller_id > 0) {
                         if ((row.doc.seller_account_id == seller_id) && (row.doc.buyer_id == buyer_id)) {
                             row.doc.Date = new Date(row.doc.Date);
-                            //this.consolelog('Found'+JSON.stringify(row.doc));
                             return row.doc;
                         }
                         else {
@@ -398,7 +370,6 @@ export class Data {
                     else {
                         if (row.doc.buyer_id == buyer_id) {
                             row.doc.Date = new Date(row.doc.Date);
-                            //this.consolelog('Found'+JSON.stringify(row.doc));
                             return row.doc;
                         }
                         else {
@@ -406,7 +377,6 @@ export class Data {
                         }
                     }
                 });
-                this.consoleLog("this.draftOrders in getAllOrders", this.requestedOrders);
                 return this.requestedOrders;
             });
     }
@@ -415,8 +385,7 @@ export class Data {
         this.storage.get('updated_flag').then((result) => {
             if (result == true) {
                 console.log("You have already updated your old Orders.");
-            }
-            else {
+            } else {
                 this.dbDraft.allDocs({ include_docs: true }).then(docs => {
                     docs.rows.map(row => {
                         if (!row.doc.hasOwnProperty('door')) {
@@ -436,10 +405,7 @@ export class Data {
                             this.oldDraftOrders.push(oldOrder);
                         }
                     });
-                    this.consoleLog("this.values.cart in update", this.values.cart);
-                    this.consoleLog("this.draftOrders in update", this.draftOrders);
                 }).then(() => {
-                    this.consoleLog("oldOrders", this.oldDraftOrders);
                     for (let cindex = 0, len = this.oldDraftOrders.length; cindex < len; cindex++) {
                         this.dbDraft.get(this.oldDraftOrders[cindex]._id).then((doc) => {
                             if (doc.status ==  "DRAFT") doc.status = "SERVER_DRAFT";
@@ -484,10 +450,7 @@ export class Data {
                             this.oldDraftOrders.push(oldOrder);
                         }
                     });
-                    this.consoleLog("this.values.cart in update", this.values.cart);
-                    this.consoleLog("this.draftOrders in update", this.requestedOrders);
                 }).then(() => {
-                    this.consoleLog("oldOrders", this.oldRequestedOrders);
                     for (let cindex = 0, len = this.oldRequestedOrders.length; cindex < len; cindex++) {
                         this.dbRequest.get(this.oldRequestedOrders[cindex]._id).then((doc) => {
                             doc.door = {
@@ -521,15 +484,12 @@ export class Data {
         let ONE_HOUR = 60 * 60 * 1000;
         let baseDate = new Date('01/01/1980');
         let nowDate = Date.now();
-        this.consolelog('Get Designers - Checkpoint:' + this.values.designer_checkpoint + ' compared:' + (this.values.designer_checkpoint.getTime() == baseDate.getTime()));
-        this.consolelog('Checkpoint past?' + (nowDate - ONE_HOUR > this.values.designer_checkpoint.getTime()));
 
         if ((this.values.online) && ((this.values.designer_checkpoint.getTime() == baseDate.getTime()) ||
             (nowDate - ONE_HOUR > this.values.designer_checkpoint.getTime()))) {
             force = true;
             checkpoint = true;
         }
-        this.consolelog('Force?' + force);
 
         //  check for designers in db
 
@@ -538,26 +498,17 @@ export class Data {
         if (force == true) {
             record_id_get = 'NOPEA1';
         }
-        console.log("//-----  record_id_get  ------//");
-        console.log(record_id_get);
 
         return new Promise((resolve, reject) => {
-            this.consolelog('Try GET:' + record_id);
             this.storage.get(record_id_get).then((result) => {
 
-                console.log("//-----  result  ------//");
-                console.log(JSON.parse(result));
-
                 if (result != null) {
-                    console.log('Got:' + record_id)
                     let pdata = JSON.parse(result)
-                    //console.log(pdata.data);
                     this.values.designers = null;
                     resolve(pdata.data);
                     return false;
                     //this.loading.dismiss().catch(() => {});
                 }
-                console.log('Online:' + this.values.online)
                 if (!this.values.online) {
                     this.offlineManager();
                     //this.loading.dismiss().catch((err) => {console.log('Problem with spinner:'+err)});
@@ -565,21 +516,14 @@ export class Data {
                 };
 
                 if ((checkpoint == true || force == true || result == null) && (this.values.online)) {
-                    this.consolelog('Forced update?' + force);
                     let apiSource = this.values.APIRoot + "/app/api.php?json={%22action%22:%22designers%22,%22request%22:{%22device_token%22:%22" +
                         device_token + "%22,%22user_token%22:%22" + user_token + "%22,%22checkpoint%22:%22" + (baseDate.getTime() / 1000) + "%22}}";
-                    this.consolelog(apiSource);
                     this.http.get(apiSource).subscribe((data) => {
-                        this.consolelog('Got All Designers from API');
                         let gotdata = data['result'];
-                        this.consoleLog("data", data);
-                        this.consoleLog("data.result", data['result']);
                         resolve( data['result']);
                         this.values.designer_checkpoint = new Date();
-                        this.consolelog('Store in pouchDB');
                         this.storeDesigners = { '_id': record_id, data: gotdata };
 
-                        this.consolelog('Store Designers with wrapper.');
                         this.storage.set(record_id, JSON.stringify(this.storeDesigners)).then((new_ID) => {
                         }).catch(function (err) {
                             console.log(err);
@@ -594,9 +538,6 @@ export class Data {
 
     getThisCollections(designer_id, device_token, user_token) {
         return new Promise((resolve, reject) => {
-            console.log(this.values.designers);
-            console.log(this.values.designer);
-            console.log(designer_id);
             
             this.getCollections(designer_id, device_token, user_token, 0).then(response => {
                 this.values.collections = response;
@@ -604,7 +545,6 @@ export class Data {
                 this.storage.get('download_log').then((response) => {
                     if (response != null) {
                         let ulog = response.data;
-                        this.consoleLog('ulog', ulog);
                         for (let i = 0, len = ulog.length; i < len; i++) {
                             for (let j = 0, len = this.values.collections.length; j < len; j++) {
                                 if (ulog[i].collection_id == this.values.collections[j].collection_id) {
@@ -616,11 +556,9 @@ export class Data {
                         }
                     }
                 });
-                this.consoleLog('this.values.collections', this.values.collections);
                 if (this.values.hasOwnProperty('collections')) {
                     //current collection ID
                     this.currentCollectionID = this.setThisCollection();
-                    this.consolelog('Set Current Collection... ');
 
                     this.selectedCollection = this.filterCollections(this.currentCollectionID)[0];
                 }
@@ -638,7 +576,6 @@ export class Data {
         let ONE_HOUR = 60 * 60 * 1000;
         let baseDate = new Date('01/01/1980');
         let nowDate = Date.now();
-        this.consoleLog("collection_checkpoint", this.values.collection_checkpoint);
         if (!this.values.collection_checkpoint[designer_id]) {
             this.values.collection_checkpoint[designer_id] = new Date('01/01/1980');
         }
@@ -680,7 +617,6 @@ export class Data {
                             let apiSource = this.values.APIRoot + "/app/api.php?json={%22action%22:%22collections_short%22,%22request%22:{%22device_token%22:%22" + device_token + "%22,%22user_token%22:%22" + user_token + "%22,%22checkpoint%22:%22" + (baseDate.getTime() / 1000) + "%22,%22seller_account_id%22:" + designer_id + "}}";
                             this.http.get(apiSource).subscribe(data => {
                                 resolve(data['result']);
-                                this.consolelog('Got Collection from API:' + apiSource);
                                 this.values.collection_checkpoint[designer_id] = new Date();
                                 this.storeCollections(record_id, data['result']);
 
@@ -714,18 +650,13 @@ export class Data {
     //  stores collection list for a designer, record_id = 'collections_' + designer_id
 
     storeCollections(record_id, data) {
-        this.consolelog('4. Store in db');
         let storeCollection = { '_id': record_id, data: data };
-        this.consolelog('5. Store Collections with wrapper.');
-        this.consolelog('5d. Delete done, Posting:' + storeCollection._id);
         this.storage.set(record_id, JSON.stringify(storeCollection));
     }
 
     deleteItem(id) {
-        //this.consolelog('5a. Delete an ID:' + id);
         return new Promise((resolve, reject) => {
             this.storage.remove(id).then((data) => {
-                //this.consolelog('5c. Item deleted:'+id);
                 let idn = '';
                 resolve(idn);
             }).catch(function (err) {
@@ -750,7 +681,6 @@ export class Data {
             this.storage.get(record_id_get).then((result) => {
                 if (result != null) {
                     let pdata = JSON.parse(result)
-                    this.consoleLog("Products from local storage", pdata);
                     if (mode == 0) {
                         this.values.products = pdata.data;
                         resolve('');
@@ -758,13 +688,11 @@ export class Data {
                     else {
                         resolve(pdata.data);
                     }
-                    this.consolelog('9. Done getting data');
                     if (force > 0) {
                         this.productsCache(pdata.data, force);
                     }
                 }
                 else {
-                    console.log('Not found in dB: Products for collection ' + record_id_get);
                     if (!this.values.online) {
                         this.offlineManager();
                         reject(null);
@@ -772,8 +700,6 @@ export class Data {
                     if (this.values.online) {
                         let apiSource = this.values.APIRoot + "/app/api.php?json={%22action%22:%22collection_products%22,%22request%22:{%22device_token%22:%22" + device_token + "%22,%22user_token%22:%22" + user_token + "%22,%22collection_id%22:" + collection_id + "}}";
                         this.http.get(apiSource).subscribe(productData => {
-                            this.consolelog('10. Got Products from API:' + apiSource);
-                            this.consoleLog("Products from server", productData['result']);
                             if (mode == 0) {
                                 this.values.products = productData['result'];
                                 resolve('');
@@ -811,7 +737,6 @@ export class Data {
             this.cacheMaybe(this.values.APIRoot + '/app/get_image.php?image=/'
                 + this.values.designer.logo_image + '&w=320&h=150&zc=1&xtype=designer', force);
         }
-        console.log('Product Cache');
         //  mode
         //  1 = just try and cache
         //  2 = delete then cache
@@ -820,14 +745,12 @@ export class Data {
         let product: any;
         for (let pindex = 0; pindex < products.length; pindex++) {
             //for (let pindex = 0; pindex < 3; pindex++) {
-            console.log("pindex: " + pindex);
             product = products[pindex];
             this.values.debug = 'Processing products';
             if (product.variants[0]) {
                 //  cache the main product image and slider images
                 if (product.variants[0].variant_images[0]) {
                     //if(product.variants[0].variant_images[0].variant_image){
-                    //this.consolelog('Cached feature image:'+this.values.APIRoot + '/app/get_image.php?image=/'+product.variants[0]
                     //.variant_images[0].variant_image+'&w=342&h=509')
                     //this.cacheMaybe(this.values.APIRoot + '/app/get_image.php?image=/'+product.variants[0].variant_images[0]
                     //.variant_image+'&w=342&h=509&xtype=prodimage');
@@ -874,8 +797,6 @@ export class Data {
                                         for (let i = 1, len = imageslide.frame_count; i < len; i++) {
                                             let thisFrame = "" + i;
                                             let frame = pad.substring(0, pad.length - thisFrame.length) + thisFrame;
-                                            this.consolelog('Cached 360 image:' + this.values.APIRoot + '/app/get_image.php?image=/' +
-                                                imageslide.variant_360 + 'img' + frame + '.jpg&w=480&h=670&zc=3&xtype=360');
                                             this.cacheMaybe(this.values.APIRoot + '/app/get_image.php?image=/' + imageslide.variant_360 + 'img'
                                                 + frame + '.jpg&w=480&h=670&zc=3&xtype=360', force);
                                         }
@@ -921,7 +842,6 @@ export class Data {
     }
 
     productCache(product, force) {
-        console.log("Downloading is runnig at the product number  :  " + this.values.pIndex);
         if (product.variants[0]) {
             if (product.variants[0].variant_images[0]) {
                 if (product.variants.length > 0) {
@@ -1048,7 +968,6 @@ export class Data {
         //  2 = delete then cache
         //  3 = just delete
         if (force > 1) {
-            console.log('Delete from cache:' + url);
             this.deleteItem(url).then(() => {
                 if (force == 3) {
                     this.values.downloadQueue = this.values.downloadQueue - 1;
@@ -1138,7 +1057,6 @@ export class Data {
                             }
                         }
                         this.values.pIndex = 0;
-                        this.consoleLog("this.values.longTimeRequestUrls", this.values.longTimeRequestUrls);
                         this.values.longTimeRequestUrls = [];
                         this.values.productCashImageUrls = [];
                         this.values.cancel = false;
@@ -1213,10 +1131,8 @@ export class Data {
                                 }
                             }
                             else {
-                                console.log("Downloading is canceled at the product number  :  " + this.values.pIndex);
                             }
                             this.values.pIndex = 0;
-                            this.consoleLog("this.values.longTimeRequestUrls", this.values.longTimeRequestUrls);
                             this.values.longTimeRequestUrls = [];
                             this.values.productCashImageUrls = [];
                             this.values.cancel = false;
@@ -1254,7 +1170,6 @@ export class Data {
                         }
                     }
                 }).catch((err) => {
-                    this.consoleLog("image request error : " + url, err);
                     this.values.downloadQueue = this.values.downloadQueue - 1;
                     if (this.values.downloadQueue < 0) this.values.downloadQueue = 0;
 
@@ -1288,11 +1203,7 @@ export class Data {
                                     }
                                 }
                             }
-                            else {
-                                console.log("Downloading is canceled at the product number  :  " + this.values.pIndex);
-                            }
                             this.values.pIndex = 0;
-                            this.consoleLog("this.values.longTimeRequestUrls", this.values.longTimeRequestUrls);
                             this.values.longTimeRequestUrls = [];
                             this.values.productCashImageUrls = [];
                             this.values.cancel = false;
@@ -1382,14 +1293,11 @@ export class Data {
             contentType = 'image/jpeg'
             }
             */
-                console.log('Image url:', url);
             this.http.get(url, {
                 headers: headers,
                 responseType: 'blob'
             }).subscribe((response: any) => {
-                console.log('response', response);
                 let blob = new Blob([response]);
-                console.log('blob', blob);
                 //  image id
                 let imageID = this.values.cacheImageID;
                 this.values.cacheImageID = this.values.cacheImageID + 1;
@@ -1413,13 +1321,11 @@ export class Data {
                 //     })
                 // }
                 // else {
-                console.log('Image Cache Get Blob:'+url)
                 this.getImage64(blob, filename, url, imageType).then((nr1) => {
                     let nr = '';
                     resolve(nr);
                 })
             }, error => {
-                console.log("404 error");
                 console.log(error);
                 reject(error);
             });
@@ -1472,7 +1378,6 @@ export class Data {
     // }
 
     getImage64(blob, filename, url, imageType) {
-        //console.log('Get As Image 64:'+url)
         return new Promise((resolve, reject) => {
             let image64;
             var myReader: FileReader = new FileReader();
@@ -1493,22 +1398,18 @@ export class Data {
 
     //fetch the blob from the dB; returns blob
     getImage(img_src) {
-        //this.consolelog('Get image from Cache:'+img_src);
         return new Promise((resolve, reject) => {
             this.storage.get(img_src).then((data) => {
                 //let image = JSON.parse(data);  
                 resolve(data);
             }).catch(function (err) {
-                //console.log(err);
                 let idn = '../assets/images/tinyplaceholder.png';
                 resolve(idn);
             });
             /*
             this.imageDB.getAttachment(img_src, 'file').then((image) => {
-                //this.consolelog('Get from pouch:'+img_src)
                 resolve(image);
             }).catch(function(err){
-                //this.consolelog('Not found in cache'); //+img_src+' --> '+err);
                 reject('Not found in cache');//+img_src+' --> '+err);
             })
             */
@@ -1521,7 +1422,6 @@ export class Data {
             this.storage.get('collection_index').then((response) => {
                 if (response != null) {
                     this.values.downloadedCollections = response.data;
-                    console.log("downloaded collections", this.values.downloadedCollections);
                 }
                 let nv = '';
                 resolve(nv);
@@ -1540,7 +1440,6 @@ export class Data {
 
     cacheCollection(collection_id, designer_id, designer_title, collection_title, mode) {
         return new Promise((resolve, reject) => {
-            console.log('Cache processing mode:' + mode + ' Collection ID:' + collection_id);
             //  set the specific collection with an offline property status
             this.values.downloadTarget = 0;
             this.values.downloadQueue = 0;
@@ -1555,12 +1454,10 @@ export class Data {
             for (let cindex = 0, len = this.values.collections.length; cindex < len && !abort; cindex++) {
                 if (this.values.collections[cindex].collection_id == collection_id) {
                     abort = true;
-                    console.log('Set collection status');
                     this.values.collections[cindex].offline = 'Downloading';
 
                     //this.values.collections[cindex].designer = designer_title;
                     //this.values.collections[cindex].size = this.values.collections[cindex].app_total_bytes
-                    //this.data.consolelog('3. Status set to "downloading" - updating collections obj for this designer')
 
                     let record_id = 'collections_' + designer_id;
 
@@ -1578,7 +1475,6 @@ export class Data {
                     if (mode == 4) { action = 'Updated'; }
                     if (mode == 5) { action = 'Updated (all images)'; }
                     this.storeCollections(record_id, this.values.collections);
-                    this.consolelog('7. Save Collection');
                     this.getProduct(collection_id, this.values.user_profile.device_token, this.values.user_profile.user_token, mode, 0).then((data) => {
 
                         this.c_collection_title = collection_title;
@@ -1608,7 +1504,6 @@ export class Data {
     // Collection Caching Index
 
     addCindex(action, collection_title, collection_id, designer_title, designer_id, sizebytes) {
-        console.log('Add to cache index');
         let sizeMb = Math.round(parseInt(sizebytes) / 1024 / 1000);
         let entry_date = new Date().toISOString();
         let index_entry = {
@@ -1620,7 +1515,6 @@ export class Data {
             let cIndex = [];
             if (response != null) {
                 let GcIndex = response.data;
-                //console.log('Cache Index:'+JSON.stringify(cIndex));
                 cIndex = this.removeCIndexItem(GcIndex, collection_id);
             }
             cIndex.push(index_entry);
@@ -1630,7 +1524,6 @@ export class Data {
     }
 
     delCindex(collection_title, collection_id, designer_title, designer_id) {
-        console.log('Delete from cache pindex:' + collection_id);
         this.addDownlog('Remove', collection_title, collection_id, designer_title, designer_id);
         this.storage.get('collection_index').then((response) => {
             let cIndex = response.data;
@@ -1644,12 +1537,10 @@ export class Data {
             this.getCollections(designer_id, this.values.user_profile.device_token, this.values.user_profile.user_token, 0).then(response => {
                 this.values.collections = response;
                 let abort = false;
-                console.log('Looking to delete:' + collection_id)
                 for (let i = 0, len = this.values.collections.length; i < len && !abort; i++) {
                     if (this.values.collections[i].collection_id == collection_id) {
                         abort = true;
                         delete this.values.collections[i].offline
-                        console.log('Offline property removed')
                     }
                 }
                 let record_id = 'collections_' + designer_id;
@@ -1659,15 +1550,10 @@ export class Data {
     }
 
     removeCIndexItem(cIndex, collection_id) {
-        //console.log('Remove '+collection_id+' from:'+JSON.stringify(cIndex));
         let abort = false;
         for (let i = 0, len = cIndex.length; i < len && !abort; i++) {
-            console.log('Item:' + i);
-            //console.log('Cache Index:'+JSON.stringify(cIndex[i]));
             if (cIndex[i].collection_id == collection_id) {
                 abort = true;
-                console.log('Removed')
-                //console.log('Cache Index:'+JSON.stringify(cIndex));
                 //remove it
                 cIndex.splice(i, 1);
                 return cIndex;
@@ -1679,25 +1565,20 @@ export class Data {
     //  Log File
 
     addDownlog(action, collection_title, collection_id, designer_title, designer_id) {
-        console.log('Add to log');
         let log_date = new Date().toISOString();
         let log_entry = { 'action': action, 'collection_id': collection_id, 'designer': designer_title, 'designer_id': designer_id, 'collection': collection_title, 'date': log_date }
         this.storage.get('download_log').then((response) => {
             let ulog = [];
             if (response != null) {
-                console.log('Updating existing log')
                 ulog = response.data;
             }
             ulog.push(log_entry);
             let newdlog = { 'data': ulog }
             this.storage.set('download_log', newdlog);
-            console.log('Log saved')
             this.dlog = ulog
-            console.log('this.selectedCollection', this.selectedCollection);
             if (this.selectedCollection != undefined && this.selectedCollection.collection_id == collection_id) {
                 this.selectedCollection.offline = action;
             }
-            //console.log(JSON.stringify(this.dlog))
         });
     }
 
@@ -1742,10 +1623,8 @@ export class Data {
     getRetailers(device_token, user_token) {
         return new Promise((resolve, reject) => {
             if (this.values.online) {
-                this.consolelog('Get All Retailers');
                 let gPapiSource = this.values.APIRoot + "/app/api.php?json={%22action%22:%22retail_buyers%22,%22request%22:{%22device_token%22:%22" + device_token + "%22,%22user_token%22:%22" + user_token + "%22}}";
                 this.http.get(gPapiSource).subscribe(data => {
-                    this.consolelog('Got retailers');
                     resolve(data['result']);
                     this.storage.set("retailers", data['result']);
                 }, err => {
@@ -1772,12 +1651,8 @@ export class Data {
                 this.offlineManager();
                 reject(null);
             };
-            this.consolelog('Get Shipping Addresses');
             let gPapiSource = this.values.APIRoot + "/app/api.php?json={%22action%22:%22shipping%22,%22request%22:{%22device_token%22:%22" + device_token + "%22,%22user_token%22:%22" + user_token + "%22,%22buyer_id%22:%22" + buyer_id + "%22}}";
-            this.consoleLog("shipping_api", gPapiSource);
             this.http.get(gPapiSource).subscribe(data => {
-                this.consolelog('Got Shipping Addresses');
-                this.consoleLog("shipping_api response", data['result']);
                 resolve(data['result']);
             })
         });
@@ -1785,8 +1660,6 @@ export class Data {
 
     getDesignerCurrency(region_id, designer_id) {
 
-        this.consolelog('Getting currency profile for Region ID:' + region_id + ' Designer ID:' + designer_id)
-        //this.consolelog(JSON.stringify(this.values.designers));
         //if design_id then look up the designer
         if ((designer_id > 0) && (this.values.designers)) {
             let abort = false;
@@ -1794,16 +1667,13 @@ export class Data {
                 if (this.values.designers[i].seller_account_id == designer_id) {
                     this.designer = this.values.designers[i];
                     abort = true;
-                    this.consolelog('Design profile set for currency:' + designer_id)
                 }
             }
         }
         else {
             this.designer = this.values.designer;
         }
-        //this.consolelog('Designer profile:'+JSON.stringify(this.data.designer));
         //find region in designer
-        console.log('Set currency')
 
         let selected_regionId = null;
         if (this.values.designer_pricelist.region_index == null) {
@@ -1812,20 +1682,13 @@ export class Data {
         else {
             selected_regionId = this.values.designer_pricelist.region_id;
         }
-        console.log("called getDesignerCurrency() function!");
-        console.log(this.values.designer_pricelist);
 
         let abort = false;
         for (let i = 0, len = this.values.designer.region_currency.length; i < len && !abort; i++) {
             if (this.values.designer.region_currency[i].region_id == selected_regionId) {
                 abort = true;
-                this.consolelog('Currency code:' + this.values.designer.region_currency[i].currency_code);
-                this.consolelog('Currency symbol:' + this.values.designer.region_currency[i].currency_symbol);
                 this.designer.buyer_code = this.values.designer.region_currency[i].currency_code;
                 this.designer.buyer_symbol = this.values.designer.region_currency[i].currency_symbol;
-            }
-            else {
-                console.log('Skip')
             }
         }
         //set currency string  
@@ -1838,14 +1701,10 @@ export class Data {
             if (response != null) {
                 country_count = response.length;
                 this.values.countries = response;
-                console.log("Countries are already stored in the local storage.");
             }
             let apiSource = this.values.APIRoot + "/app/api.php?json={%22action%22:%22countries%22,%22request%22:{%22device_token%22:%22" +
             this.values.user_profile.device_token + "%22,%22user_token%22:%22" + this.values.user_profile.user_token + "%22,%22country_count%22:%22" + country_count + "%22}}";
-            this.consolelog(apiSource);
             this.http.get(apiSource).subscribe(data => {
-                this.consolelog('Got All Countries from API');
-                this.consoleLog("Countries", data);
                 if (data['result'].length > 0) {
                     this.storage.set('countries', data['result']);
                     this.values.countries = data['result'];
@@ -1877,10 +1736,7 @@ export class Data {
                     }
                 };
             }
-        });
-        
-        this.consoleLog('activity_logs', this.values.activity_logs);
-        
+        });        
     }
 
     emptyActivityLogs() {
@@ -1908,12 +1764,10 @@ export class Data {
             "activity_unixdate": Date.now()
         };
 
-        this.consoleLog('activity_log', activity_log);
 
         this.values.activity_logs.request.log.push(activity_log);
 
         this.storage.set('activity_logs', this.values.activity_logs.request.log);
-        this.consoleLog('activity_logs', this.values.activity_logs);
 
         if (this.values.online) {
             let apiURL = this.values.APIRoot + "/app/api.php";  
@@ -1929,7 +1783,6 @@ export class Data {
             // this.http.post(apiURL, body, options)
             //     .pipe(map(res => res.json()))
             //     .subscribe(response => {
-            //         this.consoleLog('Response:', response);
             //         if(response.status == 'ok') {
             //             this.emptyActivityLogs();
             //         }
@@ -1941,10 +1794,8 @@ export class Data {
     getDRAssociationWithDParam(designer_id, device_token, user_token) {
         return new Promise((resolve, reject) => {
             if (this.values.online) {
-                this.consolelog('Get Designer_Retailer association according to designer_id: ' + designer_id);
                 let gPapiSource = this.values.APIRoot + "/app/api.php?json={%22action%22:%22get_designer_retailer_association%22,%22request%22:{%22device_token%22:%22" + device_token + "%22,%22user_token%22:%22" + user_token + "%22,%22seller_account_id%22:" + designer_id + "}}";
                 this.http.get(gPapiSource).subscribe(data => {
-                    this.consolelog('Got association with D param');
                     resolve(data['result']);
                     this.storage.set("association_by_designer_" + designer_id, data['result']);
                 }, err => {
@@ -1968,10 +1819,8 @@ export class Data {
     getDRAssociationWithRParam(retailer_id, device_token, user_token) {
         return new Promise((resolve, reject) => {
             if (this.values.online) {
-                this.consolelog('Get Designer_Retailer association according to retailer_id: ' + retailer_id);
                 let gPapiSource = this.values.APIRoot + "/app/api.php?json={%22action%22:%22get_designer_retailer_association%22,%22request%22:{%22device_token%22:%22" + device_token + "%22,%22user_token%22:%22" + user_token + "%22,%22retailer_id%22:" + retailer_id + "}}";
                 this.http.get(gPapiSource).subscribe(data => {
-                    this.consolelog('Got association with R param');
                     resolve(data['result']);
                     this.storage.set("association_by_retailer_" + retailer_id, data['result']);
                 }, err => {
@@ -1999,7 +1848,6 @@ export class Data {
         duration: 5000,
         }).then(a => {
         a.present().then(() => {
-            console.log('presented');
             if (!this.loadingState) {
             a.dismiss().then(() => console.log('abort presenting'));
             }
@@ -2035,14 +1883,11 @@ export class Data {
 
     //   dismissLoadingSpiner() {
     //       return new Promise((resolve, reject) => {
-    //           console.log("this.loadingState :", this.loadingState, this.loading);
     //           if (this.loadingState == false) {
     //               this.isloadingState = true;
     //               return;
     //           }
-    //           console.log("Spinner_dismiss() function are called");
     //           this.loading.dismiss().then(() => {
-    //               console.log("Spinner are dismissed perfectly.");
     //               this.loadingState = false;
     //               this.isloadingState = false;
     //               this.values.onescreen_image_index = 0;
@@ -2058,10 +1903,8 @@ export class Data {
 
     //   presentLoadingSpinerSec() {
     //       return new Promise((resolve, reject) => {
-    //           console.log(this.loadingState);
     //           if (this.loadingState == true) return;
     //           this.loading.present().then(() => {
-    //               console.log("presented");
     //               this.loadingState = true;
     //               this.values.spinnerCheckPoint = Date.now();
     //               if (this.values.isHeavyLoad == true) {
@@ -2090,7 +1933,6 @@ export class Data {
     //                   setTimeout(async () => {
     //                       let currentCheckPoint = Date.now();
     //                       if (this.loadingState == true && currentCheckPoint - this.values.spinnerCheckPoint >= 20000) {
-    //                             console.log("dismissLoadingSpiner presented");
     //                             this.dismissLoadingSpiner();
     //                             let alert = await this.alertCtrl.create({
     //                                 header: 'WARNING: Internet connect problem.',
@@ -2148,7 +1990,6 @@ export class Data {
     /*
     getBuyers(retailer_id,device_token,user_token){
 
-    this.consolelog('Get Retailers');
     let gPapiSource = this.APIRoot + "/app/api.php?json={%22action%22:%22retail_buyers%22,%22request%22:{%22device_token%22:%22"+device_token+"%22,%22user_token%22:%22"+user_token+"%22,%22retailer_id%22:"+retailer_id+"}}";
     return this.http.get(gPapiSource).map(res => res.json());
                 

@@ -21,7 +21,6 @@ export class DesignersPage implements OnInit {
     ) { }
 
     ngOnInit() {
-        console.log('Init');
         this.values.designers = null;
         this.getTheseDesigners();
     }
@@ -30,7 +29,6 @@ export class DesignersPage implements OnInit {
     }
 
     designerCollections(designer) {
-        console.log('designerCollections', designer);
         this.data.presentLoadingSpinerSec().then(() => {
             this.values.onescreen_total_imgages_num = 3;
             this.values.onescreen_image_index = 0;
@@ -41,7 +39,6 @@ export class DesignersPage implements OnInit {
             this.values.designer_pricelist.region_id = null;
             this.values.designer_pricelist.region_index = null;
             let abort = false;
-            console.log("check point 1!");
             for (var i = 0; i < this.values.associationByRetailer.length && abort == false; i++) {
                 if (this.values.designer.seller_account_id == this.values.associationByRetailer[i].seller_account_id) {
                     this.values.designer_pricelist.region_id = this.values.associationByRetailer[i].region_id;
@@ -49,13 +46,10 @@ export class DesignersPage implements OnInit {
                         if (this.values.designer.region_currency[j].region_id == this.values.designer_pricelist.region_id) {
                             this.values.designer_pricelist.region_index = j;
                             abort = true;
-                            console.log("price_list have just set!");
-                            console.log(this.values.designer_pricelist);
                         }
                     }
                 }
             }
-            console.log("check point 2!");
 
             this.data.getDesignerCurrency(this.values.user_profile.user_region_id, 0);
             this.data.getThisCollections(this.values.designer.seller_account_id, this.values.device_token, this.values.user_profile.user_token).then((data) => {
@@ -74,7 +68,6 @@ export class DesignersPage implements OnInit {
                         return false;
                     }
                 };
-                console.log('Online:' + this.values.online);
 
                 this.values.products = null;
                 this.data.getProduct(this.data.currentCollectionID, this.values.device_token, this.values.user_profile.user_token, 0, 0).then(data => {
@@ -84,7 +77,6 @@ export class DesignersPage implements OnInit {
                     else {
                         this.values.onescreen_total_imgages_num = 18;
                     }
-                    this.data.consoleLog('this.values.products' , this.values.products);
                     this.values.isDesignersPage = false;
                     this.router.navigate(['/collection', { designer: designer, mode: '' }]);
                 }).catch(function (err) {
@@ -102,8 +94,6 @@ export class DesignersPage implements OnInit {
             force = true;
             this.data.getDesigners(this.values.device_token, this.values.user_profile.user_token, force).then((response) => {
                 this.values.designers = response;
-                console.log("this.valuse.designers---------//");
-                console.log(this.values.designers);
                 this.values.onescreen_total_imgages_num = this.values.designers.length;
                 for (let index = 0; index < this.values.designers.length; index++) {
                     let designer_id = this.values.designers[index].seller_account_id;

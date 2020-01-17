@@ -35,10 +35,8 @@ export class ViewloaderComponent implements OnInit {
         if(this.mode==5){this.mode=2};  
 
         this.events.subscribe("set-collection-state", (collection_id) => {
-            console.log("subscribe : ", collection_id);
             if (this.values.cancel == false) {
                 let status = 'Downloaded';
-                console.log("Downloaded", collection_id);
                 this.setCollectionStatus(status, collection_id).then(() => {
                     // if(this.source=='collection'){
                     //   //reload collection

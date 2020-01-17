@@ -34,16 +34,13 @@ export class ImageCacheComponent implements OnInit {
           if (image != null) {
               //  file or dB cache 
               if (this.platform.is('cordova')) {
-                  console.log('Write Cordova File');
                   let url = URL.createObjectURL(image);
                   let fixedUrl: SafeUrl = this.ds.bypassSecurityTrustUrl(url)
                   this.img_src = <string>fixedUrl;
                   this.hidden = false 
                   this.cd.markForCheck();
               } else {
-                  console.log('Write Image');
                   let fixedUrl: SafeUrl = this.ds.bypassSecurityTrustUrl(<string>image);
-                  console.log('fixedUrl', fixedUrl);
                   this.img_src = <string>fixedUrl;
                   this.hidden = false;
                   this.cd.markForCheck();             
@@ -72,13 +69,11 @@ export class ImageCacheComponent implements OnInit {
                           }
                       }
                   }).catch((err) => {
-                      this.data.consoleLog("image request error : " + imageURL, err);
                       let blankImageURL = this.values.APIRoot + "/app/get_image.php?image=/app/images/placeholder.png&" + sizeStrArry[0] + "&" + sizeStrArry[1];
                       this.storage.get(blankImageURL).then((image) => {
                           if(image!=null)
                           {
                               if(this.platform.is('cordova')) {
-                                  console.log('Write Cordova File');
                                   let url = URL.createObjectURL(image);
                                   let fixedUrl: SafeUrl = this.ds.bypassSecurityTrustUrl(url)
                                   this.img_src = <string>fixedUrl;
@@ -86,7 +81,6 @@ export class ImageCacheComponent implements OnInit {
                                   this.cd.markForCheck();
                               }
                               else {
-                                  console.log('Write Image');
                                   let fixedUrl: SafeUrl = this.ds.bypassSecurityTrustUrl(<string>image)
                                   this.img_src = <string>fixedUrl;
                                   this.hidden = false;

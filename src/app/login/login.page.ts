@@ -50,7 +50,6 @@ export class LoginPage implements OnInit {
                         {
                             text: 'Accept',
                             handler: () => {
-                                console.log('Warning about TEST mode');
                             }
                         }
                     ]
@@ -69,9 +68,6 @@ export class LoginPage implements OnInit {
     }
 
     ionViewDidLoad() {
-
-        console.log('ionViewDidLoad LoginPage');
-
     }
 
     submitLogin(): void {
@@ -89,20 +85,16 @@ export class LoginPage implements OnInit {
                 this.values.onescreen_image_index = 0;
 
                 this.loggingin = true;
-                console.log('Form Post: Login');
 
                 let logindata = this.loginForm.value;
-                console.log('Credentials:' + JSON.stringify(logindata));
                 this.data.login(logindata, this.values.device_token).then(async (response) => {
 
                     //set user profile
                     this.values.user_profile = response['body'];
-                    console.log('response', response);
                     this.values.user_profile.masquerade_id = 0;  //whenmasquarading, user id of masquerader
                     this.values.user_profile.forcecache = 0;  //don't force update images when recaching
 
                     if (this.values.user_profile.status === 'ok') {
-                        this.data.consoleLog('this.values.user_profile', this.values.user_profile);
                         this.logUserIn();
                     } else {
                         this.data.dismissLoadingSpiner();
@@ -136,22 +128,18 @@ export class LoginPage implements OnInit {
         if (this.values.user_profile.seller_account_id) {
             this.values.isDesignerLogin = true;
             this.data.getDRAssociationWithDParam(this.values.user_profile.seller_account_id, this.values.user_profile.device_token, this.values.user_profile.user_token).then(data => {
-                console.log("this.data.getDRAssociationWithDParam");
-                console.log(data);
                 this.values.associationByDesigner = data;
             }).catch(err => {
                 console.log(err);
             });
             // get shipping addresses from server
             this.data.getShippings(this.values.user_profile.device_token, this.values.user_profile.user_token, "ALL").then((response) => {
-                this.data.consoleLog("shipping_response", response);
                 this.values.shipping_addresses = response;
             });
 
             // get retailers from server
             this.data.getRetailers(this.values.device_token, this.values.user_profile.user_token).then(response => {
                 this.values.retailers = response;
-                this.data.consoleLog("this Retailers", response);
             }).catch(err => {
                 console.log(err);
             });
@@ -190,8 +178,6 @@ export class LoginPage implements OnInit {
                         else {
                             this.values.onescreen_total_imgages_num = 18;
                         }
-                        this.data.consolelog('Set products from download after init');
-                        this.data.consolelog('Got product JSON:' + this.data.currentCollectionID);
                         this.router.navigate(['/collection', { designer: this.values.designer, mode: '' }]);
                     }).catch(function (err) {
                         console.log(err);
@@ -202,13 +188,10 @@ export class LoginPage implements OnInit {
         else {
             this.values.isDesignerLogin = false;
             this.data.getDRAssociationWithRParam(this.values.user_profile.retailer_id, this.values.user_profile.device_token, this.values.user_profile.user_token).then(data => {
-                console.log("this.data.getDRAssociationWithRParam");
-                console.log(data);
                 this.values.associationByRetailer = data;
             }).catch(err => {
                 console.log(err);
             });;
-            console.log('this.values.user_profile', this.values.user_profile);
             this.data.getShippings(this.values.user_profile.device_token, this.values.user_profile.user_token, this.values.user_profile.buyer_id).then((response) => {
                 this.values.shipping_address = response[0];
             });

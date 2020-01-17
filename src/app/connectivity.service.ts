@@ -12,9 +12,6 @@ export class Connectivity {
 
     constructor(public platform: Platform, private network: Network) {
         this.onDevice = this.platform.is('cordova');
-        console.log("device state");
-        console.log(this.onDevice);
-        console.log(this.network.type);
     }
 
     isOnline(): boolean {

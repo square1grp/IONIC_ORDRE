@@ -20,7 +20,6 @@ export class HeaderComponent {
     constructor(private zone: NgZone, public menu: MenuController, public navCtrl: NavController, public values: Values, public cartProvider: CartProvider, private alertCtrl: AlertController, public data: Data, private router: Router) { }
 
     ionViewDidLoad() {
-        console.log('ionViewDidLoad ordreHeader');
     }
 
     openPage(page): void {
@@ -35,8 +34,6 @@ export class HeaderComponent {
         this.data.presentLoadingSpinerSec().then(() => {
             this.values.onescreen_total_imgages_num = 3;
             this.values.onescreen_image_index = 0;
-            console.log("onescreen_total_imgages_num : " + this.values.onescreen_total_imgages_num);
-            console.log("onescreen_image_index : " + this.values.onescreen_image_index);
             this.router.navigate(['/' + page]);
         });
     }

@@ -67,7 +67,6 @@ export class CollectionPage implements OnInit {
                         for (var k = 0; k < this.values.designer.region_currency.length; k++) {
                             if (this.values.designer.region_currency[k].region_id == this.values.designer_pricelist.region_id) {
                                 this.values.designer_pricelist.region_index = k;
-                                console.log(this.values.designer_pricelist);
                             }
                         }
                     }
@@ -94,7 +93,6 @@ export class CollectionPage implements OnInit {
                         return false;
                     }
                 };
-                console.log('Online:' + this.values.online);
 
                 this.values.products = null;
                 this.data.getProduct(this.data.currentCollectionID, this.values.device_token, this.values.user_profile.user_token, 0, 0).then(data => {
@@ -104,8 +102,6 @@ export class CollectionPage implements OnInit {
                     else {
                         this.values.onescreen_total_imgages_num = 18;
                     }
-                    this.data.consoleLog('this.values.products' , this.values.products);
-                    
 
                     this.mode = this.activatedRoute.snapshot.paramMap.get('mode');
                     if (this.mode != 'fromlinesheet') {
@@ -117,10 +113,8 @@ export class CollectionPage implements OnInit {
                         this.values.lsproducts = this.values.products;
                     }
                     // this.search();
-                    this.data.consoleLog("this.values.products", this.values.products);
                     this.values.longTimeRequestUrls = [];
                     this.values.productCashImageUrls = [];
-                    this.data.consoleLog("this.data.selectedCollection", this.data.selectedCollection);
 
                 }).catch(function (err) {
                     console.log(err);
@@ -144,10 +138,8 @@ export class CollectionPage implements OnInit {
                 this.values.lsproducts = this.values.products;
             }
             this.search();
-            this.data.consoleLog("this.values.products", this.values.products);
             this.values.longTimeRequestUrls = [];
             this.values.productCashImageUrls = [];
-            this.data.consoleLog("this.data.selectedCollection", this.data.selectedCollection);
         }
     }
 
@@ -163,14 +155,10 @@ export class CollectionPage implements OnInit {
 
     ionViewDidLoad() {
         this.data.activityLogPost(Constants.LOG_VIEWED_COLLECTION, this.values.designer.seller_account_id, this.data.designer.currentCollectionID, '', '');
-        this.data.consoleLog("user_profile", this.values.user_profile);
-        this.data.consoleLog("designer", this.values.designer);
-        this.data.consoleLog("first_product", this.items[0]);
-        
     }
+
     search() {
         this.searchControl.valueChanges.debounceTime(1000).distinctUntilChanged().subscribe(searchString => {
-            console.log('Search for:' + searchString);
             let mode = 0;
             this.searchValue = searchString;
             if (searchString.length == 0) { mode = 1; }
@@ -238,7 +226,6 @@ export class CollectionPage implements OnInit {
                     {
                         text: 'Select buyer',
                         handler: () => {
-                            console.log('Select buyer clicked');
                             this.router.navigate(['/settings']);
                         }
                     }
@@ -253,7 +240,6 @@ export class CollectionPage implements OnInit {
             if (this.values.products[pindex].product_id == product_id) {
                 abort = true;
                 //add all the variants to cart
-                this.data.consoleLog("this.values.products[pindex]", this.values.products[pindex]);
 
                 if (this.values.products[pindex].variants.length == 1) {
                     this.addVariantToCart(product_title, material, designer_title, price, price_rrp, designer_id, type, product_id, this.values.products[pindex].variants[0].variant_id);
@@ -282,7 +268,6 @@ export class CollectionPage implements OnInit {
 
     async addVariantToCart(product_title, material, designer_title, price, price_rrp, designer_id, type, product_id, variant_id) {
         let is_variant_icon = this.isVariantInOrder(product_id, variant_id, designer_id);
-        console.log("is_variant_icon", is_variant_icon);
         if (is_variant_icon == "assets/images/selected-icon.png") {
             let abort = false;
             for (let i = 0, len = this.values.cart.request.order[0].sales_order_parts.length; i < len && !abort; i++) {
@@ -296,7 +281,6 @@ export class CollectionPage implements OnInit {
                                 qty_abort = true;
                         }
                     }
-                    console.log("qty_abort", qty_abort);
                     if (qty_abort) {
                         let alert = await this.alertCtrl.create({
                             header: 'Are you sure you want to remove this item?',
@@ -346,7 +330,6 @@ export class CollectionPage implements OnInit {
                         {
                             text: 'Select buyer',
                             handler: () => {
-                                console.log('Select buyer clicked');
                                 this.router.navigate(['/settings']);
                             }
                         }
@@ -361,7 +344,6 @@ export class CollectionPage implements OnInit {
                 if (this.values.products[pindex].product_id == product_id) {
                     abort = true;
                     //add all the variants to cart
-                    this.data.consoleLog("this.values.products[pindex]", this.values.products[pindex]);
                     this.values.products[pindex].variants.forEach((variant) => {
                         if (variant.variant_id == variant_id) {
                             let is_variant = this.isVariantInOrder(product_id, variant.variant_id, designer_id);
@@ -377,7 +359,6 @@ export class CollectionPage implements OnInit {
                 }
             }
         }
-        console.log("this.values.cart.request.order[0].sales_order_parts[i]", this.values.cart.request.order[0].sales_order_parts[0]);
     }
 
     isProductInOrder(product_id, designer_id) {
@@ -451,7 +432,6 @@ export class CollectionPage implements OnInit {
             if (this.data.designer) {
                 this.data.designer.currentCollectionID = collection_id;
             }
-            console.log("selected collection", this.data.selectedCollection);
             //  get product items in the collection
             this.data.getProduct(collection_id, this.values.device_token, this.values.user_profile.user_token, 0, 0).then((data) => {
                 this.firstItem = 0;
@@ -492,7 +472,6 @@ export class CollectionPage implements OnInit {
         this.downloadManager(this.values.collections[0].collection_id, this.values.designer.seller_account_id, this.values.designer.title, this.values.collections[0].collection_title, 1);
 
         this.events.subscribe("collection-download", () => {
-            console.log("collection-download", this.data.d_collection_index);
             this.events.publish("set-collection-state", this.values.collections[this.data.d_collection_index].collection_id);
             this.data.d_collection_index ++;
             if (this.data.d_collection_index >= this.values.collections.length) {
@@ -582,8 +561,6 @@ export class CollectionPage implements OnInit {
                 this.values.onescreen_total_imgages_num = 24;
             }
             this.values.onescreen_image_index = 0;
-            console.log("onescreen_total_imgages_num : " + this.values.onescreen_total_imgages_num);
-            console.log("onescreen_image_index : " + this.values.onescreen_image_index);
             this.router.navigate(['/linesheet', { collection: this.data.selectedCollection }]);
         });
     }

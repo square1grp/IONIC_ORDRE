@@ -96,7 +96,6 @@ export class CartProvider {
     }
 
     submitCart(mode) {
-        console.log('Save Mode:' + mode)
         //  submit cart as an order
         let orderStatus = '';
         if (mode == 'final') {
@@ -107,7 +106,6 @@ export class CartProvider {
         }
         this.values.cart.request.order[0].status = orderStatus;
         return new Promise(resolve => {
-            this.data.consoleLog('this.values.cart', this.values.cart);
             let tempCart = {
                 "action": "post_order",
                 "request": {
@@ -177,7 +175,6 @@ export class CartProvider {
                 }
                 tempCart.request.order[0].sales_order_parts.push(temp_sales_order_part);
             }
-            this.data.consoleLog('tempCart', tempCart);
             let apiURL = this.values.APIRoot + "/app/api.php";
             let data = encodeURIComponent(JSON.stringify(tempCart));
             const headers = new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded');
@@ -186,9 +183,7 @@ export class CartProvider {
 
             this.http.post(apiURL, body, { headers })
                 .subscribe(data => {
-                    console.log('Got Response to Order Submit from API');
                     this.orderResponse = data;
-                    this.data.consoleLog('this.orderResponse',this.orderResponse);
                     resolve(this.orderResponse);
                 });
         });
@@ -196,8 +191,6 @@ export class CartProvider {
 
     addToCart(product_title, colour, material, swatch, image, designer_title, designer_id, product_id, variant_id,
         size, size_id, type, qty, price, price_rrp, prodsku: string) {
-
-        //console.log('Start:Adding to cart');
 
         //new order, set buyer_id
         if (this.values.cart.request.order[0].buyer_id == 0) {
@@ -208,10 +201,8 @@ export class CartProvider {
             this.values.cart.request.order[0].masquerade_originator = this.values.user_profile.masquerade_id;
         }
 
-        //console.log('Check if designer is in cart');
         //check for designer in cart
         this.order_part_item_id = -1;
-        //console.log('Cart Parts:' + JSON.stringify(this.values.cart.request.order[0].sales_order_parts));
         let abort = false;
         for (let pindex = 0, len = this.values.cart.request.order[0].sales_order_parts.length; pindex < len && !abort; pindex++) {
             if (this.values.cart.request.order[0].sales_order_parts[pindex].seller_account_id == designer_id) {
@@ -294,7 +285,6 @@ export class CartProvider {
                             this.values.cart.request.order[0].total_line_items++;
                         }
                         this.order_part_item_id = this.values.cart.request.order[0].sales_order_parts.push(this.order_part) - 1;
-                        console.log('New Order Part Index:' + this.order_part_item_id);
                     }
                     else {
                         this.values.cart.request.order[0].sales_order_parts[this.order_part_item_id].sales_order_lines.push(this.line_item);
@@ -307,7 +297,6 @@ export class CartProvider {
                         //     this.values.cart.request.order[0].sales_order_parts[this.order_part_item_id].total_line_items = this.values.cart.request.
                         //     order[0].sales_order_parts[this.order_part_item_id].total_line_items + 1;
                         // }
-                        //this.data.consoleLog("totalVariantQty + qty", totalVariantQty + qty);
                     }
                     this.values.cart.request.order[0].sales_order_parts[this.order_part_item_id].total_qty = this.values.cart.request.order[0].
                         sales_order_parts[this.order_part_item_id].total_qty + qty;
@@ -348,11 +337,9 @@ export class CartProvider {
                         this.values.cart.request.order[0].sales_order_parts[this.order_part_item_id].total_line_items = this.values.cart.request.order[0].                     sales_order_parts[this.order_part_item_id].total_line_items + 1
                         this.values.cart.request.order[0].total_line_items++;
                     }
-                    this.data.consoleLog("totalVariantQty - oldQty + qty", totalVariantQty - oldQty + qty);
                 }
                 else {
                     //  remove the line item
-                    console.log("remove order line");
                     //this.values.cart.request.order[0].sales_order_parts[this.order_part_item_id].sales_order_lines.splice(this.line_item_id,1);
                 }
 
@@ -383,14 +370,12 @@ export class CartProvider {
                 for (let j = 0, slen = this.values.cart.request.order[0].sales_order_parts[i].sales_order_lines.length; j < slen && !abort; j++) {
                     if (this.values.cart.request.order[0].sales_order_parts[i].sales_order_lines[j].sku == sku) {
                         qty = this.values.cart.request.order[0].sales_order_parts[i].sales_order_lines[j].quantity;
-                        //console.log('Found QTY in the cart for SKU:' + sku + ' of '+ qty )
                         abort = true;
                         return qty;
                     }
                 };
             }
         };
-        //console.log('Found 0 QTY in cart for SKU:'+sku)
         return 0;
     }
 
@@ -401,24 +386,19 @@ export class CartProvider {
         var qty = 0, abort = false;
         //for (let i = 0, len = this.values.vieworder.request.order[0].sales_order_parts.length; i < len && !abort; i++) { 
         //if (this.values.vieworder.request.order[0].sales_order_parts[0].seller_account_id == designer_id) {
-        console.log('Found designer for this part that needs sizes.');
         for (let j = 0, slen = this.values.vieworder.request.order[0].sales_order_parts[0].sales_order_lines.length; j < slen && !abort; j++) {
-            console.log('Sales Order Line:' + j);
             if (this.values.vieworder.request.order[0].sales_order_parts[0].sales_order_lines[j].sku == sku) {
                 qty = this.values.vieworder.request.order[0].sales_order_parts[0].sales_order_lines[j].quantity;
-                console.log('Found QTY in the cart for SKU:' + sku + ' of ' + qty);
                 abort = true;
                 return qty;
             }
         };
         //}
         //};
-        console.log('Found 0 QTY in cart for SKU:' + sku)
         return 0;
     }
 
     clearSomeItem(variant_id, keepit) {
-        console.log("======= clearSomeItem =======");
         let abort = false;
         for (let i = 0, len = this.values.cart.request.order[0].sales_order_parts.length; i < len && !abort; i++) {
             this.clearItem(i, -1, keepit, variant_id)
@@ -426,8 +406,6 @@ export class CartProvider {
     }
 
     clearItem(order_part, product_id, keepit, variant_id) {
-        console.log("======= clearItem =======");
-        console.log('Clear:' + order_part + ':' + product_id + ':' + variant_id)
         let abort = false;
         let variant_removed = false;
         //for (let i = 0, len = this.values.cart.request.order[0].sales_order_parts.length; i < len && !abort; i++) {  
@@ -437,9 +415,6 @@ export class CartProvider {
 
                 // calc revised qty and total
                 let qty = this.values.cart.request.order[0].sales_order_parts[i].sales_order_lines[j].quantity;
-
-                console.log('Remove line item from order object: Variant ID:' + variant_id + ' Qty:' + qty);
-
                 let price = this.values.cart.request.order[0].sales_order_parts[i].sales_order_lines[j].price;
                 let total = this.values.cart.request.order[0].sales_order_parts[i].total_amount;
                 let line_total = this.values.cart.request.order[0].sales_order_parts[i].line_total;
