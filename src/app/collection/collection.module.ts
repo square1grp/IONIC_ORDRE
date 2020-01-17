@@ -28,6 +28,9 @@ const routes: Routes = [
     declarations: [
         CollectionPage,
         ViewloaderComponent
+    ],
+    entryComponents: [
+        ViewloaderComponent,
     ]
 })
 export class CollectionPageModule {}

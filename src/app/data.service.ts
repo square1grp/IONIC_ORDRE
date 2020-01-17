@@ -1857,7 +1857,7 @@ export class Data {
 
     async dismissLoadingSpiner() {
         this.loadingState = false;
-        return await this.loadingCtrl.dismiss().then(() => console.log('dismissed'));
+        return await this.loadingCtrl.dismiss();
     }
     //Loading Spinner process functions
     //   async createLoader() {

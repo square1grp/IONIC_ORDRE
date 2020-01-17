@@ -11,11 +11,11 @@
     height: 100%;
 }
 
-ion-content .scroll-content {
+ion-content #pbody {
     overflow: hidden;
 }
 
-.product-list .scroll-content {
+.product-list {
     overflow: scroll;
 }
 

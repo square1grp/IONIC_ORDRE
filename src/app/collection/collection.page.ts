@@ -3,11 +3,12 @@ import { NavController, AlertController, PopoverController, Events } from '@ioni
 import { Router, ActivatedRoute } from '@angular/router';
 import { Insomnia } from '@ionic-native/insomnia/ngx';
 import { FormControl } from '@angular/forms';
+import { Subject } from 'rxjs/Subject';
 import { Values } from '../values.service';
 import { Data } from '../data.service';
 import { CartProvider } from '../cart.service';
 import { ViewloaderComponent } from '../shared/viewloader/viewloader.component';
-import * as Constants from '../constants'
+import * as Constants from '../constants';
 
 @Component({
   selector: 'page-collection',
@@ -33,26 +34,26 @@ export class CollectionPage implements OnInit {
     maxItems: any;
     firstItem: any;
     lastItem: any;
-    searchControl: FormControl;
     searchValue: string;
     selected_varants_count: number = 0;
     popover: any = null;
     popover_index: number = 0;
+    searchTerm$ = new Subject<string>();
 
-    constructor(private cd: ChangeDetectorRef, 
-                public popoverController: PopoverController, 
-                private zone: NgZone, 
-                private router: Router,
-                private activatedRoute: ActivatedRoute,
-                public data: Data, 
-                public cartProvider: CartProvider, 
-                public values: Values, 
-                private alertCtrl: AlertController,
-                private events: Events,
-                private popoverCtrl: PopoverController, 
-                private insomnia: Insomnia) {
+    constructor(
+        private cd: ChangeDetectorRef, 
+        public popoverController: PopoverController, 
+        private zone: NgZone, 
+        private router: Router,
+        private activatedRoute: ActivatedRoute,
+        public data: Data,
+        public cartProvider: CartProvider, 
+        public values: Values, 
+        private alertCtrl: AlertController,
+        private events: Events,
+        private popoverCtrl: PopoverController, 
+        private insomnia: Insomnia) {
         
-        this.searchControl = new FormControl();
         
         // set designer special price_list if this designer have its own special price.
         if (this.values.isDesignerLogin) {
@@ -112,7 +113,7 @@ export class CollectionPage implements OnInit {
                     if (this.mode == 'fromlinesheet') {
                         this.values.lsproducts = this.values.products;
                     }
-                    // this.search();
+                    this.search();
                     this.values.longTimeRequestUrls = [];
                     this.values.productCashImageUrls = [];
 
@@ -158,7 +159,8 @@ export class CollectionPage implements OnInit {
     }
 
     search() {
-        this.searchControl.valueChanges.debounceTime(1000).distinctUntilChanged().subscribe(searchString => {
+        this.searchTerm$.debounceTime(1000)
+        .distinctUntilChanged().subscribe(searchString => {
             let mode = 0;
             this.searchValue = searchString;
             if (searchString.length == 0) { mode = 1; }
@@ -204,9 +206,12 @@ export class CollectionPage implements OnInit {
 
 
 
-    doInfinite(infiniteScroll) {
+    doInfinite(event) {
         this.addItemsToGrid(this.searchValue, 2);
-        infiniteScroll.complete();
+        event.target.complete();
+  
+        // App logic to determine if all data is loaded
+        // and disable the infinite scroll
     }
 
     async addProductToCart(product_title, material, designer_title, price, price_rrp, designer_id, type, product_id) {

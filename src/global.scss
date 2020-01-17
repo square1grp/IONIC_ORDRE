@@ -4690,6 +4690,17 @@ page-header {
 	height: 70px;
 	display: block;
 }
+ion-fab[left] {
+    left: 10px;
+}
+
+ion-fab[bottom] {
+    bottom: 10px;
+}
+ion-fab {
+    position: absolute;
+    z-index: 999;
+}
 @media only screen and (max-width: 1024px) and (orientation: portrait) {
 	div.product_preview_image {
 		position: relative;
