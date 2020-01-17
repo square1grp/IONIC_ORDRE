@@ -17,7 +17,7 @@ export class HeaderComponent {
 
    ordreHeader = HeaderComponent
 
-    constructor(private zone: NgZone, public menu: MenuController, public navCtrl: NavController, public values: Values, public cartProvider: CartProvider, private alertCtrl: AlertController, public data: Data, private router: Router) { }
+    constructor(public menu: MenuController, public navCtrl: NavController, public values: Values, public cartProvider: CartProvider, private alertCtrl: AlertController, public data: Data, private router: Router) { }
 
     ionViewDidLoad() {
     }
@@ -29,27 +29,20 @@ export class HeaderComponent {
         this.router.navigate(['/' + page]);
     }
 
-    openHomePage(page): void {
+    openHomePage(): void {
         this.values.isCollectionPage = false;
         this.data.presentLoadingSpinerSec().then(() => {
             this.values.onescreen_total_imgages_num = 3;
             this.values.onescreen_image_index = 0;
-            this.router.navigate(['/' + page]);
+            this.router.navigate(['/designers']);
         });
     }
 
-    openCachePage(page): void {
+    openCachePage(): void {
         this.values.isDesignersPage = false;
         this.values.isCollectionPage = false;
-        this.router.navigate(['/' + page]);
+        this.router.navigate(['/cache']);
     }
-
-    goPage(page): void {
-        this.zone.run(() => {
-          this.router.navigate(['/designers']);
-        });
-    }
-
 
     async exitMasquarade() {
         let alert = await this.alertCtrl.create({
