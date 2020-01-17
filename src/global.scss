@@ -4656,8 +4656,14 @@ div.line_sheet_item {
 	height: 87%;
 	overflow-y: scroll;
 }
-.popover-ios .popover-content {
+ion-popover.ios .popover-content {
     background: rgba(255, 255, 255, 0.9);
+    width: 100%;
+    min-width: 0;
+    min-height: 100%;
+    max-height: 90%;
+    border-radius: 0px;
+    color: #000;
 }
 .list-ios {
 	margin-top: 0;

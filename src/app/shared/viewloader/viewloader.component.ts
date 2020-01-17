@@ -11,7 +11,7 @@ import { Data } from '../../data.service';
   styleUrls: ['./viewloader.component.scss'],
 })
 
-export class ViewloaderComponent implements OnInit {
+export class ViewloaderComponent {
     
     collection_id : number;
     designer_id   : number;
@@ -24,9 +24,7 @@ export class ViewloaderComponent implements OnInit {
                 public data: Data, 
                 public events: Events, 
                 public navParams: NavParams, 
-                private insomnia: Insomnia) { }
-
-    ngOnInit() {
+                private insomnia: Insomnia) { 
         this.collection_id = this.navParams.get("collection_id")
         this.designer_id = this.navParams.get("designer_id")
         this.mode = this.navParams.get('mode');
