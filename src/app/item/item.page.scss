@@ -1,0 +1,307 @@
+
+#pbody {
+    height: 100%;
+}
+.page_content {
+    height: 100%;
+}
+.left {
+    height: 100%;
+    overflow-y: scroll;
+}
+.scroll-content {
+    overflow: hidden;
+}
+
+
+#collection_item_section {
+    .collection_item_description {
+        width:96%;
+        margin:auto;
+        border-bottom:1px solid #cccccc;
+        padding:130px 0 30px;
+        .wsp-rrp {
+            font-size: 24px;
+            span {
+                font-weight: 700;
+            }
+            span.rrp {
+                margin-left: 50px;
+            }
+        }
+        .description {
+            font-size:13px;
+            color:#000000;
+            font-family:'Avenir Book';
+            margin-top:40px;
+        }
+        .collection_item_name {
+            font-size:24px;
+            line-height:27px;
+            font-family:'Avenir Heavy';
+            text-transform:uppercase;
+            color:#000000;
+        }
+        .color-material_info {
+            .color {
+                width:25%;
+                float:left;
+                position:relative;
+            }
+            .material {
+                width:60%;
+                float:left;
+                position:relative;
+                p:nth-child(1) {
+                    color:#000000;
+                    font-family:'Avenir Heavy';
+                    margin-bottom:0px;
+                    text-transform:uppercase;
+                }
+                p:nth-child(2) {
+                    color:#000000;
+                    font-family:'Avenir Medium';
+                    margin-bottom:0px;
+                    text-transform:uppercase;
+                }
+            }
+            .color p:nth-child(1) {
+                color:#000000;
+                font-family:'Avenir Heavy';
+                margin-bottom:0px;
+                text-transform:uppercase;
+            }
+            .color p:nth-child(2) {
+                color:#000000;
+                font-family:'Avenir Medium';
+                margin-bottom:0px;
+                text-transform:uppercase;
+            }
+        }
+        span.view-360-button {
+            position: absolute;
+            left: 70%;
+            margin-top: -90px;
+            color: #ffffff;
+            background-color: #23c1ea;
+            width: 170px;
+            height: 45px;
+            font-size: 20px;
+            font-weight: 600;
+            text-align: center;
+        }
+    }
+    .line_sheet_item.last {
+        border-bottom: none !important;
+    }
+    .line_sheet_item:after {
+        display: block;
+        content: '';
+        clear: both;
+    }
+    .line_sheet_item {
+        .item_meta {
+            float:left;
+            padding-left:15px;
+            .name {
+                text-transform:uppercase;
+                color:#000000;
+                font-weight:600;
+                margin-bottom:0px;
+                font-size:20px;
+                font-family:'Avenir Heavy';
+            }
+            .wsp {
+                font-family:'Avenir Medium';
+                font-size:20px;
+                color:#000000;
+                span {
+                    color:#a7a4a4;
+                    font-weight:600;
+                }
+            }
+            .color-material_info {
+                margin-bottom:0px;
+                margin-top:10px;
+                font-family:'Avenir Medium';
+                text-transform:uppercase;
+                font-size:20px;
+                color:#000000;
+                .color {
+                    width:25%;
+                    float:left;
+                    position:relative;
+                    p {
+                        padding-left:25px;
+                        text-transform:uppercase;
+                        color:#000000;
+                        margin-bottom:0px;
+                        line-height:1.2;
+                        font-family:'Avenir Medium';
+                    }
+                    p:first-child {
+                        font-family:'Avenir Heavy';
+                    }
+                    span {
+                        display:block;
+                        position:absolute;
+                        background:#c3ece3;
+                        width:18px;
+                        height:18px;
+                        top:3px;
+                        left:0;
+                        border:1px solid #000000;
+                    }
+                }
+                .material {
+                    width:75%;
+                    float:left;
+                    p {
+                        color:#000000;
+                        margin-bottom:0px;
+                        text-transform:uppercase;
+                        line-height:1.2;
+                        font-family:'Avenir Medium';
+                    }
+                    p:first-child {
+                        font-family:'Avenir Heavy';
+                    }
+                }
+            }
+            .color-material_info:after {
+                display:block;
+                content:'';
+                clear:both;
+            }
+            .product_quantity input {
+                display:block;
+                background:#eaeaea;
+                border:1px solid #eaeaea;
+                outline:none;
+                font-family:'Avenir Roman';
+                width:58%;
+                padding:2px 10px;
+            }
+            .product_quantity input::-webkit-input-placeholder {
+                font-family:'Avenir Medium';
+                font-size:12px;
+            }
+        }
+        .product_sizes {
+            margin-top:15px;
+            margin-bottom:15px;
+            label {
+                width:55px;
+                margin-right:6px;
+                font-family:'Avenir Medium';
+                font-weight:normal;
+            }
+            input {
+                width:100%;
+                display:block;
+                text-align:left;
+                background:#eaeaea;
+                border:1px solid #eaeaea;
+                outline:none;
+                font-family:'Avenir Roman';
+                font-size:20px;
+                color:#525252;
+                padding:4px 8px;
+            }
+            input:focus {
+                border:1px solid #23c1ea;
+            }
+        }
+        .item_price {
+            float:right;
+            text-align:right;
+            .total_title {
+                font-family:'Avenir Medium';
+            }
+            .product_total {
+                text-transform:uppercase;
+                font-size:20px;
+                font-family:'Avenir Black';
+                font-weight:bold;
+            }
+            .product_total.active {
+                color:#23c1ea;
+            }
+            .clear_item {
+                font-family:'Avenir Light';
+                margin-bottom:0px;
+                text-transform:uppercase;
+                font-size:12px;
+                color:#adadad;
+                position:relative;
+                top:5px;
+            }
+        }
+        .product_quantity {
+            input {
+                display:block;
+                background:#eaeaea;
+                border:1px solid #eaeaea;
+                outline:none;
+                font-family:'Avenir Roman';
+                width:58%;
+                padding:2px 10px;
+            }
+            input::-webkit-input-placeholder {
+                font-family:'Avenir Medium';
+                font-size:12px;
+            }
+        }
+    }
+}
+
+.collection_item_slider {
+    
+    button.slide-button {
+        width: 65px;
+        height: 65px;
+        padding: 10px 16px;
+        border-radius: 50%;
+        top: 48vh;
+        z-index: 3;
+        background-color: rgba(247, 247, 247, 0.6);
+        position: fixed;
+        text-align: center;
+        ion-icon {
+            font-size: 3em;
+            color: #555555;
+            font-weight: 100;
+        }
+    }
+
+    .btnPrev {
+        margin-left: 6px;
+        padding-right: 22px !important;
+    }
+
+    .btnNext {
+        right: 6px;
+        padding-left: 22px !important;
+    }
+    
+    button.slide-button.activated {
+        background-color: #ddd;
+        color: black;
+    }
+}
+@media only screen and (max-width: 1024px) {
+    #collection_item_section .line_sheet_item .item_meta {
+        width: 34%;
+    }
+    #collection_item_section .line_sheet_item .item_price {
+        width: 45%;
+    }
+}
+@media only screen and (min-width: 1025px) {
+    #collection_item_section .line_sheet_item .item_meta {
+        width: 45%;
+    }
+    #collection_item_section .line_sheet_item .item_price {
+        width: 39%;
+    }
+}
