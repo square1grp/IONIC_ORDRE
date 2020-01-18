@@ -10,7 +10,8 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { File } from '@ionic-native/file/ngx';
 import { HTTP } from '@ionic-native/http/ngx';
 import { Network } from '@ionic-native/network/ngx';
-import { Insomnia } from '@ionic-native/insomnia/ngx'
+import { Insomnia } from '@ionic-native/insomnia/ngx';
+import { Keyboard } from '@ionic-native/keyboard/ngx';
 import { IonicStorageModule } from '@ionic/storage';
 
 import { AppComponent } from './app.component';
@@ -35,6 +36,7 @@ import { AppRoutingModule } from './app-routing.module';
         HTTP,
         Network,
         Insomnia,
+        Keyboard,
         { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
     ],
     bootstrap: [AppComponent]

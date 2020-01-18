@@ -1,0 +1,200 @@
+ion-input#focus-input {
+    width: 10px;
+    margin: 0px;
+    display: inline-block;
+    color: #fff;
+}
+.fe_page.content_sorter .ordre_title {
+    i {
+        font-size: 37px;
+        vertical-align: middle;
+    }
+    span {
+        vertical-align: middle;
+    }
+}
+.scroll-content {
+    overflow-y: hidden;
+}
+div.open_bar#pbody {
+    height: 100%;
+}
+section.page_content {
+    height: 100%;
+}
+section #fe_content {
+    height: 100%;
+    .view_mode {
+        text-align: center;
+        ion-segment {
+            display: inline-flex;
+            width: 50%;
+        }
+    }
+}
+ion-content#linesheetScroolUp {
+    height: 100%;
+}
+ion-content#linesheetScroolUp div.scroll-content {
+    overflow-y: scroll;
+}
+div.fe_sidebar_overlay {
+    overflow-y: scroll;
+}
+div.purchase_wraper {
+    padding-left: 15px;
+    span.purchase_order {
+        font-size: 13px;
+        font-family: 'Montserrat Bold';
+        color: #1fbfed;
+        float: left;
+        margin-top: 4px;
+    }
+    input {
+        background: #ffffff;
+        border: 1px solid #d7d7d7;
+        width: 150px;
+        margin-left: 10px;
+        height: 25px;
+    }
+    span.purchase_optional {
+        font-size: 12px;
+        font-family: 'Montserrat Reg';
+        color: #a7a7a7;
+    }
+}
+div.door-address {
+    width: 100%;
+    height: 30%;
+    margin-top: 10px;
+    .col-md-7 {
+        text-align: left;
+        margin-bottom: 20px;
+    }
+}
+div.door-address > div {
+    padding: 0px;
+}
+div.fe_footer {
+    .fe_save_draft {
+        background: #909090;
+        font-family: 'Avenir Heavy';
+    }
+    div.door-address-button {
+        height: 40px;
+        display: flex;
+        align-items: center;
+        span {
+            font-family:'Avenir Heavy';
+            font-weight: 800;
+            font-size: 16px;
+            padding-left: 25px;
+        }
+        ion-icon {
+            font-size: 35px;
+            margin-left: 20px;
+            padding-bottom: 3px;
+        }
+    }
+    div.door-address {
+        div.door-address-header {
+            padding-left: 15px;
+            margin-bottom: 20px;
+            span {
+                font-size: 15px;
+                font-family: 'Montserrat Bold';
+            }
+        }
+        div.shipping-address-item {
+            padding-left: 15px;
+            margin-bottom: 14px;
+            span.shipping-address-label {
+                font-size: 12px;
+                font-family: 'Montserrat Reg';
+                float: left;
+                margin-top: 4px;
+                width: 100px;
+            }
+            span.shipping-address-value {
+                font-size: 12px;
+                font-family: 'Montserrat Reg';
+                margin-top: 4px;
+                margin-left: 10px;
+                height: 30px;
+            }
+        }
+        div.door-address-item {
+            padding-left: 15px;
+            margin-bottom: 10px;
+            span {
+                font-size: 12px;
+                font-family: 'Montserrat Reg';
+                float: left;
+                margin-top: 4px;
+                width: 100px;
+            }
+            input {
+                background: #ffffff;
+                border: 1px solid #d7d7d7;
+                width: 60%;
+                margin-left: 10px;
+                height: 30px;
+                padding-left: 8px;
+            }
+        }
+    }
+}
+div.door-address-edit div.door-address-item {
+    span.country-span {
+        width: 110px !important;
+    }
+    div.select-text {
+        flex: 0.96;
+    }
+    .select-ios {
+        padding: 4px 0 0 8px;
+    }
+    .select-ios .item-cover {
+        top: 0;
+        left: 0;
+        width: 0;
+        height: 0;
+        padding: 0;
+    }
+    ion-select {
+        display: flex;
+        overflow: hidden;
+        background: #ffffff;
+        border: 1px solid #d7d7d7;
+        width: 60%;
+        max-width: 60%;
+        margin-left: 10px;
+        height: 30px;
+        left: 15px;    
+    }
+}
+div.door {
+    padding-bottom: 5px;
+}
+div.no_cart_item {
+    font-size: 28px;
+    font-family: 'Avenir Book';
+    width: 90%;
+    margin: auto;
+    color: #000000;
+    padding-top: 10px;
+}
+@media only screen and (max-width: 1024px) {
+    .fe_footer .confirm_order {
+        font-size: 13px;
+        margin-left: 11px;
+        padding: 10px 10px;
+    }
+    .fe_footer .fe_save_draft {
+        font-size: 13px;
+        padding: 10px 10px;
+    }
+}
+.select-ios .select-icon {
+    left: -8px;
+}
