@@ -1,22 +1,22 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { View360Page } from './view360.page';
+import { View360Component } from './view360.component';
 
-describe('View360Page', () => {
-  let component: View360Page;
-  let fixture: ComponentFixture<View360Page>;
+describe('View360Component', () => {
+  let component: View360Component;
+  let fixture: ComponentFixture<View360Component>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ View360Page ],
+      declarations: [ View360Component ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(View360Page);
+    fixture = TestBed.createComponent(View360Component);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

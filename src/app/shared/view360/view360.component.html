@@ -1,0 +1,22 @@
+<ion-content class="open_bar">
+  <section class="product_details_page">
+      <div class="col-md-3 product_details_sidebar">
+          <p class="product_details_360"><span>Swipe to spin</span><span>Tap thumbnails to view</span></p>
+          <div class="product_details_sidebar_list">
+              <ng-container *ngFor="let variant of productVariants">
+                  <ng-container *ngFor="let image of variant.variant_images">
+                      <div class="product-details_images" *ngIf="image.variant_360">
+                          <lazy-img src="{{values.APIRoot}}/app/get_image.php?image=/{{image.variant_360}}img01.jpg&w=480&h=670&zc=3&xtype=360" tappable (click)="change360(image.variant_360)"></lazy-img>
+                      </div>
+                  </ng-container>
+              </ng-container>
+          </div>
+      </div>
+      <div class="col-md-6 product_preview_image" #test3d id="test3d" style="width:50% important!;">
+          <ng-container *ngIf=(ThreeSixtyFrames)>
+              <lazy-img *ngFor="let image of ThreeSixtyFrames; let i=index" src="{{image}}" [style.display]="i == 0 ? 'block' : 'none'" class="image360"></lazy-img>
+          </ng-container>
+      </div>
+      <div class="product-details_close" (click)="close360()"></div>
+  </section>
+</ion-content>

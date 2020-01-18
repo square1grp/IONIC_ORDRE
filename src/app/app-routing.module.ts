@@ -14,7 +14,6 @@ const routes: Routes = [
     { path: 'orderitem', loadChildren: './orderitem/orderitem.module#OrderitemPageModule' },
     { path: 'orders', loadChildren: './orders/orders.module#OrdersPageModule' },
     { path: 'settings', loadChildren: './settings/settings.module#SettingsPageModule' },
-    { path: 'view360', loadChildren: './view360/view360.module#View360PageModule' },
     { path: 'viewloader', loadChildren: './viewloader/viewloader.module#ViewloaderPageModule' },
 ];
 
