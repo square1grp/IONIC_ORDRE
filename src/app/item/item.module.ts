@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { Routes, RouterModule } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 import { SharedModule } from '../shared/shared.module';
+import { View360Component } from '../shared/view360/view360.component';
 
 import { ItemPage } from './item.page';
 
@@ -22,6 +23,12 @@ const routes: Routes = [
     SharedModule,
     RouterModule.forChild(routes)
   ],
-  declarations: [ItemPage]
+  declarations: [
+    ItemPage,
+    View360Component
+  ],
+  entryComponents: [
+    View360Component,
+  ]
 })
 export class ItemPageModule {}

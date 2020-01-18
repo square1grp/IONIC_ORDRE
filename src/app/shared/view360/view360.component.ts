@@ -1,8 +1,7 @@
 import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, ElementRef, ViewChild } from '@angular/core';
-import { NavParams, ViewController } from 'ionic-angular';
-import { Values } from '../../providers/values';
-//import { Data } from '../../providers/data';
-import circlr from '../../dev/circlr';  /* based on https://github.com/andrepolischuk/circlr/  */
+import { NavParams, PopoverController } from '@ionic/angular';
+import { Values } from '../../values.service';
+import circlr from '../../../dev/circlr';  /* based on https://github.com/andrepolischuk/circlr/  */
 
 @Component({
     selector: 'page-view360',
@@ -22,7 +21,7 @@ export class View360Component implements OnInit {
 
     @ViewChild('test3d') view3D: ElementRef;
 
-    constructor(public el: ElementRef, private cd: ChangeDetectorRef, public navParams: NavParams, public viewCtrl: ViewController, public values: Values) { }
+    constructor(public el: ElementRef, private cd: ChangeDetectorRef, public navParams: NavParams, public viewCtrl: PopoverController, public values: Values) { }
 
     ngOnInit() {
         this.productVariants = this.navParams.get("productVariants");

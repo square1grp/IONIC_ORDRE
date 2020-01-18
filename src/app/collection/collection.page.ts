@@ -517,7 +517,7 @@ export class CollectionPage implements OnInit {
             await this.popover.present();
             this.popover.onDidDismiss(() => {
                 this.popover = null;
-            })
+            });
         }
         else {
             if (this.popover == null) {
@@ -534,7 +534,7 @@ export class CollectionPage implements OnInit {
                 await this.popover.present();
                 this.popover.onDidDismiss(() => {
                     this.popover = null;
-                })
+                });
             }
         }
 

@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { PopoverController, NavController, AlertController, IonSlides } from '@ionic/angular';
 import { Router, ActivatedRoute } from '@angular/router';
+import { View360Component } from '../shared/view360/view360.component';
 import { Values } from '../values.service';
 import { Data } from '../data.service';
 import { CartProvider } from '../cart.service';
@@ -47,29 +48,33 @@ export class ItemPage implements OnInit {
 
     }
 
-    view360(variants, default360) {
-        // console.log(variants);
-        // console.log(default360);
-        // let popover = this.popoverCtrl.create(View360Page, {productVariants: variants, default360: default360, data: this.data});
-        // console.log('popover');
-        // console.log(popover);
-                
-        // popover.present();
+    async view360(variants, default360) {
+        console.log(variants);
+        console.log(default360);
+        let popover = await this.popoverCtrl.create({
+            component: View360Component,
+            componentProps: {
+              productVariants: variants,
+              default360: default360,
+              data: this.data
+            },
+        });
+        await popover.present();
 
-        // //this.data.consolelog('try to render 3d')
-        // //  https://www.pincer.io/npm/libraries/circlr
+        //this.data.consolelog('try to render 3d')
+        //  https://www.pincer.io/npm/libraries/circlr
 
-        // /*
-        // const el = document.querySelector('#test3d');    
-        // console.log('Element:'+JSON.stringify(el));
-        // circlr(el)
-        //   .scroll(true)
-        //   .interval(150)
-        //   .play(23)
-        //   .reverse(true)
-        //   .on('show', n => {
-        //   });
-        // */
+        /*
+        const el = document.querySelector('#test3d');    
+        console.log('Element:'+JSON.stringify(el));
+        circlr(el)
+          .scroll(true)
+          .interval(150)
+          .play(23)
+          .reverse(true)
+          .on('show', n => {
+          });
+        */
     }
 
     ngOnInit() {
@@ -79,7 +84,7 @@ export class ItemPage implements OnInit {
         console.log('this.product', this.product);
         console.log('this.collection', this.collection);
 
-        // this.has360();
+        this.has360();
 
         //set the slider key frames
         let abort = false;
