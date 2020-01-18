@@ -155,7 +155,7 @@ export class CollectionPage implements OnInit {
     }
 
     ionViewDidLoad() {
-        this.data.activityLogPost(Constants.LOG_VIEWED_COLLECTION, this.values.designer.seller_account_id, this.data.designer.currentCollectionID, '', '');
+        this.data.activityLogPost(Constants.LOG_VIEWED_COLLECTION, this.values.designer.seller_account_id, this.values.designer.currentCollectionID, '', '');
     }
 
     search() {
@@ -434,8 +434,8 @@ export class CollectionPage implements OnInit {
             this.data.currentCollectionID = collection_id;
             //  get selected collection profile
             this.data.selectedCollection = this.data.filterCollections(this.data.currentCollectionID)[0];
-            if (this.data.designer) {
-                this.data.designer.currentCollectionID = collection_id;
+            if (this.values.designer) {
+                this.values.designer.currentCollectionID = collection_id;
             }
             //  get product items in the collection
             this.data.getProduct(collection_id, this.values.device_token, this.values.user_profile.user_token, 0, 0).then((data) => {
@@ -553,7 +553,9 @@ export class CollectionPage implements OnInit {
         this.data.presentLoadingSpinerSec().then(() => {
             this.values.onescreen_total_imgages_num = product.variants.length * 2;
             this.values.onescreen_image_index = 0;
-            this.router.navigate(['/item', { product: product, collection: this.data.selectedCollection }]);
+            this.values.product = product;
+            this.values.collection = this.data.selectedCollection;
+            this.router.navigate(['/item']);
         });
     }
 
@@ -566,7 +568,8 @@ export class CollectionPage implements OnInit {
                 this.values.onescreen_total_imgages_num = 24;
             }
             this.values.onescreen_image_index = 0;
-            this.router.navigate(['/linesheet', { collection: this.data.selectedCollection }]);
+            this.values.collection = this.data.selectedCollection;
+            this.router.navigate(['/linesheet']);
         });
     }
 

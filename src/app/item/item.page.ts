@@ -1,20 +1,18 @@
-import { Component, ViewChild } from '@angular/core';
-import { PopoverController, ViewController, NavController, AlertController, NavParams, Content } from 'ionic-angular';
-import { CartProvider } from '../../providers/cart';
-import { Values } from '../../providers/values';
-import { Data } from '../../providers/data';
-import { View360Page } from '../view360/view360';
-import { SettingsPage } from '../settings/settings';
-import { Slides } from 'ionic-angular';
-import * as Constants from '../../providers/constants'
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { PopoverController, NavController, AlertController, IonSlides } from '@ionic/angular';
+import { Router, ActivatedRoute } from '@angular/router';
+import { Values } from '../values.service';
+import { Data } from '../data.service';
+import { CartProvider } from '../cart.service';
+import * as Constants from '../constants';
 
-//import circlr from 'circlr';
 
 @Component({
     selector: 'page-item',
-    templateUrl: 'item.html'
+    templateUrl: './item.page.html',
+    styleUrls: ['./item.page.scss'],
 })
-export class ItemPage {
+export class ItemPage implements OnInit {
 
     slideOptions: any;
     product: any;
@@ -26,52 +24,62 @@ export class ItemPage {
     currency_symbol: any;
     yesThisHas360: any;
     is_multiple_images: boolean = false;
-
+    slideOpts = {
+      speed: 200
+    };
 
     //  keypad
-    @ViewChild(Content) content: Content;
-    @ViewChild(Slides) slides: Slides;
+    @ViewChild('content') content: any;
+    @ViewChild('variantsSlider') slides: IonSlides;
 
     cart: any;
     nb: any;
     qty: any;
 
-    constructor(public navCtrl: NavController, public viewCtrl: ViewController, public popoverCtrl: PopoverController, private alertCtrl: AlertController,
-        public navparams: NavParams, public cartProvider: CartProvider, public values: Values, public data: Data) {
+    constructor(
+      public navCtrl: NavController,
+      private router: Router,
+      private activatedRoute: ActivatedRoute,
+      public popoverCtrl: PopoverController,
+      private alertCtrl: AlertController,
+      public cartProvider: CartProvider,
+      public values: Values,public data: Data) {
 
     }
 
     view360(variants, default360) {
-        console.log(variants);
-        console.log(default360);
-        let popover = this.popoverCtrl.create(View360Page, {productVariants: variants, default360: default360, data: this.data});
-        console.log('popover');
-        console.log(popover);
+        // console.log(variants);
+        // console.log(default360);
+        // let popover = this.popoverCtrl.create(View360Page, {productVariants: variants, default360: default360, data: this.data});
+        // console.log('popover');
+        // console.log(popover);
                 
-        popover.present();
+        // popover.present();
 
-        //this.data.consolelog('try to render 3d')
-        //  https://www.pincer.io/npm/libraries/circlr
+        // //this.data.consolelog('try to render 3d')
+        // //  https://www.pincer.io/npm/libraries/circlr
 
-        /*
-        const el = document.querySelector('#test3d');    
-        console.log('Element:'+JSON.stringify(el));
-        circlr(el)
-          .scroll(true)
-          .interval(150)
-          .play(23)
-          .reverse(true)
-          .on('show', n => {
-          });
-        */
+        // /*
+        // const el = document.querySelector('#test3d');    
+        // console.log('Element:'+JSON.stringify(el));
+        // circlr(el)
+        //   .scroll(true)
+        //   .interval(150)
+        //   .play(23)
+        //   .reverse(true)
+        //   .on('show', n => {
+        //   });
+        // */
     }
 
     ngOnInit() {
-        this.product = this.navparams.get("product");
-        this.collection = this.navparams.get("collection");
-        this.data.designer = this.navparams.get("designer");
+        this.product = this.values.product;
+        this.collection = this.values.product;
         this.data.getDesignerCurrency(this.values.user_profile.user_region_id, -1);
-        this.has360();
+        console.log('this.product', this.product);
+        console.log('this.collection', this.collection);
+
+        // this.has360();
 
         //set the slider key frames
         let abort = false;
@@ -90,7 +98,7 @@ export class ItemPage {
         else {
             this.is_multiple_images = true;
         }
-        this.data.consoleLog("this.data.designer", this.data.designer);
+        this.data.consoleLog("this.values.designer", this.values.designer);
         this.data.consoleLog("this.product", this.product);
     }
 
@@ -115,7 +123,7 @@ export class ItemPage {
         this.slides.slidePrev();
     }
 
-    addToCart(product_title, colour, material, swatch, image, designer_title, variant_id, sku, price, price_rrp,
+    async addToCart(product_title, colour, material, swatch, image, designer_title, variant_id, sku, price, price_rrp,
         event, designer_id, size, size_id, type, product_id) {
         this.data.consoleLog("price", price);
 
@@ -134,9 +142,9 @@ export class ItemPage {
                         }
                     }
                     if (qty_abort) {
-                        let alert = this.alertCtrl.create({
-                            title: 'Are you sure you want to remove this item?',
-                            subTitle: 'This will remove the quantities for this item in your selection',
+                        let alert = await this.alertCtrl.create({
+                            header: 'Are you sure you want to remove this item?',
+                            subHeader: 'This will remove the quantities for this item in your selection',
                             buttons: [
                                 {
                                     text: 'Cancel',
@@ -157,7 +165,7 @@ export class ItemPage {
                                 }
                             ]
                         });
-                        alert.present();
+                        await alert.present();
                     }
                     else {
                         this.cartProvider.clearItem(i, product_id, 0, variant_id);
@@ -168,9 +176,9 @@ export class ItemPage {
         else {
             if (this.values.user_profile.seller_account_id != 0) { 
                 if (event == null) {
-                    let alert = this.alertCtrl.create({
-                        title: 'Are you trying to add this style to your selection?',
-                        subTitle: 'To create a selection begin by selecting a buyer',
+                    let alert = await this.alertCtrl.create({
+                        header: 'Are you trying to add this style to your selection?',
+                        subHeader: 'To create a selection begin by selecting a buyer',
                         buttons: [
                             {
                                 text: 'Cancel',
@@ -183,12 +191,12 @@ export class ItemPage {
                                 text: 'Select buyer',
                                 handler: () => {
                                     console.log('Select buyer clicked');
-                                    this.navCtrl.push(SettingsPage);
+                                    this.router.navigate(['/settings']);
                                 }
                             }
                         ]
                     });
-                    alert.present();
+                    await alert.present();
                 }
                 return false; 
             }
@@ -207,11 +215,11 @@ export class ItemPage {
         }
     }
 
-    onFocusSize(event) {
+    async onFocusSize(event) {
         if (this.values.user_profile.seller_account_id != 0) { 
-            let alert = this.alertCtrl.create({
-                title: 'Are you trying to add this style to your selection?',
-                subTitle: 'To create a selection begin by selecting a buyer',
+            let alert = await this.alertCtrl.create({
+                header: 'Are you trying to add this style to your selection?',
+                subHeader: 'To create a selection begin by selecting a buyer',
                 buttons: [
                     {
                         text: 'Cancel',
@@ -224,12 +232,12 @@ export class ItemPage {
                         text: 'Select buyer',
                         handler: () => {
                             console.log('Select buyer clicked');
-                            this.navCtrl.push(SettingsPage);
+                            this.router.navigate(['/settings']);
                         }
                     }
                 ]
             });
-            alert.present();
+            await alert.present();
             event.target.value = "";
             return false; 
         }
@@ -246,7 +254,7 @@ export class ItemPage {
             this.product.variants[vindex].total = 0
             this.product.variants[vindex].total_rrp = 0
             variant.sizes.forEach((size, sindex) => {
-                var orderQTY = this.cartProvider.getSizeQty(this.product.variants[vindex].sizes[sindex].sku, this.data.designer.seller_account_id);
+                var orderQTY = this.cartProvider.getSizeQty(this.product.variants[vindex].sizes[sindex].sku, this.values.designer.seller_account_id);
 
                 if (this.values.designer_pricelist.region_index == null) {
                     this.product.variants[vindex].total = this.product.variants[vindex].total + (orderQTY * this.product.region_prices[this.values.user_profile.user_region_id<4 ? this.values.user_profile.user_region_id - 1 : this.values.user_profile.user_region_id - 2].wsp);

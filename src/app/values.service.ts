@@ -17,7 +17,6 @@ export class Values {
     search: string = "";
 
     user_profile: any;
-    designer: any;
     debug: any;
 
     associationByDesigner: any = [];
@@ -49,6 +48,9 @@ export class Values {
     designers: any;
     collections: any;
     products: any;
+    designer: any;
+    collection: any;
+    product: any;
     lsproducts: any;
     downloadedCollections = [];
     countries = [];

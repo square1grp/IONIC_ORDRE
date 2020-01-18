@@ -5,7 +5,7 @@
         <a (click)="popView()" class="go_back"></a>
       </div>
       <div class="col-md-11">
-        <div class="collection_title" [innerHTML]="data.designer.title"></div>
+        <div class="collection_title" [innerHTML]="values.designer.title"></div>
         <div style="clear: both;"></div>
       </div>
       <div class="col-md-12 col_item_name">
@@ -13,7 +13,7 @@
       </div>
     </div>
 </div>
-<ion-content>
+<ion-content #content>
 <div id="pbody" class="closed_bar">
   
   <section class="page_content" id="collection_item_section">
@@ -22,15 +22,15 @@
         <p class="collection_item_name" [innerHTML]="product.product_title"></p>
         <p class="wsp-rrp" *ngIf="values.designer_pricelist.region_index != null">
           <span class="wsp">WSP:</span> 
-          {{this.data.designer?.buyer_code}} {{this.data.designer?.buyer_symbol}}{{product.region_prices[values.designer_pricelist.region_index] == undefined ? '0.00' : product.region_prices[values.designer_pricelist.region_index]?.wsp | number :'.2'}}
+          {{this.values.designer?.buyer_code}} {{this.values.designer?.buyer_symbol}}{{product.region_prices[values.designer_pricelist.region_index] == undefined ? '0.00' : product.region_prices[values.designer_pricelist.region_index]?.wsp | number :'.2'}}
           <span class="rrp">RRP:</span> 
-          {{this.data.designer?.buyer_code}} {{this.data.designer?.buyer_symbol}}{{product.region_prices[values.designer_pricelist.region_index] == undefined ? '0.00' : product.region_prices[values.designer_pricelist.region_index]?.rrp | number :'.2'}}
+          {{this.values.designer?.buyer_code}} {{this.values.designer?.buyer_symbol}}{{product.region_prices[values.designer_pricelist.region_index] == undefined ? '0.00' : product.region_prices[values.designer_pricelist.region_index]?.rrp | number :'.2'}}
         </p>
         <p class="wsp-rrp" *ngIf="values.designer_pricelist.region_index == null">
           <span class="wsp">WSP:</span> 
-          {{this.data.designer?.buyer_code}} {{this.data.designer?.buyer_symbol}}{{product?.region_prices[this.values.user_profile.user_region_id<4 ? this.values.user_profile.user_region_id - 1 : this.values.user_profile.user_region_id - 2]?.wsp | number :'.2'}}
+          {{this.values.designer?.buyer_code}} {{this.values.designer?.buyer_symbol}}{{product?.region_prices[this.values.user_profile.user_region_id<4 ? this.values.user_profile.user_region_id - 1 : this.values.user_profile.user_region_id - 2]?.wsp | number :'.2'}}
           <span class="rrp">RRP:</span> 
-          {{this.data.designer?.buyer_code}} {{this.data.designer?.buyer_symbol}}{{product?.region_prices[this.values.user_profile.user_region_id<4 ? this.values.user_profile.user_region_id - 1 : this.values.user_profile.user_region_id - 2]?.rrp | number :'.2'}}
+          {{this.values.designer?.buyer_code}} {{this.values.designer?.buyer_symbol}}{{product?.region_prices[this.values.user_profile.user_region_id<4 ? this.values.user_profile.user_region_id - 1 : this.values.user_profile.user_region_id - 2]?.rrp | number :'.2'}}
         </p>
         <div *ngIf="yesThisHas360">
           <span class="view-360-button btn sort btn-default" (tap)="view360(product.variants, default360)">
@@ -65,20 +65,20 @@
         <div class="item_price">
           <div>
             <span class="add_to_cart_item" *ngIf="values.designer_pricelist.region_index != null" tappable (click)="addToCart(product.product_title+' : '+variant.title, variant.colour,
-              product.materials, variant.swatch.swatch_image, variant.variant_images[0].variant_image, data.designer.title,
+              product.materials, variant.swatch.swatch_image, variant.variant_images[0].variant_image, values.designer.title,
               variant.sizes[0].variant_id, variant.sizes[0].sku, product.region_prices[values.designer_pricelist.region_index] == undefined ? '0.00' : product.region_prices[values.designer_pricelist.region_index]?.wsp, product.region_prices[values.designer_pricelist.region_index] == undefined ? '0.00' : product.region_prices[values.designer_pricelist.region_index]?.rrp, null,
-              data.designer.seller_account_id, variant.sizes[0].size_title, variant.sizes[0].variant_size_id,'all', product.product_id)">
+              values.designer.seller_account_id, variant.sizes[0].size_title, variant.sizes[0].variant_size_id,'all', product.product_id)">
                 <img [src]="isVariantInOrder(variant.product_id, variant.variant_id, values.designer.seller_account_id)"/></span>
             <span class="add_to_cart_item" *ngIf="values.designer_pricelist.region_index == null" tappable (click)="addToCart(product.product_title+' : '+variant.title, variant.colour,
-            product.materials, variant.swatch.swatch_image, variant.variant_images[0].variant_image, data.designer.title,
+            product.materials, variant.swatch.swatch_image, variant.variant_images[0].variant_image, values.designer.title,
             variant.sizes[0].variant_id, variant.sizes[0].sku, product.region_prices[this.values.user_profile.user_region_id<4 ? this.values.user_profile.user_region_id - 1 : this.values.user_profile.user_region_id - 2]?.wsp, product.region_prices[this.values.user_profile.user_region_id<4 ? this.values.user_profile.user_region_id - 1 : this.values.user_profile.user_region_id - 2]?.rrp, null,
-            data.designer.seller_account_id, variant.sizes[0].size_title, variant.sizes[0].variant_size_id,'all', product.product_id)">
+            values.designer.seller_account_id, variant.sizes[0].size_title, variant.sizes[0].variant_size_id,'all', product.product_id)">
               <img [src]="isVariantInOrder(variant.product_id, variant.variant_id, values.designer.seller_account_id)"/></span>
             <p class="total_title"><!-- Products total WSP--></p>
-            <!-- <p class="product_total" [ngClass]="{'active': variant?.total>0, '': variant?.total==0}">{{this.data.designer?.buyer_code}} {{this.data.designer?.buyer_symbol}}{{variant?.total | number :'.2'}}</p> 
-            <p class="product_total" [ngClass]="{'active': variant?.total>0, '': variant?.total==0}">{{this.data.designer?.buyer_code}} {{this.data.designer?.buyer_symbol}}{{variant?.total_rrp | number :'.2'}}</p> -->
-            <p class="product_total" [ngClass]="{'active': isVariantInOrder(variant.product_id, variant.variant_id, values.designer.seller_account_id) == 'assets/images/selected-icon.png', '': isVariantInOrder(variant.product_id, variant.variant_id, values.designer.seller_account_id) == 'assets/images/select-icon.png'}">TTL WSP: {{this.data.designer?.buyer_symbol}}{{variant?.total | number :'.2'}}</p> 
-            <p class="product_total" [ngClass]="{'active': isVariantInOrder(variant.product_id, variant.variant_id, values.designer.seller_account_id) == 'assets/images/selected-icon.png', '': isVariantInOrder(variant.product_id, variant.variant_id, values.designer.seller_account_id) == 'assets/images/select-icon.png'}">TTL RRP:&ensp;{{this.data.designer?.buyer_symbol}}{{variant?.total_rrp | number :'.2'}}</p>
+            <!-- <p class="product_total" [ngClass]="{'active': variant?.total>0, '': variant?.total==0}">{{this.values.designer?.buyer_code}} {{this.values.designer?.buyer_symbol}}{{variant?.total | number :'.2'}}</p> 
+            <p class="product_total" [ngClass]="{'active': variant?.total>0, '': variant?.total==0}">{{this.values.designer?.buyer_code}} {{this.values.designer?.buyer_symbol}}{{variant?.total_rrp | number :'.2'}}</p> -->
+            <p class="product_total" [ngClass]="{'active': isVariantInOrder(variant.product_id, variant.variant_id, values.designer.seller_account_id) == 'assets/images/selected-icon.png', '': isVariantInOrder(variant.product_id, variant.variant_id, values.designer.seller_account_id) == 'assets/images/select-icon.png'}">TTL WSP: {{this.values.designer?.buyer_symbol}}{{variant?.total | number :'.2'}}</p> 
+            <p class="product_total" [ngClass]="{'active': isVariantInOrder(variant.product_id, variant.variant_id, values.designer.seller_account_id) == 'assets/images/selected-icon.png', '': isVariantInOrder(variant.product_id, variant.variant_id, values.designer.seller_account_id) == 'assets/images/select-icon.png'}">TTL RRP:&ensp;{{this.values.designer?.buyer_symbol}}{{variant?.total_rrp | number :'.2'}}</p>
             <p class="clear_item" tappable (tap)="clearItem(variant.variant_id,0)">Clear item</p>
           </div>
         </div>
@@ -88,13 +88,13 @@
                 <!-- [disabled]="this.values.user_profile.seller_account_id != 0 ? true : null" -->
               <input type="number" *ngIf="values.designer_pricelist.region_index != null" name="{{size.variant_size_id}}" 
                 value="{{size.qty}}" id="{{size.variant_size_id}}" (blur)="addToCart(product.product_title+' : '+variant.title, variant.colour, 
-                product.materials, variant.swatch.swatch_image, variant.variant_images[0].variant_image, data.designer.title, size.variant_id, 
-                size.sku, product.region_prices[values.designer_pricelist.region_index] == undefined ? '0.00' : product.region_prices[values.designer_pricelist.region_index]?.wsp, product.region_prices[values.designer_pricelist.region_index] == undefined ? '0.00' : product.region_prices[values.designer_pricelist.region_index]?.rrp, $event, data.designer.seller_account_id, 
+                product.materials, variant.swatch.swatch_image, variant.variant_images[0].variant_image, values.designer.title, size.variant_id, 
+                size.sku, product.region_prices[values.designer_pricelist.region_index] == undefined ? '0.00' : product.region_prices[values.designer_pricelist.region_index]?.wsp, product.region_prices[values.designer_pricelist.region_index] == undefined ? '0.00' : product.region_prices[values.designer_pricelist.region_index]?.rrp, $event, values.designer.seller_account_id, 
                 size.size_title, size.variant_size_id,'type', product.product_id)" (focus)="onFocusSize($event)">
               <input type="number" *ngIf="values.designer_pricelist.region_index == null" name="{{size.variant_size_id}}" 
                 value="{{size.qty}}" id="{{size.variant_size_id}}" (blur)="addToCart(product.product_title+' : '+variant.title, variant.colour, 
-                product.materials, variant.swatch.swatch_image, variant.variant_images[0].variant_image, data.designer.title, size.variant_id, 
-                size.sku, product.region_prices[this.values.user_profile.user_region_id<4 ? this.values.user_profile.user_region_id - 1 : this.values.user_profile.user_region_id - 2]?.wsp, product.region_prices[this.values.user_profile.user_region_id<4 ? this.values.user_profile.user_region_id - 1 : this.values.user_profile.user_region_id - 2]?.rrp, $event, data.designer.seller_account_id, 
+                product.materials, variant.swatch.swatch_image, variant.variant_images[0].variant_image, values.designer.title, size.variant_id, 
+                size.sku, product.region_prices[this.values.user_profile.user_region_id<4 ? this.values.user_profile.user_region_id - 1 : this.values.user_profile.user_region_id - 2]?.wsp, product.region_prices[this.values.user_profile.user_region_id<4 ? this.values.user_profile.user_region_id - 1 : this.values.user_profile.user_region_id - 2]?.rrp, $event, values.designer.seller_account_id, 
                 size.size_title, size.variant_size_id,'type', product.product_id)" (focus)="onFocusSize($event)">
             </label>
           </div>
@@ -106,7 +106,7 @@
     <div class="collection_item_divider"></div>
     <div class="col-md-6 collection_item_slider right">
       <div class="my-slider">
-        <ion-slides [pager]="true" [direction]="horizontal"  >
+        <ion-slides pager="true" [options]="slideOpts" #variantsSlider>
           <ng-container *ngFor="let variant of product.variants">
             <ion-slide *ngFor="let imageslide of variant?.variant_images">
               <lazy-img src="{{values.APIRoot}}/app/get_image.php?image=/{{imageslide.variant_image}}&w=683&h=980&zc=2&xtype=prodimage"></lazy-img>

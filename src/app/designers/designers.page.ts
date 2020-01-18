@@ -5,7 +5,7 @@ import { Values } from '../values.service';
 import { Data } from '../data.service';
 
 @Component({
-  selector: 'app-designers',
+  selector: 'page-designers',
   templateUrl: './designers.page.html',
   styleUrls: ['./designers.page.scss'],
 })
