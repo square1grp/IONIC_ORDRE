@@ -33,7 +33,7 @@
     </a> -->
   </div>
   <div class="col-md-3 page_serch_wrapper">
-    <input type="text" name="search" [formControl]="searchControl" [(ngModel)]="searchValue" class="page_search" placeholder="Search">
+    <input type="text" name="search" [(ngModel)]="searchValue" class="page_search" placeholder="Search" (keyup)="searchTerm$.next($event.target.value)">
   </div>
   
   <div class="current_total visible" >
@@ -73,7 +73,7 @@
     </div>
   </div>
 </div>
-<ion-content>
+<ion-content #content>
 <div id="pbody" [ngClass]="{'open_bar': navOpen, 'closed_bar': !navOpen}">
   <section class="page_content" id="line_sheet_section">
     <div class="collection_sidebar" [ngClass]="{'open': navOpen, 'closed': !navOpen}">
@@ -161,7 +161,7 @@
       <p class="terms">includes Terms of Trade Discount if previously agreed</p>
       <p class="excludes_taxes">Total costs excludes Freight and Taxes</p>
       <p class="add_to_final_edit_block">
-        <button (click)="openPage(cartPage)" class="add_to_final_edit_button">Go to Final Edit</button>
+        <button (click)="openPage('cart')" class="add_to_final_edit_button">Go to Final Edit</button>
       </p>
     </div>
   </section>

@@ -43,7 +43,7 @@ export class CollectionPage implements OnInit {
     constructor(
         private cd: ChangeDetectorRef, 
         public popoverController: PopoverController, 
-        private zone: NgZone, 
+        private zone: NgZone,
         private router: Router,
         private activatedRoute: ActivatedRoute,
         public data: Data,

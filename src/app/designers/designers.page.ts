@@ -78,7 +78,7 @@ export class DesignersPage implements OnInit {
                         this.values.onescreen_total_imgages_num = 18;
                     }
                     this.values.isDesignersPage = false;
-                    this.router.navigate(['/collection', { designer: designer, mode: '' }]);
+                    this.router.navigate(['/collection', { mode: '' }]);
                 }).catch(function (err) {
                     console.log(err);
                 });

@@ -178,7 +178,7 @@ export class LoginPage implements OnInit {
                         else {
                             this.values.onescreen_total_imgages_num = 18;
                         }
-                        this.router.navigate(['/collection', { designer: this.values.designer, mode: '' }]);
+                        this.router.navigate(['/collection', { mode: '' }]);
                     }).catch(function (err) {
                         console.log(err);
                     });

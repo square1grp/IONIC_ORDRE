@@ -1,7 +1,15 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, ChangeDetectorRef, NgZone } from '@angular/core';
+import { NavController, AlertController, PopoverController } from '@ionic/angular';
+import { Router } from '@angular/router';
+import { Subject } from 'rxjs/Subject';
+import { Values } from '../values.service';
+import { Data } from '../data.service';
+import { CartProvider } from '../cart.service';
+import { ViewloaderComponent } from '../shared/viewloader/viewloader.component';
+import * as Constants from '../constants';
 
 @Component({
-  selector: 'app-linesheet',
+  selector: 'page-linesheet',
   templateUrl: './linesheet.page.html',
   styleUrls: ['./linesheet.page.scss'],
 })
@@ -30,28 +38,34 @@ export class LinesheetPage implements OnInit {
   collection: any;
   products: any;
   designer: any;
-  @ViewChild(Content) content: Content;
+  @ViewChild('content') content: any;
   @ViewChild('toggle_totals_input') totalMenu: ElementRef;
 
-  itemPage = ItemPage;
   itemsCnt: number;
-  cartPage: any = CartPage;
-  viewloaderPage = ViewloaderPage;
-  searchControl: FormControl;
   searchValue: string;
   vArray: any;
   qty: any = 0;
   addFlag: boolean = false;
+  searchTerm$ = new Subject<string>();
 
-  constructor(private zone: NgZone, private cd: ChangeDetectorRef, private popoverController: PopoverController, public navCtrl: NavController, public navParams: NavParams, public data: Data, public cartProvider: CartProvider, public values: Values, private el: ElementRef, private renderer: Renderer, private alertCtrl: AlertController, private popoverCtrl: PopoverController) {
+  constructor(
+    private zone: NgZone,
+    private cd: ChangeDetectorRef,
+    private popoverCtrl: PopoverController,
+    public navCtrl: NavController,
+    private router: Router,
+    public data: Data,
+    public cartProvider: CartProvider,
+    public values: Values,
+    private el: ElementRef,
+    private alertCtrl: AlertController) {
 
   }
 
   ngOnInit() {
-      this.values.view_mode = "linesheet view";
+      this.values.view_mode = 'linesheet view';
       this.searchValue = '';
-      this.searchControl = new FormControl();
-      this.collection = this.navParams.get("collection");    
+      this.collection = this.values.collection;
       //find the order part (for sub-totals)
       this.cartProvider.order_part_item_id = null;
       let abort = false;
@@ -209,23 +223,22 @@ export class LinesheetPage implements OnInit {
   }
 
   search() {
-      console.log('Search enabled')
-      this.searchControl.valueChanges.debounceTime(1000).distinctUntilChanged().subscribe(searchString => {
-          console.log('Search for:' + searchString);
-          let mode = 0;
-          this.searchValue = searchString;
-          if (searchString.length == 0) mode = 1;
-          this.buildArray(searchString, mode);
-          this.addItemsToGrid();
-          //}
-      });
+    this.searchTerm$.debounceTime(1000)
+    .distinctUntilChanged().subscribe(searchString => {
+      let mode = 0;
+      this.searchValue = searchString;
+      if (searchString.length == 0) mode = 1;
+      this.buildArray(searchString, mode);
+      this.addItemsToGrid();
+    });
   }
 
   toggleTottle() {
       this.data.consolelog('Toggle Click');
       this.el.nativeElement.click();
   }
-  addToCart(product_title, colour, material, swatch, image, designer_title, variant_id, sku, price, price_rrp, event, designer_id
+
+  async addToCart(product_title, colour, material, swatch, image, designer_title, variant_id, sku, price, price_rrp, event, designer_id
       , size, size_id, type, product_id, itemItem) {
 
       let icon_path = this.isProductInOrder(product_id, variant_id, designer_id);
@@ -243,9 +256,9 @@ export class LinesheetPage implements OnInit {
                       }
                   }
                   if (qty_abort) {
-                      let alert = this.alertCtrl.create({
-                          title: 'Are you sure you want to remove this item?',
-                          subTitle: 'This will remove the quantities for this item in your selection',
+                      let alert = await this.alertCtrl.create({
+                          header: 'Are you sure you want to remove this item?',
+                          subHeader: 'This will remove the quantities for this item in your selection',
                           buttons: [
                               {
                                   text: 'Cancel',
@@ -266,7 +279,7 @@ export class LinesheetPage implements OnInit {
                               }
                           ]
                       });
-                      alert.present();
+                      await alert.present();
                   }
                   else {
                       this.cartProvider.clearItem(i, product_id, 0, variant_id);
@@ -366,7 +379,7 @@ export class LinesheetPage implements OnInit {
 
   }
 
-  downloadManager(collection_id, designer_id, designer, collection_title, mode) {
+  async downloadManager(collection_id, designer_id, designer, collection_title, mode) {
       if (!this.values.online) {
           this.data.offlineManager();
           return false;
@@ -379,15 +392,21 @@ export class LinesheetPage implements OnInit {
               mode = 1;
           }
       }
-      let popover = this.popoverController.create(this.viewloaderPage, { collection_id: collection_id, designer_id: designer_id, mode: mode });
-      popover.present();
-      this.data.cacheCollection(collection_id, designer_id, designer, collection_title, mode).then(() => {
+      let popover = await this.popoverCtrl.create({
+          component: ViewloaderComponent,
+          componentProps: {
+            collection_id: collection_id,
+            designer_id: designer_id,
+            mode: mode
+          },
       });
+      await popover.present();
+      this.data.cacheCollection(collection_id, designer_id, designer, collection_title, mode).then(() => { });
   }
 
 
   gridView() {
-      this.navCtrl.push(CollectionPage, { collection: this.data.selectedCollection, mode: 'fromlinesheet' });
+    this.router.navigate(['/collection', { mode: 'fromlinesheet' }]);
   }
 
   productItem(product) {
@@ -395,12 +414,14 @@ export class LinesheetPage implements OnInit {
       this.data.presentLoadingSpinerSec().then(() => {
           this.values.onescreen_total_imgages_num = product.variants.length * 2;
           this.values.onescreen_image_index = 0;
-          this.navCtrl.push(ItemPage, { product: product, collection: this.data.selectedCollection });
+          this.values.product = product;
+          this.values.collection = this.data.selectedCollection;
+          this.router.navigate(['/item', { mode: 'fromlinesheet' }]);
       });
   }
 
   openPage(page): void {
-      this.navCtrl.push(page);
+    this.router.navigate(['/' + page]);
   }
 
   scrollToTop() {

@@ -16,10 +16,17 @@ import { IonicStorageModule } from '@ionic/storage';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
+import { ViewloaderComponent } from './shared/viewloader/viewloader.component';
 
 @NgModule({
-    declarations: [AppComponent],
-    entryComponents: [],
+    declarations: [
+        AppComponent,
+        ViewloaderComponent
+    ],
+    entryComponents: [
+        ViewloaderComponent
+
+    ],
     imports: [
         BrowserModule,
         FormsModule,
