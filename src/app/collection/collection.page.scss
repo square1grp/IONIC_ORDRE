@@ -164,7 +164,7 @@ ion-segment {
 }
 
 .open_bar .page_content .collection_content .collection_item_part {
-    display: inline-block;
+    display: block;
     float: left;
     width: 33.33%;
     position: relative;
@@ -175,7 +175,7 @@ ion-segment {
 }
 
 .closed_bar .page_content .collection_content .collection_item_part {
-    display: inline-block;
+    display: block;
     float: left;
     width: auto;
     position: relative;

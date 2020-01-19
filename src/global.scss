@@ -192,7 +192,7 @@ section.welcome_section .sitename_wrapper {
 		color: #ffffff;
 		text-transform: uppercase;
 		font-size: 50pt;
-		display: inline-block;
+		display: block;
 		margin: auto;
 		width: 28%;
 		float: left;
@@ -568,7 +568,7 @@ section.page_content:after {
 .collections_page.collections_sidebar_header.col-md-1 .go_back {
 	width: 50%;
 	text-align: center;
-	display: inline-block;
+	display: block;
 	float: left;
 	padding: 14px 0;
 	border-right: 1px solid #cccccc;
@@ -577,7 +577,7 @@ section.page_content:after {
 .collections_page.collections_sidebar_header.col-md-1 .toogle_menu {
 	width: 50%;
 	text-align: center;
-	display: inline-block;
+	display: block;
 	float: left;
 	padding: 14px 0;
 	/* margin-top: 25px; */
@@ -630,7 +630,7 @@ section.page_content:after {
 }
 
 .content_sorter .collection_title {
-	display: inline-block;
+	display: block;
 	float: left;
 	text-transform: uppercase;
 	font-size: 18px;
@@ -710,8 +710,8 @@ page-linesheet .ordre_subheader .content_sorter {
 	right:0px;
 	display:none;
 	background:#ffffff;
-	-webkit-transition:height .1s ease;
-	-webkit-transition-delay:.1s;
+	transition: height .1s ease;
+	transition-delay:.1s;
 	z-index:99;
 }
 
@@ -1938,7 +1938,7 @@ page-linesheet .ordre_subheader .content_sorter {
 
 #line_sheet_section #line_sheet_content .actions_wrapper .clear_line_sheet {
 	float:right;
-	display:inline-block;
+	display: block;
 }
 
 .open_bar #line_sheet_section #line_sheet_content .linesheet_footer {
@@ -1960,26 +1960,26 @@ page-linesheet .ordre_subheader .content_sorter {
 }
 
 #line_sheet_section #line_sheet_content .linesheet_footer .linesheet_total {
-	text-transform:uppercase;
-	font-size:24px;
-	font-family:'Avenir Black';
-	font-weight:600;
-	margin-bottom:0px;
-	line-height:1;
-	margin-top:10px;
-	color:#23c1ea;
+	text-transform: uppercase;
+	font-size: 24px;
+	font-family: 'Avenir Black';
+	font-weight: 600;
+	margin-bottom: 0px;
+	line-height: 1;
+	margin-top: 10px;
+	color: #23c1ea;
 }
 
 #line_sheet_section #line_sheet_content .linesheet_footer .terms {
-	font-family:'Avenir Medium';
-	colot:#000000;
+	font-family: 'Avenir Medium';
+	color: #000000;
 }
 
 #line_sheet_section #line_sheet_content .linesheet_footer .excludes_taxes {
 	font-family:'Avenir Light';
-	font-size:12px;
-	margin-top:15px;
-	color:#a7a4a4;
+	font-size: 12px;
+	margin-top: 15px;
+	color: #a7a4a4;
 }
 
 #line_sheet_section #line_sheet_content .linesheet_footer .add_to_final_edit_block {
@@ -2422,15 +2422,15 @@ section.page_content#collection_item_section {
 }
 
 .closed_bar #collection_item_section .go_back {
-	width:100%;
-	text-align:center;
-	display:inline-block;
-	float:left;
-	padding:3px 0;
-	top:50%;
-	-webkit-transform:translateY(-50%);
-	transform:translateY(-50%);
-	position:relative;
+	width: 100%;
+	text-align: center;
+	display: block;
+	float: left;
+	padding: 3px 0;
+	top: 50%;
+	-webkit-transform: translateY(-50%);
+	transform: translateY(-50%);
+	position: relative;
 }
 
 .closed_bar #collection_item_section .go_back:before {
@@ -2483,7 +2483,7 @@ section.page_content#collection_item_section {
 }
 
 #collection_item_section .navigation_holder .collection_title {
-	display:inline-block;
+	display: block;
 	float:left;
 	text-transform:uppercase;
 	font-size:24px;
@@ -2942,7 +2942,7 @@ section.page_content#collection_item_section {
 
 #fe_section #fe_content .actions_wrapper .clear_line_sheet {
 	float:right;
-	display:inline-block;
+	display: block;
 }
 
 /* .open_bar */
@@ -4415,9 +4415,6 @@ img.go_to_top {
 	padding:250px;
 }
 
-.loading_spinner {
-}
-
 .go_back {
 	padding-right:20px;
 }
@@ -4429,10 +4426,6 @@ img.go_to_top {
 .ordre_subheader .content_sorter .sorter_item .downloaded {
 	border-color:#23c1ea;
 	color:#23c1ea;
-}
-
-.ordre_subheader .content_sorter .downloaded {
-	/* color:#23c1ea; */
 }
 
 .swiper-pagination-fraction, .swiper-pagination-custom, .swiper-container-horizontal > .swiper-pagination-bullets {
@@ -4474,10 +4467,6 @@ ion-slide.swiper-slide {
 	width:100%;
 	transform:none !important;
 	position:relative !important;
-}
-
-div.line_sheet_item {
-	/* outline:1px solid red; */
 }
 
 #line_sheet_content ion-list.list-ios {
@@ -4543,7 +4532,7 @@ div.line_sheet_item {
 .navigation_holder .go_back {
 	width:100%;
 	text-align:center;
-	display:inline-block;
+	display: block;
 	float:left;
 	padding:3px 0;
 	top:50%;
@@ -4568,7 +4557,7 @@ div.line_sheet_item {
 }
 
 .navigation_holder .collection_title {
-	display:inline-block;
+	display: block;
 	float:left;
 	text-transform:uppercase;
 	font-size:24px;
@@ -4942,7 +4931,7 @@ ion-fab {
 		height:1311px;
 	}
 	.open_bar .page_content .collection_content .collection_item_part {
-		display: inline-block;
+		display: block;
 		float: left;
 		width: 25%;
 		position: relative;
