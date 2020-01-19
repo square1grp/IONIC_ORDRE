@@ -1,12 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { NavController, NavParams, AlertController } from '@ionic/angular';
-import { CartProvider } from '../../providers/cart';
-import { Values } from '../../providers/values';
-import { Data } from '../../providers/data';
-import { ViewOrderPage } from '../vieworder/vieworder';
-import { CartPage } from '../cart/cart';
-import { Platform } from 'ionic-angular';
-import { InAppBrowser } from '@ionic-native/in-app-browser'
+import { NavController, AlertController, Platform } from '@ionic/angular';
+import { Router, ActivatedRoute } from '@angular/router';
+import { Values } from '../values.service';
+import { Data } from '../data.service';
+import { CartProvider } from '../cart.service';
+import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 //import * as Constants from '../../providers/constants'
 
 /*
@@ -27,9 +25,18 @@ declare var cordova: any;
 export class OrdersPage implements OnInit {
 
     uiState: any;
-    vieworderPage = ViewOrderPage;
 
-    constructor(public cartProvider: CartProvider, public values: Values, public navCtrl: NavController, public navParams: NavParams, public data: Data, private alertCtrl: AlertController, private platform: Platform, private iab: InAppBrowser) {
+    constructor(
+      public cartProvider: CartProvider,
+      public values: Values,
+      public navCtrl: NavController,
+      private router: Router,
+      private activatedRoute: ActivatedRoute,
+      public data: Data,
+      private alertCtrl: AlertController,
+      private platform: Platform,
+      private iab: InAppBrowser
+    ) {
         platform.ready().then(() => {
             // If we run this in the browser without this if statement we get an error
             if (typeof cordova !== 'undefined') {
@@ -48,20 +55,21 @@ export class OrdersPage implements OnInit {
         console.log('OrdersPage');
         this.data.getAllDraftOrders(this.values.user_profile.buyer_id, this.values.user_profile.masquerade_id);
         this.data.getAllOrders(this.values.user_profile.buyer_id, this.values.user_profile.masquerade_id);
-        this.uiState = this.navParams.get("uistate")
+        this.uiState = this.activatedRoute.snapshot.paramMap.get('uistate');
+        console.log('this.uiState', this.uiState);
         if (this.uiState == 'final') { this.uiState = 'requested'; }
-        if (typeof (this.uiState) == "undefined") { this.uiState = 'draft'; }
+        if (!this.uiState) { this.uiState = 'draft'; }
     }
 
     uiChange(newstate) {
         this.uiState = newstate;
     }
 
-    removeDraft(draft_id) {
+    async removeDraft(draft_id) {
         console.log('Remove Clicked');
-        let alert = this.alertCtrl.create({
-            title: 'Are you sure you want to remove this Draft Order?',
-            subTitle: 'Removing this order will delete it.',
+        let alert = await this.alertCtrl.create({
+            header: 'Are you sure you want to remove this Draft Order?',
+            subHeader: 'Removing this order will delete it.',
             buttons: [
                 {
                     text: 'Cancel',
@@ -82,24 +90,24 @@ export class OrdersPage implements OnInit {
                 }
             ]
         });
-        alert.present();
+        await alert.present();
     }
 
     viewOrder(order_id) {
-        console.log('View Clicked');
-        this.cartProvider.emptyView();
-        console.log('View:' + order_id);
-        this.data.getOrder(order_id).then(data => {
-            let orderPart = data;
-            console.log('Order Part:' + JSON.stringify(orderPart));
-            console.log('Cart:' + JSON.stringify(this.values.vieworder));
-            this.values.vieworder.request.order[0].sales_order_parts.push(orderPart);
-            //pull totals into order header here
-            this.values.vieworder.request.order[0].total_qty = this.values.vieworder.request.order[0].sales_order_parts[0].total_qty;
-            //region_currency?
-            console.log(JSON.stringify(this.values.vieworder))
-            this.navCtrl.push(ViewOrderPage);
-        });
+        // console.log('View Clicked');
+        // this.cartProvider.emptyView();
+        // console.log('View:' + order_id);
+        // this.data.getOrder(order_id).then(data => {
+        //     let orderPart = data;
+        //     console.log('Order Part:' + JSON.stringify(orderPart));
+        //     console.log('Cart:' + JSON.stringify(this.values.vieworder));
+        //     this.values.vieworder.request.order[0].sales_order_parts.push(orderPart);
+        //     //pull totals into order header here
+        //     this.values.vieworder.request.order[0].total_qty = this.values.vieworder.request.order[0].sales_order_parts[0].total_qty;
+        //     //region_currency?
+        //     console.log(JSON.stringify(this.values.vieworder))
+        //     this.navCtrl.push(ViewOrderPage);
+        // });
     }
 
     webViewOrder(id) {
@@ -107,11 +115,11 @@ export class OrdersPage implements OnInit {
         browser.show();
     }
 
-    restore(draft_id, mode) {
+    async restore(draft_id, mode) {
         console.log('Restore Clicked');
-        let alert = this.alertCtrl.create({
-            title: 'Are you sure you wish to restore this Order?',
-            subTitle: 'This will replace your Final Edit.',
+        let alert = await this.alertCtrl.create({
+            header: 'Are you sure you wish to restore this Order?',
+            subHeader: 'This will replace your Final Edit.',
             buttons: [
                 {
                     text: 'Cancel',
@@ -137,7 +145,7 @@ export class OrdersPage implements OnInit {
                                 this.values.cart.request.order[0].total_qty = this.values.cart.request.order[0].sales_order_parts[0].total_qty;
                                 this.values.cart.request.order[0].user_id = this.values.user_profile.user_id;
                                 this.values.cart.request.order[0].buyer_id = this.values.user_profile.buyer_id;
-                                this.navCtrl.push(CartPage);
+                                this.router.navigate(['/cart']);
                             })
                         }
                         else {
@@ -154,14 +162,14 @@ export class OrdersPage implements OnInit {
                                 this.values.cart.request.order[0].buyer_id = this.values.user_profile.buyer_id;
                                 if (mode == 'draft') this.data.deleteDraftOrder(data);
                                 this.data.getAllDraftOrders(this.values.user_profile.buyer_id, this.values.user_profile.masquerade_id);
-                                this.navCtrl.push(CartPage);
+                                this.router.navigate(['/cart']);
                             });
                         }
                     }
                 }
             ]
         });
-        alert.present();
+        await alert.present();
     }
 
     popView() {

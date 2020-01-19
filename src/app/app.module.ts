@@ -12,6 +12,7 @@ import { HTTP } from '@ionic-native/http/ngx';
 import { Network } from '@ionic-native/network/ngx';
 import { Insomnia } from '@ionic-native/insomnia/ngx';
 import { Keyboard } from '@ionic-native/keyboard/ngx';
+import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 import { IonicStorageModule } from '@ionic/storage';
 
 import { AppComponent } from './app.component';
@@ -44,6 +45,7 @@ import { ViewloaderComponent } from './shared/viewloader/viewloader.component';
         Network,
         Insomnia,
         Keyboard,
+        InAppBrowser,
         { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
     ],
     bootstrap: [AppComponent]
