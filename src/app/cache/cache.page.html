@@ -1,32 +1,19 @@
-<page-header></page-header>  
+<page-header></page-header>
+<div class="ordre_subheader" ion-fixed>
+  <div class="col-md-3 fe_page fe_sidebar_header">
+    <a (click)="popView()" class="go_back col-md-2"></a>
+    <span class="title col-md-8"></span>
+    <span class="toogle_menu col-md-2"></span>
+  </div>
+  <div class="col-md-9 settings_page content_sorter">
+    <div class="settings_title">
+      <i class="mdi mdi-settings"></i>
+      <span>Settings</span>
+    </div>
+  </div>
+</div>
 <ion-content>
 <div id="pbody" class="open_bar">
-<header class="ordre_header">
-	<div class="col-md-5 col-sm-5 header_left">
-		<a href="/" class="homepage_link"></a>
-	</div>
-	<div class="col-md-2 col-sm-2 header_sitename"><img src="assets/images/ordre_logo.png"></div>
-	<div class="col-md-5 col-sm-5 header_icons header_right">
-		<a href="" class="header_mini_cart_link"><span class="header"></span></a>
-		<a href="" class="header_drafts_link"></a>
-		<span class="headers_sync"></span>
-		<span class="headers_setting_item"></span>
-		<span class="headers_logout"></span>
-	</div>
-</header>
-	<div class="ordre_subheader">
-		<div class="col-md-3  settings_page settings_sidebar_header">
-			<a (click)="popView()" tappable class="go_back col-md-2"></a>
-			<span class="title col-md-8"></span>
-			<span class="toogle_menu col-md-2">|||</span>
-		</div>
-		<div class="col-md-9 settings_page content_sorter">
-			<div class="settings_title">
-				<i class="mdi mdi-settings"></i>
-				<span>Settings</span>
-			</div>
-		</div>
-	</div>
 <section class="page_content" id="settings_section">
 	<div class="settings_sidebar  open">
 		<p class="divider"></p>

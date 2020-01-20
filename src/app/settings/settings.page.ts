@@ -1,6 +1,6 @@
 
 import { Component, OnInit } from '@angular/core';
-import { NavController, NavParams } from '@ionic/angular';
+import { NavController } from '@ionic/angular';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Values } from '../values.service';
 import { Data } from '../data.service';
@@ -30,7 +30,6 @@ export class SettingsPage implements OnInit {
     constructor(
       public navCtrl: NavController,
       private router: Router,
-      public navParams: NavParams,
       public data: Data,
       public values: Values
     ) { }

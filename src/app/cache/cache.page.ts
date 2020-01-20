@@ -1,11 +1,11 @@
 
 import { Component, OnInit } from '@angular/core';
-import { NavController, NavParams, PopoverController, AlertController } from '@ionic/angular';
-
+import { NavController, PopoverController, AlertController } from '@ionic/angular';
 import { Storage } from '@ionic/storage';
-import { Values } from '../../providers/values';
-import { Data } from '../../providers/data';
-import { ViewloaderPage } from '../viewloader/viewloader'
+import { Router, ActivatedRoute } from '@angular/router';
+import { Values } from '../values.service';
+import { Data } from '../data.service';
+import { ViewloaderComponent } from '../shared/viewloader/viewloader.component';
 
 @Component({
     selector: 'page-cache',
@@ -25,9 +25,16 @@ export class CachePage {
 
     downloadedCollections: any;
     uiState: any;
-    viewloaderPage = ViewloaderPage;
 
-    constructor(public popoverController: PopoverController, public navCtrl: NavController, public navParams: NavParams, public values: Values, private storage: Storage, public data: Data, private alertCtrl: AlertController) { }
+    constructor(
+      public popoverController: PopoverController,
+      public navCtrl: NavController,
+      private router: Router,
+      public values: Values,
+      private storage: Storage,
+      public data: Data,
+      private alertCtrl: AlertController
+    ) { }
 
     ngOnInit() {
         this.uiState = 'downloaded';
@@ -50,11 +57,11 @@ export class CachePage {
         console.log('Force Cache:' + this.values.user_profile.forcecache);
     }
 
-    clearCache() {
+    async clearCache() {
         console.log('Clear Cache Clicked');
-        let alert = this.alertCtrl.create({
-            title: 'Are you sure?',
-            subTitle: 'This will clear all downloaded images and data.',
+        let alert = await this.alertCtrl.create({
+            header: 'Are you sure?',
+            subHeader: 'This will clear all downloaded images and data.',
             buttons: [
                 {
                     text: 'Cancel',
@@ -78,7 +85,7 @@ export class CachePage {
                 }
             ]
         });
-        alert.present();
+        await alert.present();
     }
 
     ionViewDidLoad() {
@@ -92,7 +99,7 @@ export class CachePage {
             };
         }
         console.log('Getting collections for designer:' + designer_id)
-        this.data.getCollections(designer_id, this.values.device_token, this.values.user_profile.user_token, 0).then(response => {
+        this.data.getCollections(designer_id, this.values.device_token, this.values.user_profile.user_token, 0).then(async response => {
             this.values.collections = response;
             if (mode != 3) {
                 if (this.values.user_profile.forcecache) {
@@ -102,11 +109,16 @@ export class CachePage {
                     mode = 4;
                 }
             }
-            let popover = this.popoverController.create(this.viewloaderPage, {
-                collection_id: collection_id, designer_id: designer_id,
-                mode: mode, source: 'cache'
+            let popover = await this.popoverController.create({
+                component: ViewloaderComponent,
+                componentProps: {
+                  collection_id: collection_id,
+                  designer_id: designer_id,
+                  mode: mode,
+                  source: 'cache'
+                },
             });
-            popover.present();
+            await popover.present();
             if (this.values.designer == undefined) {
                 if ((designer_id > 0) && (this.values.designers)) {
                     let abort = false;
@@ -133,10 +145,6 @@ export class CachePage {
                 // });
             });
         });
-    }
-
-    openPage(page): void {
-        this.navCtrl.push(page);
     }
 
     popView() {
