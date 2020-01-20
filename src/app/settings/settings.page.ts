@@ -1,10 +1,9 @@
 
 import { Component, OnInit } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
-import { Values } from '../../providers/values';
-import { Data } from '../../providers/data';
-import { CollectionPage } from '../collection/collection';
-
+import { NavController, NavParams } from '@ionic/angular';
+import { Router, ActivatedRoute } from '@angular/router';
+import { Values } from '../values.service';
+import { Data } from '../data.service';
 /*
   Generated class for the Settings page.
 
@@ -23,15 +22,18 @@ export class SettingsPage implements OnInit {
     thisBuyer_id: any = 0;
     searchResultRetailers: any = [];
     retailer_id: any = 0;
-    collectionPage = CollectionPage;
     retailersLoading: any;
     buyers: any = [];
     typeahead: string = "";
     typeaheadTime: any;
 
-    constructor(public navCtrl: NavController, public navParams: NavParams, public data: Data, public values: Values) {
-        //
-    }
+    constructor(
+      public navCtrl: NavController,
+      private router: Router,
+      public navParams: NavParams,
+      public data: Data,
+      public values: Values
+    ) { }
 
     ngOnInit() {
         this.retailersLoading = true;
@@ -156,7 +158,7 @@ export class SettingsPage implements OnInit {
         this.data.consoleLog("this.values.shipping_address", this.values.shipping_address);
         this.data.consoleLog('this.values.user_profile', this.values.user_profile);
         this.data.consoleLog('this.values.shipping_addresses', this.values.shipping_addresses);
-        this.navCtrl.push(CollectionPage, { designer: this.values.designer });
+        this.router.navigate(['/collection']);
     }
 
     getRetailer(retailer_id) {
