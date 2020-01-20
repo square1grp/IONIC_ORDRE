@@ -1,9 +1,122 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>cache</ion-title>
-  </ion-toolbar>
-</ion-header>
-
+<page-header></page-header>  
 <ion-content>
+<div id="pbody" class="open_bar">
+<header class="ordre_header">
+	<div class="col-md-5 col-sm-5 header_left">
+		<a href="/" class="homepage_link"></a>
+	</div>
+	<div class="col-md-2 col-sm-2 header_sitename"><img src="assets/images/ordre_logo.png"></div>
+	<div class="col-md-5 col-sm-5 header_icons header_right">
+		<a href="" class="header_mini_cart_link"><span class="header"></span></a>
+		<a href="" class="header_drafts_link"></a>
+		<span class="headers_sync"></span>
+		<span class="headers_setting_item"></span>
+		<span class="headers_logout"></span>
+	</div>
+</header>
+	<div class="ordre_subheader">
+		<div class="col-md-3  settings_page settings_sidebar_header">
+			<a (click)="popView()" tappable class="go_back col-md-2"></a>
+			<span class="title col-md-8"></span>
+			<span class="toogle_menu col-md-2">|||</span>
+		</div>
+		<div class="col-md-9 settings_page content_sorter">
+			<div class="settings_title">
+				<i class="mdi mdi-settings"></i>
+				<span>Settings</span>
+			</div>
+		</div>
+	</div>
+<section class="page_content" id="settings_section">
+	<div class="settings_sidebar  open">
+		<p class="divider"></p>
+		<div class="sidebar_title">  Download & Syncing </div>
+		<div class="settings_list">
+			<div (click)="uiChange('downloaded')" [ngClass]="{'active': uiState=='downloaded', '': uiState=='log'}"  class="downloaded" block="downloaded">
+				<span>Downloaded</span>
+			</div>
+			<div class="syncing" block="sync">
+				<span>Activity</span>
+				<ul>
+					<li [ngClass]="{'': uiState!=='settings', 'active': uiState=='settings'}" block="set_sync" (click)="uiChange('settings')">Settings</li>
+					<li [ngClass]="{'': uiState!='log', 'active': uiState=='log'}" block="collect_sync" (click)="uiChange('log')">Log</li>
+					<!--li block="ord_sync">Orders Sync Log </li-->
+				</ul>
+			</div>
+			<div class="version">
+				<span>{{values.version}}</span>
+			</div>
+		</div>
+	</div>
+	<section id="settings_content">
+		<div class="no_download_collection" *ngIf="uiState=='downloaded' && this.values.downloadedCollections.length==0"> There are currently no downloaded collections. </div>
+		<div class="settings_item downloaded active" *ngIf="uiState=='downloaded' && this.values.downloadedCollections.length > 0">
+			<table>
+				<tr>
+					<th>Downloaded</th>
+					<th>Designer</th>
+					<th>Collection</th>
+					<th>Size</th>
+					<th style="text-align: right;">
+						<button *ngIf="(this.values.user_profile.seller_account_id == 0)" class="remove_all" (click)="clearCache()">
+							Remove all
+						</button>
+					</th>
+				</tr>
+				<ng-container *ngFor="let collection of this.values.downloadedCollections.slice().reverse()">
+					<tr *ngIf="this.values.user_profile.seller_account_id==0||collection.designer_id == this.values.user_profile
+						.seller_account_id">
+						
+						<td>{{collection.download_date  | date: 'dd/MM/yyyy H:mm'}}</td>
+						<td class="des_name" [innerHTML]="collection.designer"></td>
+						<td [innerHTML]="collection.collection"></td>
+						<td>{{collection.size}}MB</td>
+						<td class="actions">
+							<button (click)="this.downloadManager(collection.collection_id, collection.designer_id, collection.designer,
+								collection.collection,1)" class="update_ordre" [style.visibility]="collection.isOpenedCollection ? 'visible' : 'hidden'">
+								Update</button>
+							<button (click)="this.downloadManager(collection.collection_id, collection.designer_id, collection.designer,
+								collection.collection,3)" class="remove_ordre">Remove</button>
+						</td>
+					</tr>
+				</ng-container>
+				<tr *ngIf="!this.values.downloadedCollections">
+					<td>There are no downloaded collections.</td>
+				</tr>
 
+			</table>
+
+		</div>
+		<div class="settings_item sync_item set_sync active" *ngIf="uiState=='settings'">
+			<div class="title"><span>Download Settings:</span> Apply to Collections Downloaded</div>
+			<div class="item"><p class="left"><span>Photos:</span> Always replace existing photos (off recommended)</p>
+				<div class="right">
+					<input type="checkbox" class="checkbox" id="checkbox"  [checked]="this.values.user_profile.forcecache"  (click)="toggleForceCache()"/>
+					<label for="checkbox"></label>
+				</div>
+			</div>
+		</div>		
+		<div class="settings_item sync_item collect_sync active" *ngIf="uiState=='log'">
+			<table >
+				<tr>
+					<th>Date/Time</th>
+					<th>Action</th>
+					<th>Designer/Collection</th>
+				</tr>
+				<ng-container *ngFor="let log of this.data.dlog.slice().reverse()">
+					<tr *ngIf="((this.values.user_profile.seller_account_id>0 && log.designer_id == this.values.user_profile.seller_account_id) ||
+						(this.values.user_profile.seller_account_id == 0))">
+						
+						<td>{{log.date | date: 'dd/MM/yyyy H:mm'}}</td>
+						<td>{{log.action}}</td>
+						<td  [innerHTML]="log.designer + ' / ' + log.collection"></td>
+					</tr>
+				</ng-container>
+			</table>
+		</div>		
+		
+	</section>
+
+</section>
+</div>
 </ion-content>
