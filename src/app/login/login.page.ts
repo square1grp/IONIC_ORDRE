@@ -76,15 +76,12 @@ export class LoginPage implements OnInit {
             return;
         }
         else {
-            if (this.loggingin == true) { return; }
             this.values.isHeavyLoad = true;
             // this.data.createLoader();
             //this.data.presentLoadingSpiner();
             this.data.presentLoadingSpinerSec().then(() => {
                 this.values.onescreen_total_imgages_num = 3;
                 this.values.onescreen_image_index = 0;
-
-                this.loggingin = true;
 
                 let logindata = this.loginForm.value;
                 this.data.login(logindata, this.values.device_token).then(async (response) => {
@@ -98,7 +95,6 @@ export class LoginPage implements OnInit {
                         this.logUserIn();
                     } else {
                         this.data.dismissLoadingSpiner();
-                        this.loggingin = false;
                         let alert = await this.alertCtrl.create({
                             header: this.values.user_profile.title,
                             subHeader: this.values.user_profile.subTitle,

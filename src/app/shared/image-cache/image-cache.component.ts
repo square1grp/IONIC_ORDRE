@@ -32,27 +32,27 @@ export class ImageCacheComponent implements OnInit {
 
       this.storage.get(imageURL).then((image) => {
           if (image != null) {
-              //  file or dB cache 
-              if (this.platform.is('cordova')) {
-                  let url = URL.createObjectURL(image);
-                  let fixedUrl: SafeUrl = this.ds.bypassSecurityTrustUrl(url)
-                  this.img_src = <string>fixedUrl;
-                  this.hidden = false 
-                  this.cd.markForCheck();
-              } else {
-                  let fixedUrl: SafeUrl = this.ds.bypassSecurityTrustUrl(<string>image);
-                  this.img_src = <string>fixedUrl;
-                  this.hidden = false;
-                  this.cd.markForCheck();             
-              }
-              if (this.values.onescreen_total_imgages_num > 0) {
-                  this.values.onescreen_image_index ++;
-                  if (this.values.onescreen_image_index >= this.values.onescreen_total_imgages_num) {
-                      this.data.dismissLoadingSpiner();
-                      this.values.onescreen_image_index = 0;
-                      this.values.onescreen_total_imgages_num = 0;
-                  }
-              }
+                //   file or dB cache 
+                //   if (this.platform.is('cordova')) {
+                //       let url = URL.createObjectURL(image);
+                //       let fixedUrl: SafeUrl = this.ds.bypassSecurityTrustUrl(url)
+                //       this.img_src = <string>fixedUrl;
+                //       this.hidden = false 
+                //       this.cd.markForCheck();
+                //   } else {
+                let fixedUrl: SafeUrl = this.ds.bypassSecurityTrustUrl(<string>image);
+                this.img_src = <string>fixedUrl;
+                this.hidden = false;
+                this.cd.markForCheck();             
+                //   }
+                if (this.values.onescreen_total_imgages_num > 0) {
+                    this.values.onescreen_image_index ++;
+                    if (this.values.onescreen_image_index >= this.values.onescreen_total_imgages_num) {
+                        this.data.dismissLoadingSpiner();
+                        this.values.onescreen_image_index = 0;
+                        this.values.onescreen_total_imgages_num = 0;
+                    }
+                }
           }
           else {
               if (this.values.online) {
