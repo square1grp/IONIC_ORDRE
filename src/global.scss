@@ -664,6 +664,13 @@ page-linesheet .ordre_subheader .content_sorter {
 	padding-left:20px;
 }
 
+page-settings .native-input.sc-ion-input-ios {
+    padding: 11px 15px 11px 15px;
+    width: calc(82% - 8px);
+    border: 1px solid !important;
+    margin: 6px 0 24px 0;
+}
+
 .ordre_subheader .content_sorter .sorter_item {
 	display:inline-block;
 	position:relative;

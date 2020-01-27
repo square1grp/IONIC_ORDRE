@@ -36,20 +36,24 @@
 			</div>
 			<div class="col-md-5" *ngIf="this.searchResultRetailers.length > 0">
 				<p class="selector-list">2. Select Retailers</p>
-				<ion-list radio-group [(ngModel)]="retailer_id" id="retailer-list" (ionChange)="setBuyers()">
-					<ion-item *ngFor="let retailer of searchResultRetailers">
-						<ion-radio value="{{ retailer.retailer_id }}"></ion-radio>
-						<ion-label [innerHTML]="retailer.business_name"></ion-label>
-					</ion-item>
+				<ion-list id="retailer-list">
+					<ion-radio-group [(ngModel)]="retailer_id" (ionChange)="setBuyers()">
+						<ion-item *ngFor="let retailer of searchResultRetailers">
+							<ion-radio value="{{ retailer.retailer_id }}"></ion-radio>
+							<ion-label [innerHTML]="retailer.business_name"></ion-label>
+						</ion-item>
+					</ion-radio-group>
 				</ion-list>
 			</div>
 			<div class="col-md-5" *ngIf="this.buyers.length > 0">
 				<p class="selector-list">3. Select Buyer</p>
-				<ion-list radio-group [(ngModel)]="thisBuyer_id" id="buyer-list">
-					<ion-item *ngFor="let buyer of buyers">
-						<ion-radio value="{{ buyer.buyer_id }}"></ion-radio>
-						<ion-label>{{ buyer.first_name + ' ' + buyer.last_name }}</ion-label>
-					</ion-item>
+				<ion-list id="buyer-list">
+					<ion-radio-group [(ngModel)]="thisBuyer_id" >
+						<ion-item *ngFor="let buyer of buyers">
+							<ion-radio value="{{ buyer.buyer_id }}"></ion-radio>
+							<ion-label>{{ buyer.first_name + ' ' + buyer.last_name }}</ion-label>
+						</ion-item>
+					</ion-radio-group>
 				</ion-list>
 				<div *ngIf="this.thisBuyer_id">
 					<button class="order_buyer_submit" (click)="startMasquerade()" [style.background]="thisBuyer_id==0 ? '#000' : '#3CC7EF'">Order as Buyer</button>
