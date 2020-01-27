@@ -92,7 +92,7 @@ export class Values {
     //API 
     APIRoot = "https://ordre.kineticmedia.com.au";   //  STAGE
     //APIRoot = "https://www.ordre.com";             //  PRODUCTION
-    //APIRoot = "https://web01.ordre.com";
+    // APIRoot = "https://web01.ordre.com";
     //APIRoot = "https://web02.ordre.com";
 
     version: string = "v1.40";

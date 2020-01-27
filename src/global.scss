@@ -216,9 +216,13 @@ section.welcome_section .sitename_wrapper {
 
 #pbody.logged_out .welcome_footer {
 	position: absolute;
-	bottom: 100px;
-	width: 100%;
+	bottom: 0;
+	width: 365px;
 	text-align: center;
+	height: 0px;
+	display: block;
+	transform: translate(0, 170px);
+
 	p {
 		display: inline-block;
 		margin-bottom: 0px;
@@ -255,24 +259,6 @@ section.welcome_section .sitename_wrapper {
 	left: 0px;
 	right: 0px;
 	background-color: rgba(0, 0, 0, 0.7);
-}
-
-#pbody.logged_out .welcome_footer {
-	position: absolute;
-	bottom: 100px;
-	width: 100%;
-	text-align: center;
-}
-
-#pbody.logged_out .welcome_footer p {
-	display: inline-block;
-	margin-bottom: 0px;
-	color: #ffffff;
-	font-family: 'Avenir Light';
-	font-size: 16px;
-	border: 1px solid #808080;
-	line-height: 1.2;
-	padding: 10px;
 }
 
 section.login_section .login_form_wrapper .login_form input section.login_section .login_form_wrapper .login_form input::-webkit-input-placeholder {
