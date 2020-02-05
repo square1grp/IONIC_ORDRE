@@ -1,7 +1,7 @@
 
   <header class="ordre_header">
     <div class="header_left">
-      <div *ngIf="this.values.user_profile.seller_account_id > 0 || this.values.user_profile.masquerade_id > 0" (click)="openCollectionPage(collectionPage)" class="homepage_link">
+      <div *ngIf="this.values.user_profile.seller_account_id > 0 || this.values.user_profile.masquerade_id > 0" (click)="openCollectionPage()" class="homepage_link">
         <i class="mdi mdi-home"></i>
         <span>Home</span>
       </div>
@@ -9,7 +9,7 @@
         <i class="mdi mdi-home"></i>
         <span>Home</span>
       </div>
-      <!-- <a *ngIf="this.values.user_profile.seller_account_id > 0 || this.values.user_profile.masquerade_id > 0" (click)="openCollectionPage(collectionPage)" class="homepage_link">sss</a>
+      <!-- <a *ngIf="this.values.user_profile.seller_account_id > 0 || this.values.user_profile.masquerade_id > 0" (click)="openCollectionPage()" class="homepage_link">sss</a>
       <a *ngIf="this.values.user_profile.seller_account_id == 0 && this.values.user_profile.masquerade_id == 0" (click)="openHomePage()" class="homepage_link mdi mdi-home">home</a> -->
     </div>
     <div class="header_sitename"><img src="assets/images/ordre_logo.png"></div>

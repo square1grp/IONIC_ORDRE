@@ -110,12 +110,12 @@ export class HeaderComponent {
         await alert.present();
     }
 
-    openCollectionPage(page): void {
+    openCollectionPage(): void {
         this.values.isDesignersPage = false;
         this.data.presentLoadingSpinerSec().then(() => {
             this.values.onescreen_total_imgages_num = 3;
             this.values.onescreen_image_index = 0;
-            this.router.navigate(['/' + page, { designer: this.values.designer }]);
+            this.router.navigate(['/collection', { designer: this.values.designer }]);
         });
     }
 }
