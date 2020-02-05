@@ -20,12 +20,13 @@ export class DesignersPage implements OnInit {
       public loadingCtrl: LoadingController
     ) { }
 
-    ngOnInit() {
+    ngOnInit() { }
+
+    ngAfterViewChecked() { }
+
+    ionViewWillEnter() {
         this.values.designers = null;
         this.getTheseDesigners();
-    }
-
-    ngAfterViewChecked() {
     }
 
     designerCollections(designer) {
@@ -97,13 +98,12 @@ export class DesignersPage implements OnInit {
                 this.values.onescreen_total_imgages_num = this.values.designers.length;
                 for (let index = 0; index < this.values.designers.length; index++) {
                     let designer_id = this.values.designers[index].seller_account_id;
-                    this.values.collection_checkpoint[designer_id] = new Date('01/01/1980');
+                    this.values.collection_checkpoint[designer_id] = new Date('01/01/1980').getTime();
                 }
             }).catch(function (err) {
                 console.log(err);
             });
-        }
-        else {
+        } else {
             this.data.getDesigners(this.values.device_token, this.values.user_profile.user_token, force).then((response) => {
                 this.values.designers = response;
                 this.values.onescreen_total_imgages_num = this.values.designers.length;

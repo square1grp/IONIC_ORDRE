@@ -99,7 +99,7 @@ export class CachePage {
             };
         }
         console.log('Getting collections for designer:' + designer_id)
-        this.data.getCollections(designer_id, this.values.device_token, this.values.user_profile.user_token, 0).then(async response => {
+        this.data.getCollections(designer_id, this.values.device_token, this.values.user_profile.user_token).then(async response => {
             this.values.collections = response;
             if (mode != 3) {
                 if (this.values.user_profile.forcecache) {

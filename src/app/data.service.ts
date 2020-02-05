@@ -306,7 +306,7 @@ export class Data {
             .then(docs => {
                 this.draftOrders = docs.rows.map(row => {
                     if (seller_id > 0) {
-                        if ((row.doc.seller_account_id == seller_id) && (row.doc.buyer_id == buyer_id)) {
+                        if ((row.doc.seller_account_id === seller_id) && (row.doc.buyer_id === buyer_id)) {
                             row.doc.Date = new Date(row.doc.Date);
                             return row.doc;
                         }
@@ -315,7 +315,7 @@ export class Data {
                         }
                     }
                     else {
-                        if (row.doc.buyer_id == buyer_id) {
+                        if (row.doc.buyer_id === buyer_id) {
                             row.doc.Date = new Date(row.doc.Date);
                             return row.doc;
                         }
@@ -359,7 +359,7 @@ export class Data {
                 this.requestedOrders = docs.rows.map(row => {
                     // Dates are not automatically converted from a string.
                     if (seller_id > 0) {
-                        if ((row.doc.seller_account_id == seller_id) && (row.doc.buyer_id == buyer_id)) {
+                        if ((row.doc.seller_account_id === seller_id) && (row.doc.buyer_id === buyer_id)) {
                             row.doc.Date = new Date(row.doc.Date);
                             return row.doc;
                         }
@@ -368,7 +368,7 @@ export class Data {
                         }
                     }
                     else {
-                        if (row.doc.buyer_id == buyer_id) {
+                        if (row.doc.buyer_id === buyer_id) {
                             row.doc.Date = new Date(row.doc.Date);
                             return row.doc;
                         }
@@ -383,7 +383,7 @@ export class Data {
 
     updateOldOrders() {
         this.storage.get('updated_flag').then((result) => {
-            if (result == true) {
+            if (result === true) {
                 console.log("You have already updated your old Orders.");
             } else {
                 this.dbDraft.allDocs({ include_docs: true }).then(docs => {
@@ -408,8 +408,8 @@ export class Data {
                 }).then(() => {
                     for (let cindex = 0, len = this.oldDraftOrders.length; cindex < len; cindex++) {
                         this.dbDraft.get(this.oldDraftOrders[cindex]._id).then((doc) => {
-                            if (doc.status ==  "DRAFT") doc.status = "SERVER_DRAFT";
-                            if (doc.status ==  "REQUEST") doc.status = "LOCAL_DRAFT";
+                            if (doc.status ===  "DRAFT") doc.status = "SERVER_DRAFT";
+                            if (doc.status ===  "REQUEST") doc.status = "LOCAL_DRAFT";
                             doc.door = {
                                 "door_first_name": "",
                                 "door_last_name": "",
@@ -485,7 +485,7 @@ export class Data {
         let baseDate = new Date('01/01/1980');
         let nowDate = Date.now();
 
-        if ((this.values.online) && ((this.values.designer_checkpoint.getTime() == baseDate.getTime()) ||
+        if ((this.values.online) && ((this.values.designer_checkpoint.getTime() === baseDate.getTime()) ||
             (nowDate - ONE_HOUR > this.values.designer_checkpoint.getTime()))) {
             force = true;
             checkpoint = true;
@@ -495,7 +495,7 @@ export class Data {
 
         let record_id = 'designers'
         let record_id_get = record_id;
-        if (force == true) {
+        if (force === true) {
             record_id_get = 'NOPEA1';
         }
 
@@ -515,7 +515,7 @@ export class Data {
                     return false;
                 };
 
-                if ((checkpoint == true || force == true || result == null) && (this.values.online)) {
+                if ((checkpoint === true || force === true || result === null) && (this.values.online)) {
                     let apiSource = this.values.APIRoot + "/app/api.php?json={%22action%22:%22designers%22,%22request%22:{%22device_token%22:%22" +
                         device_token + "%22,%22user_token%22:%22" + user_token + "%22,%22checkpoint%22:%22" + (baseDate.getTime() / 1000) + "%22}}";
                     this.http.get(apiSource).subscribe((data) => {
@@ -539,7 +539,7 @@ export class Data {
     getThisCollections(designer_id, device_token, user_token) {
         return new Promise((resolve, reject) => {
             
-            this.getCollections(designer_id, device_token, user_token, 0).then(response => {
+            this.getCollections(designer_id, device_token, user_token).then(response => {
                 this.values.collections = response;
                 
                 this.storage.get('download_log').then((response) => {
@@ -547,7 +547,7 @@ export class Data {
                         let ulog = response.data;
                         for (let i = 0, len = ulog.length; i < len; i++) {
                             for (let j = 0, len = this.values.collections.length; j < len; j++) {
-                                if (ulog[i].collection_id == this.values.collections[j].collection_id) {
+                                if (ulog[i].collection_id === this.values.collections[j].collection_id) {
                                     //set collection status
                                     this.values.collections[j].offline = ulog[i].action;
                                     this.values.collections[j].download_date = ulog[i].date;
@@ -569,28 +569,28 @@ export class Data {
         });
     }
 
-    getCollections(designer_id, device_token, user_token, force) {
+    getCollections(designer_id, device_token, user_token) {
 
-        let checkpoint = false;
+        let force = false;
 
         let ONE_HOUR = 60 * 60 * 1000;
-        let baseDate = new Date('01/01/1980');
-        let nowDate = Date.now();
+        let baseTime = new Date('01/01/1980').getTime();
+        let currentTime = new Date().getTime();
         if (!this.values.collection_checkpoint[designer_id]) {
-            this.values.collection_checkpoint[designer_id] = new Date('01/01/1980');
+            this.values.collection_checkpoint[designer_id] = new Date('01/01/1980').getTime();
         }
 
-        if (force == 0 && this.values.online && (this.values.collection_checkpoint[designer_id].getTime() == baseDate.getTime()
-            || nowDate - ONE_HOUR > this.values.collection_checkpoint[designer_id].getTime())) {
+        if (this.values.online && currentTime - ONE_HOUR > this.values.collection_checkpoint[designer_id]) {
             force = true;
         }
         //  check for designers in pouch
         let record_id = 'collections_' + designer_id;
-        let record_id_get = record_id;  
-        if (force == true) { record_id_get = 'NOPEA' }
+        let record_id_get = record_id;
+        if (force === true) { record_id_get = 'NOPEA' }
+
         return new Promise((resolve, reject) => {
             this.storage.get(record_id_get).then((result) => {
-                if (result != null) {
+                if (result !== null) {
                     let pdata = JSON.parse(result);
                     resolve(pdata.data);
                     // this.storage.get('download_log').then((response) => {
@@ -598,7 +598,7 @@ export class Data {
                     //         let ulog = response.data;
                     //         for (let i = 0, len = ulog.length; i < len; i++) {
                     //             for (let j = 0, len = this.values.collections.length; j < len; j++) {
-                    //                 if (ulog[i].collection_id == this.values.collections[j].collection_id) {
+                    //                 if (ulog[i].collection_id === this.values.collections[j].collection_id) {
                     //                     //set collection status
                     //                     this.values.collections[j].offline = 'Downloaded'
                     //                 }
@@ -606,37 +606,34 @@ export class Data {
                     //         }
                     //     }
                     // });
-                }
-                else {
-                    if (checkpoint == true || force == true || result == null) {
-                        if (!this.values.online) {
-                            this.offlineManager();
-                            reject(null);
-                        };
-                        if (this.values.online) {
-                            let apiSource = this.values.APIRoot + "/app/api.php?json={%22action%22:%22collections_short%22,%22request%22:{%22device_token%22:%22" + device_token + "%22,%22user_token%22:%22" + user_token + "%22,%22checkpoint%22:%22" + (baseDate.getTime() / 1000) + "%22,%22seller_account_id%22:" + designer_id + "}}";
-                            this.http.get(apiSource).subscribe(data => {
-                                resolve(data['result']);
-                                this.values.collection_checkpoint[designer_id] = new Date();
-                                this.storeCollections(record_id, data['result']);
+                } else {
+                    if (!this.values.online) {
+                        this.offlineManager();
+                        reject(null);
+                    };
+                    if (this.values.online) {
+                        let apiSource = this.values.APIRoot + "/app/api.php?json={%22action%22:%22collections_short%22,%22request%22:{%22device_token%22:%22" + device_token + "%22,%22user_token%22:%22" + user_token + "%22,%22checkpoint%22:%22" + (baseTime / 1000) + "%22,%22seller_account_id%22:" + designer_id + "}}";
+                        this.http.get(apiSource).subscribe(data => {
+                            resolve(data['result']);
+                            this.values.collection_checkpoint[designer_id] = new Date().getTime();
+                            this.storeCollections(record_id, data['result']);
 
-                                //  set download status based on collection download index
-                                // this.storage.get('download_log').then((response) => {
-                                //     if (response != null) {
-                                //         let ulog = response.data;
-                                //         for (let i = 0, len = ulog.length; i < len; i++) {
-                                //             for (let j = 0, len = this.values.collections.length; j < len; j++) {
-                                //                 if (ulog[i].collection_id == this.values.collections[j].collection_id) {
-                                //                     //set collection status
-                                //                     this.values.collections[j].offline = 'Downloaded'
-                                //                 }
-                                //             }
-                                //         }
-                                //     }
-                                // });
+                            //  set download status based on collection download index
+                            // this.storage.get('download_log').then((response) => {
+                            //     if (response != null) {
+                            //         let ulog = response.data;
+                            //         for (let i = 0, len = ulog.length; i < len; i++) {
+                            //             for (let j = 0, len = this.values.collections.length; j < len; j++) {
+                            //                 if (ulog[i].collection_id === this.values.collections[j].collection_id) {
+                            //                     //set collection status
+                            //                     this.values.collections[j].offline = 'Downloaded'
+                            //                 }
+                            //             }
+                            //         }
+                            //     }
+                            // });
 
-                            });
-                        }
+                        });
                     }
                 }
             }).catch(function (err) {
@@ -671,28 +668,26 @@ export class Data {
     getProduct(collection_id, device_token, user_token, force, mode) {
         //mode=set values or return them
         //force = cache force
-        if (force == 4) force = 1;
-        if (force == 5) force = 2;
+        if (force === 4) force = 1;
+        if (force === 5) force = 2;
         let record_id = 'products_' + collection_id;
         let record_id_get = record_id;
-        if (force == 1) record_id_get = 'NOPEA';
+        if (force === 1) record_id_get = 'NOPEA';
         return new Promise((resolve, reject) => {
             this.values.debug = 'Get Products';
             this.storage.get(record_id_get).then((result) => {
                 if (result != null) {
                     let pdata = JSON.parse(result)
-                    if (mode == 0) {
+                    if (mode === 0) {
                         this.values.products = pdata.data;
                         resolve('');
-                    }
-                    else {
+                    } else {
                         resolve(pdata.data);
                     }
                     if (force > 0) {
                         this.productsCache(pdata.data, force);
                     }
-                }
-                else {
+                } else {
                     if (!this.values.online) {
                         this.offlineManager();
                         reject(null);
@@ -700,7 +695,7 @@ export class Data {
                     if (this.values.online) {
                         let apiSource = this.values.APIRoot + "/app/api.php?json={%22action%22:%22collection_products%22,%22request%22:{%22device_token%22:%22" + device_token + "%22,%22user_token%22:%22" + user_token + "%22,%22collection_id%22:" + collection_id + "}}";
                         this.http.get(apiSource).subscribe(productData => {
-                            if (mode == 0) {
+                            if (mode === 0) {
                                 this.values.products = productData['result'];
                                 resolve('');
                             } else {
@@ -755,7 +750,7 @@ export class Data {
                     //this.cacheMaybe(this.values.APIRoot + '/app/get_image.php?image=/'+product.variants[0].variant_images[0]
                     //.variant_image+'&w=342&h=509&xtype=prodimage');
                     //}
-                    if (product.variants.length > 0 && this.values.cancel == false) {
+                    if (product.variants.length > 0 && this.values.cancel === false) {
                         //product.variants.forEach((variant) => {
                         let variant: any;
                         for (let vindex = 0; vindex < product.variants.length; vindex++) {
@@ -768,13 +763,13 @@ export class Data {
                                     + '&w=342&h=509&xtype=prodimage', force);
                             }
                             //  swatches
-                            if (variant.swatch.swatch_image && this.values.cancel == false) {
+                            if (variant.swatch.swatch_image && this.values.cancel === false) {
                                 this.cacheMaybe(this.values.APIRoot + '/app/get_image.php?image=/' + variant.swatch.swatch_image
                                     + '&w=20&h=20&xtype=prodimage', force);
                                 this.cacheMaybe(this.values.APIRoot + '/app/get_image.php?image=/' + variant.swatch.swatch_image
                                     + '&w=100&h=100&xtype=prodimage', force);
                             }
-                            if (variant.variant_images.length > 0 && this.values.cancel == false) {
+                            if (variant.variant_images.length > 0 && this.values.cancel === false) {
                                 variant.variant_images.forEach((imageslide) => {
                                     //  360 left nav
                                     //if(imageslide.hasOwnProperty('variant_360')){
@@ -782,7 +777,7 @@ export class Data {
                                     //  .jpg&w=683&h=957&zc=3',force);  
                                     //}
                                     //  variant images
-                                    if ((imageslide.variant_image.length > 0) && (this.values.cancel == false)) {
+                                    if ((imageslide.variant_image.length > 0) && (this.values.cancel === false)) {
                                         //  item?
                                         this.cacheMaybe(this.values.APIRoot + '/app/get_image.php?image=/' + imageslide.variant_image +
                                             '&w=683&h=980&zc=2&xtype=prodimage', force);
@@ -791,7 +786,7 @@ export class Data {
                                             '&w=110&h=165&xtype=prodimage', force);
                                     }
                                     //  cache 360 frames                                 
-                                    if (imageslide.variant_360 && this.values.cancel == false) {
+                                    if (imageslide.variant_360 && this.values.cancel === false) {
                                         //this.values.imageFrames.forEach((frame) => {
                                         let pad = "00";
                                         for (let i = 1, len = imageslide.frame_count; i < len; i++) {
@@ -969,7 +964,7 @@ export class Data {
         //  3 = just delete
         if (force > 1) {
             this.deleteItem(url).then(() => {
-                if (force == 3) {
+                if (force === 3) {
                     this.values.downloadQueue = this.values.downloadQueue - 1;
                     if (this.values.downloadQueue < 0) this.values.downloadQueue = 0;
 
@@ -977,9 +972,9 @@ export class Data {
                     if (this.values.cacheIndex >= this.values.numOfProdutTotalImages) {
                         this.values.pIndex = this.values.pIndex + 1;
                         this.values.cacheIndex = 0;
-                        if (this.values.pIndex >= this.values.cacheProducts.length || this.values.cancel == true) {
-                            if (this.values.cancel == false) {
-                                if (this.c_mode == 3) {
+                        if (this.values.pIndex >= this.values.cacheProducts.length || this.values.cancel === true) {
+                            if (this.values.cancel === false) {
+                                if (this.c_mode === 3) {
                                     this.delCindex(this.c_collection_title, this.c_collection_id, this.c_designer_title, this.c_designer_id);
                                 }
                                 else {
@@ -1005,16 +1000,16 @@ export class Data {
                                 }
                             }, 7000);
                             this.countProdutTotalImages(this.values.cacheProducts[this.values.pIndex], this.values.force);
-                            if (this.abort == false) this.productCache(this.values.cacheProducts[this.values.pIndex], this.values.force);
+                            if (this.abort === false) this.productCache(this.values.cacheProducts[this.values.pIndex], this.values.force);
                         }
                     }
                 }
-                if (force == 2) {
+                if (force === 2) {
                     this.cacheImage(url);
                 }
             });
         }
-        if (force == 1) {
+        if (force === 1) {
             this.cacheImage(url);
         }
     }
@@ -1032,7 +1027,7 @@ export class Data {
                     this.values.productCashImageUrls.splice(urlIndex, 1);
                 }
                 let longTimeUrlIndex = this.values.longTimeRequestUrls.indexOf(url);
-                if(longTimeUrlIndex == -1) {
+                if(longTimeUrlIndex === -1) {
                     this.values.cacheIndex = this.values.cacheIndex + 1;
                 }
                 else {
@@ -1045,9 +1040,9 @@ export class Data {
                     this.values.longTimeRequestUrls = this.values.longTimeRequestUrls.concat(this.values.productCashImageUrls);
                     this.values.productCashImageUrls = [];
 
-                    if (this.values.pIndex >= this.values.cacheProducts.length || this.values.cancel == true) {
-                        if (this.values.cancel == false) {
-                            if (this.c_mode == 3) {
+                    if (this.values.pIndex >= this.values.cacheProducts.length || this.values.cancel === true) {
+                        if (this.values.cancel === false) {
+                            if (this.c_mode === 3) {
                                 this.delCindex(this.c_collection_title, this.c_collection_id, this.c_designer_title, this.c_designer_id)
                             }
                             else {
@@ -1063,7 +1058,7 @@ export class Data {
                         this.values.pIndexCheckPoint = Date.now();
                         this.abort = true;
 
-                        if (this.d_collections_all == true) {
+                        if (this.d_collections_all === true) {
                             if (this.values.cancel != false) {
                                 this.d_collection_index = this.values.collections.length;
                             }
@@ -1083,7 +1078,7 @@ export class Data {
                         }, 7000);
                         this.countProdutTotalImages(this.values.cacheProducts[this.values.pIndex], this.values.force);
 
-                        if (this.abort == false) {
+                        if (this.abort === false) {
                             this.productCache(this.values.cacheProducts[this.values.pIndex], this.values.force);
                         }
                         else {
@@ -1105,7 +1100,7 @@ export class Data {
                         this.values.productCashImageUrls.splice(urlIndex, 1);
                     }
                     let longTimeUrlIndex = this.values.longTimeRequestUrls.indexOf(url);
-                    if(longTimeUrlIndex == -1) {
+                    if(longTimeUrlIndex === -1) {
                         this.values.cacheIndex = this.values.cacheIndex + 1;
                     }
                     else {
@@ -1119,9 +1114,9 @@ export class Data {
                         this.values.longTimeRequestUrls = this.values.longTimeRequestUrls.concat(this.values.productCashImageUrls);
                         this.values.productCashImageUrls = [];
 
-                        if (this.values.pIndex >= this.values.cacheProducts.length || this.values.cancel == true) {
-                            if (this.values.cancel == false) {
-                                if (this.c_mode == 3) {
+                        if (this.values.pIndex >= this.values.cacheProducts.length || this.values.cancel === true) {
+                            if (this.values.cancel === false) {
+                                if (this.c_mode === 3) {
                                     this.delCindex(this.c_collection_title, this.c_collection_id, this.c_designer_title, this.c_designer_id)
                                 }
                                 else {
@@ -1139,7 +1134,7 @@ export class Data {
                             this.values.pIndexCheckPoint = Date.now();
                             this.abort = true;
 
-                            if (this.d_collections_all == true) {
+                            if (this.d_collections_all === true) {
                                 if (this.values.cancel != false) {
                                     this.d_collection_index = this.values.collections.length;
                                 }
@@ -1159,7 +1154,7 @@ export class Data {
                             }, 7000);
                             this.countProdutTotalImages(this.values.cacheProducts[this.values.pIndex], this.values.force);
 
-                            if (this.abort == false) {
+                            if (this.abort === false) {
                                 this.productCache(this.values.cacheProducts[this.values.pIndex], this.values.force);
                             }
                             else {
@@ -1178,7 +1173,7 @@ export class Data {
                         this.values.productCashImageUrls.splice(urlIndex, 1);
                     }
                     let longTimeUrlIndex = this.values.longTimeRequestUrls.indexOf(url);
-                    if(longTimeUrlIndex == -1) {
+                    if(longTimeUrlIndex === -1) {
                         this.values.cacheIndex = this.values.cacheIndex + 1;
                     }
                     else {
@@ -1192,9 +1187,9 @@ export class Data {
                         this.values.longTimeRequestUrls = this.values.longTimeRequestUrls.concat(this.values.productCashImageUrls);
                         this.values.productCashImageUrls = [];
 
-                        if (this.values.pIndex >= this.values.cacheProducts.length || this.values.cancel == true) {
-                            if (this.values.cancel == false) {
-                                if (this.c_mode == 3) {
+                        if (this.values.pIndex >= this.values.cacheProducts.length || this.values.cancel === true) {
+                            if (this.values.cancel === false) {
+                                if (this.c_mode === 3) {
                                     this.delCindex(this.c_collection_title, this.c_collection_id, this.c_designer_title, this.c_designer_id)
                                 }
                                 else {
@@ -1210,7 +1205,7 @@ export class Data {
                             this.values.pIndexCheckPoint = Date.now();
                             this.abort = true;
 
-                            if (this.d_collections_all == true) {
+                            if (this.d_collections_all === true) {
                                 if (this.values.cancel != false) {
                                     this.d_collection_index = this.values.collections.length;
                                 }
@@ -1230,7 +1225,7 @@ export class Data {
                             }, 7000);
                             this.countProdutTotalImages(this.values.cacheProducts[this.values.pIndex], this.values.force);
 
-                            if (this.abort == false) {
+                            if (this.abort === false) {
                                 this.productCache(this.values.cacheProducts[this.values.pIndex], this.values.force);
                             }
                             else {
@@ -1257,26 +1252,26 @@ export class Data {
                     if (image != null)
                     {
                         count++;
-                        if (count == len) resolve(true);
+                        if (count === len) resolve(true);
                     }
                     else {
                         if (this.values.online) {
                             this.putImage(threeSixtyFrameUrls[i]).then((res) => {
                                 count++;
-                                if (count == len) resolve(true);
+                                if (count === len) resolve(true);
                             }).catch((err) => {
                                 count++;
-                                if (count == len) resolve(true);
+                                if (count === len) resolve(true);
                             });
                         }
                         else {
                             count++;
-                            if (count == len) resolve(true);
+                            if (count === len) resolve(true);
                         }
                     }
                 }).catch((error) => {
                     count++;
-                    if (count == len) resolve(true);
+                    if (count === len) resolve(true);
                     console.log(error);
                 });;
             }
@@ -1452,7 +1447,7 @@ export class Data {
             //  3 = just delete     
             let abort = false;
             for (let cindex = 0, len = this.values.collections.length; cindex < len && !abort; cindex++) {
-                if (this.values.collections[cindex].collection_id == collection_id) {
+                if (this.values.collections[cindex].collection_id === collection_id) {
                     abort = true;
                     this.values.collections[cindex].offline = 'Downloading';
 
@@ -1469,11 +1464,11 @@ export class Data {
                     //  4 = update 
                     //  5 = update all images     
                     let action = '';
-                    if (mode == 1) { action = 'Downloaded'; }
-                    if (mode == 2) { action = 'Downloaded (all images)'; }
-                    if (mode == 3) { action = 'Remove'; }
-                    if (mode == 4) { action = 'Updated'; }
-                    if (mode == 5) { action = 'Updated (all images)'; }
+                    if (mode === 1) { action = 'Downloaded'; }
+                    if (mode === 2) { action = 'Downloaded (all images)'; }
+                    if (mode === 3) { action = 'Remove'; }
+                    if (mode === 4) { action = 'Updated'; }
+                    if (mode === 5) { action = 'Updated (all images)'; }
                     this.storeCollections(record_id, this.values.collections);
                     this.getProduct(collection_id, this.values.user_profile.device_token, this.values.user_profile.user_token, mode, 0).then((data) => {
 
@@ -1486,7 +1481,7 @@ export class Data {
                         this.c_collection_total_bytes = this.values.collections[cindex].app_total_bytes;
 
                         // //this.values.products = data;
-                        // if (mode ==  3) {
+                        // if (mode ===  3) {
                         //     this.delCindex(collection_title, collection_id, designer_title, designer_id)
                         // }
                         // else {
@@ -1534,11 +1529,11 @@ export class Data {
             this.storage.set('collection_index', newCindex)
 
             //update collection offline property
-            this.getCollections(designer_id, this.values.user_profile.device_token, this.values.user_profile.user_token, 0).then(response => {
+            this.getCollections(designer_id, this.values.user_profile.device_token, this.values.user_profile.user_token).then(response => {
                 this.values.collections = response;
                 let abort = false;
                 for (let i = 0, len = this.values.collections.length; i < len && !abort; i++) {
-                    if (this.values.collections[i].collection_id == collection_id) {
+                    if (this.values.collections[i].collection_id === collection_id) {
                         abort = true;
                         delete this.values.collections[i].offline
                     }
@@ -1552,7 +1547,7 @@ export class Data {
     removeCIndexItem(cIndex, collection_id) {
         let abort = false;
         for (let i = 0, len = cIndex.length; i < len && !abort; i++) {
-            if (cIndex[i].collection_id == collection_id) {
+            if (cIndex[i].collection_id === collection_id) {
                 abort = true;
                 //remove it
                 cIndex.splice(i, 1);
@@ -1576,7 +1571,7 @@ export class Data {
             let newdlog = { 'data': ulog }
             this.storage.set('download_log', newdlog);
             this.dlog = ulog
-            if (this.selectedCollection != undefined && this.selectedCollection.collection_id == collection_id) {
+            if (this.selectedCollection != undefined && this.selectedCollection.collection_id === collection_id) {
                 this.selectedCollection.offline = action;
             }
         });
@@ -1587,7 +1582,7 @@ export class Data {
     filterCollections(collection_id) {
         this.values.search = '';
         return this.values.collections.filter((collection) => {
-            return collection.collection_id == collection_id;
+            return collection.collection_id === collection_id;
         });
     }
 
@@ -1596,7 +1591,7 @@ export class Data {
     setThisCollection() {
         if (!this.values.online) {
             for (let i = 0, len = this.values.collections.length; i < len; i++) {
-                if (this.values.collections[i].offline == "Downloaded") {
+                if (this.values.collections[i].offline === "Downloaded") {
                     this.designer.currentCollectionID = this.values.collections[i].collection_id
                     return this.designer.currentCollectionID;
                 }
@@ -1664,7 +1659,7 @@ export class Data {
         if ((designer_id > 0) && (this.values.designers)) {
             let abort = false;
             for (let i = 0, len = this.values.designers.length; i < len && !abort; i++) {
-                if (this.values.designers[i].seller_account_id == designer_id) {
+                if (this.values.designers[i].seller_account_id === designer_id) {
                     this.designer = this.values.designers[i];
                     abort = true;
                 }
@@ -1676,7 +1671,7 @@ export class Data {
         //find region in designer
 
         let selected_regionId = null;
-        if (this.values.designer_pricelist.region_index == null) {
+        if (this.values.designer_pricelist.region_index === null) {
             selected_regionId = region_id;
         }
         else {
@@ -1685,7 +1680,7 @@ export class Data {
 
         let abort = false;
         for (let i = 0, len = this.values.designer.region_currency.length; i < len && !abort; i++) {
-            if (this.values.designer.region_currency[i].region_id == selected_regionId) {
+            if (this.values.designer.region_currency[i].region_id === selected_regionId) {
                 abort = true;
                 this.designer.buyer_code = this.values.designer.region_currency[i].currency_code;
                 this.designer.buyer_symbol = this.values.designer.region_currency[i].currency_symbol;
@@ -1783,7 +1778,7 @@ export class Data {
             // this.http.post(apiURL, body, options)
             //     .pipe(map(res => res.json()))
             //     .subscribe(response => {
-            //         if(response.status == 'ok') {
+            //         if(response.status === 'ok') {
             //             this.emptyActivityLogs();
             //         }
             //     });
@@ -1872,7 +1867,7 @@ export class Data {
     //   }
 
     presentLoadingSpiner() {
-        if (this.loadingState == true) return;
+        if (this.loadingState === true) return;
         this.loading.present().then(() => {
             console.log("presented");
             this.loadingState = true;
@@ -1883,7 +1878,7 @@ export class Data {
 
     //   dismissLoadingSpiner() {
     //       return new Promise((resolve, reject) => {
-    //           if (this.loadingState == false) {
+    //           if (this.loadingState === false) {
     //               this.isloadingState = true;
     //               return;
     //           }
@@ -1903,14 +1898,14 @@ export class Data {
 
     //   presentLoadingSpinerSec() {
     //       return new Promise((resolve, reject) => {
-    //           if (this.loadingState == true) return;
+    //           if (this.loadingState === true) return;
     //           this.loading.present().then(() => {
     //               this.loadingState = true;
     //               this.values.spinnerCheckPoint = Date.now();
-    //               if (this.values.isHeavyLoad == true) {
+    //               if (this.values.isHeavyLoad === true) {
     //                   setTimeout(async () => {
     //                       let currentCheckPoint = Date.now();
-    //                       if (this.loadingState == true && currentCheckPoint - this.values.spinnerCheckPoint >= 35000) {
+    //                       if (this.loadingState === true && currentCheckPoint - this.values.spinnerCheckPoint >= 35000) {
     //                           this.dismissLoadingSpiner();
     //                           let alert = await this.alertCtrl.create({
     //                               header: 'WARNING: Internet connect problem.',
@@ -1932,7 +1927,7 @@ export class Data {
     //               else {
     //                   setTimeout(async () => {
     //                       let currentCheckPoint = Date.now();
-    //                       if (this.loadingState == true && currentCheckPoint - this.values.spinnerCheckPoint >= 20000) {
+    //                       if (this.loadingState === true && currentCheckPoint - this.values.spinnerCheckPoint >= 20000) {
     //                             this.dismissLoadingSpiner();
     //                             let alert = await this.alertCtrl.create({
     //                                 header: 'WARNING: Internet connect problem.',
@@ -1972,9 +1967,9 @@ export class Data {
     }
 
     isOpenedCollection(designer_id) {
-        if (this.values.designers == undefined) return false;
+        if (this.values.designers === undefined) return false;
         for (let cindex = 0, len = this.values.designers.length; cindex < len; cindex++) {
-            if (this.values.designers[cindex].seller_account_id == designer_id) return true;
+            if (this.values.designers[cindex].seller_account_id === designer_id) return true;
         }
         return false;
     }

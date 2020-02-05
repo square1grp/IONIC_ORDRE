@@ -54,7 +54,6 @@ export class CollectionPage implements OnInit {
         private popoverCtrl: PopoverController, 
         private insomnia: Insomnia) {
         
-        
         // set designer special price_list if this designer have its own special price.
         if (this.values.isDesignerLogin) {
             this.values.designer_pricelist.region_id = null;
