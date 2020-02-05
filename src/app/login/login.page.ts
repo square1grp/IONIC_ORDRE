@@ -167,7 +167,7 @@ export class LoginPage implements OnInit {
                         }
                     };
                     this.values.products = null;
-                    this.data.getProduct(this.data.currentCollectionID, this.values.device_token, this.values.user_profile.user_token, 0, 0).then(data => {
+                    this.data.getProduct(this.data.currentCollectionID, this.values.device_token, this.values.user_profile.user_token, 0).then(data => {
                         if (this.values.products.length < 9) {
                             this.values.onescreen_total_imgages_num = this.values.products.length * 2;
                         }

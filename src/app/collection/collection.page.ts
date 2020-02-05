@@ -82,7 +82,7 @@ export class CollectionPage implements OnInit {
             this.values.search = '';
             this.searchValue = '';
 
-            this.values.collection_checkpoint[this.values.designer.seller_account_id] = new Date('01/01/1980');
+            this.values.designer_checkpoints[this.values.designer.seller_account_id] = new Date('01/01/1980').getTime();
             this.data.formatCollections(this.values.designer.seller_account_id);
             this.data.getDesignerCurrency(this.values.user_profile.user_region_id, 0);
             this.data.getThisCollections(this.values.designer.seller_account_id, this.values.device_token, this.values.user_profile.user_token).then((data) => {
@@ -95,7 +95,7 @@ export class CollectionPage implements OnInit {
                 };
 
                 this.values.products = null;
-                this.data.getProduct(this.data.currentCollectionID, this.values.device_token, this.values.user_profile.user_token, 0, 0).then(data => {
+                this.data.getProduct(this.data.currentCollectionID, this.values.device_token, this.values.user_profile.user_token, 0).then(data => {
                     if (this.values.products.length < 9) {
                         this.values.onescreen_total_imgages_num = this.values.products.length * 2;
                     }
@@ -437,7 +437,7 @@ export class CollectionPage implements OnInit {
                 this.values.designer.currentCollectionID = collection_id;
             }
             //  get product items in the collection
-            this.data.getProduct(collection_id, this.values.device_token, this.values.user_profile.user_token, 0, 0).then((data) => {
+            this.data.getProduct(collection_id, this.values.device_token, this.values.user_profile.user_token, 0).then((data) => {
                 this.firstItem = 0;
                 this.addItemsToGrid('', 0);
                 this.data.activityLogPost(Constants.LOG_VIEWED_COLLECTION, this.values.designer.seller_account_id, collection_id, '', '');
@@ -577,7 +577,7 @@ export class CollectionPage implements OnInit {
     }
 
     popView() {
-        this.values.isDesignersPage = true;
+        // this.values.isDesignersPage = true;
         this.router.navigate(['/designers']);
     }
 

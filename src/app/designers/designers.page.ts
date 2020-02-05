@@ -22,11 +22,20 @@ export class DesignersPage implements OnInit {
 
     ngOnInit() { }
 
-    ngAfterViewChecked() { }
-
     ionViewWillEnter() {
+        console.log('ionViewWillEnter');
         this.values.designers = null;
-        this.getTheseDesigners();
+        this.data.getTheseDesigners();
+    }
+
+    ionViewDidEnter() {
+        this.values.isDesignersPage = true;
+        console.log('ionViewDidEnter', this.values.isDesignersPage);
+    }
+
+    ionViewDidLeave() {
+        this.values.isDesignersPage = false;
+        console.log('ionViewDidLeave', this.values.isDesignersPage);
     }
 
     designerCollections(designer) {
@@ -71,14 +80,14 @@ export class DesignersPage implements OnInit {
                 };
 
                 this.values.products = null;
-                this.data.getProduct(this.data.currentCollectionID, this.values.device_token, this.values.user_profile.user_token, 0, 0).then(data => {
+                this.data.getProduct(this.data.currentCollectionID, this.values.device_token, this.values.user_profile.user_token, 0).then(data => {
                     if (this.values.products.length < 9) {
                         this.values.onescreen_total_imgages_num = this.values.products.length * 2;
                     }
                     else {
                         this.values.onescreen_total_imgages_num = 18;
                     }
-                    this.values.isDesignersPage = false;
+                    // this.values.isDesignersPage = false;
                     this.router.navigate(['/collection', { mode: '' }]);
                 }).catch(function (err) {
                     console.log(err);
@@ -87,30 +96,5 @@ export class DesignersPage implements OnInit {
                 return false;
             });
         });
-    }
-
-    getTheseDesigners() {
-        let force = false;
-        if (this.values.isDesignersPage == true) {
-            force = true;
-            this.data.getDesigners(this.values.device_token, this.values.user_profile.user_token, force).then((response) => {
-                this.values.designers = response;
-                this.values.onescreen_total_imgages_num = this.values.designers.length;
-                for (let index = 0; index < this.values.designers.length; index++) {
-                    let designer_id = this.values.designers[index].seller_account_id;
-                    this.values.collection_checkpoint[designer_id] = new Date('01/01/1980').getTime();
-                }
-            }).catch(function (err) {
-                console.log(err);
-            });
-        } else {
-            this.data.getDesigners(this.values.device_token, this.values.user_profile.user_token, force).then((response) => {
-                this.values.designers = response;
-                this.values.onescreen_total_imgages_num = this.values.designers.length;
-                this.values.isDesignersPage = true;
-            }).catch(function (err) {
-                console.log(err);
-            });
-        }
     }
 }

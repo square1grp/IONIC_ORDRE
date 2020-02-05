@@ -485,8 +485,8 @@ export class Data {
         let baseDate = new Date('01/01/1980');
         let nowDate = Date.now();
 
-        if ((this.values.online) && ((this.values.designer_checkpoint.getTime() === baseDate.getTime()) ||
-            (nowDate - ONE_HOUR > this.values.designer_checkpoint.getTime()))) {
+        if ((this.values.online) && ((this.values.designers_checkpoint.getTime() === baseDate.getTime()) ||
+            (nowDate - ONE_HOUR > this.values.designers_checkpoint.getTime()))) {
             force = true;
             checkpoint = true;
         }
@@ -521,7 +521,7 @@ export class Data {
                     this.http.get(apiSource).subscribe((data) => {
                         let gotdata = data['result'];
                         resolve( data['result']);
-                        this.values.designer_checkpoint = new Date();
+                        this.values.designers_checkpoint = new Date();
                         this.storeDesigners = { '_id': record_id, data: gotdata };
 
                         this.storage.set(record_id, JSON.stringify(this.storeDesigners)).then((new_ID) => {
@@ -532,6 +532,32 @@ export class Data {
                 }
             })
         });
+    }
+
+    getTheseDesigners() {
+        let force = false;
+        if (this.values.isDesignersPage == true) {
+            force = true;
+            this.getDesigners(this.values.device_token, this.values.user_profile.user_token, force).then((response) => {
+                this.values.designers = response;
+                this.values.onescreen_total_imgages_num = this.values.designers.length;
+                for (let index = 0; index < this.values.designers.length; index++) {
+                    let designer_id = this.values.designers[index].seller_account_id;
+                    this.values.designer_checkpoints[designer_id] = new Date('01/01/1980').getTime();
+                }
+                this.values.collection_checkpoints = [];
+            }).catch(function (err) {
+                console.log(err);
+            });
+        } else {
+            this.getDesigners(this.values.device_token, this.values.user_profile.user_token, force).then((response) => {
+                this.values.designers = response;
+                this.values.onescreen_total_imgages_num = this.values.designers.length;
+                this.values.isDesignersPage = true;
+            }).catch(function (err) {
+                console.log(err);
+            });
+        }
     }
 
     // all collections for the selected designer
@@ -576,11 +602,11 @@ export class Data {
         let ONE_HOUR = 60 * 60 * 1000;
         let baseTime = new Date('01/01/1980').getTime();
         let currentTime = new Date().getTime();
-        if (!this.values.collection_checkpoint[designer_id]) {
-            this.values.collection_checkpoint[designer_id] = new Date('01/01/1980').getTime();
+        if (!this.values.designer_checkpoints[designer_id]) {
+            this.values.designer_checkpoints[designer_id] = new Date('01/01/1980').getTime();
         }
 
-        if (this.values.online && currentTime - ONE_HOUR > this.values.collection_checkpoint[designer_id]) {
+        if (this.values.online && currentTime - ONE_HOUR > this.values.designer_checkpoints[designer_id]) {
             force = true;
         }
         //  check for designers in pouch
@@ -615,7 +641,7 @@ export class Data {
                         let apiSource = this.values.APIRoot + "/app/api.php?json={%22action%22:%22collections_short%22,%22request%22:{%22device_token%22:%22" + device_token + "%22,%22user_token%22:%22" + user_token + "%22,%22checkpoint%22:%22" + (baseTime / 1000) + "%22,%22seller_account_id%22:" + designer_id + "}}";
                         this.http.get(apiSource).subscribe(data => {
                             resolve(data['result']);
-                            this.values.collection_checkpoint[designer_id] = new Date().getTime();
+                            this.values.designer_checkpoints[designer_id] = new Date().getTime();
                             this.storeCollections(record_id, data['result']);
 
                             //  set download status based on collection download index
@@ -665,27 +691,35 @@ export class Data {
     };
 
 
-    getProduct(collection_id, device_token, user_token, force, mode) {
-        //mode=set values or return them
-        //force = cache force
-        if (force === 4) force = 1;
-        if (force === 5) force = 2;
+    getProduct(collection_id, device_token, user_token, mode) {
+
+        let force = false;
+
+        let ONE_HOUR = 60 * 60 * 1000;
+        let currentTime = new Date().getTime();
+        if (!this.values.collection_checkpoints[collection_id]) {
+            this.values.collection_checkpoints[collection_id] = new Date('01/01/1980').getTime();
+        }
+
+        if (this.values.online && currentTime - ONE_HOUR > this.values.collection_checkpoints[collection_id]) {
+            force = true;
+        }
+
+        if (mode === 4) mode = 1;
+        if (mode === 5) mode = 2;
+
         let record_id = 'products_' + collection_id;
         let record_id_get = record_id;
-        if (force === 1) record_id_get = 'NOPEA';
+        if (force === true || mode === 1) record_id_get = 'NOPEA';
+
         return new Promise((resolve, reject) => {
-            this.values.debug = 'Get Products';
             this.storage.get(record_id_get).then((result) => {
                 if (result != null) {
-                    let pdata = JSON.parse(result)
-                    if (mode === 0) {
-                        this.values.products = pdata.data;
-                        resolve('');
-                    } else {
-                        resolve(pdata.data);
-                    }
-                    if (force > 0) {
-                        this.productsCache(pdata.data, force);
+                    let pdata = JSON.parse(result);
+                    this.values.products = pdata.data;
+                    resolve(pdata.data);
+                    if (mode > 0) {
+                        this.productsCache(pdata.data, mode);
                     }
                 } else {
                     if (!this.values.online) {
@@ -695,18 +729,16 @@ export class Data {
                     if (this.values.online) {
                         let apiSource = this.values.APIRoot + "/app/api.php?json={%22action%22:%22collection_products%22,%22request%22:{%22device_token%22:%22" + device_token + "%22,%22user_token%22:%22" + user_token + "%22,%22collection_id%22:" + collection_id + "}}";
                         this.http.get(apiSource).subscribe(productData => {
-                            if (mode === 0) {
-                                this.values.products = productData['result'];
-                                resolve('');
-                            } else {
-                                resolve(productData['result']);
-                            }
+                            this.values.products = productData['result'];
+                            resolve(productData['result']);
+                            this.values.collection_checkpoints[collection_id] = new Date().getTime();
+
                             this.deleteItem(record_id).then(() => {
                                 let storeProducts = { '_id': record_id, data: productData['result'] };
                                 let newData = JSON.stringify(storeProducts);
                                 this.storage.set(record_id, newData).then(() => {
-                                    if (productData['result'].length > 0 && force > 0) {
-                                        this.productsCache(productData['result'], force);
+                                    if (productData['result'].length > 0 && mode > 0) {
+                                        this.productsCache(productData['result'], mode);
                                     }
                                 }).catch((err) => {
                                     console.log(err);
@@ -714,6 +746,9 @@ export class Data {
                                     resolve(idn);
                                 });
                             });
+                        }, error => {
+                            console.log(error);
+                            reject(null);
                         });
                     }
                 }
@@ -1470,7 +1505,7 @@ export class Data {
                     if (mode === 4) { action = 'Updated'; }
                     if (mode === 5) { action = 'Updated (all images)'; }
                     this.storeCollections(record_id, this.values.collections);
-                    this.getProduct(collection_id, this.values.user_profile.device_token, this.values.user_profile.user_token, mode, 0).then((data) => {
+                    this.getProduct(collection_id, this.values.user_profile.device_token, this.values.user_profile.user_token, mode).then((data) => {
 
                         this.c_collection_title = collection_title;
                         this.c_collection_id = collection_id;
@@ -1869,7 +1904,6 @@ export class Data {
     presentLoadingSpiner() {
         if (this.loadingState === true) return;
         this.loading.present().then(() => {
-            console.log("presented");
             this.loadingState = true;
         }).catch(function (err) {
             console.log(err);

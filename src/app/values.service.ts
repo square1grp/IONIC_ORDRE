@@ -28,9 +28,9 @@ export class Values {
 
     isDesignersPage: boolean = true;
     isCollectionPage: boolean = false;
-    designer_checkpoint = new Date('01/01/1980');
-    collection_checkpoint = [];
-
+    designers_checkpoint = new Date('01/01/1980');
+    designer_checkpoints = [];
+    collection_checkpoints = [];
 
     view_mode = "grid view";
     cart_view_mode = "note view";

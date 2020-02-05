@@ -73,7 +73,7 @@ export class CartPage implements OnInit {
                 //  check each product in each collections
                 console.log('Checking products to map QTY selectors for:' + orderPart.seller_account_id)
                 this.values.collections.forEach((collection, cindex) => {
-                    this.data.getProduct(collection.collection_id, this.values.device_token, this.values.user_profile.user_token, 0, 1).then(data => {
+                    this.data.getProduct(collection.collection_id, this.values.device_token, this.values.user_profile.user_token, 0).then(data => {
                         console.log('Got Product Data')
                         collection.products = data;
                         collection.products.forEach((product, pindex) => {
