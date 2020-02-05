@@ -2012,11 +2012,11 @@ page-settings .native-input.sc-ion-input-ios {
 
 /* #line_sheet_section #line_sheet_content .current_total.visible { */
 .current_total.visible {
-	position:fixed;
+	position: absolute;
 	right:0px;
 	z-index:99;
 	background:rgba(255, 255, 255, 0.9);
-	top:97px;
+	top: 0;
 	width:33.4%;
 	display:block;
 	border-left:1px solid #23c1ea;
@@ -4475,6 +4475,7 @@ ion-slide.swiper-slide {
 }
 
 .actions_wrapper {
+    position: relative;
 	padding-left:15px;
 	text-transform:uppercase;
 }

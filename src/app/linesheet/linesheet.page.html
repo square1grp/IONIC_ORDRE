@@ -36,24 +36,6 @@
     <input type="text" name="search" [(ngModel)]="searchValue" class="page_search" placeholder="Search" (keyup)="searchTerm$.next($event.target.value)">
   </div>
   
-  <div class="current_total visible" >
-    <p (click)="toggleTottle()" class="curret_title">Designer totals</p>
-
-    <input type="checkbox" id="toggle_totals_input" name="toggle_totals_input" class="toggle_totals_input">
-    <label for="toggle_totals_input" class="toggle_totals_label"></label>
-
-    <div class="current_total_body opened"> 
-      <p><span>Products</span><span>{{values.cart.request.order[0]?.sales_order_parts[this.cartProvider.order_part_item_id]?.total_line_items}}</span></p>
-      <p><span>Total Qty</span><span>{{values.cart.request.order[0]?.sales_order_parts[this.cartProvider.order_part_item_id]?.total_qty}}</span></p>
-      <p>
-        <!-- <span>Designer Total {{this.values.designer.buyer_code}}</span> -->
-        <span>Total WSP Value</span>
-        <span>{{this.values.designer.buyer_symbol}}
-        {{values.cart.request.order[0]?.sales_order_parts[this.cartProvider.order_part_item_id]?.total_amount | number :'.2'}}</span></p>
-    </div>
-
-  </div>
-  
   <div class="collection_delivery">
     <p [innerHTML]="data.selectedCollection?.collection_title"></p>
     <p>DELIVERS {{data.selectedCollection?.display_start_date}} - {{data.selectedCollection?.display_end_date}}</p>
@@ -70,6 +52,23 @@
           (click)="changePage(pagecnt.page)">{{pagecnt.page}}</button></span>   
       </ng-container>
       <button ion-button  class="btn-paginate next" color="light" (click)="nextPage()" [style.visibility]="nextVisibility" >NEXT</button>
+    </div>
+    <div class="current_total visible" >
+      <p (click)="toggleTottle()" class="curret_title">Designer totals</p>
+  
+      <input type="checkbox" id="toggle_totals_input" name="toggle_totals_input" class="toggle_totals_input">
+      <label for="toggle_totals_input" class="toggle_totals_label"></label>
+  
+      <div class="current_total_body opened"> 
+        <p><span>Products</span><span>{{values.cart.request.order[0]?.sales_order_parts[this.cartProvider.order_part_item_id]?.total_line_items}}</span></p>
+        <p><span>Total Qty</span><span>{{values.cart.request.order[0]?.sales_order_parts[this.cartProvider.order_part_item_id]?.total_qty}}</span></p>
+        <p>
+          <!-- <span>Designer Total {{this.values.designer.buyer_code}}</span> -->
+          <span>Total WSP Value</span>
+          <span>{{this.values.designer.buyer_symbol}}
+          {{values.cart.request.order[0]?.sales_order_parts[this.cartProvider.order_part_item_id]?.total_amount | number :'.2'}}</span></p>
+      </div>
+  
     </div>
   </div>
 </div>
