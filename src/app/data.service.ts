@@ -1616,9 +1616,15 @@ export class Data {
 
     filterCollections(collection_id) {
         this.values.search = '';
-        return this.values.collections.filter((collection) => {
-            return collection.collection_id === collection_id;
-        });
+        for (let i = 0, len = this.values.collections.length; i < len; i++) {
+            if (this.values.collections[i].collection_id === collection_id) {
+                return this.values.collections[i];
+            }
+        }
+        return [];
+        // return this.values.collections.filter((collection) => {
+        //     return collection.collection_id === collection_id;
+        // });
     }
 
     //  set default collection on collection page on first entry

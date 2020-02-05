@@ -63,10 +63,10 @@
               </span>
               <ng-container *ngIf="collection.hasOwnProperty('offline')">
                   <ng-container *ngIf="collection?.offline=='Downloading'">
-                      <a href="#" class="download_collection">Downloading</a>
+                      <span class="download_collection">Downloading</span>
                   </ng-container>
                   <ng-container *ngIf="collection?.offline=='Downloaded' || collection?.offline=='Updated'">
-                      <a href="#" class="download_collection">Downloaded</a>
+                      <span class="download_collection">Downloaded</span>
                   </ng-container>
               </ng-container>
             </div>

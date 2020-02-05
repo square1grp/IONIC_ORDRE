@@ -23,8 +23,6 @@ export class HeaderComponent {
     }
 
     openPage(page): void {
-        //this.navCtrl.setRoot(page);
-        // this.values.isDesignersPage = false;
         this.values.isCollectionPage = false;
         this.router.navigate(['/' + page]);
     }
@@ -43,7 +41,6 @@ export class HeaderComponent {
     }
 
     openCachePage(): void {
-        // this.values.isDesignersPage = false;
         this.values.isCollectionPage = false;
         this.router.navigate(['/cache']);
     }
@@ -84,7 +81,6 @@ export class HeaderComponent {
     }
 
     async logOut() {
-        // this.values.isDesignersPage = false;
         this.values.isCollectionPage = false;
         let alert = await this.alertCtrl.create({
             header: 'Are you sure?',
@@ -115,7 +111,6 @@ export class HeaderComponent {
     }
 
     openCollectionPage(): void {
-        // this.values.isDesignersPage = false;
         this.data.presentLoadingSpinerSec().then(() => {
             this.values.onescreen_total_imgages_num = 3;
             this.values.onescreen_image_index = 0;

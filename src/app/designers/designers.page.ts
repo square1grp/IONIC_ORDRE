@@ -23,19 +23,16 @@ export class DesignersPage implements OnInit {
     ngOnInit() { }
 
     ionViewWillEnter() {
-        console.log('ionViewWillEnter');
         this.values.designers = null;
         this.data.getTheseDesigners();
     }
 
     ionViewDidEnter() {
         this.values.isDesignersPage = true;
-        console.log('ionViewDidEnter', this.values.isDesignersPage);
     }
 
     ionViewDidLeave() {
         this.values.isDesignersPage = false;
-        console.log('ionViewDidLeave', this.values.isDesignersPage);
     }
 
     designerCollections(designer) {
@@ -87,7 +84,6 @@ export class DesignersPage implements OnInit {
                     else {
                         this.values.onescreen_total_imgages_num = 18;
                     }
-                    // this.values.isDesignersPage = false;
                     this.router.navigate(['/collection', { mode: '' }]);
                 }).catch(function (err) {
                     console.log(err);

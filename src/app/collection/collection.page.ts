@@ -577,7 +577,6 @@ export class CollectionPage implements OnInit {
     }
 
     popView() {
-        // this.values.isDesignersPage = true;
         this.router.navigate(['/designers']);
     }
 
