@@ -43,7 +43,6 @@
 					<th>Downloaded</th>
 					<th>Designer</th>
 					<th>Collection</th>
-					<th>Size</th>
 					<th style="text-align: right;">
 						<button *ngIf="(this.values.user_profile.seller_account_id == 0)" class="remove_all" (click)="clearCache()">
 							Remove all
@@ -57,7 +56,6 @@
 						<td>{{collection.download_date  | date: 'dd/MM/yyyy H:mm'}}</td>
 						<td class="des_name" [innerHTML]="collection.designer"></td>
 						<td [innerHTML]="collection.collection"></td>
-						<td>{{collection.size}}MB</td>
 						<td class="actions">
 							<button (click)="this.downloadManager(collection.collection_id, collection.designer_id, collection.designer,
 								collection.collection,1)" class="update_ordre" [style.visibility]="collection.isOpenedCollection ? 'visible' : 'hidden'">
