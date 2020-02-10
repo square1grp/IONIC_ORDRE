@@ -1557,11 +1557,9 @@ export class Data {
         this.addDownlog('Remove', collection_title, collection_id, designer_title, designer_id);
         this.storage.get('collection_index').then((response) => {
             let cIndex = response.data;
-            //remove collection_id from cIndex
             let cIndexData = this.removeCIndexItem(cIndex, collection_id);
-            let newCindex = { 'data': cIndexData }
-            //save collection index
-            this.storage.set('collection_index', newCindex)
+            let newCindex = { 'data': cIndexData };
+            this.storage.set('collection_index', newCindex);
 
             //update collection offline property
             this.getCollections(designer_id, this.values.user_profile.device_token, this.values.user_profile.user_token).then(response => {
@@ -1584,15 +1582,12 @@ export class Data {
         for (let i = 0, len = cIndex.length; i < len && !abort; i++) {
             if (cIndex[i].collection_id === collection_id) {
                 abort = true;
-                //remove it
                 cIndex.splice(i, 1);
                 return cIndex;
             }
         }
         return cIndex;
     }
-
-    //  Log File
 
     addDownlog(action, collection_title, collection_id, designer_title, designer_id) {
         let log_date = new Date().toISOString();
@@ -1612,22 +1607,12 @@ export class Data {
         });
     }
 
-    //  get a single collection profile
-
     filterCollections(collection_id) {
         this.values.search = '';
-        for (let i = 0, len = this.values.collections.length; i < len; i++) {
-            if (this.values.collections[i].collection_id === collection_id) {
-                return this.values.collections[i];
-            }
-        }
-        return [];
-        // return this.values.collections.filter((collection) => {
-        //     return collection.collection_id === collection_id;
-        // });
+        return this.values.collections.filter((collection) => {
+            return collection.collection_id === collection_id;
+        });
     }
-
-    //  set default collection on collection page on first entry
 
     setThisCollection() {
         if (!this.values.online) {
@@ -1695,7 +1680,6 @@ export class Data {
     }
 
     getDesignerCurrency(region_id, designer_id) {
-
         //if design_id then look up the designer
         if ((designer_id > 0) && (this.values.designers)) {
             let abort = false;
@@ -1709,8 +1693,8 @@ export class Data {
         else {
             this.designer = this.values.designer;
         }
-        //find region in designer
 
+        // find region in designer
         let selected_regionId = null;
         if (this.values.designer_pricelist.region_index === null) {
             selected_regionId = region_id;
@@ -1727,10 +1711,9 @@ export class Data {
                 this.designer.buyer_symbol = this.values.designer.region_currency[i].currency_symbol;
             }
         }
-        //set currency string  
     }
 
-    //get countries list from server for the select the country of door address form.
+    // get countries list from server for the select the country of door address form.
     getCountries() {
         this.storage.get('countries').then((response) => {
             let country_count = 0;
@@ -1749,7 +1732,7 @@ export class Data {
         });
     }
 
-    //activity logs process functions
+    // activity logs process functions
     initActivityLogs() {
         this.storage.get('activity_logs').then((response) => {
             if (response != null) {
@@ -1826,7 +1809,7 @@ export class Data {
         }
     }
 
-    //Get of Designer_Retailer association
+    // Get of Designer_Retailer association
     getDRAssociationWithDParam(designer_id, device_token, user_token) {
         return new Promise((resolve, reject) => {
             if (this.values.online) {
@@ -1895,7 +1878,7 @@ export class Data {
         this.loadingState = false;
         return await this.loadingCtrl.dismiss();
     }
-    //Loading Spinner process functions
+    // Loading Spinner process functions
     //   async createLoader() {
     //       this.loading = await this.loadingCtrl.create({
     //           backdropDismiss: false,
@@ -2019,8 +2002,8 @@ export class Data {
             let isOpenedCollection = this.isOpenedCollection(this.values.downloadedCollections[cindex].designer_id);
             this.values.downloadedCollections[cindex].isOpenedCollection = isOpenedCollection;
         }
-        //let newCindex = {'data':this.values.downloadedCollections}
-        //this.storage.set('collection_index', newCindex)
+        // let newCindex = {'data':this.values.downloadedCollections}
+        // this.storage.set('collection_index', newCindex)
     }
     /*
     getBuyers(retailer_id,device_token,user_token){

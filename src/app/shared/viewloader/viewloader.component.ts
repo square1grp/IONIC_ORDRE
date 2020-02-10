@@ -6,9 +6,9 @@ import { Values } from '../../values.service';
 import { Data } from '../../data.service';
 
 @Component({
-  selector: 'app-viewloader',
-  templateUrl: './viewloader.component.html',
-  styleUrls: ['./viewloader.component.scss'],
+    selector: 'app-viewloader',
+    templateUrl: './viewloader.component.html',
+    styleUrls: ['./viewloader.component.scss'],
 })
 
 export class ViewloaderComponent {

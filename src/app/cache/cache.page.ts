@@ -27,13 +27,13 @@ export class CachePage {
     uiState: any;
 
     constructor(
-      public popoverController: PopoverController,
-      public navCtrl: NavController,
-      private router: Router,
-      public values: Values,
-      private storage: Storage,
-      public data: Data,
-      private alertCtrl: AlertController
+        public popoverController: PopoverController,
+        public navCtrl: NavController,
+        private router: Router,
+        public values: Values,
+        private storage: Storage,
+        public data: Data,
+        private alertCtrl: AlertController
     ) { }
 
     ngOnInit() {
