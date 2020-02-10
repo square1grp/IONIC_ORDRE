@@ -481,12 +481,12 @@ export class Data {
     getDesigners(device_token, user_token, force) {
 
         let checkpoint = false;
-        let ONE_HOUR = 60 * 60 * 1000;
+        let ONE_MONTH = 60 * 60 * 1000 * 24 * 30;
         let baseDate = new Date('01/01/1980');
         let nowDate = Date.now();
 
         if ((this.values.online) && ((this.values.designers_checkpoint.getTime() === baseDate.getTime()) ||
-            (nowDate - ONE_HOUR > this.values.designers_checkpoint.getTime()))) {
+            (nowDate - ONE_MONTH > this.values.designers_checkpoint.getTime()))) {
             force = true;
             checkpoint = true;
         }
@@ -599,14 +599,14 @@ export class Data {
 
         let force = false;
 
-        let ONE_HOUR = 60 * 60 * 1000;
+        let ONE_MONTH = 60 * 60 * 1000 * 24 * 30;
         let baseTime = new Date('01/01/1980').getTime();
         let currentTime = new Date().getTime();
         if (!this.values.designer_checkpoints[designer_id]) {
             this.values.designer_checkpoints[designer_id] = new Date('01/01/1980').getTime();
         }
 
-        if (this.values.online && currentTime - ONE_HOUR > this.values.designer_checkpoints[designer_id]) {
+        if (this.values.online && currentTime - ONE_MONTH > this.values.designer_checkpoints[designer_id]) {
             force = true;
         }
         //  check for designers in pouch
@@ -695,13 +695,13 @@ export class Data {
 
         let force = false;
 
-        let ONE_HOUR = 60 * 60 * 1000;
+        let ONE_MONTH = 60 * 60 * 1000 * 24 * 30;
         let currentTime = new Date().getTime();
         if (!this.values.collection_checkpoints[collection_id]) {
             this.values.collection_checkpoints[collection_id] = new Date('01/01/1980').getTime();
         }
 
-        if (this.values.online && currentTime - ONE_HOUR > this.values.collection_checkpoints[collection_id]) {
+        if (this.values.online && currentTime - ONE_MONTH > this.values.collection_checkpoints[collection_id]) {
             force = true;
         }
 
