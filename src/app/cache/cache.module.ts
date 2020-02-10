@@ -7,20 +7,20 @@ import { SharedModule } from '../shared/shared.module';
 import { CachePage } from './cache.page';
 
 const routes: Routes = [
-  {
-    path: '',
-    component: CachePage
-  }
+{
+	path: '',
+	component: CachePage
+}
 ];
 
 @NgModule({
-  imports: [
-    CommonModule,
-    FormsModule,
-    IonicModule,
-    SharedModule,
-    RouterModule.forChild(routes)
-  ],
-  declarations: [CachePage]
+	imports: [
+		CommonModule,
+		FormsModule,
+		IonicModule,
+		SharedModule,
+		RouterModule.forChild(routes)
+	],
+	declarations: [CachePage]
 })
 export class CachePageModule {}

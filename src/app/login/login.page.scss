@@ -12,11 +12,13 @@ section.login_section {
     left: 0px;
     right: 0px;
     height: 100%;
+
     .login_form_wrapper {
         position: relative;
         top: 50%;
         -webkit-transform: translateY(-50%);
         transform: translateY(-50%);
+
         .sitename_wrapper {
             margin-bottom: 96px;
         }
@@ -33,7 +35,7 @@ section.login_section {
             color: #ffffff;
             text-transform: uppercase;
             font-size: 40pt;
-            display: inline-block;
+            display: block;
             margin: auto;
             width: 30%;
             float: left;

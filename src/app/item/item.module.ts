@@ -9,26 +9,26 @@ import { View360Component } from '../shared/view360/view360.component';
 import { ItemPage } from './item.page';
 
 const routes: Routes = [
-  {
-    path: '',
-    component: ItemPage
-  }
+	{
+		path: '',
+		component: ItemPage
+	}
 ];
 
 @NgModule({
-  imports: [
-    CommonModule,
-    FormsModule,
-    IonicModule,
-    SharedModule,
-    RouterModule.forChild(routes)
-  ],
-  declarations: [
-    ItemPage,
-    View360Component
-  ],
-  entryComponents: [
-    View360Component,
-  ]
+	imports: [
+		CommonModule,
+		FormsModule,
+		IonicModule,
+		SharedModule,
+		RouterModule.forChild(routes)
+	],
+	declarations: [
+		ItemPage,
+		View360Component
+	],
+	entryComponents: [
+		View360Component,
+	]
 })
 export class ItemPageModule {}

@@ -19,14 +19,14 @@ export class LoginPage implements OnInit {
     loggingin: any;
 
     constructor(
-      private router: Router,
-      public navCtrl: NavController,
-      public formBuilder: FormBuilder,
-      public data: Data,
-      public values: Values,
-      public cartProvider: CartProvider,
-      private alertCtrl: AlertController,
-      public loadingCtrl: LoadingController
+        private router: Router,
+        public navCtrl: NavController,
+        public formBuilder: FormBuilder,
+        public data: Data,
+        public values: Values,
+        public cartProvider: CartProvider,
+        private alertCtrl: AlertController,
+        public loadingCtrl: LoadingController
     ) {
         // this.loginForm = new FormGroup({
         //   user_email: new FormControl(''),

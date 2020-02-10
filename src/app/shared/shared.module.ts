@@ -5,17 +5,17 @@ import { HeaderComponent } from './header/header.component';
 import { ImageCacheComponent } from './image-cache/image-cache.component';
 
 @NgModule({
-  declarations: [
-    HeaderComponent,
-    ImageCacheComponent
-  ],
-  exports: [
-    HeaderComponent,
-    ImageCacheComponent
-  ],
-  imports: [
-    CommonModule,
-    IonicModule
-  ]
+	declarations: [
+		HeaderComponent,
+		ImageCacheComponent
+	],
+	exports: [
+		HeaderComponent,
+		ImageCacheComponent
+	],
+	imports: [
+		CommonModule,
+		IonicModule
+	]
 })
 export class SharedModule { }

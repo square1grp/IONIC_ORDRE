@@ -7,23 +7,23 @@ import { SharedModule } from '../shared/shared.module';
 import { LinesheetPage } from './linesheet.page';
 
 const routes: Routes = [
-  {
-    path: '',
-    component: LinesheetPage
-  }
+	{
+		path: '',
+		component: LinesheetPage
+	}
 ];
 
 @NgModule({
-  imports: [
-    CommonModule,
-    FormsModule,
-    IonicModule,
-    SharedModule,
-    RouterModule.forChild(routes)
-  ],
-  declarations: [
-    LinesheetPage
-  ],
-  entryComponents: []
+	imports: [
+		CommonModule,
+		FormsModule,
+		IonicModule,
+		SharedModule,
+		RouterModule.forChild(routes)
+	],
+	declarations: [
+		LinesheetPage
+	],
+	entryComponents: []
 })
 export class LinesheetPageModule {}

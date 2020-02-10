@@ -21,17 +21,23 @@ export class View360Component implements OnInit {
 
     @ViewChild('test3d') view3D: ElementRef;
 
-    constructor(public el: ElementRef, private cd: ChangeDetectorRef, public navParams: NavParams, public viewCtrl: PopoverController, public values: Values) { }
+    constructor(
+        public el: ElementRef,
+        private cd: ChangeDetectorRef,
+        public navParams: NavParams,
+        public viewCtrl: PopoverController,
+        public values: Values
+    ) { }
 
     ngOnInit() {
         this.productVariants = this.navParams.get("productVariants");
         this.currentItem360 = this.navParams.get("default360");
-        console.log(this.currentItem360);
         this.data = this.navParams.get("data");
         this.ThreeSixtyFrames = [];
         this.myImageFrames = this.values.imageFrames;
         this.change360(this.currentItem360);
     }
+
     init360() {
         this.instanceOfCirclr = circlr(this.view3D.nativeElement)
             .scroll(true)
@@ -43,6 +49,7 @@ export class View360Component implements OnInit {
         }, delayMillis);
 
     }
+
     play(n: number) {
         let delayMillis = 400;
         setTimeout(() => {
@@ -89,5 +96,4 @@ export class View360Component implements OnInit {
     close360() {
         this.viewCtrl.dismiss().catch((err) => { console.log('Problem with spinner:' + err) });
     }
-
 }

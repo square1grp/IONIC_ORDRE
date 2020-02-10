@@ -39,13 +39,7 @@ export class CartPage implements OnInit {
 
     ngOnInit() {
         this.submitting = false;
-        this.data.consoleLog("this.values.user_profile", this.values.user_profile);
-        this.data.consoleLog("this.values.user_profile", this.values.user_profile);
-        this.data.consoleLog("this.values.cart before addSizes()", this.values.cart);
         this.addSizes();
-        this.data.consoleLog("this.values.cart", this.values.cart);
-        this.data.consoleLog("values.cart.request.order[0].sales_order_parts", this.values.cart.request.order[0].sales_order_parts);
-        this.data.consoleLog("this.values.countries", this.values.countries);
     }
 
     addSizes() {
@@ -71,10 +65,8 @@ export class CartPage implements OnInit {
             this.data.getThisCollections(orderPart.seller_account_id, this.values.device_token, this.values.user_profile.user_token).then(data => {
 
                 //  check each product in each collections
-                console.log('Checking products to map QTY selectors for:' + orderPart.seller_account_id)
                 this.values.collections.forEach((collection, cindex) => {
                     this.data.getProduct(collection.collection_id, this.values.device_token, this.values.user_profile.user_token, 0).then(data => {
-                        console.log('Got Product Data')
                         collection.products = data;
                         collection.products.forEach((product, pindex) => {
                             product.variants.forEach((variant, vindex) => {
@@ -106,11 +98,9 @@ export class CartPage implements OnInit {
                                             if (isNaN(orderQTY)) { orderQTY = 0 }
                                             if (orderQTY > 0 && price > 0) {
                                                 CurrentTotal = CurrentTotal + (orderQTY * price);
-                                                console.log('Added:' + orderQTY + ' x ' + price);
                                             }
                                             if (orderQTY > 0 && price_rrp > 0) {
                                                 CurrentTotal_rrp = CurrentTotal_rrp + (orderQTY * price_rrp);
-                                                console.log('Added_rrp:' + orderQTY + ' x ' + price_rrp);
                                             }
                                             this.values.cart.request.order[0].sales_order_parts[part_index].sales_order_lines[sindex].variant_total = CurrentTotal;
                                             this.values.cart.request.order[0].sales_order_parts[part_index].sales_order_lines[sindex].variant_total_rrp = CurrentTotal_rrp;
@@ -228,12 +218,10 @@ export class CartPage implements OnInit {
     }
 
     pressed(event) {
-        console.log("pressed event triggered!");
         this.size_add_event = event;
     }
     released(product_title, colour, material, swatch, image, designer_title, variant_id, sku, price, price_rrp, event, designer_id, size, size_id, type, product_id) {
         if (this.size_add_event != undefined) {
-            console.log("released event triggered!"); 
             let qty = this.size_add_event.target.parentElement.children[1].value;
             this.cartProvider.addToCart(product_title, colour, material, swatch, image, designer_title, designer_id, product_id, variant_id,
                 size, size_id, type, qty, price, price_rrp, sku);
@@ -382,7 +370,6 @@ export class CartPage implements OnInit {
     saveOrder(mode, ui) {
         this.forcusInput.setFocus();
         this.keyboard.hide();
-        console.log('add to cart');
         if (this.submitting == true) { return false; }
         //check we're online
         if (!this.values.online) {
@@ -393,9 +380,7 @@ export class CartPage implements OnInit {
         //  submit to API
         this.cartProvider.submitCart(mode).then((response) => {
             this.submitResponse = response;
-            this.data.consoleLog("this.submitResponse", this.submitResponse);
             this.values.cart.request.order[0].order_id = this.submitResponse.result.order_id;
-            //console.log('Order ID:'+ this.submitResponse.result.order_id);
             //apply part order ids
             this.values.cart.request.order[0].sales_order_parts.forEach((order_part, z) => {
                 if (mode == 'draft') order_part.status = 'SERVER_DRAFT';
@@ -418,7 +403,6 @@ export class CartPage implements OnInit {
     }
 
     async saveRequested() {
-        console.log('Save Requested');
         let hasZero = this.checkZeroQTY();
         if (hasZero) {
             let alert = await this.alertCtrl.create({
@@ -448,12 +432,10 @@ export class CartPage implements OnInit {
     }
 
     async doSave() {
-        console.log('Save');
         this.values.cart.request.order[0].sales_order_parts.forEach((order_part, z) => {
             order_part.date = new Date();
             order_part.door =  this.values.cart.request.order[0].door;
             this.data.saveOrder(order_part).then(data => {
-                console.log('Order Part ID:' + JSON.stringify(data))
             });
         });
         this.submitting = false;
@@ -468,8 +450,6 @@ export class CartPage implements OnInit {
     async saveDraft(mode, ui) {
         this.forcusInput.setFocus();
         this.keyboard.hide();
-        console.log('Save Draft');
-        this.data.consoleLog("this.values.cart", this.values.cart);
 
         if (this.submitting == true) return false;
         this.submitting = true;

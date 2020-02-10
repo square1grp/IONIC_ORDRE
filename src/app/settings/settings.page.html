@@ -1,66 +1,66 @@
 <page-header></page-header>
 <ion-content>
-<div id="pbody" class="open_bar">
-  <div class="ordre_subheader">
-	<div class="col-md-3  settings_page settings_sidebar_header">
-		<a (click)="popView()" class="go_back col-md-2"></a>
-		<span class="title col-md-8"></span>
-		<span class="toogle_menu col-md-2">|||</span>
-	</div>
-	<div class="col-md-9 settings_page content_sorter">
-		<div class="settings_title designer_settings">
-			<i class="mdi mdi-account-plus"></i>
-			<span>Select Buyer</span>
-		</div>
-	</div>
-</div>
-<section class="page_content" id="settings_section">
-	<div class="settings_sidebar  open">
-		<p class="divider"></p>
-		<div class="sidebar_title">  Manage Settings </div>
-		<div class="settings_list">
-			<div class="active order_buyer" block="order_buyer"><span>Order as Buyer</span></div>
-		</div>
-	</div>
-	<section id="settings_content">
-		<div class="settings_item order_buyer active">
-			<p class="order_buyer_title">Order as Buyer</p>
-			<p class="order_buyer_description col-md-9">To create an Order for Buyer, first choose a Retailer, and then a Buyer from the dropdowns below. When you have completed the Order, Log out (top right icon) to return to your own account.</p>
-			<div class="col-md-8">
-				<ion-spinner name="ios" *ngIf="this.retailersLoading==true"></ion-spinner>
+	<div id="pbody" class="open_bar">
+		<div class="ordre_subheader">
+			<div class="col-md-3  settings_page settings_sidebar_header">
+				<a (click)="popView()" class="go_back col-md-2"></a>
+				<span class="title col-md-8"></span>
+				<span class="toogle_menu col-md-2">|||</span>
 			</div>
-			<p class="col-md-9" *ngIf="this.retailersLoading==false">1. Search for a Retailer</p>
-			<div id="search-inputs" class="col-md-11">
-				<ion-input id="typeahead-field" *ngIf="this.retailersLoading==false" value="{{typeahead}}" [style.color]="'#999'" readonly="true"></ion-input>
-				<ion-input id="search-field" (input)="searchRetailers($event)" *ngIf="this.retailersLoading==false"></ion-input>
-			</div>
-			<div class="col-md-5" *ngIf="this.searchResultRetailers.length > 0">
-				<p class="selector-list">2. Select Retailers</p>
-				<ion-list id="retailer-list">
-					<ion-radio-group [(ngModel)]="retailer_id" (ionChange)="setBuyers()">
-						<ion-item *ngFor="let retailer of searchResultRetailers">
-							<ion-radio value="{{ retailer.retailer_id }}"></ion-radio>
-							<ion-label [innerHTML]="retailer.business_name"></ion-label>
-						</ion-item>
-					</ion-radio-group>
-				</ion-list>
-			</div>
-			<div class="col-md-5" *ngIf="this.buyers.length > 0">
-				<p class="selector-list">3. Select Buyer</p>
-				<ion-list id="buyer-list">
-					<ion-radio-group [(ngModel)]="thisBuyer_id" >
-						<ion-item *ngFor="let buyer of buyers">
-							<ion-radio value="{{ buyer.buyer_id }}"></ion-radio>
-							<ion-label>{{ buyer.first_name + ' ' + buyer.last_name }}</ion-label>
-						</ion-item>
-					</ion-radio-group>
-				</ion-list>
-				<div *ngIf="this.thisBuyer_id">
-					<button class="order_buyer_submit" (click)="startMasquerade()" [style.background]="thisBuyer_id==0 ? '#000' : '#3CC7EF'">Order as Buyer</button>
+			<div class="col-md-9 settings_page content_sorter">
+				<div class="settings_title designer_settings">
+					<i class="mdi mdi-account-plus"></i>
+					<span>Select Buyer</span>
 				</div>
-			</div>			
+			</div>
 		</div>
-	</section>
-</section>
-</div>
+		<section class="page_content" id="settings_section">
+			<div class="settings_sidebar  open">
+				<p class="divider"></p>
+				<div class="sidebar_title">  Manage Settings </div>
+				<div class="settings_list">
+					<div class="active order_buyer" block="order_buyer"><span>Order as Buyer</span></div>
+				</div>
+			</div>
+			<section id="settings_content">
+				<div class="settings_item order_buyer active">
+					<p class="order_buyer_title">Order as Buyer</p>
+					<p class="order_buyer_description col-md-9">To create an Order for Buyer, first choose a Retailer, and then a Buyer from the dropdowns below. When you have completed the Order, Log out (top right icon) to return to your own account.</p>
+					<div class="col-md-8">
+						<ion-spinner name="ios" *ngIf="this.retailersLoading==true"></ion-spinner>
+					</div>
+					<p class="col-md-9" *ngIf="this.retailersLoading==false">1. Search for a Retailer</p>
+					<div id="search-inputs" class="col-md-11">
+						<ion-input id="typeahead-field" *ngIf="this.retailersLoading==false" value="{{typeahead}}" [style.color]="'#999'" readonly="true"></ion-input>
+						<ion-input id="search-field" (input)="searchRetailers($event)" *ngIf="this.retailersLoading==false"></ion-input>
+					</div>
+					<div class="col-md-5" *ngIf="this.searchResultRetailers.length > 0">
+						<p class="selector-list">2. Select Retailers</p>
+						<ion-list id="retailer-list">
+							<ion-radio-group [(ngModel)]="retailer_id" (ionChange)="setBuyers()">
+								<ion-item *ngFor="let retailer of searchResultRetailers">
+									<ion-radio value="{{ retailer.retailer_id }}"></ion-radio>
+									<ion-label [innerHTML]="retailer.business_name"></ion-label>
+								</ion-item>
+							</ion-radio-group>
+						</ion-list>
+					</div>
+					<div class="col-md-5" *ngIf="this.buyers.length > 0">
+						<p class="selector-list">3. Select Buyer</p>
+						<ion-list id="buyer-list">
+							<ion-radio-group [(ngModel)]="thisBuyer_id" >
+								<ion-item *ngFor="let buyer of buyers">
+									<ion-radio value="{{ buyer.buyer_id }}"></ion-radio>
+									<ion-label>{{ buyer.first_name + ' ' + buyer.last_name }}</ion-label>
+								</ion-item>
+							</ion-radio-group>
+						</ion-list>
+						<div *ngIf="this.thisBuyer_id">
+							<button class="order_buyer_submit" (click)="startMasquerade()" [style.background]="thisBuyer_id==0 ? '#000' : '#3CC7EF'">Order as Buyer</button>
+						</div>
+					</div>			
+				</div>
+			</section>
+		</section>
+	</div>
 </ion-content>

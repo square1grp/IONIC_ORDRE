@@ -49,8 +49,6 @@ export class ItemPage implements OnInit {
     }
 
     async view360(variants, default360) {
-        console.log(variants);
-        console.log(default360);
         let popover = await this.popoverCtrl.create({
             component: View360Component,
             componentProps: {
@@ -61,12 +59,10 @@ export class ItemPage implements OnInit {
         });
         await popover.present();
 
-        //this.data.consolelog('try to render 3d')
         //  https://www.pincer.io/npm/libraries/circlr
 
         /*
         const el = document.querySelector('#test3d');    
-        console.log('Element:'+JSON.stringify(el));
         circlr(el)
           .scroll(true)
           .interval(150)
@@ -81,9 +77,6 @@ export class ItemPage implements OnInit {
         this.product = this.values.product;
         this.collection = this.values.product;
         this.data.getDesignerCurrency(this.values.user_profile.user_region_id, -1);
-        console.log('this.product', this.product);
-        console.log('this.collection', this.collection);
-
         this.has360();
 
         //set the slider key frames
@@ -94,7 +87,6 @@ export class ItemPage implements OnInit {
             if (i > 0) {
                 keyCount = this.product.variants[i - 1].variant_images.length + keyCount;
                 this.product.variants[i].slidekey = keyCount;
-                console.log(keyCount + ':' + this.product.variants[i - 1].variant_images.length);
             }
         }
         if (keyCount == 0 && this.product.variants[0].variant_images.length < 2) {
@@ -103,8 +95,6 @@ export class ItemPage implements OnInit {
         else {
             this.is_multiple_images = true;
         }
-        this.data.consoleLog("this.values.designer", this.values.designer);
-        this.data.consoleLog("this.product", this.product);
     }
 
     ionViewDidLoad() {
@@ -130,7 +120,6 @@ export class ItemPage implements OnInit {
 
     async addToCart(product_title, colour, material, swatch, image, designer_title, variant_id, sku, price, price_rrp,
         event, designer_id, size, size_id, type, product_id) {
-        this.data.consoleLog("price", price);
 
         let icon_path = this.isVariantInOrder(product_id, variant_id, designer_id);
         if (event == null && icon_path == "assets/images/selected-icon.png") {
@@ -324,5 +313,4 @@ export class ItemPage implements OnInit {
             return ("assets/images/select-icon.png");
         }
     }
-
 }

@@ -1,27 +1,27 @@
 <ion-content>
-  <div id="pbody" class="ordre_body logged_out login_page">
-    <div class="body_overlay"></div>
-    <section class="login_section">
-      <div class="login_form_wrapper">
-        <div class="sitename_wrapper">
-          <img src="assets/images/ordre_login_logo.png">
-        </div>
-        <form [formGroup]="loginForm" (submit)="submitLogin()" class="login_form">
-          <input type="email" formControlName="user_email" placeholder="Email address">
-          <br/>
-          <input type="password" formControlName="user_password" placeholder="Password">
-          <div>
-            <a href="http://www.ordre.com/login/forgotten_password"><span>Forgotten password?</span></a>
-            <button tappable type="submit" name="login_submit" class="login_submit">Sign in</button>
-          </div>
-          <a href="http://www.ordre.com/about#contact" class="welcome_footer">
-            <p>
-              Get in touch with ORDRE to become
-              <br/>part of the retail network.
-            </p>
-          </a>
-        </form>
-      </div>
-    </section>
-  </div>
+	<div id="pbody" class="ordre_body logged_out login_page">
+		<div class="body_overlay"></div>
+		<section class="login_section">
+			<div class="login_form_wrapper">
+				<div class="sitename_wrapper">
+					<img src="assets/images/ordre_login_logo.png">
+				</div>
+				<form [formGroup]="loginForm" (submit)="submitLogin()" class="login_form">
+					<input type="email" formControlName="user_email" placeholder="Email address">
+					<br/>
+					<input type="password" formControlName="user_password" placeholder="Password">
+					<div>
+						<a href="http://www.ordre.com/login/forgotten_password"><span>Forgotten password?</span></a>
+						<button tappable type="submit" name="login_submit" class="login_submit">Sign in</button>
+					</div>
+					<a href="http://www.ordre.com/about#contact" class="welcome_footer">
+						<p>
+						Get in touch with ORDRE to become
+						<br/>part of the retail network.
+						</p>
+					</a>
+				</form>
+			</div>
+		</section>
+	</div>
 </ion-content>

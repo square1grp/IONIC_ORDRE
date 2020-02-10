@@ -4,24 +4,24 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { CartPage } from './cart.page';
 
 describe('CartPage', () => {
-  let component: CartPage;
-  let fixture: ComponentFixture<CartPage>;
+	let component: CartPage;
+	let fixture: ComponentFixture<CartPage>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ CartPage ],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA],
-    })
-    .compileComponents();
-  }));
+	beforeEach(async(() => {
+		TestBed.configureTestingModule({
+		declarations: [ CartPage ],
+		schemas: [CUSTOM_ELEMENTS_SCHEMA],
+		})
+		.compileComponents();
+	}));
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(CartPage);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+	beforeEach(() => {
+		fixture = TestBed.createComponent(CartPage);
+		component = fixture.componentInstance;
+		fixture.detectChanges();
+	});
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+	it('should create', () => {
+		expect(component).toBeTruthy();
+	});
 });

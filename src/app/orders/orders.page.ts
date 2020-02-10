@@ -27,15 +27,15 @@ export class OrdersPage implements OnInit {
     uiState: any;
 
     constructor(
-      public cartProvider: CartProvider,
-      public values: Values,
-      public navCtrl: NavController,
-      private router: Router,
-      private activatedRoute: ActivatedRoute,
-      public data: Data,
-      private alertCtrl: AlertController,
-      private platform: Platform,
-      private iab: InAppBrowser
+        public cartProvider: CartProvider,
+        public values: Values,
+        public navCtrl: NavController,
+        private router: Router,
+        private activatedRoute: ActivatedRoute,
+        public data: Data,
+        private alertCtrl: AlertController,
+        private platform: Platform,
+        private iab: InAppBrowser
     ) {
         platform.ready().then(() => {
             // If we run this in the browser without this if statement we get an error
@@ -52,11 +52,9 @@ export class OrdersPage implements OnInit {
 
 
     ngOnInit() {
-        console.log('OrdersPage');
         this.data.getAllDraftOrders(this.values.user_profile.buyer_id, this.values.user_profile.masquerade_id);
         this.data.getAllOrders(this.values.user_profile.buyer_id, this.values.user_profile.masquerade_id);
         this.uiState = this.activatedRoute.snapshot.paramMap.get('uistate');
-        console.log('this.uiState', this.uiState);
         if (this.uiState == 'final') { this.uiState = 'requested'; }
         if (!this.uiState) { this.uiState = 'draft'; }
     }
@@ -66,7 +64,6 @@ export class OrdersPage implements OnInit {
     }
 
     async removeDraft(draft_id) {
-        console.log('Remove Clicked');
         let alert = await this.alertCtrl.create({
             header: 'Are you sure you want to remove this Draft Order?',
             subHeader: 'Removing this order will delete it.',
@@ -94,18 +91,13 @@ export class OrdersPage implements OnInit {
     }
 
     viewOrder(order_id) {
-        // console.log('View Clicked');
         // this.cartProvider.emptyView();
-        // console.log('View:' + order_id);
         // this.data.getOrder(order_id).then(data => {
         //     let orderPart = data;
-        //     console.log('Order Part:' + JSON.stringify(orderPart));
-        //     console.log('Cart:' + JSON.stringify(this.values.vieworder));
         //     this.values.vieworder.request.order[0].sales_order_parts.push(orderPart);
         //     //pull totals into order header here
         //     this.values.vieworder.request.order[0].total_qty = this.values.vieworder.request.order[0].sales_order_parts[0].total_qty;
         //     //region_currency?
-        //     console.log(JSON.stringify(this.values.vieworder))
         //     this.navCtrl.push(ViewOrderPage);
         // });
     }
@@ -116,7 +108,6 @@ export class OrdersPage implements OnInit {
     }
 
     async restore(draft_id, mode) {
-        console.log('Restore Clicked');
         let alert = await this.alertCtrl.create({
             header: 'Are you sure you wish to restore this Order?',
             subHeader: 'This will replace your Final Edit.',
@@ -131,12 +122,10 @@ export class OrdersPage implements OnInit {
                 {
                     text: 'Proceed',
                     handler: () => {
-                        console.log('Restore:' + draft_id);
                         this.cartProvider.emptyOrder();
                         if (mode == "restore_order") {
                             this.data.getOrder(draft_id).then(data => {
                                 let orderPart = data;
-                                this.data.consoleLog("orderPart", orderPart);
                                 this.values.cart.request.order[0].sales_order_parts.push(orderPart);
                                 this.values.cart.request.order[0].door = this.values.cart.request.order[0].sales_order_parts[0].door;
                                 this.values.cart.request.order[0].total_line_items = this.values.cart.request.order[0].sales_order_parts[0].total_line_items;
@@ -151,7 +140,6 @@ export class OrdersPage implements OnInit {
                         else {
                             this.data.getDraftOrder(draft_id).then(data => {
                                 let orderPart = data;
-                                this.data.consoleLog("orderPart", orderPart);
                                 this.values.cart.request.order[0].sales_order_parts.push(orderPart);
                                 this.values.cart.request.order[0].door = this.values.cart.request.order[0].sales_order_parts[0].door;
                                 this.values.cart.request.order[0].total_line_items = this.values.cart.request.order[0].sales_order_parts[0].total_line_items;

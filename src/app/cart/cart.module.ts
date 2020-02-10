@@ -8,20 +8,20 @@ import { SharedModule } from '../shared/shared.module';
 import { CartPage } from './cart.page';
 
 const routes: Routes = [
-  {
-    path: '',
-    component: CartPage
-  }
+	{
+		path: '',
+		component: CartPage
+	}
 ];
 
 @NgModule({
-  imports: [
-    CommonModule,
-    SharedModule,
-    FormsModule,
-    IonicModule,
-    RouterModule.forChild(routes)
-  ],
-  declarations: [CartPage]
+	imports: [
+		CommonModule,
+		SharedModule,
+		FormsModule,
+		IonicModule,
+		RouterModule.forChild(routes)
+	],
+	declarations: [CartPage]
 })
 export class CartPageModule {}

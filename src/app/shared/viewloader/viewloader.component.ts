@@ -18,13 +18,15 @@ export class ViewloaderComponent {
     mode          : number;
     source        : any;
     
-    constructor(public values: Values, 
-                public storage: Storage, 
-                public viewCtrl: PopoverController, 
-                public data: Data, 
-                public events: Events, 
-                public navParams: NavParams, 
-                private insomnia: Insomnia) { 
+    constructor(
+        public values: Values, 
+        public storage: Storage, 
+        public viewCtrl: PopoverController, 
+        public data: Data, 
+        public events: Events, 
+        public navParams: NavParams, 
+        private insomnia: Insomnia
+    ) { 
         this.collection_id = this.navParams.get("collection_id")
         this.designer_id = this.navParams.get("designer_id")
         this.mode = this.navParams.get('mode');
@@ -36,22 +38,6 @@ export class ViewloaderComponent {
             if (this.values.cancel == false) {
                 let status = 'Downloaded';
                 this.setCollectionStatus(status, collection_id).then(() => {
-                    // if(this.source=='collection'){
-                    //   //reload collection
-                    // }
-                    // this.storage.get('download_log').then((response) => {
-                    //     if (response != null) {
-                    //         let ulog = response.data;
-                    //         for (let i = 0, len = ulog.length; i < len; i++) {
-                    //             for (let j = 0, len = this.values.collections.length; j < len; j++) {
-                    //                 if (ulog[i].collection_id == this.values.collections[j].collection_id) {
-                    //                     //set collection status
-                    //                     this.values.collections[j].offline = ulog[i].action;
-                    //                 }
-                    //             }
-                    //         }
-                    //     }
-                    // });
                 });
             }
             else {
@@ -72,22 +58,6 @@ export class ViewloaderComponent {
                 status = 'Downloaded';
             }   
             this.setCollectionStatus(status, this.collection_id).then(() => {
-                // if(this.source=='collection'){
-                //   //reload collection
-                // }
-                // this.storage.get('download_log').then((response) => {
-                //     if (response != null) {
-                //         let ulog = response.data;
-                //         for (let i = 0, len = ulog.length; i < len; i++) {
-                //             for (let j = 0, len = this.values.collections.length; j < len; j++) {
-                //                 if (ulog[i].collection_id == this.values.collections[j].collection_id) {
-                //                     //set collection status
-                //                     this.values.collections[j].offline = ulog[i].action;
-                //                 }
-                //             }
-                //         }
-                //     }
-                // });
                 this.viewCtrl.dismiss().then(() => {
                     this.events.unsubscribe("set-collection-state");
                     this.insomnia.allowSleepAgain().then(

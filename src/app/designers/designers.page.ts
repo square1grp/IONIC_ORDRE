@@ -1,20 +1,19 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { NavController, LoadingController } from '@ionic/angular';
+import { LoadingController } from '@ionic/angular';
 import { Values } from '../values.service';
 import { Data } from '../data.service';
 
 @Component({
-  selector: 'page-designers',
-  templateUrl: './designers.page.html',
-  styleUrls: ['./designers.page.scss'],
+    selector: 'page-designers',
+    templateUrl: './designers.page.html',
+    styleUrls: ['./designers.page.scss'],
 })
 export class DesignersPage implements OnInit {
     params: any;
 
     constructor(
       private router: Router,
-      // public navCtrl: NavController,
       private data: Data,
       public values: Values,
       public loadingCtrl: LoadingController

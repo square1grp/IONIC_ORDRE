@@ -3,7 +3,6 @@ import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 
 const routes: Routes = [
     { path: '', redirectTo: 'login', pathMatch: 'full' },
-    { path: 'home', loadChildren: './home/home.module#HomePageModule' },
     { path: 'cache', loadChildren: './cache/cache.module#CachePageModule' },
     { path: 'cart', loadChildren: './cart/cart.module#CartPageModule' },
     { path: 'collection', loadChildren: './collection/collection.module#CollectionPageModule' },
@@ -11,10 +10,8 @@ const routes: Routes = [
     { path: 'item', loadChildren: './item/item.module#ItemPageModule' },
     { path: 'linesheet', loadChildren: './linesheet/linesheet.module#LinesheetPageModule' },
     { path: 'login', loadChildren: './login/login.module#LoginPageModule' },
-    { path: 'orderitem', loadChildren: './orderitem/orderitem.module#OrderitemPageModule' },
     { path: 'orders', loadChildren: './orders/orders.module#OrdersPageModule' },
     { path: 'settings', loadChildren: './settings/settings.module#SettingsPageModule' },
-    { path: 'viewloader', loadChildren: './viewloader/viewloader.module#ViewloaderPageModule' },
 ];
 
 @NgModule({

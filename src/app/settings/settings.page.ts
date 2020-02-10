@@ -28,10 +28,10 @@ export class SettingsPage implements OnInit {
     typeaheadTime: any;
 
     constructor(
-      public navCtrl: NavController,
-      private router: Router,
-      public data: Data,
-      public values: Values
+        public navCtrl: NavController,
+        private router: Router,
+        public data: Data,
+        public values: Values
     ) { }
 
     ngOnInit() {
@@ -43,14 +43,12 @@ export class SettingsPage implements OnInit {
     }
 
     ionViewDidLoad() {
-        console.log('ionViewDidLoad SettingsPage');
     }
 
     getThisRetailers() {
         return new Promise((resolve, reject) => {
             this.data.getRetailers(this.values.device_token, this.values.user_profile.user_token).then(response => {
                 this.values.retailers = response;
-                this.data.consoleLog("this Retailers", response);
                 resolve(true);
             }).catch(err => {
                 console.log(err);
@@ -142,9 +140,7 @@ export class SettingsPage implements OnInit {
         this.values.user_profile.masquerade_name = account_name;
         this.values.user_profile.masquerade_region_id = this.values.user_profile.user_region_id;
         this.values.user_profile.user_region_id = buyer_region_id;
-        this.data.consoleLog('this.values.designer', this.values.designer);
         this.data.getDesignerCurrency(buyer_region_id, 0);
-        this.data.consoleLog('this.values.designer', this.values.designer);
         
         //get shipping address of the selected buyer.
         abort = false;
@@ -154,9 +150,6 @@ export class SettingsPage implements OnInit {
                 abort = true;
             }
         }
-        this.data.consoleLog("this.values.shipping_address", this.values.shipping_address);
-        this.data.consoleLog('this.values.user_profile', this.values.user_profile);
-        this.data.consoleLog('this.values.shipping_addresses', this.values.shipping_addresses);
         this.router.navigate(['/collection']);
     }
 
@@ -178,7 +171,6 @@ export class SettingsPage implements OnInit {
                     this.buyers[i].region_id = 1;
                 }
                 abort = true;
-                console.log(this.buyers[i]);
                 return this.buyers[i]
             }
         }
