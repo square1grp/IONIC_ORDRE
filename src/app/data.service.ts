@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
 import { Platform, AlertController, LoadingController, Events } from '@ionic/angular';
 import { HttpClient, HttpResponse, HttpHeaders } from '@angular/common/http';
+import { fromEvent } from 'rxjs';
 import { Values } from './values.service';
-import { Connectivity } from './connectivity.service';
 import { Storage } from '@ionic/storage';
 import { File } from '@ionic-native/file/ngx';
 import { HTTP } from '@ionic-native/http/ngx';
+import { Network } from '@ionic-native/network/ngx';
 import PouchDB from 'pouchdb';
 import 'rxjs/Rx';
 import { map } from 'rxjs/operators';
@@ -70,15 +71,15 @@ export class Data {
 
 
     constructor(
-        private file: File, 
-        public storage: Storage, 
-        public loadingCtrl: LoadingController, 
+        private file: File,
+        public storage: Storage,
+        public loadingCtrl: LoadingController,
         public http: HttpClient,
-        public platform: Platform, 
-        public values: Values, 
-        private alertCtrl: AlertController, 
-        private events: Events, 
-        private connectivity: Connectivity) {
+        public platform: Platform,
+        public values: Values,
+        private alertCtrl: AlertController,
+        private events: Events,
+        private network: Network) {
 
         setTimeout(() => {
             this.initDB();
@@ -104,7 +105,29 @@ export class Data {
                             else {
                                 this.values.cacheImageID = 0
                             }
-                        })
+                        });
+                        if (this.platform.is('cordova')) {
+                            this.values.online = this.network.type !== 'none';
+
+                            this.network.onDisconnect().subscribe(() => {
+                                this.values.online = false;
+                            });
+                            this.network.onConnect().subscribe(() => {
+                                this.values.online = true;
+                            });
+                        } else {
+                            this.values.online = navigator.onLine;
+                            fromEvent(window, "offline").subscribe(
+                                () => {
+                                    this.values.online = false;
+                                }
+                            );
+                            fromEvent(window, "online").subscribe(
+                                () => {
+                                    this.values.online = true;
+                                }
+                            );
+                        }
 
                         //check cache storage (file or dB)
                         // if (this.platform.is('cordova')) {
@@ -121,9 +144,6 @@ export class Data {
                         //     //this.storage.clear();
                         // }
 
-                        this.values.online = this.connectivity.isOnline();
-                        this.addConnectivityListeners();
-
                         //persist user
                         this.getUser().then(data => {
                             if (data != null) {
@@ -136,19 +156,6 @@ export class Data {
 
                 });
         });
-    }
-
-    addConnectivityListeners(): void {
-
-        //force online + watch for change
-        this.connectivity.watchOnline().subscribe(() => {
-            this.values.online = true;
-        });
-
-        this.connectivity.watchOffline().subscribe(() => {
-            this.values.online = false;
-        });
-
     }
 
     async offlineManager() {

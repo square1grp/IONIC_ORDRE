@@ -35,6 +35,7 @@
     "cordova-ios": "5.0.0",
     "cordova-plugin-inappbrowser": "3.0.0",
     "cordova-plugin-insomnia": "4.3.0",
+    "cordova-plugin-network-information": "2.0.1",
     "core-js": "^2.5.4",
     "del": "^4.1.1",
     "eventwheel": "^0.3.1",
@@ -87,7 +88,8 @@
       "cordova-plugin-ionic-webview": {},
       "cordova-plugin-ionic-keyboard": {},
       "cordova-plugin-insomnia": {},
-      "cordova-plugin-inappbrowser": {}
+      "cordova-plugin-inappbrowser": {},
+      "cordova-plugin-network-information": {}
     },
     "platforms": [
       "browser",
