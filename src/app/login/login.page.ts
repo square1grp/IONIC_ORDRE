@@ -28,16 +28,11 @@ export class LoginPage implements OnInit {
         private alertCtrl: AlertController,
         public loadingCtrl: LoadingController
     ) {
-        // this.loginForm = new FormGroup({
-        //   user_email: new FormControl(''),
-        //   user_password: new FormControl(''),
-        // });
         this.loginForm = formBuilder.group({
             user_email: [''],
             user_password: ['']
         });
         this.errorMessage = '';
-
     }
 
     ngOnInit() {
@@ -64,10 +59,14 @@ export class LoginPage implements OnInit {
         });
     }
 
-    offlineManager() {
+    ionViewWillEnter() {
+        if (this.loginForm) {
+            this.loginForm.controls.user_email.setValue('');
+            this.loginForm.controls.user_password.setValue('');
+        }
     }
 
-    ionViewDidLoad() {
+    offlineManager() {
     }
 
     submitLogin(): void {

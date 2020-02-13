@@ -1,8 +1,7 @@
 import { Component, OnInit, ViewChild, NgZone, ChangeDetectorRef } from '@angular/core';
-import { NavController, AlertController, PopoverController, Events } from '@ionic/angular';
+import { AlertController, PopoverController, Events } from '@ionic/angular';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Insomnia } from '@ionic-native/insomnia/ngx';
-import { FormControl } from '@angular/forms';
 import { Subject } from 'rxjs/Subject';
 import { Values } from '../values.service';
 import { Data } from '../data.service';
@@ -104,12 +103,12 @@ export class CollectionPage implements OnInit {
                     }
 
                     this.mode = this.activatedRoute.snapshot.paramMap.get('mode');
-                    if (this.mode != 'fromlinesheet') {
+                    if (this.mode !== 'fromlinesheet') {
                         this.firstItem = 0;
                         this.addItemsToGrid('', 0);
                     }
             
-                    if (this.mode == 'fromlinesheet') {
+                    if (this.mode === 'fromlinesheet') {
                         this.values.lsproducts = this.values.products;
                     }
                     this.search();
@@ -129,12 +128,12 @@ export class CollectionPage implements OnInit {
             this.values.isCollectionPage = true;
 
             this.mode = this.activatedRoute.snapshot.paramMap.get('mode');
-            if (this.mode != 'fromlinesheet') {
+            if (this.mode !== 'fromlinesheet') {
                 this.firstItem = 0;
                 this.addItemsToGrid('', 0);
             }
     
-            if (this.mode == 'fromlinesheet') {
+            if (this.mode === 'fromlinesheet') {
                 this.values.lsproducts = this.values.products;
             }
             this.search();
@@ -153,7 +152,7 @@ export class CollectionPage implements OnInit {
         });
     }
 
-    ionViewDidLoad() {
+    ionViewDidEnter() {
         this.data.activityLogPost(Constants.LOG_VIEWED_COLLECTION, this.values.designer.seller_account_id, this.values.designer.currentCollectionID, '', '');
     }
 
