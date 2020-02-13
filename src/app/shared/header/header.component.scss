@@ -37,6 +37,15 @@
             display: inline-grid;
             text-align: center;
         }
+        .offline {
+            display: inline-block;
+            margin-left: 40%;
+
+            span {
+                font-size: 16px;
+                color: red;
+            }
+        }
     }
 
     .header_right {

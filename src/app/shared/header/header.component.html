@@ -9,6 +9,9 @@
 			<i class="mdi mdi-home"></i>
 			<span>Home</span>
 		</div>
+		<div *ngIf="!this.values.online" class="offline">
+			<span>OFFLINE</span>
+		</div>
 	</div>
 	<div class="header_sitename">
 		<img src="assets/images/ordre_logo.png">
