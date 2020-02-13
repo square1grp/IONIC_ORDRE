@@ -174,7 +174,7 @@ export class LoginPage implements OnInit {
                         else {
                             this.values.onescreen_total_imgages_num = 18;
                         }
-                        this.router.navigate(['/collection', { mode: '' }]);
+                        this.navCtrl.navigateRoot('/collection');
                     }).catch(function (err) {
                         console.log(err);
                     });
@@ -191,7 +191,7 @@ export class LoginPage implements OnInit {
             this.data.getShippings(this.values.user_profile.device_token, this.values.user_profile.user_token, this.values.user_profile.buyer_id).then((response) => {
                 this.values.shipping_address = response[0];
             });
-            this.router.navigate(['/designers']);
+            this.navCtrl.navigateRoot('/designers');
         }
     }
 }

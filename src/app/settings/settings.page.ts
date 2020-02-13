@@ -42,9 +42,6 @@ export class SettingsPage implements OnInit {
         });
     }
 
-    ionViewDidLoad() {
-    }
-
     getThisRetailers() {
         return new Promise((resolve, reject) => {
             this.data.getRetailers(this.values.device_token, this.values.user_profile.user_token).then(response => {

@@ -88,9 +88,6 @@ export class CachePage {
         await alert.present();
     }
 
-    ionViewDidLoad() {
-    }
-
     downloadManager(collection_id, designer_id, designer, collection, mode) {
         if (mode != 3) {
             if (!this.values.online) {

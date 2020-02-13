@@ -19,9 +19,6 @@ export class HeaderComponent {
 
     constructor(public menu: MenuController, public navCtrl: NavController, public values: Values, public cartProvider: CartProvider, private alertCtrl: AlertController, public data: Data, private router: Router) { }
 
-    ionViewDidLoad() {
-    }
-
     openPage(page): void {
         this.values.isCollectionPage = false;
         this.router.navigate(['/' + page]);
@@ -114,7 +111,7 @@ export class HeaderComponent {
         this.data.presentLoadingSpinerSec().then(() => {
             this.values.onescreen_total_imgages_num = 3;
             this.values.onescreen_image_index = 0;
-            this.router.navigate(['/collection', { designer: this.values.designer }]);
+            this.router.navigate(['/collection']);
         });
     }
 }
