@@ -97,12 +97,8 @@ export class ItemPage implements OnInit {
         }
     }
 
-    ionViewDidLoad() {
-        this.data.activityLogPost(Constants.LOG_VIEWED_PRODUCT, this.values.designer.seller_account_id, this.collection.collection_id, this.product.product_id, '');
-        
-    }
-
     ionViewDidEnter() {
+        this.data.activityLogPost(Constants.LOG_VIEWED_PRODUCT, this.values.designer.seller_account_id, this.collection.collection_id, this.product.product_id, '');
         this.setItemQty();
     }
 

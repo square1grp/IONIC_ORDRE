@@ -1,8 +1,8 @@
 <page-header></page-header>  
 <div class="ordre_subheader" ion-fixed>
 	<div class="collections_page collections_sidebar_header" [ngClass]="{'col-md-3': navOpen, 'col-md-1': !navOpen}">
-		<a *ngIf="this.values.user_profile.seller_account_id==0 && this.values.user_profile.masquerade_id==0" tappable (click)="popView()" class="go_back" [ngClass]="{'col-md-2': navOpen, '': !navOpen}"></a>
-		<a *ngIf="this.values.user_profile.seller_account_id!=0 || this.values.user_profile.masquerade_id!=0" tappable class="go_back" [ngClass]="{'col-md-2': navOpen, '': !navOpen}" [style.visibility]="'hidden'"></a>
+		<span *ngIf="this.values.user_profile.seller_account_id==0 && this.values.user_profile.masquerade_id==0" tappable (click)="popView()" class="go_back" [ngClass]="{'col-md-2': navOpen, '': !navOpen}"></span>
+		<span *ngIf="this.values.user_profile.seller_account_id!=0 || this.values.user_profile.masquerade_id!=0" tappable class="go_back" [ngClass]="{'col-md-2': navOpen, '': !navOpen}" [style.visibility]="'hidden'"></span>
 		<span class="title col-md-8">Designer Showroom</span>
 		<span class="toogle_menu" tappable [ngClass]="{'col-md-2': navOpen, '': !navOpen}" (click)="navOpen=!navOpen">|||</span>
 	</div>
@@ -73,10 +73,6 @@
 					<div class="collection-icon" (click)="this.downloadManager(collection.collection_id, collection.seller_account_id, this.values.designer.title, collection?.collection_title,1)">
 						<i class="mdi mdi-download"></i>
 					</div>
-					<!-- <ng-container *ngIf="(collection.offline!='Downloading' && collection.offline!='Downloaded')">
-						<img src="assets/images/mini_download_icon-black.png">
-						<a href="#" class="download_collection"></a>
-					</ng-container> -->
 				</div>
 				<div class="collection-timestamp" *ngIf="this.data.selectedCollection?.offline=='Downloaded' || collection?.offline=='Updated'">
 					<span>
