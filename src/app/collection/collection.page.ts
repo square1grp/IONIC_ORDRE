@@ -128,14 +128,14 @@ export class CollectionPage implements OnInit {
             this.values.isCollectionPage = true;
 
             this.mode = this.activatedRoute.snapshot.paramMap.get('mode');
-            if (this.mode !== 'fromlinesheet') {
-                this.firstItem = 0;
-                this.addItemsToGrid('', 0);
-            }
     
             if (this.mode === 'fromlinesheet') {
                 this.values.lsproducts = this.values.products;
+            } else {
+                this.firstItem = 0;
+                this.addItemsToGrid('', 0);
             }
+
             this.search();
             this.values.longTimeRequestUrls = [];
             this.values.productCashImageUrls = [];
@@ -420,11 +420,9 @@ export class CollectionPage implements OnInit {
             // }
             // this.values.onescreen_image_index = 0;
 
-            if (!this.values.online) {
-                if (this.values.collections[index].offline != 'Downloaded') {
-                    this.data.offlineManager();
-                    return false;
-                }
+            if (!this.values.online && (this.values.collections[index].offline !== 'Downloaded')) {
+                this.data.offlineManager();
+                return false;
             }
 
             this.items = [];

@@ -153,7 +153,9 @@ export class Data {
                         })
 
                     });
-
+                    this.loadingCtrl.create({
+                        duration: 5000,
+                    });
                 });
         });
     }
@@ -161,18 +163,7 @@ export class Data {
     async offlineManager() {
 
         if (!this.values.online) {
-            // let alert = this.alertCtrl.create({
-            //     title: 'You are offline.',
-            //     subTitle: 'You need to be online to do this. Check your settings and try again.',
-            //     buttons: [
-            //         {
-            //             text: 'OK',
-            //             handler: () => {
-            //                 this.dismissLoadingSpiner();
-            //             }
-            //         }
-            //     ]
-            // });
+            this.dismissLoadingSpiner();
             let alert = await this.alertCtrl.create({
                 header: 'No Internet connection found.',
                 subHeader: 'Check your connection',
@@ -180,7 +171,7 @@ export class Data {
                     {
                         text: 'OK',
                         handler: () => {
-                            this.dismissLoadingSpiner();
+                            // this.dismissLoadingSpiner();
                         }
                     }
                 ]
@@ -588,14 +579,17 @@ export class Data {
                             }
                         }
                     }
+                    if (this.values.hasOwnProperty('collections')) {
+                        //current collection ID
+                        this.currentCollectionID = this.setThisCollection();
+    
+                        this.selectedCollection = this.filterCollections(this.currentCollectionID)[0];
+                    }
+                    resolve(response);
+                }).catch((err) => {
+                    console.log(err);
+                    resolve(response);
                 });
-                if (this.values.hasOwnProperty('collections')) {
-                    //current collection ID
-                    this.currentCollectionID = this.setThisCollection();
-
-                    this.selectedCollection = this.filterCollections(this.currentCollectionID)[0];
-                }
-                resolve(response);
             }).catch(function (err) {
                 reject(err);
             });
@@ -625,7 +619,6 @@ export class Data {
             this.storage.get(record_id_get).then((result) => {
                 if (result !== null) {
                     let pdata = JSON.parse(result);
-                    resolve(pdata.data);
                     // this.storage.get('download_log').then((response) => {
                     //     if (response != null) {
                     //         let ulog = response.data;
@@ -639,12 +632,12 @@ export class Data {
                     //         }
                     //     }
                     // });
+                    resolve(pdata.data);
                 } else {
                     if (!this.values.online) {
                         this.offlineManager();
                         reject(null);
-                    };
-                    if (this.values.online) {
+                    } else {
                         let apiSource = this.values.APIRoot + "/app/api.php?json={%22action%22:%22collections_short%22,%22request%22:{%22device_token%22:%22" + device_token + "%22,%22user_token%22:%22" + user_token + "%22,%22checkpoint%22:%22" + (baseTime / 1000) + "%22,%22seller_account_id%22:" + designer_id + "}}";
                         this.http.get(apiSource).subscribe(data => {
                             resolve(data['result']);
@@ -732,8 +725,7 @@ export class Data {
                     if (!this.values.online) {
                         this.offlineManager();
                         reject(null);
-                    }
-                    if (this.values.online) {
+                    } else {
                         let apiSource = this.values.APIRoot + "/app/api.php?json={%22action%22:%22collection_products%22,%22request%22:{%22device_token%22:%22" + device_token + "%22,%22user_token%22:%22" + user_token + "%22,%22collection_id%22:" + collection_id + "}}";
                         this.http.get(apiSource).subscribe(productData => {
                             this.values.products = productData['result'];
@@ -1631,17 +1623,14 @@ export class Data {
             }
             if (this.designer.hasOwnProperty("currentCollectionID")) {
                 return this.designer.currentCollectionID;
-            }
-            else {
+            } else {
                 this.designer.currentCollectionID = this.values.collections[0].collection_id
                 return this.designer.currentCollectionID;
             }
-        }
-        else {
+        } else {
             if (this.designer.hasOwnProperty("currentCollectionID")) {
                 return this.designer.currentCollectionID;
-            }
-            else {
+            } else {
                 this.designer.currentCollectionID = this.values.collections[0].collection_id
                 return this.designer.currentCollectionID;
             }
@@ -1871,20 +1860,31 @@ export class Data {
     async presentLoadingSpinerSec() {
         this.loadingState = true;
         return await this.loadingCtrl.create({
-        duration: 5000,
+            duration: 5000,
         }).then(a => {
-        a.present().then(() => {
-            if (!this.loadingState) {
-            a.dismiss().then(() => console.log('abort presenting'));
-            }
-        });
+            a.present().then(() => {
+                if (!this.loadingState) {
+                    a.dismiss().then(() => {
+                        console.log('abort spinner presenting');
+                    });
+                }
+            });
+        }).catch(err => {
+            console.log(err);
         });
     }
 
     async dismissLoadingSpiner() {
         this.loadingState = false;
-        return await this.loadingCtrl.dismiss();
+        return await this.loadingCtrl.dismiss().then(() => { }).catch(err => { console.log(err); });
     }
+    // dismissLoadingSpiner() {
+    //     console.log('dismissLoadingSpiner');
+    //     // this.loadingState = false;
+    //     // return await this.loadingCtrl.dismiss().then(() => {
+    //     //     console.log('loadingCtrl a after dismissLoadingSpiner', this.loadingCtrl);
+    //     // });
+    // }
     // Loading Spinner process functions
     //   async createLoader() {
     //       this.loading = await this.loadingCtrl.create({

@@ -67,21 +67,13 @@ export class View360Component implements OnInit {
 
         this.data.presentLoadingSpinerSec().then(() => {
             this.data.putThreeSixtyFrames(this.ThreeSixtyFrames).then(res => {
-                this.data.dismissLoadingSpiner().then(() => {
-                    if (this.instanceOfCirclr === undefined) {
-                        this.init360();
-                    }
-                    else {
-                        this.play(23);
-                    }                
-                }).catch(() => {
-                    if (this.instanceOfCirclr === undefined) {
-                        this.init360();
-                    }
-                    else {
-                        this.play(23);
-                    }
-                });;
+                this.data.dismissLoadingSpiner();
+                if (this.instanceOfCirclr === undefined) {
+                    this.init360();
+                }
+                else {
+                    this.play(23);
+                }                
             })
         });
         

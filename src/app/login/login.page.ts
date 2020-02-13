@@ -73,11 +73,8 @@ export class LoginPage implements OnInit {
         if (!this.values.online) {
             this.data.offlineManager();
             return;
-        }
-        else {
+        } else {
             this.values.isHeavyLoad = true;
-            // this.data.createLoader();
-            //this.data.presentLoadingSpiner();
             this.data.presentLoadingSpinerSec().then(() => {
                 this.values.onescreen_total_imgages_num = 3;
                 this.values.onescreen_image_index = 0;
