@@ -652,6 +652,13 @@ page-linesheet .ordre_subheader .content_sorter {
     justify-content: flex-end;
 	border-left:none;
 	padding-left:20px;
+
+	img.go_to_top {
+		position: fixed;
+		width:55px;
+		bottom:10px;
+		left:10px;
+	}
 }
 
 page-collection .ordre_subheader .content_sorter {

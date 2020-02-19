@@ -559,8 +559,7 @@ export class CollectionPage implements OnInit {
         this.data.presentLoadingSpinerSec().then(() => {
             if (this.values.products.length < 12) {
                 this.values.onescreen_total_imgages_num = this.values.products.length * 2;
-            }
-            else {
+            } else {
                 this.values.onescreen_total_imgages_num = 24;
             }
             this.values.onescreen_image_index = 0;
