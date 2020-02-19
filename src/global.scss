@@ -617,37 +617,45 @@ section.page_content:after {
 
 .content_sorter .collection_title {
 	display: block;
-	float: left;
 	text-transform: uppercase;
 	font-size: 18px;
 	font-family: 'Avenir Book';
 	position: relative;
-	top: 50%;
-	-webkit-transform: translateY(-50%);
-	transform: translateY(-50%);
     text-align: left;
-}
-
-.content_sorter .collection_title span {
-    margin-top: 10px;
-	display: inline-block;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    max-width: 100%;
+    flex: 1;
+	
+	span {
+		margin-top: 11px;
+		display: inline-block;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+		max-width: 100%;
+	}
 }
 
 .ordre_subheader .content_sorter {
-	text-align:right;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
 	border-right:0px solid #cccccc;
 	border-left:1px solid #b6b6b6;
 	padding:10px 15px;
 	height:56px;
+
+	ion-segment-button {
+		height: 32px;
+	}
 }
 
 page-linesheet .ordre_subheader .content_sorter {
+    justify-content: flex-end;
 	border-left:none;
 	padding-left:20px;
+}
+
+page-collection .ordre_subheader .content_sorter {
+    justify-content: flex-end;
 }
 
 page-settings .native-input.sc-ion-input-ios {
