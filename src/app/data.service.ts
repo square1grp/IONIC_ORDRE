@@ -560,21 +560,21 @@ export class Data {
 
     // all collections for the selected designer
 
-    getThisCollections(designer_id, device_token, user_token) {
+    getThisCollections(designer_id, device_token, user_token, update_mode = true) {
         return new Promise((resolve, reject) => {
             
-            this.getCollections(designer_id, device_token, user_token).then(response => {
-                this.values.collections = response;
-                
+            this.getCollections(designer_id, device_token, user_token).then((collections: any) => {
+                if (update_mode) this.values.collections = collections;
+
                 this.storage.get('download_log').then((response) => {
                     if (response != null) {
                         let ulog = response.data;
                         for (let i = 0, len = ulog.length; i < len; i++) {
-                            for (let j = 0, len = this.values.collections.length; j < len; j++) {
-                                if (ulog[i].collection_id === this.values.collections[j].collection_id) {
+                            for (let j = 0, len = collections.length; j < len; j++) {
+                                if (ulog[i].collection_id === collections[j].collection_id) {
                                     //set collection status
-                                    this.values.collections[j].offline = ulog[i].action;
-                                    this.values.collections[j].download_date = ulog[i].date;
+                                    collections[j].offline = ulog[i].action;
+                                    collections[j].download_date = ulog[i].date;
                                 }
                             }
                         }
@@ -585,10 +585,10 @@ export class Data {
     
                         this.selectedCollection = this.filterCollections(this.currentCollectionID)[0];
                     }
-                    resolve(response);
+                    resolve(collections);
                 }).catch((err) => {
                     console.log(err);
-                    resolve(response);
+                    resolve(collections);
                 });
             }).catch(function (err) {
                 reject(err);
@@ -691,7 +691,7 @@ export class Data {
     };
 
 
-    getProduct(collection_id, device_token, user_token, mode) {
+    getProduct(collection_id, device_token, user_token, mode, update_mode = true) {
 
         let force = false;
 
@@ -716,7 +716,7 @@ export class Data {
             this.storage.get(record_id_get).then((result) => {
                 if (result != null) {
                     let pdata = JSON.parse(result);
-                    this.values.products = pdata.data;
+                    if (update_mode) this.values.products = pdata.data;
                     resolve(pdata.data);
                     if (mode > 0) {
                         this.productsCache(pdata.data, mode);
@@ -728,7 +728,7 @@ export class Data {
                     } else {
                         let apiSource = this.values.APIRoot + "/app/api.php?json={%22action%22:%22collection_products%22,%22request%22:{%22device_token%22:%22" + device_token + "%22,%22user_token%22:%22" + user_token + "%22,%22collection_id%22:" + collection_id + "}}";
                         this.http.get(apiSource).subscribe(productData => {
-                            this.values.products = productData['result'];
+                            if (update_mode) this.values.products = productData['result'];
                             resolve(productData['result']);
                             this.values.collection_checkpoints[collection_id] = new Date().getTime();
 

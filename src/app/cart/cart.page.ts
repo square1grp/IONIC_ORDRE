@@ -44,29 +44,32 @@ export class CartPage implements OnInit {
 
     addSizes() {
         this.values.cart.request.order[0].sales_order_parts.forEach((orderPart, part_index) => {
+            let designer;
             this.values.designers.forEach(element => {
-                if (element.seller_account_id == orderPart.seller_account_id) {
-                    this.values.designer = element;
+                if (element.seller_account_id === orderPart.seller_account_id) {
+                    designer = element;
                 }
             });
 
-            if (this.values.designer == undefined) {
+            if (this.values.designer === undefined) {
                 this.values.designers.forEach(element => {
-                    if (element.title == this.values.cart.request.order[0].sales_order_parts[0].designer_title) {
-                        this.values.designer = element;
+                    if (element.title === this.values.cart.request.order[0].sales_order_parts[0].designer_title) {
+                        designer = element;
                     }
                 });
+                if (this.values.designer === undefined) return;
             }
-            this.data.getDesignerCurrency(this.values.user_profile.user_region_id, orderPart.seller_account_id)
-            orderPart.currency_code = this.values.designer.buyer_code;
-            orderPart.currency_symbol = this.values.designer.buyer_symbol;
+
+            this.data.getDesignerCurrency(this.values.user_profile.user_region_id, orderPart.seller_account_id);
+            orderPart.currency_code = designer.buyer_code;
+            orderPart.currency_symbol = designer.buyer_symbol;
 
             //  get all collections for this designer
-            this.data.getThisCollections(orderPart.seller_account_id, this.values.device_token, this.values.user_profile.user_token).then(data => {
+            this.data.getThisCollections(orderPart.seller_account_id, this.values.device_token, this.values.user_profile.user_token, false).then((collections: any) => {
 
                 //  check each product in each collections
-                this.values.collections.forEach((collection, cindex) => {
-                    this.data.getProduct(collection.collection_id, this.values.device_token, this.values.user_profile.user_token, 0).then(data => {
+                collections.forEach((collection, cindex) => {
+                    this.data.getProduct(collection.collection_id, this.values.device_token, this.values.user_profile.user_token, 0, false).then(data => {
                         collection.products = data;
                         collection.products.forEach((product, pindex) => {
                             product.variants.forEach((variant, vindex) => {
