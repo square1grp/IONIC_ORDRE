@@ -110,16 +110,20 @@
 							</div>
 							<div class="overlay-body">
 								<div *ngFor="let variant of product.variants">
-								<span class="swatch-image">
-									<lazy-img src="{{values.APIRoot}}/app/get_image.php?image=/{{variant.swatch.swatch_image}}&w=20&h=20&xtype=prodimage"></lazy-img>
-								</span>
-								<span class="variant-color">{{variant.colour}}</span>
-								<span class="variant-to-cart" *ngIf="values.designer_pricelist.region_index != null" tappable (click)="addVariantToCart(product.product_title, product.materials, values.designer.title, 
-								product.region_prices[values.designer_pricelist.region_index] == undefined ? 0.00 : product.region_prices[values.designer_pricelist.region_index].wsp, product.region_prices[values.designer_pricelist.region_index] == undefined ? 0.00 : product.region_prices[values.designer_pricelist.region_index].rrp, values.designer.seller_account_id, 'all', product.product_id, variant.variant_id)">
-									<img [src]="isVariantInOrder(product.product_id, variant.variant_id, values.designer.seller_account_id)"/></span>
-								<span class="variant-to-cart" *ngIf="values.designer_pricelist.region_index == null" tappable (click)="addVariantToCart(product.product_title, product.materials, values.designer.title, 
-									product.region_prices[this.values.user_profile.user_region_id<4 ? this.values.user_profile.user_region_id - 1 : this.values.user_profile.user_region_id - 2].wsp, product.region_prices[this.values.user_profile.user_region_id<4 ? this.values.user_profile.user_region_id - 1 : this.values.user_profile.user_region_id - 2].rrp, values.designer.seller_account_id, 'all', product.product_id, variant.variant_id)">
-									<img [src]="isVariantInOrder(product.product_id, variant.variant_id,values.designer.seller_account_id)"/></span>
+									<div class="swatch-image">
+										<lazy-img src="{{values.APIRoot}}/app/get_image.php?image=/{{variant.swatch.swatch_image}}&w=20&h=20&xtype=prodimage"></lazy-img>
+									</div>
+									<div class="variant-color">
+										<span>{{variant.colour}}</span>
+									</div>
+									<div class="variant-to-cart" *ngIf="values.designer_pricelist.region_index != null" tappable (click)="addVariantToCart(product.product_title, product.materials, values.designer.title, 
+									product.region_prices[values.designer_pricelist.region_index] == undefined ? 0.00 : product.region_prices[values.designer_pricelist.region_index].wsp, product.region_prices[values.designer_pricelist.region_index] == undefined ? 0.00 : product.region_prices[values.designer_pricelist.region_index].rrp, values.designer.seller_account_id, 'all', product.product_id, variant.variant_id)">
+										<img [src]="isVariantInOrder(product.product_id, variant.variant_id, values.designer.seller_account_id)"/>
+									</div>
+									<div class="variant-to-cart" *ngIf="values.designer_pricelist.region_index == null" tappable (click)="addVariantToCart(product.product_title, product.materials, values.designer.title, 
+										product.region_prices[this.values.user_profile.user_region_id<4 ? this.values.user_profile.user_region_id - 1 : this.values.user_profile.user_region_id - 2].wsp, product.region_prices[this.values.user_profile.user_region_id<4 ? this.values.user_profile.user_region_id - 1 : this.values.user_profile.user_region_id - 2].rrp, values.designer.seller_account_id, 'all', product.product_id, variant.variant_id)">
+										<img [src]="isVariantInOrder(product.product_id, variant.variant_id,values.designer.seller_account_id)"/>
+									</div>
 								</div>
 							</div>
 							<div class="overlay-footer">
