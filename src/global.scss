@@ -1235,8 +1235,9 @@ page-settings .native-input.sc-ion-input-ios {
 /*DELETE*/
 
 .open_bar .page_content .collection_content {
+    display: flex;
+    flex-direction: column;
 	width:75%;
-	float:left;
 	border-left: 1px solid #b6b6b6;
 }
 
