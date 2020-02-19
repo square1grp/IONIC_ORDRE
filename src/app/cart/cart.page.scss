@@ -38,6 +38,9 @@ ion-content#linesheetScroolUp {
 ion-content#linesheetScroolUp div.scroll-content {
     overflow-y: scroll;
 }
+ion-segment-button {
+    height: 32px;
+}
 div.fe_sidebar_overlay {
     overflow-y: scroll;
 }
