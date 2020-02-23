@@ -54,8 +54,10 @@
                         </ion-segment-button>
                     </ion-segment>
                 </div>
-                <ion-content id="linesheetScroolUp" #linesheetScroolUp>  
-                    <p class="clear_all_ordres" tappable (click)="clearOrder()">Clear Order</p>
+                <ion-content id="linesheetScroolUp" #linesheetScroolUp>
+                    <div class="clear_all_ordres">
+                        <p tappable (click)="clearOrder()">Clear Order</p>
+                    </div>
                     <article class="designer_order" *ngFor="let designer of this.values.cart.request.order[0].sales_order_parts; let orderPart = index;">
                         <div class="designer_order_header">
                             <span [innerHTML]="designer.designer_title"></span>
@@ -291,8 +293,10 @@
                         </div>
                         <div class="col-md-2"></div>
                         <div style="clear: both;"></div> 
-                    </div>       
-                    <p class="clear_all_ordres" tappable (click)="clearOrder()">Clear Order</p>
+                    </div>
+                    <div class="clear_all_ordres">
+                        <p tappable (click)="clearOrder()">Clear Order</p>
+                    </div>
                 </ion-content>  
             </section>      
         </section>
