@@ -479,8 +479,7 @@ export class CollectionPage implements OnInit {
                 this.data.d_collections_all = false;
                 this.data.d_collection_index = 0;
                 this.events.unsubscribe("collection-download");
-            }
-            else {
+            } else {
                 this.downloadManager(this.values.collections[this.data.d_collection_index].collection_id, this.values.designer.seller_account_id, this.values.designer.title, this.values.collections[this.data.d_collection_index].collection_title, 1);
             }
         });
@@ -491,12 +490,11 @@ export class CollectionPage implements OnInit {
         if (!this.values.online) {
             this.data.offlineManager();
             return false;
-        };
+        }
         if (mode != 3) {
             if (this.values.user_profile.forcecache) {
                 mode = 2;
-            }
-            else {
+            } else {
                 mode = 1;
             }
         }
@@ -511,27 +509,20 @@ export class CollectionPage implements OnInit {
                 },
             });
             await this.popover.present();
-            this.popover.onDidDismiss(() => {
-                this.popover = null;
-            });
-        }
-        else {
-            if (this.popover == null) {
-                this.popover = await this.popoverController.create({
-                    component: ViewloaderComponent,
-                    componentProps: {
-                        collection_id: 0,
-                        designer_id: designer_id,
-                        mode: mode,
-                        source: 'collection'
-                    },
-                });
+        } else {
+            if (this.popover !== null) { this.popover.dismiss(); }
 
-                await this.popover.present();
-                this.popover.onDidDismiss(() => {
-                    this.popover = null;
-                });
-            }
+            this.popover = await this.popoverController.create({
+                component: ViewloaderComponent,
+                componentProps: {
+                    collection_id: 0,
+                    designer_id: designer_id,
+                    mode: mode,
+                    source: 'collection'
+                },
+            });
+
+            await this.popover.present();
         }
 
         this.insomnia.keepAwake().then(

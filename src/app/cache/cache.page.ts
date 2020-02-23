@@ -44,8 +44,6 @@ export class CachePage {
 
             this.data.addIsOpenedProp();
         });
-        this.data.consoleLog('this.data.draftOrders', this.data.draftOrders);
-        this.data.consoleLog('this.data.requestedOrders', this.data.requestedOrders);
     }
 
     uiChange(newstate) {
@@ -54,11 +52,9 @@ export class CachePage {
 
     toggleForceCache() {
         this.values.user_profile.forcecache = !this.values.user_profile.forcecache;
-        console.log('Force Cache:' + this.values.user_profile.forcecache);
     }
 
     async clearCache() {
-        console.log('Clear Cache Clicked');
         let alert = await this.alertCtrl.create({
             header: 'Are you sure?',
             subHeader: 'This will clear all downloaded images and data.',
@@ -95,7 +91,6 @@ export class CachePage {
                 return false;
             };
         }
-        console.log('Getting collections for designer:' + designer_id)
         this.data.getCollections(designer_id, this.values.device_token, this.values.user_profile.user_token).then(async response => {
             this.values.collections = response;
             if (mode != 3) {
