@@ -509,9 +509,7 @@ export class CollectionPage implements OnInit {
                 },
             });
             await this.popover.present();
-        } else {
-            if (this.popover !== null) { this.popover.dismiss(); }
-
+        } else if (!this.values.isDownloadPopoverOpened) {
             this.popover = await this.popoverController.create({
                 component: ViewloaderComponent,
                 componentProps: {

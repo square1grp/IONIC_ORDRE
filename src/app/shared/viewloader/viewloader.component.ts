@@ -31,46 +31,33 @@ export class ViewloaderComponent {
         this.designer_id = this.navParams.get("designer_id")
         this.mode = this.navParams.get('mode');
         this.source = this.navParams.get('source');
-        if(this.mode==4){this.mode=1}; 
-        if(this.mode==5){this.mode=2};  
+        if (this.mode == 4) { this.mode = 1 } 
+        if (this.mode == 5) { this.mode = 2 }  
 
         this.events.subscribe("set-collection-state", (collection_id) => {
-            if (this.values.cancel == false) {
+            if (this.values.cancel === false) {
                 let status = 'Downloaded';
                 this.setCollectionStatus(status, collection_id).then(() => {
                 });
-            }
-            else {
+            } else {
                 this.setCollectionStatus('', collection_id).then(() => {
                 });
             }
-        })
+        });
+    }
+
+    ionViewDidEnter() {
+        this.values.isDownloadPopoverOpened = true;
+    }
+
+    ionViewWillLeave() {
+        this.values.isDownloadPopoverOpened = false;
     }
 
     close() {
-        if (this.collection_id != 0) {
-            let status = '';
-            if(this.mode == 3){
-                status = 'Removed';
-            }
-            else
-            {
-                status = 'Downloaded';
-            }   
-            this.setCollectionStatus(status, this.collection_id).then(() => {
-                this.viewCtrl.dismiss().then(() => {
-                    this.events.unsubscribe("set-collection-state");
-                    this.insomnia.allowSleepAgain().then(
-                        () => console.log("allowSleepAgain success"),
-                        () => console.log("allowSleepAgain error")
-                    );
-                    this.data.addIsOpenedProp();
-                }).catch((err) => {
-                    console.log('Problem with spinner:'+err);
-                });
-            })
-        }
-        else {
+        if (!this.data.d_collections_all) {
+            const status = this.mode === 3 ? 'Removed' : 'Downloaded';
+            this.setCollectionStatus(status, this.collection_id);
             this.viewCtrl.dismiss().then(() => {
                 this.events.unsubscribe("set-collection-state");
                 this.insomnia.allowSleepAgain().then(

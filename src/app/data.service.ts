@@ -78,7 +78,7 @@ export class Data {
         public platform: Platform,
         public values: Values,
         private alertCtrl: AlertController,
-        private events: Events,
+        public events: Events,
         private network: Network) {
 
         setTimeout(() => {
@@ -841,9 +841,8 @@ export class Data {
 
     productsCache(products, force) {
         this.abort = false;
-        this.values.debug = 'Processing products';
-        this.countDownloadTarget(products, force);
         this.values.cacheProducts = products;
+        this.countDownloadTarget(products, force);
         this.values.force = force;
         this.values.pIndex = 0;
         this.values.cacheIndex = 0;
@@ -1011,11 +1010,6 @@ export class Data {
                                 if (this.c_mode === 3) {
                                     this.delCindex(this.c_collection_title, this.c_collection_id, this.c_designer_title, this.c_designer_id);
                                 }
-                                else {
-                                    if (this.c_mode > 0) {
-                                        this.addCindex(this.c_action, this.c_collection_title, this.c_collection_id, this.c_designer_title, this.c_designer_id, this.c_collection_total_bytes);
-                                    }
-                                }
                             }
                             this.values.pIndex = 0;
                             this.values.cancel = false;
@@ -1054,7 +1048,16 @@ export class Data {
         this.storage.get(url).then((data) => {
             if (data != null) {
                 this.values.downloadQueue = this.values.downloadQueue - 1;
-                if (this.values.downloadQueue < 0) this.values.downloadQueue = 0;
+                if (this.values.downloadQueue === 0) {
+                    if (this.c_mode > 0) {
+                        this.addCindex(this.c_action, this.c_collection_title, this.c_collection_id, this.c_designer_title, this.c_designer_id, this.c_collection_total_bytes);
+                    }
+                    if (this.d_collections_all) {
+                        this.events.publish("collection-download");
+                    }
+                } else if (this.values.downloadQueue < 0) {
+                    this.values.downloadQueue = 0;
+                }
 
                 let urlIndex = this.values.productCashImageUrls.indexOf(url);
                 if(urlIndex >= 0) {
