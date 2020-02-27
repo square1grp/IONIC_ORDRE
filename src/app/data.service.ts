@@ -1066,8 +1066,7 @@ export class Data {
                 let longTimeUrlIndex = this.values.longTimeRequestUrls.indexOf(url);
                 if(longTimeUrlIndex === -1) {
                     this.values.cacheIndex = this.values.cacheIndex + 1;
-                }
-                else {
+                } else {
                     this.values.longTimeRequestUrls.splice(longTimeUrlIndex, 1);
                 }
                 //if (this.values.cacheIndex >= this.values.numOfProdutTotalImages - 1) {
@@ -1078,31 +1077,18 @@ export class Data {
                     this.values.productCashImageUrls = [];
 
                     if (this.values.pIndex >= this.values.cacheProducts.length || this.values.cancel === true) {
-                        if (this.values.cancel === false) {
+                        if (!this.d_collections_all && !this.values.cancel) {
                             if (this.c_mode === 3) {
                                 this.delCindex(this.c_collection_title, this.c_collection_id, this.c_designer_title, this.c_designer_id)
-                            }
-                            else {
-                                if (this.c_mode > 0) {
-                                    this.addCindex(this.c_action, this.c_collection_title, this.c_collection_id, this.c_designer_title, this.c_designer_id, this.c_collection_total_bytes);
-                                }
                             }
                         }
                         this.values.pIndex = 0;
                         this.values.longTimeRequestUrls = [];
                         this.values.productCashImageUrls = [];
-                        this.values.cancel = false;
                         this.values.pIndexCheckPoint = Date.now();
                         this.abort = true;
-
-                        if (this.d_collections_all === true) {
-                            if (this.values.cancel != false) {
-                                this.d_collection_index = this.values.collections.length;
-                            }
-                            this.events.publish("collection-download");
-                        }
-                    }
-                    else {
+                        this.values.cancel = false;
+                    } else {
                         this.values.pIndexCheckPoint = Date.now();
                         setTimeout(() => {
                             let currentCheckPoint = Date.now();
@@ -1125,12 +1111,19 @@ export class Data {
                         }
                     }
                 }
-            }
-            else {
+            } else {
                 this.putImage(url).then(() => {
                     this.values.downloadQueue = this.values.downloadQueue - 1;
-                    if (this.values.downloadQueue < 0) this.values.downloadQueue = 0;
-                    //this.storage.get('user_profile')
+                    if (this.values.downloadQueue === 0) {
+                        if (this.c_mode > 0) {
+                            this.addCindex(this.c_action, this.c_collection_title, this.c_collection_id, this.c_designer_title, this.c_designer_id, this.c_collection_total_bytes);
+                        }
+                        if (this.d_collections_all) {
+                            this.events.publish("collection-download");
+                        }
+                    } else if (this.values.downloadQueue < 0) {
+                        this.values.downloadQueue = 0;
+                    }
                         
                     let urlIndex = this.values.productCashImageUrls.indexOf(url);
                     if(urlIndex != -1) {
@@ -1152,33 +1145,18 @@ export class Data {
                         this.values.productCashImageUrls = [];
 
                         if (this.values.pIndex >= this.values.cacheProducts.length || this.values.cancel === true) {
-                            if (this.values.cancel === false) {
+                            if (!this.d_collections_all && this.values.cancel === false) {
                                 if (this.c_mode === 3) {
                                     this.delCindex(this.c_collection_title, this.c_collection_id, this.c_designer_title, this.c_designer_id)
                                 }
-                                else {
-                                    if (this.c_mode > 0) {
-                                        this.addCindex(this.c_action, this.c_collection_title, this.c_collection_id, this.c_designer_title, this.c_designer_id, this.c_collection_total_bytes);
-                                    }
-                                }
-                            }
-                            else {
                             }
                             this.values.pIndex = 0;
                             this.values.longTimeRequestUrls = [];
                             this.values.productCashImageUrls = [];
-                            this.values.cancel = false;
                             this.values.pIndexCheckPoint = Date.now();
                             this.abort = true;
-
-                            if (this.d_collections_all === true) {
-                                if (this.values.cancel != false) {
-                                    this.d_collection_index = this.values.collections.length;
-                                }
-                                this.events.publish("collection-download");
-                            }
-                        }
-                        else {
+                            this.values.cancel = false;
+                        } else {
                             this.values.pIndexCheckPoint = Date.now();
                             setTimeout(() => {
                                 let currentCheckPoint = Date.now();
@@ -1203,7 +1181,16 @@ export class Data {
                     }
                 }).catch((err) => {
                     this.values.downloadQueue = this.values.downloadQueue - 1;
-                    if (this.values.downloadQueue < 0) this.values.downloadQueue = 0;
+                    if (this.values.downloadQueue === 0) {
+                        if (this.c_mode > 0) {
+                            this.addCindex(this.c_action, this.c_collection_title, this.c_collection_id, this.c_designer_title, this.c_designer_id, this.c_collection_total_bytes);
+                        }
+                        if (this.d_collections_all) {
+                            this.events.publish("collection-download");
+                        }
+                    } else if (this.values.downloadQueue < 0) {
+                        this.values.downloadQueue = 0;
+                    }
 
                     let urlIndex = this.values.productCashImageUrls.indexOf(url);
                     if(urlIndex != -1) {
@@ -1225,31 +1212,18 @@ export class Data {
                         this.values.productCashImageUrls = [];
 
                         if (this.values.pIndex >= this.values.cacheProducts.length || this.values.cancel === true) {
-                            if (this.values.cancel === false) {
+                            if (!this.d_collections_all && this.values.cancel === false) {
                                 if (this.c_mode === 3) {
                                     this.delCindex(this.c_collection_title, this.c_collection_id, this.c_designer_title, this.c_designer_id)
-                                }
-                                else {
-                                    if (this.c_mode > 0) {
-                                        this.addCindex(this.c_action, this.c_collection_title, this.c_collection_id, this.c_designer_title, this.c_designer_id, this.c_collection_total_bytes);
-                                    }
                                 }
                             }
                             this.values.pIndex = 0;
                             this.values.longTimeRequestUrls = [];
                             this.values.productCashImageUrls = [];
-                            this.values.cancel = false;
                             this.values.pIndexCheckPoint = Date.now();
                             this.abort = true;
-
-                            if (this.d_collections_all === true) {
-                                if (this.values.cancel != false) {
-                                    this.d_collection_index = this.values.collections.length;
-                                }
-                                this.events.publish("collection-download");
-                            }
-                        }
-                        else {
+                            this.values.cancel = false;
+                        } else {
                             this.values.pIndexCheckPoint = Date.now();
                             setTimeout(() => {
                                 let currentCheckPoint = Date.now();
@@ -1486,7 +1460,7 @@ export class Data {
             for (let cindex = 0, len = this.values.collections.length; cindex < len && !abort; cindex++) {
                 if (this.values.collections[cindex].collection_id === collection_id) {
                     abort = true;
-                    this.values.collections[cindex].offline = 'Downloading';
+                    // this.values.collections[cindex].offline = 'Downloading';
 
                     //this.values.collections[cindex].designer = designer_title;
                     //this.values.collections[cindex].size = this.values.collections[cindex].app_total_bytes

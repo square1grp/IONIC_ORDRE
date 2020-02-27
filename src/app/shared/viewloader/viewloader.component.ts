@@ -66,28 +66,40 @@ export class ViewloaderComponent {
                 );
                 this.data.addIsOpenedProp();
             }).catch((err) => {
-                console.log('Problem with spinner:'+err);
+                console.log('Problem with spinner:', err);
+            });
+        } else {
+            this.viewCtrl.dismiss().then(() => {
+                this.events.unsubscribe("set-collection-state");
+                this.insomnia.allowSleepAgain().then(
+                    () => console.log("allowSleepAgain success"),
+                    () => console.log("allowSleepAgain error")
+                );
+                this.data.addIsOpenedProp();
+            }).catch((err) => {
+                console.log('Problem with spinner:', err);
             });
         }
     }
 
     abort() {
-        if (this.collection_id != 0) {
+        this.data.events.unsubscribe("collection-download");
+        if (!this.data.d_collections_all) {
             this.values.cancel = true;
-            this.setCollectionStatus('',this.collection_id).then(() => {
-                this.viewCtrl.dismiss().then(() => {
-                    this.events.unsubscribe("set-collection-state");
-                    this.insomnia.allowSleepAgain().then(
-                        () => console.log("allowSleepAgain success"),
-                        () => console.log("allowSleepAgain error")
-                    );
-                    this.data.addIsOpenedProp();
-                }).catch((err) => {
-                    console.log('Problem with spinner:' + err);
-                });
+            this.setCollectionStatus('', this.collection_id);
+            this.viewCtrl.dismiss().then(() => {
+                this.events.unsubscribe("set-collection-state");
+                this.insomnia.allowSleepAgain().then(
+                    () => console.log("allowSleepAgain success"),
+                    () => console.log("allowSleepAgain error")
+                );
+                this.data.addIsOpenedProp();
+            }).catch((err) => {
+                console.log('Problem with spinner:' + err);
             });
-        }
-        else {
+        } else {
+            this.values.cancel = true;
+            this.data.d_collections_all = false;
             this.viewCtrl.dismiss().then(() => {
                 setTimeout(() => {
                     this.events.unsubscribe("set-collection-state");

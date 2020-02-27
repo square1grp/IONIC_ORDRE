@@ -472,13 +472,13 @@ export class CollectionPage implements OnInit {
         this.data.d_collections_all = true;
         this.downloadManager(this.values.collections[0].collection_id, this.values.designer.seller_account_id, this.values.designer.title, this.values.collections[0].collection_title, 1);
 
-        this.events.subscribe("collection-download", () => {
-            this.events.publish("set-collection-state", this.values.collections[this.data.d_collection_index].collection_id);
+        this.data.events.subscribe("collection-download", () => {
+            this.data.events.publish("set-collection-state", this.values.collections[this.data.d_collection_index].collection_id);
             this.data.d_collection_index ++;
             if (this.data.d_collection_index >= this.values.collections.length) {
                 this.data.d_collections_all = false;
                 this.data.d_collection_index = 0;
-                this.events.unsubscribe("collection-download");
+                this.data.events.unsubscribe("collection-download");
             } else {
                 this.downloadManager(this.values.collections[this.data.d_collection_index].collection_id, this.values.designer.seller_account_id, this.values.designer.title, this.values.collections[this.data.d_collection_index].collection_title, 1);
             }
@@ -521,7 +521,7 @@ export class CollectionPage implements OnInit {
             });
 
             await this.popover.present();
-        }
+        }        
 
         this.insomnia.keepAwake().then(
             () => console.log("keepAwake success !"),
