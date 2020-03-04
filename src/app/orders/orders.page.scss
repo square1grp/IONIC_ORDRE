@@ -1,6 +1,9 @@
 div#pbody {
     height: 100%;
 }
+ion-content #pbody {
+    overflow: hidden;
+}
 section.page_content {
     height: 96%;
 }

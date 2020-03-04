@@ -51,7 +51,7 @@
 		</div>
 	</div>
 </div>
-<ion-content #content>
+<ion-content class="content-wrapper" [scrollEvents]="false" [forceOverscroll]="false">
 	<div id="pbody" [ngClass]="{'open_bar': navOpen, 'closed_bar': !navOpen}">
 		<section class="page_content" id="line_sheet_section">
 			<div class="collection_sidebar" [ngClass]="{'open': navOpen, 'closed': !navOpen}">
@@ -63,7 +63,7 @@
 					<p class="open-to-ordre-title"><span [innerHTML]="values.designer.title"></span><br/>Collections open-to-ordre</p>
 				</div>
 			</div>
-			<section id="line_sheet_content">
+			<ion-content id="line_sheet_content" #content>
 				<ng-container *ngIf="items.length==0 && searchValue.length>0">
 					<div class="line_sheet_item no_results"> 
 						<p>There are no items matching your search.</p>
@@ -135,8 +135,10 @@
 						<button (click)="openPage('cart')" class="add_to_final_edit_button">Go to Final Edit</button>
 					</p>
 				</div>
-			</section>
+			</ion-content>
 		</section>
 	</div>
-	<img src="assets/images/arrow-up.png" tappable (click)="scrollToTop()" class="go_to_top" ion-fixed/>
+	<ion-fab left bottom>
+		<img ion-fab src="assets/images/arrow-up.png" tappable (click)="scrollToTop()" style="z-index: 1000;">
+	</ion-fab>
 </ion-content>
