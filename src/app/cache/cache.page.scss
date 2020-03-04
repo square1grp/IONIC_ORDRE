@@ -16,6 +16,9 @@
 .scroll-content {
     overflow-y: hidden;
 }
+ion-content #pbody {
+    overflow: hidden;
+}
 #settings_content .settings_item {
     height: 100%;
     overflow-y: scroll;

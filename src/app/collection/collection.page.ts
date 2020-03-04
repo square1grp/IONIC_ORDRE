@@ -558,6 +558,7 @@ export class CollectionPage implements OnInit {
     }
 
     scrollToTop() {
+        console.log('scrollToTop');
         this.scrollContent.scrollToTop();
     }
 

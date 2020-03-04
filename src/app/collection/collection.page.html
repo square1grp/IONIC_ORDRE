@@ -24,7 +24,7 @@
 		<input type="text" name="search" [(ngModel)]="searchValue" class="page_search" placeholder="Search" (keyup)="searchTerm$.next($event.target.value)">
 	</div>
 </div>
-<ion-content [scrollEvents]="false">
+<ion-content [scrollEvents]="false" [forceOverscroll]="false">
 	<div id="pbody" [ngClass]="{'open_bar': navOpen, 'closed_bar': !navOpen}">
 		<section class="page_content" id="collection_section">
 			<div class="collection_sidebar" [ngClass]="{'open': navOpen, 'closed': !navOpen}">

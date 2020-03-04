@@ -658,6 +658,7 @@ page-linesheet .ordre_subheader .content_sorter {
 		width:55px;
 		bottom:10px;
 		left:10px;
+		z-index: 10;
 	}
 }
 
@@ -4394,6 +4395,8 @@ img.go_to_top {
 	width:55px;
 	bottom:10px;
 	left:10px;
+	position: fixed;
+	z-index: 10;
 }
 
 .col_item_name {
@@ -4484,14 +4487,6 @@ ion-slide.swiper-slide {
 	width:100%;
 	transform:none !important;
 	position:relative !important;
-}
-
-#line_sheet_content ion-list.list-ios {
-	margin-top:68px;
-}
-
-.closed_bar #line_sheet_section #line_sheet_content {
-	margin-top:95px !important;
 }
 
 .page_count {
@@ -4706,12 +4701,11 @@ page-header {
 ion-fab[left] {
     left: 10px;
 }
-
 ion-fab[bottom] {
     bottom: 10px;
 }
 ion-fab {
-    position: absolute;
+    position: fixed;
     z-index: 999;
 }
 @media only screen and (max-width: 1024px) and (orientation: portrait) {

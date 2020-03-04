@@ -16,6 +16,9 @@ ion-input#focus-input {
 .scroll-content {
     overflow-y: hidden;
 }
+ion-content #pbody {
+    overflow: hidden;
+}
 div.open_bar#pbody {
     height: 100%;
 }

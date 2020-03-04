@@ -13,7 +13,7 @@
         </div>
     </div>
 </div>
-<ion-content>  
+<ion-content [scrollEvents]="false" [forceOverscroll]="false">  
     <div id="pbody" class="open_bar">
         <section class="page_content" id="fe_section">
             <div class="fe_divider"></div>
@@ -301,5 +301,7 @@
             </section>      
         </section>
     </div>
-    <img src="assets/images/arrow-up.png" tappable (click)="scrollToTop()" class="go_to_top" ion-fixed>
+	<ion-fab left bottom>
+		<img ion-fab src="assets/images/arrow-up.png" tappable (click)="scrollToTop()" style="z-index: 1000;">
+	</ion-fab>
 </ion-content>
