@@ -76,17 +76,15 @@ export class ImageCacheComponent implements OnInit {
                         }
                     }).catch((err) => {
                         let blankImageURL = this.values.APIRoot + "/app/get_image.php?image=/app/images/placeholder.png&" + sizeStrArry[0] + "&" + sizeStrArry[1];
-                        this.storage.get(blankImageURL).then((image) => {
-                            if(image!=null)
-                            {
+                        this.data.getImage(blankImageURL).then((image) => {
+                            if ( image !== null) {
                                 if(this.platform.is('cordova')) {
                                     let url = URL.createObjectURL(image);
                                     let fixedUrl: SafeUrl = this.ds.bypassSecurityTrustUrl(url)
                                     this.img_src = <string>fixedUrl;
                                     this.hidden = false 
                                     this.cd.markForCheck();
-                                }
-                                else {
+                                } else {
                                     let fixedUrl: SafeUrl = this.ds.bypassSecurityTrustUrl(<string>image)
                                     this.img_src = <string>fixedUrl;
                                     this.hidden = false;
@@ -100,8 +98,7 @@ export class ImageCacheComponent implements OnInit {
                                         this.values.onescreen_total_imgages_num = 0;
                                     }
                                 }
-                            }
-                            else {
+                            } else {
                                 this.img_src = blankImageURL;
                                 this.data.putImage(blankImageURL).then(() => {
                                     this.hidden = false;

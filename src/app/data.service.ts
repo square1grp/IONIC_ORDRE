@@ -319,17 +319,14 @@ export class Data {
                         if ((row.doc.seller_account_id === seller_id) && (row.doc.buyer_id === buyer_id)) {
                             row.doc.Date = new Date(row.doc.Date);
                             return row.doc;
-                        }
-                        else {
+                        } else {
                             return false;
                         }
-                    }
-                    else {
+                    } else {
                         if (row.doc.buyer_id === buyer_id) {
                             row.doc.Date = new Date(row.doc.Date);
                             return row.doc;
-                        }
-                        else {
+                        } else {
                             return false;
                         }
                     }
@@ -1057,7 +1054,7 @@ export class Data {
     cacheImage(url) {
         this.values.productCashImageUrls.push(url);
         //cache if not already cached
-        this.storage.get(url).then((data) => {
+        this.getImage(url).then((data) => {
             if (data != null) {
                 this.values.downloadQueue = this.values.downloadQueue - 1;
                 if (this.values.downloadQueue === 0) {
@@ -1339,7 +1336,7 @@ export class Data {
                 //     })
                 // }
                 // else {
-                this.getImage64(blob, filename, url, imageType).then((nr1) => {
+                this.putImage64(blob, filename, url, imageType).then((nr1) => {
                     let nr = '';
                     resolve(nr);
                 })
@@ -1395,7 +1392,7 @@ export class Data {
     //     })
     // }
 
-    getImage64(blob, filename, url, imageType) {
+    putImage64(blob, filename, url, imageType) {
         return new Promise((resolve, reject) => {
             let image64;
             var myReader: FileReader = new FileReader();
@@ -1411,19 +1408,52 @@ export class Data {
     }
 
     cacheIndex(url, filename) {
-        this.storage.set(url, filename)
+        if (this.isDevice && this.sqliteDB) {
+            let query = `SELECT img_data FROM images WHERE url = '` + url + `'`;
+            this.sqliteDB.executeSql(query, []).then(images => {
+                if (images.rows.length > 0) {
+                    query = `UPDATE images SET img_data = '` + filename + `' WHERE url = '` + url + `'`;
+                    this.sqliteDB.executeSql(query, []).then(() => {
+                    }).catch(e => console.log(e));
+                } else {
+                    query = `INSERT INTO images(url, img_data) VALUES ('` + url + `', '` + filename + `')`;
+                    this.sqliteDB.executeSql(query, []).then(() => {
+                    }).catch(e => console.log(e));
+                }
+            }).catch(e => console.log(e));
+        } else {
+            this.storage.set(url, filename);
+        }
     }
 
     //fetch the blob from the dB; returns blob
     getImage(img_src) {
         return new Promise((resolve, reject) => {
-            this.storage.get(img_src).then((data) => {
-                //let image = JSON.parse(data);  
-                resolve(data);
-            }).catch(function (err) {
-                let idn = '../assets/images/tinyplaceholder.png';
-                resolve(idn);
-            });
+            if (this.isDevice) {
+                if (!this.sqliteDB) {
+                    resolve(null);
+                    return;
+                }
+                const query = `SELECT * FROM images WHERE url = '` + img_src + `'`;
+                this.sqliteDB.executeSql(query, []).then(images => {
+                    if (images.rows.length > 0) {
+                        resolve(images.rows.item(0).img_data);
+                    } else {
+                        resolve(null);
+                    }
+                }).catch(e => {
+                    console.log(e);
+                });
+            } else {
+                this.storage.get(img_src).then((data) => {
+                    //let image = JSON.parse(data);  
+                    resolve(data);
+                }).catch(function (err) {
+                    // let idn = '../assets/images/tinyplaceholder.png';
+                    // resolve(idn);
+                    resolve(null);
+                });
+            }
             /*
             this.imageDB.getAttachment(img_src, 'file').then((image) => {
                 resolve(image);
