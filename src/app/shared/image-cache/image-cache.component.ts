@@ -37,7 +37,7 @@ export class ImageCacheComponent implements OnInit {
         let imageURL = this.src
         let sizeStrArry = imageURL.substr(imageURL.indexOf("&w=") + 1).split("&");
 
-        this.storage.get(imageURL).then((image) => {
+        this.data.getImage(imageURL).then((image) => {
             if (image != null) {
                     //   file or dB cache 
                     //   if (this.platform.is('cordova')) {
@@ -60,8 +60,7 @@ export class ImageCacheComponent implements OnInit {
                             this.values.onescreen_total_imgages_num = 0;
                         }
                     }
-            }
-            else {
+            } else {
                 if (this.values.online) {
                     this.img_src = imageURL;
                     this.cd.markForCheck();

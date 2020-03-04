@@ -7,6 +7,7 @@ import { Storage } from '@ionic/storage';
 import { File } from '@ionic-native/file/ngx';
 import { HTTP } from '@ionic-native/http/ngx';
 import { Network } from '@ionic-native/network/ngx';
+import { SQLite, SQLiteObject } from '@ionic-native/sqlite/ngx';
 import PouchDB from 'pouchdb';
 import 'rxjs/Rx';
 import { map } from 'rxjs/operators';
@@ -39,6 +40,8 @@ export class Data {
     loading: any;
 
 
+    isDevice: boolean = false;
+    sqliteDB: any;
     //drafts and orders
     draftOrders = [];
     requestedOrders: any;
@@ -54,7 +57,6 @@ export class Data {
     dlog: any;
     loadingState: boolean = false;
     isloadingState: boolean = false;
-    SQLLite: boolean;
 
     //  download management CindexCollection
     c_collection_title: string;
@@ -79,7 +81,8 @@ export class Data {
         public values: Values,
         private alertCtrl: AlertController,
         public events: Events,
-        private network: Network) {
+        private network: Network,
+        private sqlite: SQLite) {
 
         setTimeout(() => {
             this.initDB();
@@ -88,8 +91,6 @@ export class Data {
     }
 
     initDB() {
-
-        //this.SQLLite = true;
 
         return new Promise((resolve, reject) => {
             this.platform.ready()
@@ -107,6 +108,17 @@ export class Data {
                             }
                         });
                         if (this.platform.is('cordova')) {
+                            this.isDevice = true;
+                            this.sqlite.create({
+                                name: 'data.db',
+                                location: 'default'
+                            }).then((sqliteDB: SQLiteObject) => {
+                                this.sqliteDB = sqliteDB;
+                                const query = 'CREATE TABLE IF NOT EXISTS images ( id INTEGER PRIMARY KEY AUTOINCREMENT, url TEXT, img_data TEXT )';
+                                this.sqliteDB.executeSql(query, []).then(() => {
+                                }).catch(e => console.log(e));
+                            }).catch(e => console.log(e));
+
                             this.values.online = this.network.type !== 'none';
 
                             this.network.onDisconnect().subscribe(() => {

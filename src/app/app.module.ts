@@ -13,6 +13,7 @@ import { Network } from '@ionic-native/network/ngx';
 import { Insomnia } from '@ionic-native/insomnia/ngx';
 import { Keyboard } from '@ionic-native/keyboard/ngx';
 import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
+import { SQLite, SQLiteObject } from '@ionic-native/sqlite/ngx';
 import { IonicStorageModule } from '@ionic/storage';
 
 import { AppComponent } from './app.component';
@@ -46,6 +47,7 @@ import { ViewloaderComponent } from './shared/viewloader/viewloader.component';
         Insomnia,
         Keyboard,
         InAppBrowser,
+        SQLite,
         { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
     ],
     bootstrap: [AppComponent]
