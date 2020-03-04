@@ -85,13 +85,16 @@
 					<p [innerHTML]="data.selectedCollection?.collection_title"></p>
 					<p>DELIVERS {{data.selectedCollection?.display_delivery_start_date}} - {{data.selectedCollection?.display_delivery_end_date}}</p>
 				</div>
-				<ng-container *ngIf="items.length==0 && searchValue.length>0">
+				<ng-container *ngIf="values.view_mode === 'grid view' && items.length==0 && searchValue.length>0">
 					<div class="no_results">
 						<p>There are no items matching your search.</p>
 						<p>Tap the Collection title on the left to refresh, or enter a new search.</p>
 					</div>    
-				</ng-container>  
-				<ion-content class="product-list" #collectionScroll>
+				</ng-container>
+
+				<page-linesheet *ngIf="values.view_mode === 'linesheet view'"></page-linesheet>
+
+				<ion-content *ngIf="values.view_mode === 'grid view'" class="product-list" #collectionScroll>
 					<ion-list>
 						<div class="collection_item_part" *ngFor="let product of items; let i = index">
 							<div class="overlay-wrapper" *ngIf="product.is_overlay">

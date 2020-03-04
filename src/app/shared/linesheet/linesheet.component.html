@@ -1,0 +1,116 @@
+<ion-content class="content-wrapper" [scrollEvents]="false" [forceOverscroll]="false">
+	<div class="actions_wrapper">
+		<span>
+			Line sheet
+			<span class="page_count">/ {{pages+1}} pages</span>
+		</span>
+		<div class="pagination">
+			<button ion-button  class="btn-paginate prev" color="light" (click)="prevPage()" [style.visibility]="prevVisibility">PREV</button>
+			<ng-container *ngFor="let pagecnt of pageGroupArray[currentGroupIndex], let i = index">
+				<span><button class="btn-paginate" [ngClass]="{'active': page+1==pagecnt.page, '': page+1!=pagecnt.page}" type="button" tappable 
+				(click)="changePage(pagecnt.page)">{{pagecnt.page}}</button></span>   
+			</ng-container>
+			<button ion-button  class="btn-paginate next" color="light" (click)="nextPage()" [style.visibility]="nextVisibility" >NEXT</button>
+		</div>
+		<div class="current_total visible" >
+			<p (click)="toggleTottle()" class="curret_title">Designer totals</p>
+			<input type="checkbox" id="toggle_totals_input" name="toggle_totals_input" class="toggle_totals_input">
+			<label for="toggle_totals_input" class="toggle_totals_label"></label>
+			<div class="current_total_body opened"> 
+				<p><span>Products</span><span>{{values.cart.request.order[0]?.sales_order_parts[this.cartProvider.order_part_item_id]?.total_line_items}}</span></p>
+				<p><span>Total Qty</span><span>{{values.cart.request.order[0]?.sales_order_parts[this.cartProvider.order_part_item_id]?.total_qty}}</span></p>
+				<p>
+					<span>Total WSP Value</span>
+					<span>{{this.values.designer.buyer_symbol}}
+					{{values.cart.request.order[0]?.sales_order_parts[this.cartProvider.order_part_item_id]?.total_amount | number :'.2'}}</span>
+				</p>
+			</div>
+		</div>
+	</div>
+	<div id="pbody" [ngClass]="{'open_bar': navOpen, 'closed_bar': !navOpen}">
+		<section class="page_content" id="line_sheet_section">
+			<div class="collection_sidebar" [ngClass]="{'open': navOpen, 'closed': !navOpen}">
+				<p class="divider"></p>
+				<div class="sidebar_title">
+					<lazy-img src="{{values.APIRoot}}/app/get_image.php?image=/{{values.designer.logo_image}}&w=320&h=150&zc=1&xtype=designer"></lazy-img>
+				</div>
+				<div class="collection_description">
+					<p class="open-to-ordre-title"><span [innerHTML]="values.designer.title"></span><br/>Collections open-to-ordre</p>
+				</div>
+			</div>
+			<ion-content id="line_sheet_content" #content>
+				<ng-container *ngIf="items.length==0 && searchValue.length>0">
+					<div class="line_sheet_item no_results"> 
+						<p>There are no items matching your search.</p>
+					</div>    
+				</ng-container>  
+				<ng-container *ngIf="items.length!=0">    
+					<ng-container *ngFor="let item of items">  
+						<div class="line_sheet_item">
+							<div class="item_image" tappable (click)="productItem(item.product)" >
+								<lazy-img src="{{values.APIRoot}}/app/get_image.php?image=/{{item?.variant.variant_images[0].variant_image}}&w=110&h=165&xtype=prodimage"></lazy-img>
+							</div>
+							<div class="item_meta">
+								<p class="name" [innerHTML]="item?.product.product_title+':  '+item?.variant.title"></p>
+								<p class="wsp-rrp">
+								<span class="wsp">WSP</span> 
+								{{this.values.designer.buyer_code}} {{this.values.designer.buyer_symbol}}
+								{{item?.product.region_prices[this.values.user_profile.user_region_id < 4 ? this.values.user_profile.user_region_id - 1 : this.values.user_profile.user_region_id - 2]?.wsp | number :'.2'}}
+
+								<span class="rrp">RRP</span> 
+								{{this.values.designer.buyer_code}} {{this.values.designer.buyer_symbol}}
+								{{item?.product.region_prices[this.values.user_profile.user_region_id < 4 ? this.values.user_profile.user_region_id - 1 : this.values.user_profile.user_region_id - 2]?.rrp | number :'.2'}}
+								</p>
+								<div class="color-material_info">
+									<div class="color">
+										<p>Color</p>
+										<p [innerHTML]="item?.variant.colour"></p>
+										<span><lazy-img src="{{values.APIRoot}}/app/get_image.php?image=/{{item?.variant.swatch.swatch_image}}&w=20&h=20&xtype=prodimage"></lazy-img></span>
+									</div>
+									<div class="material">
+									<p>Material</p>
+										<p [innerHTML]="item?.product.materials"></p>
+									</div>
+								</div>
+								<div class="product_sizes">
+									<label for="s{{size.variant_id}}{{size.variant_size_id}}" *ngFor="let size of item?.variant.sizes">Size {{size.size_title}}
+										<input type="number" ng-model="qty" name="size.variant_size_id" [disabled]="this.values.user_profile.seller_account_id != 0 ? true : null" 
+										value="{{size.qty}}" id="s{{size.variant_id}}{{size.variant_size_id}}" (blur)="addToCart(item?.product.product_title+' : '+item.variant.title, 
+										item.variant.colour, item?.product.materials, item?.variant.swatch.swatch_image, item?.variant.variant_images[0].variant_image, 
+										values.designer.title, size.variant_id,size.sku, item?.product.region_prices[this.values.user_profile.user_region_id<4 ? this.values.user_profile.user_region_id - 1 : this.values.user_profile.user_region_id - 2].wsp, item?.product.region_prices[this.values.user_profile.user_region_id<4 ? this.values.user_profile.user_region_id - 1 : this.values.user_profile.user_region_id - 2].rrp, $event,
+										values.designer.seller_account_id,size.size_title,size.variant_size_id,'type',item?.product.product_id, item)">
+									</label>
+								</div>
+							</div>
+							<div class="item_price">
+								<span class="add_to_cart_item" tappable (click)="addToCart(item?.product.product_title+' : '+item.variant.title, item.variant.colour, 
+									item?.product.materials, item?.variant.swatch.swatch_image, item?.variant.variant_images[0].variant_image, values.designer.title, 
+									item?.variant.sizes[0].variant_id, item?.variant.sizes[0].sku, item?.product.region_prices[this.values.user_profile.user_region_id<4 ? this.values.user_profile.user_region_id - 1 : this.values.user_profile.user_region_id - 2].wsp, item?.product.region_prices[this.values.user_profile.user_region_id<4 ? this.values.user_profile.user_region_id - 1 : this.values.user_profile.user_region_id - 2].rrp, 
+									null, values.designer.seller_account_id, item?.variant.sizes[0].size_title, item?.variant.sizes[0].variant_size_id,'all', 
+									item?.product.product_id, item)">
+									<img [src]="isProductInOrder(item?.variant.product_id, item?.variant.variant_id, values.designer.seller_account_id)"/></span>
+								<div>
+									<p class="total_title"><!-- Products total WSP--></p>
+									<p class="product_total" [ngClass]="{'active': item?.variant.total>0, '': item?.variant?.total==0}">{{this.values.designer.buyer_code}} 
+										{{this.values.designer.buyer_symbol}}{{item?.variant.total | number :'.2'}}</p> 
+									<p class="product_total" [ngClass]="{'active': item?.variant.total>0, '': item?.variant?.total==0}">{{this.values.designer.buyer_code}} 
+										{{this.values.designer.buyer_symbol}}{{item?.variant.total_rrp | number :'.2'}}</p> 
+									<p class="clear_item" tappable (click)="clearItem(item?.variant?.variant_id,1)">Clear item</p>
+								</div>
+							</div>
+						</div>
+					</ng-container>
+				</ng-container>
+				<div class="linesheet_footer">
+					<p class="linesheet_total"><span>Total Wsp</span> {{this.values.designer.buyer_code}} {{this.values.designer.buyer_symbol}}
+						{{values.cart.request.order[0]?.sales_order_parts[cartProvider.order_part_item_id]?.total_amount | number :'.2'}}</p>
+					<p class="terms">includes Terms of Trade Discount if previously agreed</p>
+					<p class="excludes_taxes">Total costs excludes Freight and Taxes</p>
+					<p class="add_to_final_edit_block">
+						<button (click)="openPage('cart')" class="add_to_final_edit_button">Go to Final Edit</button>
+					</p>
+				</div>
+			</ion-content>
+		</section>
+	</div>
+</ion-content>

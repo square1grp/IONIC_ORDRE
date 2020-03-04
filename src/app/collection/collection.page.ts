@@ -545,21 +545,28 @@ export class CollectionPage implements OnInit {
     }
 
     lineSheet() {
-        this.data.presentLoadingSpinerSec().then(() => {
-            if (this.values.products.length < 12) {
-                this.values.onescreen_total_imgages_num = this.values.products.length * 2;
-            } else {
-                this.values.onescreen_total_imgages_num = 24;
-            }
-            this.values.onescreen_image_index = 0;
-            this.values.collection = this.data.selectedCollection;
-            this.router.navigate(['/linesheet']);
-        });
+        // this.data.presentLoadingSpinerSec().then(() => {
+        //     if (this.values.products.length < 12) {
+        //         this.values.onescreen_total_imgages_num = this.values.products.length * 2;
+        //     } else {
+        //         this.values.onescreen_total_imgages_num = 24;
+        //     }
+        //     this.values.onescreen_image_index = 0;
+        //     this.values.collection = this.data.selectedCollection;
+        //     this.router.navigate(['/linesheet']);
+        // });
+        if (this.values.products.length < 12) {
+            this.values.onescreen_total_imgages_num = this.values.products.length * 2;
+        } else {
+            this.values.onescreen_total_imgages_num = 24;
+        }
+        this.values.onescreen_image_index = 0;
+        this.values.collection = this.data.selectedCollection;
     }
 
     scrollToTop() {
         console.log('scrollToTop');
-        this.scrollContent.scrollToTop();
+        if (this.values.view_mode === 'grid view') this.scrollContent.scrollToTop();
     }
 
     popView() {
