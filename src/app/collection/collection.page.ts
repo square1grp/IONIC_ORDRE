@@ -438,6 +438,9 @@ export class CollectionPage implements OnInit {
                 this.firstItem = 0;
                 this.addItemsToGrid('', 0);
                 this.data.activityLogPost(Constants.LOG_VIEWED_COLLECTION, this.values.designer.seller_account_id, collection_id, '', '');
+                if (this.values.view_mode === 'linesheet view') {
+                    this.data.events.publish('refresh-linesheet');
+                }
             });
         });
     }

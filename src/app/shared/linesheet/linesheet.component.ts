@@ -35,7 +35,6 @@ export class LinesheetComponent implements OnInit {
     prevVisibility: string = "hidden";
     nextVisibility: string = "hidden";
 
-    collection: any;
     products: any;
     designer: any;
     @ViewChild('content') content: any;
@@ -63,9 +62,22 @@ export class LinesheetComponent implements OnInit {
     }
 
     ngOnInit() {
+        this.initialize();
+        this.setItemQty();
+        this.data.events.subscribe('refresh-linesheet', () => {
+            this.initialize();
+            this.setItemQty();
+        });
+    }
+
+    ngOnDestroy() {
+        this.data.events.unsubscribe('refresh-linesheet');
+    }
+
+
+    initialize = () => {
         this.values.view_mode = 'linesheet view';
         this.searchValue = '';
-        this.collection = this.values.collection;
 
         // find the order part (for sub-totals)
         this.cartProvider.order_part_item_id = null;
@@ -134,13 +146,6 @@ export class LinesheetComponent implements OnInit {
 
         if ((this.currentGroupIndex == this.totalGroupCount - 1) || (this.currentGroupIndex == this.totalGroupCount && this.pageArrayLength % this.pageLength == 0)) this.nextVisibility = "hidden";
         this.prevVisibility = "visible";
-    }
-
-    ionViewDidEnter() {
-        this.setItemQty();
-    }
-
-    ionViewDidLeave() {
     }
 
     buildArray(search, mode) {
@@ -291,7 +296,7 @@ export class LinesheetComponent implements OnInit {
                 this.cd.markForCheck();
                 this.qty = 0;
 
-                this.data.activityLogPost(Constants.LOG_ADD_TO_RANGINGROOM, designer_id, this.collection.collection_id, product_id, variant_id);
+                this.data.activityLogPost(Constants.LOG_ADD_TO_RANGINGROOM, designer_id, this.values.collection.collection_id, product_id, variant_id);
             });
         }
     }
