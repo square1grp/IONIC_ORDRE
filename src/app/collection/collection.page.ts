@@ -565,8 +565,12 @@ export class CollectionPage implements OnInit {
     }
 
     scrollToTop() {
-        console.log('scrollToTop');
-        if (this.values.view_mode === 'grid view') this.scrollContent.scrollToTop();
+        if (this.values.view_mode === 'grid view') {
+            this.scrollContent.scrollToTop();
+        }
+        if (this.values.view_mode === 'linesheet view') {
+            this.data.events.publish('scrollToTop-linesheet');
+        }
     }
 
     popView() {

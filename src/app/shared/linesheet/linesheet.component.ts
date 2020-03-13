@@ -65,10 +65,14 @@ export class LinesheetComponent implements OnInit {
             this.initialize();
             this.setItemQty();
         });
+        this.data.events.subscribe('scrollToTop-linesheet', () => {
+            this.scrollToTop();
+        });
     }
 
     ngOnDestroy() {
         this.data.events.unsubscribe('refresh-linesheet');
+        this.data.events.unsubscribe('scrollToTop-linesheet');
     }
 
 
@@ -390,10 +394,6 @@ export class LinesheetComponent implements OnInit {
         });
         await popover.present();
         this.data.cacheCollection(collection_id, designer_id, designer, collection_title, mode).then(() => { });
-    }
-
-    gridView() {
-        this.router.navigate(['/collection', { mode: 'fromlinesheet' }]);
     }
 
     productItem(product) {
