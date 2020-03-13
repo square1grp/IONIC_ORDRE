@@ -39,7 +39,7 @@
 				</div>
 			</div>
 			<ion-content id="line_sheet_content" #content>
-				<ng-container *ngIf="items.length==0 && searchValue.length>0">
+				<ng-container *ngIf="items.length === 0 && values.searchValue.length > 0">
 					<div class="line_sheet_item no_results"> 
 						<p>There are no items matching your search.</p>
 					</div>    

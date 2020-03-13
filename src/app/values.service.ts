@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Subject } from 'rxjs/Subject';
 
 @Injectable({
   providedIn: 'root'
@@ -15,6 +16,8 @@ export class Values {
     device_token: string = "";
     online: boolean;
     search: string = "";
+    searchValue: string = "";
+    searchTerm$ = new Subject<string>();
 
     user_profile: any;
     debug: any;

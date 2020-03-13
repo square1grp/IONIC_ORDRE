@@ -1,7 +1,6 @@
 import { Component, OnInit, ViewChild, ElementRef, ChangeDetectorRef, NgZone } from '@angular/core';
 import { NavController, AlertController, PopoverController } from '@ionic/angular';
 import { Router } from '@angular/router';
-import { Subject } from 'rxjs/Subject';
 import { Values } from '../../values.service';
 import { Data } from '../../data.service';
 import { CartProvider } from '../../cart.service';
@@ -41,11 +40,9 @@ export class LinesheetComponent implements OnInit {
     @ViewChild('toggle_totals_input') totalMenu: ElementRef;
 
     itemsCnt: number;
-    searchValue: string;
     vArray: any;
     qty: any = 0;
     addFlag: boolean = false;
-    searchTerm$ = new Subject<string>();
 
     constructor(
         private zone: NgZone,
@@ -77,7 +74,6 @@ export class LinesheetComponent implements OnInit {
 
     initialize = () => {
         this.values.view_mode = 'linesheet view';
-        this.searchValue = '';
 
         // find the order part (for sub-totals)
         this.cartProvider.order_part_item_id = null;
@@ -88,7 +84,9 @@ export class LinesheetComponent implements OnInit {
                 abort = true;
             }
         };
-        this.buildArray('', 0);
+        let mode = 0;
+        if (this.values.searchValue.length === 0) mode = 1;
+        this.buildArray(this.values.searchValue, mode);
         this.addItemsToGrid();
         this.search();
 
@@ -217,13 +215,13 @@ export class LinesheetComponent implements OnInit {
     }
 
     search() {
-        this.searchTerm$.debounceTime(1000)
+        this.values.searchTerm$.debounceTime(1000)
         .distinctUntilChanged().subscribe(searchString => {
-        let mode = 0;
-        this.searchValue = searchString;
-        if (searchString.length == 0) mode = 1;
-        this.buildArray(searchString, mode);
-        this.addItemsToGrid();
+            let mode = 0;
+            this.values.searchValue = searchString;
+            if (searchString.length == 0) mode = 1;
+            this.buildArray(searchString, mode);
+            this.addItemsToGrid();
         });
     }
 

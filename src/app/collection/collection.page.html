@@ -21,7 +21,7 @@
 		</a> -->
 	</div>
 	<div class="col-md-3 page_serch_wrapper">
-		<input type="text" name="search" [(ngModel)]="searchValue" class="page_search" placeholder="Search" (keyup)="searchTerm$.next($event.target.value)">
+		<input type="text" name="search" [(ngModel)]="values.searchValue" class="page_search" placeholder="Search" (keyup)="values.searchTerm$.next($event.target.value)">
 	</div>
 </div>
 <ion-content [scrollEvents]="false" [forceOverscroll]="false">
@@ -85,7 +85,7 @@
 					<p [innerHTML]="data.selectedCollection?.collection_title"></p>
 					<p>DELIVERS {{data.selectedCollection?.display_delivery_start_date}} - {{data.selectedCollection?.display_delivery_end_date}}</p>
 				</div>
-				<ng-container *ngIf="values.view_mode === 'grid view' && items.length==0 && searchValue.length>0">
+				<ng-container *ngIf="values.view_mode === 'grid view' && items.length==0 && values.searchValue.length>0">
 					<div class="no_results">
 						<p>There are no items matching your search.</p>
 						<p>Tap the Collection title on the left to refresh, or enter a new search.</p>

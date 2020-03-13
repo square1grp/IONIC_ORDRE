@@ -2,7 +2,6 @@ import { Component, OnInit, ViewChild, NgZone, ChangeDetectorRef } from '@angula
 import { AlertController, PopoverController, Events } from '@ionic/angular';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Insomnia } from '@ionic-native/insomnia/ngx';
-import { Subject } from 'rxjs/Subject';
 import { Values } from '../values.service';
 import { Data } from '../data.service';
 import { CartProvider } from '../cart.service';
@@ -33,11 +32,9 @@ export class CollectionPage implements OnInit {
     maxItems: any;
     firstItem: any;
     lastItem: any;
-    searchValue: string;
     selected_varants_count: number = 0;
     popover: any = null;
     popover_index: number = 0;
-    searchTerm$ = new Subject<string>();
 
     constructor(
         private cd: ChangeDetectorRef, 
@@ -79,7 +76,7 @@ export class CollectionPage implements OnInit {
         if (this.values.isCollectionPage == true && (this.values.user_profile.seller_account_id > 0 || this.values.user_profile.masquerade_id > 0)) {
 
             this.values.search = '';
-            this.searchValue = '';
+            this.values.searchValue = '';
 
             this.values.designer_checkpoints[this.values.designer.seller_account_id] = new Date('01/01/1980').getTime();
             this.data.formatCollections(this.values.designer.seller_account_id);
@@ -124,7 +121,7 @@ export class CollectionPage implements OnInit {
         }
         else {
             this.values.search = '';
-            this.searchValue = '';
+            this.values.searchValue = '';
             this.values.isCollectionPage = true;
 
             this.mode = this.activatedRoute.snapshot.paramMap.get('mode');
@@ -157,10 +154,10 @@ export class CollectionPage implements OnInit {
     }
 
     search() {
-        this.searchTerm$.debounceTime(1000)
+        this.values.searchTerm$.debounceTime(1000)
         .distinctUntilChanged().subscribe(searchString => {
             let mode = 0;
-            this.searchValue = searchString;
+            this.values.searchValue = searchString;
             if (searchString.length == 0) { mode = 1; }
             this.addItemsToGrid(searchString, mode);
         });
@@ -205,7 +202,7 @@ export class CollectionPage implements OnInit {
 
 
     doInfinite(event) {
-        this.addItemsToGrid(this.searchValue, 2);
+        this.addItemsToGrid(this.values.searchValue, 2);
         event.target.complete();
   
         // App logic to determine if all data is loaded
@@ -426,7 +423,7 @@ export class CollectionPage implements OnInit {
             }
 
             this.items = [];
-            this.searchValue = '';
+            this.values.searchValue = '';
             this.data.currentCollectionID = collection_id;
             //  get selected collection profile
             this.data.selectedCollection = this.data.filterCollections(this.data.currentCollectionID)[0];
