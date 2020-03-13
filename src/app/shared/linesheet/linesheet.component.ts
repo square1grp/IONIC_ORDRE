@@ -61,17 +61,17 @@ export class LinesheetComponent implements OnInit {
     ngOnInit() {
         this.initialize();
         this.setItemQty();
-        this.data.events.subscribe('refresh-linesheet', () => {
-            this.initialize();
-            this.setItemQty();
-        });
+        // this.data.events.subscribe('refresh-linesheet', () => {
+        //     this.initialize();
+        //     this.setItemQty();
+        // });
         this.data.events.subscribe('scrollToTop-linesheet', () => {
             this.scrollToTop();
         });
     }
 
     ngOnDestroy() {
-        this.data.events.unsubscribe('refresh-linesheet');
+        // this.data.events.unsubscribe('refresh-linesheet');
         this.data.events.unsubscribe('scrollToTop-linesheet');
     }
 
